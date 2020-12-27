@@ -6,16 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.view.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerView"
-        android:visibility="gone" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="300dp"
+        android:layout_height="350dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

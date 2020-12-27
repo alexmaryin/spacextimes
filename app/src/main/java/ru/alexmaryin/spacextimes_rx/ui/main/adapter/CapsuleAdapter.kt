@@ -45,4 +45,9 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) = holder.bind(capsules[position])
 
     override fun getItemCount(): Int = capsules.size
+
+    fun clear() {
+        capsules.clear()
+        notifyDataSetChanged()
+    }
 }
