@@ -1,12 +1,12 @@
-package ru.alexmaryin.spacextimes_rx.data.model.capsule
+package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class Capsule(
     val serial: String,
-    val status: String,
-    val type: String,
+    val status: CapsuleStatus,
+    val type: CapsuleType,
     @SerializedName("dragon")
     val id: UUID,
     @SerializedName("reuse_count")
@@ -21,10 +21,15 @@ data class Capsule(
 
 )
 
-enum class CapsuleStatus(val serialized: String) {
-    UNKNOWN("unknown"), ACTIVE("active"), RETIRED("retired"), DESTROYED("destroyed")
+enum class CapsuleStatus {
+    @SerializedName("unknown") UNKNOWN,
+    @SerializedName("active") ACTIVE,
+    @SerializedName("retired") RETIRED,
+    @SerializedName("destroyed") DESTROYED
 }
 
-enum class CapsuleType(val serialized: String) {
-    DRAGON1_0("Dragon 1.0"), DRAGON1_1("Dragon 1.1"), DRAGON2_0("Dragon 2.0")
+enum class CapsuleType {
+    @SerializedName("Dragon 1.0") DRAGON1_0,
+    @SerializedName("Dragon 1.1") DRAGON1_1,
+    @SerializedName("Dragon 2.0") DRAGON2_0
 }

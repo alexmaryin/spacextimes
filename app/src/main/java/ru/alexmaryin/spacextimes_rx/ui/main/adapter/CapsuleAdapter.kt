@@ -6,20 +6,25 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.capsule.Capsule
+import ru.alexmaryin.spacextimes_rx.data.model.Capsule
+import ru.alexmaryin.spacextimes_rx.data.model.CapsuleStatus
+import ru.alexmaryin.spacextimes_rx.data.model.CapsuleType
 
 class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Adapter<CapsuleAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(capsule: Capsule) {
             itemView.findViewById<TextView>(R.id.capsuleSerial).apply { text = capsule.serial }
-            itemView.findViewById<TextView>(R.id.capsuleType).apply { text = capsule.type }
-            itemView.findViewById<TextView>(R.id.capsuleStatus).apply { text = when (capsule.status) {
-                "unknown" -> "неизвестно"
-                "active" -> "готова к полету"
-                "retired" -> "на обслуживании"
-                "destroyed" -> "уничтожена"
-                else -> capsule.status
+            itemView.findViewById<TextView>(R.id.capsuleType).apply { text = when(capsule.type) {
+                CapsuleType.DRAGON1_0 -> "Грузовой 1-й версии"
+                CapsuleType.DRAGON1_1 -> "Грузовой версии 1.1"
+                CapsuleType.DRAGON2_0 -> "Пилотируемый версии 2.0"
+            } }
+            itemView.findViewById<TextView>(R.id.capsuleStatus).apply { text = when(capsule.status) {
+                CapsuleStatus.UNKNOWN -> "неизвестно"
+                CapsuleStatus.ACTIVE -> "готова к полету"
+                CapsuleStatus.RETIRED -> "на обслуживании"
+                CapsuleStatus.DESTROYED -> "уничтожена"
             } }
             itemView.findViewById<TextView>(R.id.capsuleReused).apply {
                 text = (if (capsule.reuseCount > 0) "летата ${capsule.reuseCount} раз" else "") +

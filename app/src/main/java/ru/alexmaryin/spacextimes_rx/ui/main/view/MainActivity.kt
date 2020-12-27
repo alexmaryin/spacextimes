@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.Api
 import ru.alexmaryin.spacextimes_rx.data.api.ApiServiceImpl
-import ru.alexmaryin.spacextimes_rx.data.model.capsule.Capsule
+import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.ui.base.ViewModelFactory
 import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.CapsulesViewModel
