@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
@@ -15,17 +17,39 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
     class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(capsule: Capsule) {
             itemView.findViewById<TextView>(R.id.capsuleSerial).apply { text = capsule.serial }
-            itemView.findViewById<TextView>(R.id.capsuleType).apply { text = when(capsule.type) {
+
+            /*itemView.findViewById<TextView>(R.id.capsuleType).apply { text = when(capsule.type) {
                 CapsuleType.DRAGON1_0 -> "Грузовой 1-й версии"
                 CapsuleType.DRAGON1_1 -> "Грузовой версии 1.1"
                 CapsuleType.DRAGON2_0 -> "Пилотируемый версии 2.0"
-            } }
-            itemView.findViewById<TextView>(R.id.capsuleStatus).apply { text = when(capsule.status) {
-                CapsuleStatus.UNKNOWN -> "неизвестно"
-                CapsuleStatus.ACTIVE -> "готова к полету"
-                CapsuleStatus.RETIRED -> "на обслуживании"
-                CapsuleStatus.DESTROYED -> "уничтожена"
-            } }
+            } }*/
+
+            itemView.findViewById<LinearLayoutCompat>(R.id.container).background = when(capsule.type) {
+                CapsuleType.DRAGON1_0 -> ContextCompat.getDrawable(itemView.context, R.mipmap.dragon_1_0)
+                CapsuleType.DRAGON1_1 -> ContextCompat.getDrawable(itemView.context, R.mipmap.dragon_1_1)
+                CapsuleType.DRAGON2_0 -> ContextCompat.getDrawable(itemView.context, R.mipmap.dragon_2_0)
+            }!!.apply { alpha = 40 }
+
+            itemView.findViewById<TextView>(R.id.capsuleStatus).apply { when(capsule.status) {
+                    CapsuleStatus.UNKNOWN -> {
+                        text = "неизвестно"
+                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_unknown)
+                    }
+                    CapsuleStatus.ACTIVE -> {
+                        text = "готова к полету"
+                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_active)
+                    }
+                    CapsuleStatus.RETIRED -> {
+                        text = "на обслуживании"
+                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_retired)
+                    }
+                    CapsuleStatus.DESTROYED -> {
+                        text = "уничтожена"
+                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_destroyed)
+                    }
+                }
+            }
+
             itemView.findViewById<TextView>(R.id.capsuleReused).apply {
                 text = buildString {
                     if (capsule.reuseCount > 0) append("летата ${capsule.reuseCount} раз")
@@ -33,6 +57,7 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
                     if (capsule.waterLandings > 0) append(", ${capsule.waterLandings} посадок на воду")
                 }
             }
+
             itemView.findViewById<TextView>(R.id.capsuleUpdate).apply { text = capsule.lastUpdate }
         }
     }
