@@ -27,9 +27,11 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
                 CapsuleStatus.DESTROYED -> "уничтожена"
             } }
             itemView.findViewById<TextView>(R.id.capsuleReused).apply {
-                text = (if (capsule.reuseCount > 0) "летата ${capsule.reuseCount} раз" else "") +
-                        (if (capsule.landLandings > 0) "\n${capsule.landLandings} посадок на землю" else "") +
-                        (if (capsule.waterLandings > 0) "\n${capsule.waterLandings} посадок на воду" else "")
+                text = buildString {
+                    if (capsule.reuseCount > 0) append("летата ${capsule.reuseCount} раз")
+                    if (capsule.landLandings > 0) append("${capsule.landLandings} посадок на землю")
+                    if (capsule.waterLandings > 0) append("${capsule.waterLandings} посадок на воду")
+                }
             }
             itemView.findViewById<TextView>(R.id.capsuleUpdate).apply { text = capsule.lastUpdate }
         }

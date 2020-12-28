@@ -7,14 +7,10 @@ import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 
 class ViewModelFactory(private val api: Api): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        /*if (modelClass.isAssignableFrom(CapsulesViewModel::class.java)) {
-            return CapsulesViewModel(SpacexDataRepository(api)) as T
-        }
-        throw IllegalArgumentException("Unknown viewModel class")*/
         try {
             return modelClass.getConstructor(SpacexDataRepository::class.java).newInstance(SpacexDataRepository(api))
         } catch (e: Exception) {
-            throw NoSuchMethodException ("ViewModel class have no Api parameter in constructor")
+            throw NoSuchMethodException ("ViewModel class have no SpaceXRepo parameter in constructor")
         }
     }
 }

@@ -19,7 +19,6 @@ import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.CapsulesViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
-import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.Success
 
 class MainActivity : AppCompatActivity() {
