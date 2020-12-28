@@ -52,18 +52,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        capsulesViewModel.getCapsules().observe(this, { emitter ->
-            emitter?.let { result ->
-                when (result) {
+        capsulesViewModel.getCapsules().observe(this, { result ->
+            result?.let { state ->
+                when (state) {
                     is Success<*> -> {
                         progressBar.visibility = View.GONE
-                        (result.data as List<*>).map { it as Capsule }.apply { renderList(this) }
+                        (state.data as List<*>).map { it as Capsule }.apply { renderList(this) }
                         recyclerView.visibility = View.VISIBLE
                         swipeRefresh.isRefreshing = false
                     }
                     is Error -> {
                         progressBar.visibility = View.GONE
-                        Toast.makeText(this, result.msg, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, state.msg, Toast.LENGTH_LONG).show()
                     }
                     is Loading -> {
                         progressBar.visibility = View.VISIBLE
@@ -75,10 +75,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        capsulesViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(Api(RetrofitBuilder.apiService))
-        )
+        capsulesViewModel = ViewModelProvider(this,
+            ViewModelFactory(Api(RetrofitBuilder.apiService)))
             .get(CapsulesViewModel::class.java)
     }
 
