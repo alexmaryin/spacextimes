@@ -33,19 +33,19 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
             itemView.findViewById<TextView>(R.id.capsuleStatus).apply { when(capsule.status) {
                     CapsuleStatus.UNKNOWN -> {
                         text = "неизвестно"
-                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_unknown)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_unknown, 0)
                     }
                     CapsuleStatus.ACTIVE -> {
                         text = "готова к полету"
-                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_active)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_active, 0)
                     }
                     CapsuleStatus.RETIRED -> {
                         text = "на обслуживании"
-                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_retired)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_retired, 0)
                     }
                     CapsuleStatus.DESTROYED -> {
                         text = "уничтожена"
-                        background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_destroyed)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_destroyed, 0)
                     }
                 }
             }
