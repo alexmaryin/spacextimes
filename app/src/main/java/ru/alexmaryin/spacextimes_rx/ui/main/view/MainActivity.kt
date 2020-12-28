@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.Api
-import ru.alexmaryin.spacextimes_rx.data.api.ApiServiceImpl
+import ru.alexmaryin.spacextimes_rx.data.api.RetrofitBuilder
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.ui.base.ViewModelFactory
 import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
@@ -45,33 +45,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderList(capsules: List<Capsule>) {
-        capsulesAdapter.addData(capsules)
-        capsulesAdapter.notifyDataSetChanged()
+        capsulesAdapter.apply {
+            addData(capsules)
+            notifyDataSetChanged()
+        }
     }
 
     private fun setupObserver() {
-        capsulesViewModel.getCapsules().observe(this, { result ->
-            when (result) {
-                is Success<*> -> {
-                    progressBar.visibility = View.GONE
-                    (result.data as List<*>).map { it as Capsule }.apply { renderList(this) }
-                    recyclerView.visibility = View.VISIBLE
-                    swipeRefresh.isRefreshing = false
-                }
-                is Error -> {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(this, result.msg, Toast.LENGTH_LONG).show()
-                }
-                is Loading -> {
-                    progressBar.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
+        capsulesViewModel.getCapsules().observe(this, { emitter ->
+            emitter?.let { result ->
+                when (result) {
+                    is Success<*> -> {
+                        progressBar.visibility = View.GONE
+                        (result.data as List<*>).map { it as Capsule }.apply { renderList(this) }
+                        recyclerView.visibility = View.VISIBLE
+                        swipeRefresh.isRefreshing = false
+                    }
+                    is Error -> {
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(this, result.msg, Toast.LENGTH_LONG).show()
+                    }
+                    is Loading -> {
+                        progressBar.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                    }
                 }
             }
         })
     }
 
     private fun setupViewModel() {
-        capsulesViewModel = ViewModelProvider(this, ViewModelFactory(Api(ApiServiceImpl()))).get(CapsulesViewModel::class.java)
+        capsulesViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(Api(RetrofitBuilder.apiService))
+        )
+            .get(CapsulesViewModel::class.java)
     }
 
     private fun setupUI() {
