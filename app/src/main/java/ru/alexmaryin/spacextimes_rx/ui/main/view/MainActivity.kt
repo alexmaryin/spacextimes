@@ -17,7 +17,10 @@ import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.ui.base.ViewModelFactory
 import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.CapsulesViewModel
-import ru.alexmaryin.spacextimes_rx.utils.Status
+import ru.alexmaryin.spacextimes_rx.utils.Error
+import ru.alexmaryin.spacextimes_rx.utils.Loading
+import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.Success
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,11 +43,6 @@ class MainActivity : AppCompatActivity() {
         setupUI()
         setupViewModel()
         setupObserver()
-
-        swipeRefresh.setOnRefreshListener {
-            capsulesAdapter.clear()
-            setupObserver()
-        }
     }
 
     private fun renderList(capsules: List<Capsule>) {
@@ -53,19 +51,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        capsulesViewModel.getCapsules().observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
+        capsulesViewModel.getCapsules().observe(this, { result ->
+            when (result) {
+                is Success<*> -> {
                     progressBar.visibility = View.GONE
-                    it.data?.let { capsules -> renderList(capsules) }
+                    (result.data as List<*>).map { it as Capsule }.apply { renderList(this) }
                     recyclerView.visibility = View.VISIBLE
                     swipeRefresh.isRefreshing = false
                 }
-                Status.ERROR -> {
+                is Error -> {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, result.msg, Toast.LENGTH_LONG).show()
                 }
-                Status.LOADING -> {
+                is Loading -> {
                     progressBar.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
                 }
@@ -83,6 +81,11 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(DividerItemDecoration(context, (this.layoutManager as LinearLayoutManager).orientation))
             adapter = capsulesAdapter
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            capsulesAdapter.clear()
+            setupObserver()
         }
     }
 }

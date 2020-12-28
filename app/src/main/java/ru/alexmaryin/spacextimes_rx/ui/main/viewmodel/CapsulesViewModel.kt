@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.utils.Resource
+import ru.alexmaryin.spacextimes_rx.utils.Error
+import ru.alexmaryin.spacextimes_rx.utils.Loading
+import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.Success
 
 class CapsulesViewModel(private val repository: SpacexDataRepository): ViewModel() {
 
-    private val capsules = MutableLiveData<Resource<List<Capsule>>>()
+    private val capsules = MutableLiveData<Result>()
     private val compositeDisposable = CompositeDisposable()
 
     init {
@@ -20,15 +22,15 @@ class CapsulesViewModel(private val repository: SpacexDataRepository): ViewModel
     }
 
     private fun fetchCapsules() {
-        capsules.postValue(Resource.loading(null))
+        capsules.postValue(Loading)
         compositeDisposable.add(
             repository.getCapsules()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { capsulesList ->
-                    capsules.postValue(Resource.success(capsulesList))
+                    capsules.postValue(Success(capsulesList))
                 }, { throwable ->
-                    capsules.postValue(Resource.error("Error while fetching data from server:\n ${throwable.localizedMessage}", null))
+                    capsules.postValue(Error("Error while fetching data from server:\n ${throwable.localizedMessage}"))
                 })
         )
     }
@@ -38,5 +40,5 @@ class CapsulesViewModel(private val repository: SpacexDataRepository): ViewModel
         compositeDisposable.dispose()
     }
 
-    fun getCapsules(): LiveData<Resource<List<Capsule>>> = capsules
+    fun getCapsules(): LiveData<Result> = capsules
 }
