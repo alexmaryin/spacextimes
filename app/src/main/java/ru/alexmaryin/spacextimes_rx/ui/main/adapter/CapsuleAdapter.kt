@@ -17,7 +17,8 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
         fun bind(capsule: Capsule) {
             itemView.findViewById<TextView>(R.id.capsuleSerial).apply { text = capsule.serial }
 
-            itemView.findViewById<ImageView>(R.id.capluseImage).setImageResource( when(capsule.type) {
+            val capsuleImage = itemView.findViewById<ImageView>(R.id.capluseImage)
+            capsuleImage.setImageResource( when(capsule.type) {
                 CapsuleType.DRAGON1_0 -> R.drawable.dragon1_0
                 CapsuleType.DRAGON1_1 -> R.drawable.dragon1_1
                 CapsuleType.DRAGON2_0 -> R.drawable.dragon2_0
@@ -27,18 +28,22 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
                     CapsuleStatus.UNKNOWN -> {
                         text = "неизвестно"
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_unknown, 0, 0, 0)
+                        capsuleImage.alpha = 0.5F
                     }
                     CapsuleStatus.ACTIVE -> {
                         text = "активна"
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_active, 0, 0, 0)
+                        capsuleImage.alpha = 1F
                     }
                     CapsuleStatus.RETIRED -> {
                         text = "на обслуживании"
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_retired, 0, 0, 0)
+                        capsuleImage.alpha = 0.8F
                     }
                     CapsuleStatus.DESTROYED -> {
                         text = "уничтожена"
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_destroyed, 0, 0,  0)
+                        capsuleImage.alpha = 0.4F
                     }
                 }
             }
