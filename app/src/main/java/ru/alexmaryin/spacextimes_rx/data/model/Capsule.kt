@@ -7,16 +7,11 @@ data class Capsule(
     val serial: String,
     val status: CapsuleStatus,
     val type: CapsuleType,
-    @SerializedName("dragon")
-    val id: UUID,
-    @SerializedName("reuse_count")
-    val reuseCount: Int,
-    @SerializedName("water_landings")
-    val waterLandings: Int,
-    @SerializedName("land_landings")
-    val landLandings: Int,
-    @SerializedName("last_update")
-    val lastUpdate: String,
+    @SerializedName("dragon") val id: UUID,
+    @SerializedName("reuse_count") val reuseCount: Int,
+    @SerializedName("water_landings") val waterLandings: Int,
+    @SerializedName("land_landings") val landLandings: Int,
+    @SerializedName("last_update") val lastUpdate: String,
     val launches: List<String> = emptyList()
 
 )

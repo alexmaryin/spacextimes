@@ -8,4 +8,13 @@ interface ApiService {
 
     @GET(AllCapsules)
     suspend fun getCapsules(): List<Capsule>
+
+    @GET(AllCores)
+    suspend fun getCores(): List<Core>
+
+    @GET(AllCrew)
+    suspend fun getCrew(): List<Crew>
+
+    @GET(AllDragons)
+    suspend fun getDragons(): List<Dragon>
 }
