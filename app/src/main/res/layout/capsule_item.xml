@@ -1,56 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingHorizontal="30dp">
+    android:orientation="horizontal"
+    android:paddingHorizontal="5dp"
+    android:weightSum="100">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+             android:layout_weight="95">
 
-        <TextView
-            android:id="@+id/capsuleSerial"
-            style="@android:style/TextAppearance.DeviceDefault.Large"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/capsuleSerial"
+                    style="@android:style/TextAppearance.DeviceDefault.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    tools:text="C201" />
+
+                <TextView
+                    android:id="@+id/capsuleStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    tools:text="active" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/capsuleReused"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                tools:text="летала 6 раз" />
+
+            <TextView
+                android:id="@+id/capsuleUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textStyle="italic"
+                tools:text="Какой-то комментарий о капсуле" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/capluseImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            tools:text="C201" />
-
-        <TextView
-            android:id="@+id/capsuleStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            tools:text="active" />
-
-        <TextView
-            android:id="@+id/capsuleType"
-            style="@style/Widget.MaterialComponents.TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            tools:text="Dragon v2.0" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/capsuleReused"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        tools:text="летала 6 раз" />
-
-    <TextView
-        android:id="@+id/capsuleUpdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textStyle="italic"
-        tools:text="Какой-то комментарий о капсуле" />
+            app:srcCompat="@drawable/dragon1_0" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,20 +1,22 @@
 package ru.alexmaryin.spacextimes_rx.data.api
 
 import retrofit2.http.GET
-import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls.Companion.AllCapsules
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
+import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.Crew
+import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 
 interface ApiService {
 
-    @GET(AllCapsules)
+    @GET(SpacexUrls.AllCapsules)
     suspend fun getCapsules(): List<Capsule>
 
-    @GET(AllCores)
+    @GET(SpacexUrls.AllCores)
     suspend fun getCores(): List<Core>
 
-    @GET(AllCrew)
+    @GET(SpacexUrls.AllCrew)
     suspend fun getCrew(): List<Crew>
 
-    @GET(AllDragons)
+    @GET(SpacexUrls.AllDragons)
     suspend fun getDragons(): List<Dragon>
 }

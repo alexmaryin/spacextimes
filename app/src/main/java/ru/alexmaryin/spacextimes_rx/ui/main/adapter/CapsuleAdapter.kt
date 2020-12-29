@@ -3,9 +3,8 @@ package ru.alexmaryin.spacextimes_rx.ui.main.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
@@ -18,43 +17,37 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
         fun bind(capsule: Capsule) {
             itemView.findViewById<TextView>(R.id.capsuleSerial).apply { text = capsule.serial }
 
-            /*itemView.findViewById<TextView>(R.id.capsuleType).apply { text = when(capsule.type) {
-                CapsuleType.DRAGON1_0 -> "Грузовой 1-й версии"
-                CapsuleType.DRAGON1_1 -> "Грузовой версии 1.1"
-                CapsuleType.DRAGON2_0 -> "Пилотируемый версии 2.0"
-            } }*/
-
-            itemView.findViewById<LinearLayoutCompat>(R.id.container).background = when(capsule.type) {
-                CapsuleType.DRAGON1_0 -> ContextCompat.getDrawable(itemView.context, R.mipmap.dragon_1_0)
-                CapsuleType.DRAGON1_1 -> ContextCompat.getDrawable(itemView.context, R.mipmap.dragon_1_1)
-                CapsuleType.DRAGON2_0 -> ContextCompat.getDrawable(itemView.context, R.mipmap.dragon_2_0)
-            }!!.apply { alpha = 40 }
+            itemView.findViewById<ImageView>(R.id.capluseImage).setImageResource( when(capsule.type) {
+                CapsuleType.DRAGON1_0 -> R.drawable.dragon1_0
+                CapsuleType.DRAGON1_1 -> R.drawable.dragon1_1
+                CapsuleType.DRAGON2_0 -> R.drawable.dragon2_0
+            })
 
             itemView.findViewById<TextView>(R.id.capsuleStatus).apply { when(capsule.status) {
                     CapsuleStatus.UNKNOWN -> {
                         text = "неизвестно"
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_unknown, 0)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_unknown, 0, 0, 0)
                     }
                     CapsuleStatus.ACTIVE -> {
-                        text = "готова к полету"
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_active, 0)
+                        text = "активна"
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_active, 0, 0, 0)
                     }
                     CapsuleStatus.RETIRED -> {
                         text = "на обслуживании"
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_retired, 0)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_retired, 0, 0, 0)
                     }
                     CapsuleStatus.DESTROYED -> {
                         text = "уничтожена"
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_destroyed, 0)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_destroyed, 0, 0,  0)
                     }
                 }
             }
 
             itemView.findViewById<TextView>(R.id.capsuleReused).apply {
                 text = buildString {
-                    if (capsule.reuseCount > 0) append("летата ${capsule.reuseCount} раз")
-                    if (capsule.landLandings > 0) append(", ${capsule.landLandings} посадок на землю")
-                    if (capsule.waterLandings > 0) append(", ${capsule.waterLandings} посадок на воду")
+                    if (capsule.reuseCount > 0) append("летала ${capsule.reuseCount} раз")
+                    if (capsule.landLandings > 0) append("\nприземлений на землю: ${capsule.landLandings}")
+                    if (capsule.waterLandings > 0) append("\nприземлений на воду: ${capsule.waterLandings}")
                 }
             }
 
