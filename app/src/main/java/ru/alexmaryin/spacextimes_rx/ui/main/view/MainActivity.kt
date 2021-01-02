@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
-import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.CapsulesViewModel
+import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Success
@@ -22,7 +22,7 @@ import ru.alexmaryin.spacextimes_rx.utils.Success
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val capsulesViewModel: CapsulesViewModel by viewModels()
+    private val spaceXViewModel: SpaceXViewModel by viewModels()
     private lateinit var capsulesAdapter: CapsuleAdapter
 
     private lateinit var recyclerView: RecyclerView
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        capsulesViewModel.capsules.observe(this, { result ->
+        spaceXViewModel.capsules.observe(this, { result ->
             result?.let { state ->
                 when (state) {
                     is Success<*> -> {
