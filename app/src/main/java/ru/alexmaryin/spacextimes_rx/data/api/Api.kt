@@ -1,12 +1,18 @@
 package ru.alexmaryin.spacextimes_rx.data.api
 
-class Api(private val apiService: ApiService) {
+import retrofit2.Response
+import ru.alexmaryin.spacextimes_rx.data.model.Capsule
+import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.Crew
+import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 
-    suspend fun getCapsules() = apiService.getCapsules()
+interface Api {
 
-    suspend fun getCores() = apiService.getCores()
+    suspend fun getCapsules(): Response<List<Capsule>>
 
-    suspend fun getCrew() = apiService.getCrew()
+    suspend fun getCores(): Response<List<Core>>
 
-    suspend fun getDragons() = apiService.getDragons()
+    suspend fun getCrew(): Response<List<Crew>>
+
+    suspend fun getDragons(): Response<List<Dragon>>
 }

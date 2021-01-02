@@ -4,26 +4,25 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.api.Api
-import ru.alexmaryin.spacextimes_rx.data.api.RetrofitBuilder
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
-import ru.alexmaryin.spacextimes_rx.ui.base.ViewModelFactory
 import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.CapsulesViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Success
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var capsulesViewModel: CapsulesViewModel
+    private val capsulesViewModel: CapsulesViewModel by viewModels()
     private lateinit var capsulesAdapter: CapsuleAdapter
 
     private lateinit var recyclerView: RecyclerView
@@ -39,9 +38,8 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         swipeRefresh = findViewById(R.id.swipeView)
 
-        setupUI()
-        setupViewModel()
         setupObserver()
+        setupUI()
     }
 
     private fun renderList(capsules: List<Capsule>) {
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        capsulesViewModel.getCapsules().observe(this, { result ->
+        capsulesViewModel.capsules.observe(this, { result ->
             result?.let { state ->
                 when (state) {
                     is Success<*> -> {
@@ -72,12 +70,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun setupViewModel() {
-        capsulesViewModel = ViewModelProvider(this,
-            ViewModelFactory(Api(RetrofitBuilder.apiService)))
-            .get(CapsulesViewModel::class.java)
     }
 
     private fun setupUI() {
