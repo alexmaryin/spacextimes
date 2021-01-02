@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/capsulesSelect"
+        android:title="Космические корабли" />
+    <item
+        android:id="@+id/crewSelect"
+        android:title="Члены экипажей" />
+    <item
+        android:id="@+id/coresSelect"
+        android:title="Ракетные блоки" />
+    <item
+        android:id="@+id/dragonsSelect"
+        android:title="Корабли Dragon" />
+    <item
+        android:id="@+id/translateSwitch"
+        android:checkable="true"
+        android:checked="false"
+        android:enabled="true"
+        android:title="Машинный перевод"
+        app:showAsAction="never" />
+</menu>
