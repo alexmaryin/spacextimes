@@ -21,6 +21,7 @@ class CrewAdapter(private val crew: ArrayList<Crew>): RecyclerView.Adapter<CrewA
     }
 
     fun addData(list: List<Crew>) {
+        crew.clear()
         crew.addAll(list)
     }
 
@@ -33,6 +34,5 @@ class CrewAdapter(private val crew: ArrayList<Crew>): RecyclerView.Adapter<CrewA
 
     fun clear() {
         crew.clear()
-        notifyDataSetChanged()
     }
 }

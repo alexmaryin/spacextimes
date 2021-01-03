@@ -61,6 +61,7 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
     }
 
     fun addData(list: List<Capsule>) {
+        capsules.clear()
         capsules.addAll(list)
     }
 
@@ -73,6 +74,5 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
 
     fun clear() {
         capsules.clear()
-        notifyDataSetChanged()
     }
 }
