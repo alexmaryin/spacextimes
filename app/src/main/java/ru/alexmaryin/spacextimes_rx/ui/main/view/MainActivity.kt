@@ -26,6 +26,7 @@ import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.Success
+import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -33,8 +34,8 @@ class MainActivity : AppCompatActivity() {
     enum class Screen { Capsules, Cores, Crew, Dragons }
 
     private val spaceXViewModel: SpaceXViewModel by viewModels()
-    private val capsulesAdapter = CapsuleAdapter(arrayListOf())
-    private val crewAdapter = CrewAdapter(arrayListOf())
+    private val capsulesAdapter = CapsuleAdapter()
+    private val crewAdapter = CrewAdapter()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -143,11 +144,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         swipeRefresh.setOnRefreshListener {
-            when (screen) {
-                Screen.Capsules -> capsulesAdapter.clear()
-                Screen.Crew -> crewAdapter.clear()
-                else -> Unit
-            }
+            (recyclerView.adapter as BaseAdapter<*>).clear()
+            setupObserver()
         }
     }
 }

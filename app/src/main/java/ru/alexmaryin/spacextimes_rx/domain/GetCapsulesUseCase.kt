@@ -1,10 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.domain
 
 import retrofit2.Response
-import ru.alexmaryin.spacextimes_rx.data.base.Either
-import ru.alexmaryin.spacextimes_rx.data.base.Failure
-import ru.alexmaryin.spacextimes_rx.data.base.Success
-import ru.alexmaryin.spacextimes_rx.data.base.UseCase
+import ru.alexmaryin.spacextimes_rx.domain.base.Either
+import ru.alexmaryin.spacextimes_rx.domain.base.Failure
+import ru.alexmaryin.spacextimes_rx.domain.base.Success
+import ru.alexmaryin.spacextimes_rx.domain.base.UseCase
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 

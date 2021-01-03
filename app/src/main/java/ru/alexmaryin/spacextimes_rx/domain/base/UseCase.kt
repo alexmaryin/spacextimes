@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.data.base
+package ru.alexmaryin.spacextimes_rx.domain.base
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope

@@ -5,26 +5,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.CapsuleType
+import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.base.DataViewHolder
 
-class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Adapter<CapsuleAdapter.DataViewHolder>() {
+class CapsuleAdapter: BaseAdapter<Capsule>(arrayListOf()) {
 
-    class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(capsule: Capsule) {
-            itemView.findViewById<TextView>(R.id.capsuleSerial).apply { text = capsule.serial }
+    class ViewHolder(itemView: View) : DataViewHolder<Capsule>(itemView) {
+        override fun bind(item: Capsule) {
+            itemView.findViewById<TextView>(R.id.capsuleSerial).apply { text = item.serial }
 
             val capsuleImage = itemView.findViewById<ImageView>(R.id.capluseImage)
-            capsuleImage.setImageResource( when(capsule.type) {
-                CapsuleType.DRAGON1_0 -> R.drawable.dragon1_0
-                CapsuleType.DRAGON1_1 -> R.drawable.dragon1_1
-                CapsuleType.DRAGON2_0 -> R.drawable.dragon2_0
-            })
+            capsuleImage.setImageResource(
+                when (item.type) {
+                    CapsuleType.DRAGON1_0 -> R.drawable.dragon1_0
+                    CapsuleType.DRAGON1_1 -> R.drawable.dragon1_1
+                    CapsuleType.DRAGON2_0 -> R.drawable.dragon2_0
+                }
+            )
 
-            itemView.findViewById<TextView>(R.id.capsuleStatus).apply { when(capsule.status) {
+            itemView.findViewById<TextView>(R.id.capsuleStatus).apply {
+                when (item.status) {
                     CapsuleStatus.UNKNOWN -> {
                         text = context.getString(R.string.unknownText)
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_unknown, 0, 0, 0)
@@ -42,7 +46,7 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
                     }
                     CapsuleStatus.DESTROYED -> {
                         text = context.getString(R.string.destroyedText)
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_destroyed, 0, 0,  0)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_destroyed, 0, 0, 0)
                         capsuleImage.alpha = 0.4F
                     }
                 }
@@ -50,29 +54,18 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
 
             itemView.findViewById<TextView>(R.id.capsuleReused).apply {
                 text = buildString {
-                    if (capsule.reuseCount > 0) append(resources.getQuantityString(R.plurals.reuseCountString, capsule.reuseCount, capsule.reuseCount))
-                    if (capsule.landLandings > 0) append(context.getString(R.string.groundLandCountString, capsule.landLandings))
-                    if (capsule.waterLandings > 0) append(context.getString(R.string.waterLandCountString, capsule.waterLandings))
+                    if (item.reuseCount > 0) append(resources.getQuantityString(R.plurals.reuseCountString, item.reuseCount, item.reuseCount))
+                    if (item.landLandings > 0) append(context.getString(R.string.groundLandCountString, item.landLandings))
+                    if (item.waterLandings > 0) append(context.getString(R.string.waterLandCountString, item.waterLandings))
                 }
             }
 
-            itemView.findViewById<TextView>(R.id.capsuleUpdate).apply { text = capsule.lastUpdate }
+            itemView.findViewById<TextView>(R.id.capsuleUpdate).apply { text = item.lastUpdate }
         }
     }
 
-    fun addData(list: List<Capsule>) {
-        capsules.clear()
-        capsules.addAll(list)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
-        DataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.capsule_item, parent, false))
-
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) = holder.bind(capsules[position])
-
-    override fun getItemCount(): Int = capsules.size
-
-    fun clear() {
-        capsules.clear()
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<Capsule> =
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.capsule_item, parent, false))
 }
+
+

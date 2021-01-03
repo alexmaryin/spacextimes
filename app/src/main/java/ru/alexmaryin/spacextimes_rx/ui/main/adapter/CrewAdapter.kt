@@ -5,39 +5,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
+import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.base.DataViewHolder
 
-class CrewAdapter(private val crew: ArrayList<Crew>): RecyclerView.Adapter<CrewAdapter.DataViewHolder>() {
+class CrewAdapter: BaseAdapter<Crew>(arrayListOf()) {
 
-    class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(crewMember: Crew) {
-            itemView.findViewById<TextView>(R.id.nameText).apply { text = crewMember.name; background.alpha = 30 }
+    class ViewHolder(itemView: View) : DataViewHolder<Crew>(itemView) {
+        override fun bind(item: Crew) {
+            itemView.findViewById<TextView>(R.id.nameText).apply { text = item.name; background.alpha = 30 }
 
             itemView.findViewById<ImageView>(R.id.photoCrew).apply {
                 Glide.with(this.context)
-                    .load(crewMember.image)
+                    .load(item.image)
                     .placeholder(R.drawable.loading_animation)
                     .error(R.drawable.ic_broken_image)
-                    .into(this) }
+                    .into(this)
+            }
         }
     }
 
-    fun addData(list: List<Crew>) {
-        crew.clear()
-        crew.addAll(list)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
-        DataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.crew_item, parent, false))
-
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) = holder.bind(crew[position])
-
-    override fun getItemCount(): Int = crew.size
-
-    fun clear() {
-        crew.clear()
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<Crew> =
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.crew_item, parent, false))
 }
