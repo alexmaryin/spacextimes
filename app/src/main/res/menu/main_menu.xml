@@ -19,6 +19,5 @@
         android:checkable="true"
         android:checked="false"
         android:enabled="true"
-        android:title="Машинный перевод"
-        app:showAsAction="never" />
+        android:title="Машинный перевод" />
 </menu>

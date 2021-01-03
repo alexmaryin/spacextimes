@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.ui.main.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,12 +8,14 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
+import ru.alexmaryin.spacextimes_rx.App
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
@@ -58,18 +61,37 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.capsulesSelect -> screen = Screen.Capsules
-            R.id.coresSelect -> screen = Screen.Cores
-            R.id.crewSelect -> screen = Screen.Crew
-            R.id.dragonsSelect -> screen = Screen.Dragons
-            R.id.translateSwitch -> Unit
+            R.id.capsulesSelect -> changeScreen(Screen.Capsules, item.title.toString())
+            R.id.coresSelect -> changeScreen(Screen.Cores, item.title.toString())
+            R.id.crewSelect -> changeScreen(Screen.Crew, item.title.toString())
+            R.id.dragonsSelect -> changeScreen(Screen.Dragons, item.title.toString())
+            R.id.translateSwitch -> {
+                if (item.isChecked) {
+                    item.isChecked = false
+                    Toast.makeText(this, "Машинный перевод отключен", Toast.LENGTH_SHORT).show()
+                    processTranslate(false)
+                } else {
+                    AlertDialog.Builder(this)
+                        .setTitle("Экспериментально!")
+                        .setMessage("Включение машинного перевода позвлит перевести английский текст в описании, но не обязательно будет на 100% корректный! Аббревиатуры и прочие технические словечки могут быть переведены с ошибками.")
+                        .setPositiveButton("Я согласен") { _: DialogInterface, _: Int -> item.isChecked = true; processTranslate(true) }
+                        .setNegativeButton("Отмена") { _: DialogInterface, _: Int -> item.isChecked = false }
+                        .show()
+                }
+            }
         }
-        title = item.title
+        return super.onOptionsItemSelected(item)
+    }
 
+    private fun changeScreen(screen: Screen, itemTitle: String) {
+        this.screen = screen
+        title = itemTitle
         setupUI()
         setupObserver()
+    }
 
-        return super.onOptionsItemSelected(item)
+    private fun processTranslate(switch: Boolean) {
+        (application as App).settings.translateToRu = switch
     }
 
     private fun renderCapsules(capsules: List<Capsule>) {
