@@ -16,7 +16,12 @@ class CrewAdapter(private val crew: ArrayList<Crew>): RecyclerView.Adapter<CrewA
         fun bind(crewMember: Crew) {
             itemView.findViewById<TextView>(R.id.nameText).apply { text = crewMember.name; background.alpha = 30 }
 
-            itemView.findViewById<ImageView>(R.id.photoCrew).apply { Glide.with(this.context).load(crewMember.image).into(this) }
+            itemView.findViewById<ImageView>(R.id.photoCrew).apply {
+                Glide.with(this.context)
+                    .load(crewMember.image)
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
+                    .into(this) }
         }
     }
 

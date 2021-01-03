@@ -21,6 +21,7 @@ import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CrewAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
+import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.Success
 
 @AndroidEntryPoint
@@ -85,48 +86,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupObserver() {
-        spaceXViewModel.capsules.observe(this, { result ->
-            result?.let { state ->
-                when (state) {
-                    is Success<*> -> {
-                        progressBar.visibility = View.GONE
-                        (state.data as List<*>).map { it as Capsule }.apply { renderCapsules(this) }
-                        recyclerView.visibility = View.VISIBLE
-                        swipeRefresh.isRefreshing = false
-                    }
-                    is Error -> {
-                        progressBar.visibility = View.GONE
-                        Toast.makeText(this, state.msg, Toast.LENGTH_LONG).show()
-                    }
-                    is Loading -> {
-                        progressBar.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
-                    }
-                }
-            }
-        })
+    private inline fun <reified T: Any> itemObserver(state: Result, renderFun: (List<T>) -> Unit) =
+       when (state) {
+           is Success<*> -> {
+               progressBar.visibility = View.GONE
+               (state.data as List<*>).map { it as T }.apply { renderFun(this) }
+               recyclerView.visibility = View.VISIBLE
+               swipeRefresh.isRefreshing = false
+           }
+           is Error -> {
+               progressBar.visibility = View.GONE
+               Toast.makeText(this, state.msg, Toast.LENGTH_LONG).show()
+           }
+           is Loading -> {
+               progressBar.visibility = View.VISIBLE
+               recyclerView.visibility = View.GONE
+           }
+       }
 
-        spaceXViewModel.crew.observe(this, { result ->
-            result?.let { state ->
-                when (state) {
-                    is Success<*> -> {
-                        progressBar.visibility = View.GONE
-                        (state.data as List<*>).map { it as Crew }.apply { renderCrew(this) }
-                        recyclerView.visibility = View.VISIBLE
-                        swipeRefresh.isRefreshing = false
-                    }
-                    is Error -> {
-                        progressBar.visibility = View.GONE
-                        Toast.makeText(this, state.msg, Toast.LENGTH_LONG).show()
-                    }
-                    is Loading -> {
-                        progressBar.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
-                    }
-                }
-            }
-        })
+    private fun setupObserver() {
+        spaceXViewModel.capsules.observe(this, { result -> itemObserver(result, ::renderCapsules) })
+
+        spaceXViewModel.crew.observe(this, { result -> itemObserver(result, ::renderCrew) })
     }
 
     private fun setupUI() {
@@ -145,7 +126,6 @@ class MainActivity : AppCompatActivity() {
             when (screen) {
                 Screen.Capsules -> capsulesAdapter.clear()
                 Screen.Crew -> crewAdapter.clear()
-
                 else -> Unit
             }
             setupObserver()
