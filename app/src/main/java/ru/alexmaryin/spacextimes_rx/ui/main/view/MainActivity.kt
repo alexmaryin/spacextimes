@@ -17,8 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.App
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Capsule
-import ru.alexmaryin.spacextimes_rx.data.model.Crew
+import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CrewAdapter
 import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.SpaceXViewModel
@@ -26,12 +25,13 @@ import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.Success
-import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     enum class Screen { Capsules, Cores, Crew, Dragons }
+
+    private var screen: Screen = Screen.Capsules
 
     private val spaceXViewModel: SpaceXViewModel by viewModels()
     private val capsulesAdapter = CapsuleAdapter()
@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
-
-    private var screen: Screen = Screen.Capsules
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,35 +82,29 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun processTranslate(switch: Boolean) {
+        (application as App).settings.translateToRu = switch
+    }
+
     private fun changeScreen(screen: Screen, itemTitle: String) {
         this.screen = screen
         title = itemTitle
         setupUI()
     }
 
-    private fun processTranslate(switch: Boolean) {
-        (application as App).settings.translateToRu = switch
-    }
 
-    private fun renderCapsules(capsules: List<Capsule>) {
-        capsulesAdapter.apply {
-            addData(capsules)
+    private fun <T> renderItems(items: List<T>, adapter: BaseAdapter<T>) {
+        adapter.apply {
+            addData(items)
             notifyDataSetChanged()
         }
     }
 
-    private fun renderCrew(crew: List<Crew>) {
-        crewAdapter.apply {
-            addData(crew)
-            notifyDataSetChanged()
-        }
-    }
-
-    private inline fun <reified T: Any> itemObserver(state: Result, renderFun: (List<T>) -> Unit) =
+    private inline fun <reified T> itemObserver(state: Result, adapter: BaseAdapter<T>) =
        when (state) {
            is Success<*> -> {
                progressBar.visibility = View.GONE
-               (state.data as List<*>).map { it as T }.apply { renderFun(this) }
+               (state.data as List<*>).map { it as T }.apply { renderItems(this, adapter) }
                recyclerView.visibility = View.VISIBLE
                swipeRefresh.isRefreshing = false
            }
@@ -127,14 +119,14 @@ class MainActivity : AppCompatActivity() {
        }
 
     private fun setupObserver() {
-        spaceXViewModel.capsules.observe(this, { result -> itemObserver(result, ::renderCapsules) })
-        spaceXViewModel.crew.observe(this, { result -> itemObserver(result, ::renderCrew) })
+        spaceXViewModel.capsules.observe(this, { result -> itemObserver(result, capsulesAdapter) })
+        spaceXViewModel.crew.observe(this, { result -> itemObserver(result, crewAdapter) })
     }
 
     private fun setupUI() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            addItemDecoration(DividerItemDecoration(context, (this.layoutManager as LinearLayoutManager).orientation))
+            addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
             adapter = when (screen) {
                 Screen.Capsules -> capsulesAdapter
                 Screen.Crew -> crewAdapter
