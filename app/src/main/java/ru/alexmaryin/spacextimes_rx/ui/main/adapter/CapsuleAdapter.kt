@@ -26,22 +26,22 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
 
             itemView.findViewById<TextView>(R.id.capsuleStatus).apply { when(capsule.status) {
                     CapsuleStatus.UNKNOWN -> {
-                        text = "неизвестно"
+                        text = context.getString(R.string.unknownText)
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_unknown, 0, 0, 0)
                         capsuleImage.alpha = 0.5F
                     }
                     CapsuleStatus.ACTIVE -> {
-                        text = "активна"
+                        text = context.getString(R.string.activeText)
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_active, 0, 0, 0)
                         capsuleImage.alpha = 1F
                     }
                     CapsuleStatus.RETIRED -> {
-                        text = "на обслуживании"
+                        text = context.getString(R.string.retiredText)
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_retired, 0, 0, 0)
                         capsuleImage.alpha = 0.8F
                     }
                     CapsuleStatus.DESTROYED -> {
-                        text = "уничтожена"
+                        text = context.getString(R.string.destroyedText)
                         setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_destroyed, 0, 0,  0)
                         capsuleImage.alpha = 0.4F
                     }
@@ -50,9 +50,9 @@ class CapsuleAdapter(private val capsules: ArrayList<Capsule>): RecyclerView.Ada
 
             itemView.findViewById<TextView>(R.id.capsuleReused).apply {
                 text = buildString {
-                    if (capsule.reuseCount > 0) append("летала ${capsule.reuseCount} раз")
-                    if (capsule.landLandings > 0) append("\nприземлений на землю: ${capsule.landLandings}")
-                    if (capsule.waterLandings > 0) append("\nприземлений на воду: ${capsule.waterLandings}")
+                    if (capsule.reuseCount > 0) append(resources.getQuantityString(R.plurals.reuseCountString, capsule.reuseCount, capsule.reuseCount))
+                    if (capsule.landLandings > 0) append(context.getString(R.string.groundLandCountString, capsule.landLandings))
+                    if (capsule.waterLandings > 0) append(context.getString(R.string.waterLandCountString, capsule.waterLandings))
                 }
             }
 

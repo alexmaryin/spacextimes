@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         swipeRefresh = findViewById(R.id.swipeView)
 
-        setupUI()
         setupObserver()
+        changeScreen(Screen.Crew, getString(R.string.crewTitle))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,14 +68,14 @@ class MainActivity : AppCompatActivity() {
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
-                    Toast.makeText(this, "Машинный перевод отключен", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.aiTranslateOffText), Toast.LENGTH_SHORT).show()
                     processTranslate(false)
                 } else {
                     AlertDialog.Builder(this)
-                        .setTitle("Экспериментально!")
-                        .setMessage("Включение машинного перевода позвлит перевести английский текст в описании, но не обязательно будет на 100% корректный! Аббревиатуры и прочие технические словечки могут быть переведены с ошибками.")
-                        .setPositiveButton("Я согласен") { _: DialogInterface, _: Int -> item.isChecked = true; processTranslate(true) }
-                        .setNegativeButton("Отмена") { _: DialogInterface, _: Int -> item.isChecked = false }
+                        .setTitle(getString(R.string.experimentalTitle))
+                        .setMessage(getString(R.string.aiTranslateAlertText))
+                        .setPositiveButton(getString(R.string.agreeText)) { _: DialogInterface, _: Int -> item.isChecked = true; processTranslate(true) }
+                        .setNegativeButton(getString(R.string.cancelText)) { _: DialogInterface, _: Int -> item.isChecked = false }
                         .show()
                 }
             }
@@ -87,7 +87,6 @@ class MainActivity : AppCompatActivity() {
         this.screen = screen
         title = itemTitle
         setupUI()
-        setupObserver()
     }
 
     private fun processTranslate(switch: Boolean) {
@@ -128,7 +127,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         spaceXViewModel.capsules.observe(this, { result -> itemObserver(result, ::renderCapsules) })
-
         spaceXViewModel.crew.observe(this, { result -> itemObserver(result, ::renderCrew) })
     }
 
@@ -150,7 +148,6 @@ class MainActivity : AppCompatActivity() {
                 Screen.Crew -> crewAdapter.clear()
                 else -> Unit
             }
-            setupObserver()
         }
     }
 }
