@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.main.adapter
+package ru.alexmaryin.spacextimes_rx.ui.adapters.spacex
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
-import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
-import ru.alexmaryin.spacextimes_rx.ui.base.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
 class CoresAdapter: BaseAdapter<Core>(items = ArrayList()) {
 

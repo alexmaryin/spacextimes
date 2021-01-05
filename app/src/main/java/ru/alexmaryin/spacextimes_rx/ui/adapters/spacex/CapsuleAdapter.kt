@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.main.adapter
+package ru.alexmaryin.spacextimes_rx.ui.adapters.spacex
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,8 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.CapsuleType
-import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
-import ru.alexmaryin.spacextimes_rx.ui.base.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
 class CapsuleAdapter: BaseAdapter<Capsule>(arrayListOf()) {
 

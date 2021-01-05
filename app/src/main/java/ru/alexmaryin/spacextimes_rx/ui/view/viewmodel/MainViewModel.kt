@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.main.viewmodel
+package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData

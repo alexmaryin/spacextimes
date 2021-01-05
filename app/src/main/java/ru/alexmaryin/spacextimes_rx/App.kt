@@ -7,7 +7,3 @@ import dagger.hilt.android.HiltAndroidApp
 class App: Application() {
     val settings = Settings()
 }
-
-data class Settings(
-    var translateToRu: Boolean = false
-)

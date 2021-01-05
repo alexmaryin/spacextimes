@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.main.view
+package ru.alexmaryin.spacextimes_rx.ui.view.activities
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -17,10 +17,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.App
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
-import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CapsuleAdapter
-import ru.alexmaryin.spacextimes_rx.ui.main.adapter.CrewAdapter
-import ru.alexmaryin.spacextimes_rx.ui.main.viewmodel.SpaceXViewModel
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CapsuleAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CrewAdapter
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
@@ -110,11 +110,13 @@ class MainActivity : AppCompatActivity() {
            }
            is Error -> {
                progressBar.visibility = View.GONE
+               swipeRefresh.isRefreshing = false
                Toast.makeText(this, state.msg, Toast.LENGTH_LONG).show()
            }
            is Loading -> {
                progressBar.visibility = View.VISIBLE
                recyclerView.visibility = View.GONE
+               swipeRefresh.isRefreshing = false
            }
        }
 

@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.base
+package ru.alexmaryin.spacextimes_rx.ui.adapters
 
 import android.view.View
 import android.view.ViewGroup

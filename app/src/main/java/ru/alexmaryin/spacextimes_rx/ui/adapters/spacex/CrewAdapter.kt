@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.main.adapter
+package ru.alexmaryin.spacextimes_rx.ui.adapters.spacex
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,8 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
-import ru.alexmaryin.spacextimes_rx.ui.base.BaseAdapter
-import ru.alexmaryin.spacextimes_rx.ui.base.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
 class CrewAdapter: BaseAdapter<Crew>(arrayListOf()) {
 
