@@ -14,6 +14,8 @@ import ru.alexmaryin.spacextimes_rx.data.api.Api
 import ru.alexmaryin.spacextimes_rx.data.api.ApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.ApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
 import javax.inject.Singleton
 
 @Module
@@ -50,4 +52,9 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideApi(api: ApiImpl): Api = api
+
+    @Provides
+    @Singleton
+    fun provideTranslator(translator: TranslatorApiImpl): TranslatorApi = translator
+
 }

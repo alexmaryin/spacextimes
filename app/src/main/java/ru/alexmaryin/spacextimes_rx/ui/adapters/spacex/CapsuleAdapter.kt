@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters.spacex
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,8 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
 class CapsuleAdapter: BaseAdapter<Capsule>(arrayListOf()) {
 
-    class ViewHolder(itemView: View) : DataViewHolder<Capsule>(itemView) {
+    class ViewHolder (itemView: View): DataViewHolder<Capsule>(itemView) {
+
         override fun bind(item: Capsule) {
             itemView.findViewById<TextView>(R.id.capsuleSerial).apply { text = item.serial }
 
@@ -59,7 +61,7 @@ class CapsuleAdapter: BaseAdapter<Capsule>(arrayListOf()) {
                     if (item.waterLandings > 0) append(context.getString(R.string.waterLandCountString, item.waterLandings))
                 }
             }
-
+            Log.d("GET_CAPSULES", "Bind capsule ${item.serial}")
             itemView.findViewById<TextView>(R.id.capsuleUpdate).apply { text = item.lastUpdate }
         }
     }

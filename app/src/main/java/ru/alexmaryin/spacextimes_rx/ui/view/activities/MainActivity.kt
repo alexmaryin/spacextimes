@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.ui.view.activities
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
-import ru.alexmaryin.spacextimes_rx.App
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CrewAdapter
@@ -25,9 +26,10 @@ import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.Success
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     enum class Screen { Capsules, Cores, Crew, Dragons }
 
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
+
+    @Inject lateinit var settings: Settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +87,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processTranslate(switch: Boolean) {
-        (application as App).settings.translateToRu = switch
+        settings.translateToRu = switch
+        Log.d("SETTINGS", "settings.translateToRu = ${settings.translateToRu}")
+        setupObserver()
     }
 
     private fun changeScreen(screen: Screen, itemTitle: String) {
