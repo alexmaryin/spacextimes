@@ -89,7 +89,8 @@ class MainActivity: AppCompatActivity() {
     private fun processTranslate(switch: Boolean) {
         settings.translateToRu = switch
         Log.d("SETTINGS", "settings.translateToRu = ${settings.translateToRu}")
-        setupObserver()
+//        setupObserver()
+        (recyclerView.adapter as BaseAdapter<*>).notifyDataSetChanged()
     }
 
     private fun changeScreen(screen: Screen, itemTitle: String) {
