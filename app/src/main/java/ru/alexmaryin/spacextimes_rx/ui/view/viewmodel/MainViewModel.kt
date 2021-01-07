@@ -23,24 +23,24 @@ class SpaceXViewModel @ViewModelInject constructor(
     private val _capsules = MutableLiveData<Result>()
     val capsules: LiveData<Result>
         get() {
-            getItems(_capsules, repository::getCapsules, processTranslate = {
-               if (settings.translateToRu && (it != null)) {
+            getItems(_capsules, repository::getCapsules, processTranslate = { list ->
+               if (settings.translateToRu && (list != null)) {
                   // join to one string all 'lastUpdate' fields for translating together in one request
-                   val translatedList = it.joinToString(separator = "\n") { capsule -> "${capsule.serial}: ${capsule.lastUpdate}" }
+                   val translatedList = list.filter { it.lastUpdate != null }.joinToString(separator = "\n") { capsule -> "${capsule.serial}: ${capsule.lastUpdate}" }
                     .apply { translator.translate(this) }.split("\n")  // translate prepared string in one request
                   // split every translated string to pair with capsule serial No in 'first' and translated text in 'second'
                    val translatedPairs = translatedList.map { str ->
                        val x = str.split("^[A-Z,0-9]+: ".toRegex())
                        x[0].substringBefore(':') to x[1] }
                   // scan all capsules and update lastUpdateRu filed with translated text
-                   it.forEach { capsule ->
+                   list.forEach { capsule ->
                       translatedPairs.find { pair ->
                           pair.first == capsule.serial }?.apply {
                           capsule.lastUpdateRu = this.second
                       }
                   }
                }
-               it
+               list
             })
             return _capsules
         }
