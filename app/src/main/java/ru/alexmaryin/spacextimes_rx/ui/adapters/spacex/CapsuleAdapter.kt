@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters.spacex
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -57,7 +56,6 @@ class CapsuleAdapter: BaseAdapter<Capsule>(arrayListOf()) {
                 }
 
                 capsuleUpdate.text = item.lastUpdateRu?: item.lastUpdate
-                Log.d("JAVA73", "Capsule ${item.serial} last update: ${item.lastUpdateRu?: item.lastUpdate}")
             }
         }
     }
