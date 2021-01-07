@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.api
 
 import retrofit2.Response
+import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
@@ -15,4 +16,6 @@ interface Api {
     suspend fun getCrew(): Response<List<Crew>>
 
     suspend fun getDragons(): Response<List<Dragon>>
+
+    suspend fun translate(source: String): Response<PlainTextResponse>
 }

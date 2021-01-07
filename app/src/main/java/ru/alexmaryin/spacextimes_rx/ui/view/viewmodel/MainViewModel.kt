@@ -1,17 +1,13 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import okhttp3.internal.notifyAll
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.model.Capsule
-import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -29,7 +25,20 @@ class SpaceXViewModel @ViewModelInject constructor(
         get() {
             getItems(_capsules, repository::getCapsules, processTranslate = {
                if (settings.translateToRu && (it != null)) {
-                   it.forEach { capsule -> capsule.lastUpdateRu = capsule.lastUpdate?.let { lastUpdate -> translator.translate(lastUpdate) } }
+                  // join to one string all 'lastUpdate' fields for translating together in one request
+                   val translatedList = it.joinToString(separator = "\n") { capsule -> "${capsule.serial}: ${capsule.lastUpdate}" }
+                    .apply { translator.translate(this) }.split("\n")  // translate prepared string in one request
+                  // split every translated string to pair with capsule serial No in 'first' and translated text in 'second'
+                   val translatedPairs = translatedList.map { str ->
+                       val x = str.split("^[A-Z,0-9]+: ".toRegex())
+                       x[0].substringBefore(':') to x[1] }
+                  // scan all capsules and update lastUpdateRu filed with translated text
+                   it.forEach { capsule ->
+                      translatedPairs.find { pair ->
+                          pair.first == capsule.serial }?.apply {
+                          capsule.lastUpdateRu = this.second
+                      }
+                  }
                }
                it
             })

@@ -1,7 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.data.api
 
+import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.GET
+import retrofit2.http.*
+import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorUrls
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
@@ -20,4 +23,7 @@ interface ApiService {
 
     @GET(SpacexUrls.AllDragons)
     suspend fun getDragons(): Response<List<Dragon>>
+
+    @POST(TranslatorUrls.PlainText)
+    suspend fun translate(@Body body: RequestBody): Response<PlainTextResponse>
 }
