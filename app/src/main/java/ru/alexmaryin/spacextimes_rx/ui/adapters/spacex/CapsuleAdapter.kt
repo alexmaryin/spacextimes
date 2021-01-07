@@ -56,9 +56,8 @@ class CapsuleAdapter: BaseAdapter<Capsule>(arrayListOf()) {
                     if (item.waterLandings > 0) append(root.context.getString(R.string.waterLandCountString, item.waterLandings))
                 }
 
-                capsuleUpdate.text = item.lastUpdate
-
-                Log.d("GET_CAPSULES", "Bind capsule ${item.serial}")
+                capsuleUpdate.text = item.lastUpdateRu?: item.lastUpdate
+                Log.d("JAVA73", "Capsule ${item.serial} last update: ${item.lastUpdateRu?: item.lastUpdate}")
             }
         }
     }

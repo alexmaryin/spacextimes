@@ -16,10 +16,6 @@ abstract class BaseAdapter<T>(private val items: ArrayList<T>) : RecyclerView.Ad
         items.clear()
         items.addAll(list)
     }
-
-    fun clear() {
-        items.clear()
-    }
 }
 
 abstract class DataViewHolder<T>(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {

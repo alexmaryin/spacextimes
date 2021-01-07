@@ -11,7 +11,8 @@ data class Capsule(
     @SerializedName("reuse_count") val reuseCount: Int,
     @SerializedName("water_landings") val waterLandings: Int,
     @SerializedName("land_landings") val landLandings: Int,
-    @SerializedName("last_update") var lastUpdate: String?,
+    @SerializedName("last_update") val lastUpdate: String?,
+    var lastUpdateRu: String?,
     val launches: List<String> = emptyList()
 
 )

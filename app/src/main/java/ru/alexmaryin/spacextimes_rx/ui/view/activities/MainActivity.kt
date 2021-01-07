@@ -21,6 +21,7 @@ import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CrewAdapter
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
@@ -30,8 +31,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
-
-    enum class Screen { Capsules, Cores, Crew, Dragons }
 
     private var screen: Screen = Screen.Capsules
 
@@ -51,7 +50,6 @@ class MainActivity: AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         progressBar = findViewById(R.id.progressBar)
-        swipeRefresh = findViewById(R.id.swipeView)
 
         setupObserver()
         changeScreen(Screen.Crew, getString(R.string.crewTitle))
@@ -88,9 +86,7 @@ class MainActivity: AppCompatActivity() {
 
     private fun processTranslate(switch: Boolean) {
         settings.translateToRu = switch
-        Log.d("SETTINGS", "settings.translateToRu = ${settings.translateToRu}")
-//        setupObserver()
-        (recyclerView.adapter as BaseAdapter<*>).notifyDataSetChanged()
+        setupObserver()
     }
 
     private fun changeScreen(screen: Screen, itemTitle: String) {
@@ -98,7 +94,6 @@ class MainActivity: AppCompatActivity() {
         title = itemTitle
         setupUI()
     }
-
 
     private fun <T> renderItems(items: List<T>, adapter: BaseAdapter<T>) {
         adapter.apply {
@@ -113,17 +108,14 @@ class MainActivity: AppCompatActivity() {
                progressBar.visibility = View.GONE
                (state.data as List<*>).map { it as T }.apply { renderItems(this, adapter) }
                recyclerView.visibility = View.VISIBLE
-               swipeRefresh.isRefreshing = false
            }
            is Error -> {
                progressBar.visibility = View.GONE
-               swipeRefresh.isRefreshing = false
                Toast.makeText(this, state.msg, Toast.LENGTH_LONG).show()
            }
            is Loading -> {
                progressBar.visibility = View.VISIBLE
                recyclerView.visibility = View.GONE
-               swipeRefresh.isRefreshing = false
            }
        }
 
@@ -142,11 +134,6 @@ class MainActivity: AppCompatActivity() {
                 Screen.Cores -> capsulesAdapter
                 Screen.Dragons -> capsulesAdapter
             }
-        }
-
-        swipeRefresh.setOnRefreshListener {
-            (recyclerView.adapter as BaseAdapter<*>).clear()
-            setupObserver()
         }
     }
 }
