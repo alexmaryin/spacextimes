@@ -48,7 +48,6 @@ class MainActivity: AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         progressBar = findViewById(R.id.progressBar)
 
-        setupObserver()
         changeScreen(Screen.Crew, getString(R.string.crewTitle))
     }
 
@@ -89,6 +88,7 @@ class MainActivity: AppCompatActivity() {
     private fun changeScreen(screen: Screen, itemTitle: String) {
         this.screen = screen
         title = itemTitle
+        setupObserver()
         setupUI()
     }
 
@@ -117,8 +117,12 @@ class MainActivity: AppCompatActivity() {
        }
 
     private fun setupObserver() {
-        spaceXViewModel.capsules.observe(this, { result -> itemObserver(result, capsulesAdapter) })
-        spaceXViewModel.crew.observe(this, { result -> itemObserver(result, crewAdapter) })
+        when (screen) {
+            Screen.Capsules -> spaceXViewModel.capsules.observe(this, { result -> itemObserver(result, capsulesAdapter) })
+            Screen.Cores -> Unit
+            Screen.Crew -> spaceXViewModel.crew.observe(this, { result -> itemObserver(result, crewAdapter) })
+            Screen.Dragons -> Unit
+        }
     }
 
     private fun setupUI() {
