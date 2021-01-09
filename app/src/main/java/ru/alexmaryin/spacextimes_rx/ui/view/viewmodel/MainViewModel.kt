@@ -66,7 +66,7 @@ class SpaceXViewModel @ViewModelInject constructor(
     val crew: LiveData<Result>
         get() {
             if (_crew.value == null || needRefresh) {
-                getItems(_crew, repository::getCores, { it })
+                getItems(_crew, repository::getCrew, { it })
                 needRefresh = false
             }
             return _crew
@@ -76,7 +76,7 @@ class SpaceXViewModel @ViewModelInject constructor(
     val dragons: LiveData<Result>
         get() {
             if (_dragons.value == null || needRefresh) {
-                getItems(_dragons, repository::getCores, { it })
+                getItems(_dragons, repository::getDragons, { it })
                 needRefresh = false
             }
             return _dragons
