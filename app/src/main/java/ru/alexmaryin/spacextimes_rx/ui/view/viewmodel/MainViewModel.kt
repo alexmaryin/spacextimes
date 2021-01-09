@@ -26,7 +26,7 @@ class SpaceXViewModel @ViewModelInject constructor(
     private val _capsules = MutableLiveData<Result>()
     val capsules: LiveData<Result>
         get() {
-            getItems(_capsules, repository::getCapsules, processTranslate = { translateCapsulesLastUpdate(it) })
+            getItems(_capsules, repository::getCapsules, { translateCapsulesLastUpdate(it) })
             return _capsules
         }
 
@@ -39,9 +39,10 @@ class SpaceXViewModel @ViewModelInject constructor(
         capsules?.let { list ->
             if (settings.translateToRu) {
                 withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                    val translatedList = list.filter { it.lastUpdate != null }.joinToString("\n") { capsule -> "${capsule.lastUpdate}"  }
-                        .run { translator.translate(this) }?.split("\n") ?: emptyList()
-                    list.filter { it.lastUpdate != null }.forEachIndexed { index, capsule ->  capsule.lastUpdateRu = translatedList[index] }
+                    list.filter { it.lastUpdate != null }.joinToString("\n") { capsule -> capsule.lastUpdate.toString() }
+                        .run { translator.translate(this) }?.split("\n")?.apply {
+                            list.filter { it.lastUpdate != null }.forEachIndexed { index, capsule -> capsule.lastUpdateRu = this[index] }
+                        }
                 }
             }
         }
@@ -69,9 +70,11 @@ class SpaceXViewModel @ViewModelInject constructor(
             return _dragons
         }
 
-    private fun <T> getItems(items: MutableLiveData<Result>,
-                             invoker: KSuspendFunction0<Response<List<T>>>,
-                             processTranslate: suspend (List<T>?) -> List<T>?) {
+    private fun <T> getItems(
+        items: MutableLiveData<Result>,
+        invoker: KSuspendFunction0<Response<List<T>>>,
+        processTranslate: suspend (List<T>?) -> List<T>?
+    ) {
         viewModelScope.launch {
             items.postValue(Loading)
             if (networkHelper.isNetworkConnected()) {

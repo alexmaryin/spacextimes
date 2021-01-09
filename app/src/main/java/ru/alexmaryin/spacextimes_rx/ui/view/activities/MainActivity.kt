@@ -56,6 +56,11 @@ class MainActivity: AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.translateSwitch)?.isChecked = settings.translateToRu
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.capsulesSelect -> changeScreen(Screen.Capsules, item.title.toString())

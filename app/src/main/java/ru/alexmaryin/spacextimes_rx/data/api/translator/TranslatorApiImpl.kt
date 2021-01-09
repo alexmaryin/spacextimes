@@ -1,19 +1,13 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
-import kotlinx.coroutines.*
-import retrofit2.Response
+import okio.IOException
 import ru.alexmaryin.spacextimes_rx.data.api.Api
 import javax.inject.Inject
 
 class TranslatorApiImpl @Inject constructor(val api: Api) : TranslatorApi {
 
-    private lateinit var response: Response<PlainTextResponse>
-
-
-    override suspend fun translate(source: String): String? {
-        response = api.translate(source)
-        return if (response.isSuccessful) {
-            (response.body() as PlainTextResponse).data
-        } else null
-    }
+    override suspend fun translate(source: String): String? = try {
+        val response = api.translate(source)
+        if (response.isSuccessful) response.body()?.data else null
+    } catch (e: IOException) { null }
 }
