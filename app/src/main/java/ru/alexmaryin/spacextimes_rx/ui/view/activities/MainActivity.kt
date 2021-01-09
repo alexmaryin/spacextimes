@@ -113,7 +113,7 @@ class MainActivity: AppCompatActivity() {
            }
            is Error -> {
                progressBar.visibility = View.GONE
-               Toast.makeText(this, state.msg, Toast.LENGTH_LONG).show()
+               Toast.makeText(this, state.msg, Toast.LENGTH_SHORT).show()
            }
            is Loading -> {
                progressBar.visibility = View.VISIBLE

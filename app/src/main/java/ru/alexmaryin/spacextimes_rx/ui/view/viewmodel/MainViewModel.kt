@@ -5,15 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
+import java.io.IOException
 import kotlin.reflect.KSuspendFunction0
 
 class SpaceXViewModel @ViewModelInject constructor(
@@ -80,9 +79,15 @@ class SpaceXViewModel @ViewModelInject constructor(
             if (networkHelper.isNetworkConnected()) {
                 invoker().let {
                     if (it.isSuccessful) {
-                        items.postValue(Success(processTranslate(it.body())))
-                    } else items.postValue(Error(it.errorBody().toString()))
+                        try {
+                            items.postValue(Success(processTranslate(it.body())))
+                        } catch (e: IOException) {
+                            items.postValue(Error("Translator error: ${e.localizedMessage}"))
+                            yield()
+                            items.postValue(Success(it.body()))
+                        }
 
+                    } else items.postValue(Error(it.errorBody().toString()))
                 }
             } else items.postValue(Error("No internet connection!"))
         }
