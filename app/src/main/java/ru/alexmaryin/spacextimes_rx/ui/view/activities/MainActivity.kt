@@ -87,6 +87,7 @@ class MainActivity: AppCompatActivity() {
 
     private fun processTranslate(switch: Boolean) {
         settings.translateToRu = switch
+        spaceXViewModel.armRefresh()
         setupObserver()
     }
 

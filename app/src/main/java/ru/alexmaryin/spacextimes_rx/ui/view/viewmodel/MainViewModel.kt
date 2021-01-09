@@ -22,10 +22,15 @@ class SpaceXViewModel @ViewModelInject constructor(
     private val translator: TranslatorApi
 ) : ViewModel() {
 
+    private var needRefresh: Boolean = false
+
     private val _capsules = MutableLiveData<Result>()
     val capsules: LiveData<Result>
         get() {
-            getItems(_capsules, repository::getCapsules, { translateCapsulesLastUpdate(it) })
+            if (_capsules.value == null || needRefresh) {
+                getItems(_capsules, repository::getCapsules, { translateCapsulesLastUpdate(it) })
+                needRefresh = false
+            }
             return _capsules
         }
 
@@ -36,14 +41,13 @@ class SpaceXViewModel @ViewModelInject constructor(
      */
     private suspend fun translateCapsulesLastUpdate(capsules: List<Capsule>?): List<Capsule>? {
         capsules?.let { list ->
-            if (settings.translateToRu) {
+            if (settings.translateToRu)
                 withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
                     list.filter { it.lastUpdate != null }.joinToString("\n") { capsule -> capsule.lastUpdate.toString() }
                         .run { translator.translate(this) }?.split("\n")?.apply {
-                            list.filter { it.lastUpdate != null }.forEachIndexed { index, capsule -> capsule.lastUpdateRu = this[index] }
+                            list.filter { it.lastUpdate != null }.zip(this) { capsule, ruStr -> capsule.lastUpdateRu = ruStr }
                         }
                 }
-            }
         }
         return capsules
     }
@@ -51,21 +55,30 @@ class SpaceXViewModel @ViewModelInject constructor(
     private val _cores = MutableLiveData<Result>()
     val cores: LiveData<Result>
         get() {
-            getItems(_cores, repository::getCores, { it })
+            if (_cores.value == null || needRefresh) {
+                getItems(_cores, repository::getCores, { it })
+                needRefresh = false
+            }
             return _cores
         }
 
     private val _crew = MutableLiveData<Result>()
     val crew: LiveData<Result>
         get() {
-            getItems(_crew, repository::getCrew, { it })
+            if (_crew.value == null || needRefresh) {
+                getItems(_crew, repository::getCores, { it })
+                needRefresh = false
+            }
             return _crew
         }
 
     private val _dragons = MutableLiveData<Result>()
     val dragons: LiveData<Result>
         get() {
-            getItems(_dragons, repository::getDragons, { it })
+            if (_dragons.value == null || needRefresh) {
+                getItems(_dragons, repository::getCores, { it })
+                needRefresh = false
+            }
             return _dragons
         }
 
@@ -91,5 +104,9 @@ class SpaceXViewModel @ViewModelInject constructor(
                 }
             } else items.postValue(Error("No internet connection!"))
         }
+    }
+
+    fun armRefresh() {
+        needRefresh = true
     }
 }
