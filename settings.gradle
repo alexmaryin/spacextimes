@@ -1,0 +1,2 @@
+rootProject.name = "spacextimes_rx"
+include ':app'

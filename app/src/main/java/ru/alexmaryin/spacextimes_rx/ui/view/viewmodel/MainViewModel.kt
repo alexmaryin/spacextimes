@@ -30,6 +30,11 @@ class SpaceXViewModel @ViewModelInject constructor(
             return _capsules
         }
 
+    /*
+        At first, we must combine raw string with "translatable" fields of list of objects (i.e., lastUpdate for capsules),
+        when pass it to translator api, and when split for a list again. At finish, we attach each translated string
+        to each origin object.
+     */
     private suspend fun translateCapsulesLastUpdate(capsules: List<Capsule>?): List<Capsule>? {
         capsules?.let { list ->
             if (settings.translateToRu) {
