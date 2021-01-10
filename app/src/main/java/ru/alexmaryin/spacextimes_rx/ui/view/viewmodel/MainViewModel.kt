@@ -31,7 +31,7 @@ class SpaceXViewModel @ViewModelInject constructor(
     val capsules: LiveData<Result>
         get() {
             if (_capsules.value == null || needRefresh) {
-                getItems(_capsules, repository::getCapsules, { translateCapsulesLastUpdate(it) })
+                getItems(_capsules, repository::getCapsules, { it?.apply { translateCapsulesLastUpdate(this) } })
                 needRefresh = false
             }
             return _capsules
@@ -42,17 +42,14 @@ class SpaceXViewModel @ViewModelInject constructor(
         when pass it to translator api, and when split for a list again. At finish, we attach each translated string
         to each origin object.
      */
-    private suspend fun translateCapsulesLastUpdate(capsules: List<Capsule>?): List<Capsule>? {
-        capsules?.let { list ->
-            if (settings.translateToRu)
-                withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                    list.filter { it.lastUpdate != null }.joinToString("\n") { capsule -> capsule.lastUpdate.toString() }
-                        .run { translator.translate(this) }?.split("\n")?.apply {
-                            list.filter { it.lastUpdate != null }.zip(this) { capsule, ruStr -> capsule.lastUpdateRu = ruStr }
-                        }
-                }
+    private suspend fun translateCapsulesLastUpdate(capsules: List<Capsule>) {
+        if (settings.translateToRu) {
+            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+                val listForTranslating = capsules.filter { it.lastUpdate != null }
+                listForTranslating.joinToString("\n") { "${it.lastUpdate}" }.run { translator.translate(this) }
+                    ?.split("\n")?.apply { for ((capsule, strRu) in (listForTranslating zip this)) capsule.lastUpdateRu = strRu }
+            }
         }
-        return capsules
     }
 
     private val _cores = MutableLiveData<Result>()
