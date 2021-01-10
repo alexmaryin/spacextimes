@@ -1,37 +1,34 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.alexmaryin.spacextimes_rx.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
+import ru.alexmaryin.spacextimes_rx.databinding.CrewDetailFragmentBinding
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
 
+@AndroidEntryPoint
 class CrewDetailFragment : Fragment() {
 
-    private lateinit var member: Crew
-
-    companion object {
-        fun newInstance(_member: Crew) = CrewDetailFragment().apply {
-            member = _member
-        }
-    }
-
-    private lateinit var viewModel: CrewDetailViewModel
+    private val memberViewModel: CrewDetailViewModel by viewModels()
+    private lateinit var binding: CrewDetailFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.crew_detail_fragment, container, false)
+    ): View {
+        binding = CrewDetailFragmentBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CrewDetailViewModel::class.java)
+        binding.crewMemberViewModel = memberViewModel
     }
-
 }
