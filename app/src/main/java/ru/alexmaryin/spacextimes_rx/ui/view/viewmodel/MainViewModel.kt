@@ -46,8 +46,8 @@ class SpaceXViewModel @ViewModelInject constructor(
         if (settings.translateToRu) {
             withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
                 val listForTranslating = capsules.filter { it.lastUpdate != null }
-                listForTranslating.joinToString("\n") { "${it.lastUpdate}" }.run { translator.translate(this) }
-                    ?.split("\n")?.apply { for ((capsule, strRu) in (listForTranslating zip this)) capsule.lastUpdateRu = strRu }
+                val translatedList = listForTranslating.joinToString("\n") { "${it.lastUpdate}" }.run { translator.translate(this) }?.split("\n")
+                translatedList?.apply { for ((capsule, ruString) in (listForTranslating zip this)) capsule.lastUpdateRu = ruString }
             }
         }
     }
