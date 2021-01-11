@@ -13,11 +13,11 @@ class TranslatorApiImpl @Inject constructor(val api: Api) : TranslatorApi {
     }
 
     override suspend fun <T> fromList(source: List<T>,
-                                      readItem: (T) -> String,
-                                      writeItem: (T, String) -> Unit): List<T>? {
-        val response = fromString(source.joinToString("\n") { readItem(it) })?.split("\n")
+                                      readItemToTranslate: (T) -> String,
+                                      updateItemWithTranslate: (T, String) -> Unit): List<T>? {
+        val response = fromString(source.joinToString("\n") { readItemToTranslate(it) })?.split("\n")
         return if (source.size == response?.size) {
-            source.apply { for ((item, ruString) in (this zip response)) writeItem(item, ruString) }
+            source.apply { for ((item, ruString) in (this zip response)) updateItemWithTranslate(item, ruString) }
         } else null
     }
 }

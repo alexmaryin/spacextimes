@@ -41,8 +41,8 @@ class SpaceXViewModel @ViewModelInject constructor(
         if (settings.translateToRu) {
             withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
                 val listForTranslating = capsules.filter { it.lastUpdate != null }
-                translator.fromList(listForTranslating, readItem = { "${it.lastUpdate}" },
-                    writeItem = { capsule, translate -> capsule.lastUpdateRu = translate })
+                translator.fromList(listForTranslating, readItemToTranslate = { "${it.lastUpdate}" },
+                    updateItemWithTranslate = { capsule, translate -> capsule.lastUpdateRu = translate })
             }
         }
     }
