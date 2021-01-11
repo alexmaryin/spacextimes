@@ -37,17 +37,12 @@ class SpaceXViewModel @ViewModelInject constructor(
             return _capsules
         }
 
-    /*
-        At first, we must combine raw string with "translatable" fields of list of objects (i.e., lastUpdate for capsules),
-        when pass it to translator api, and when split for a list again. At finish, we attach each translated string
-        to each origin object.
-     */
     private suspend fun translateCapsulesLastUpdate(capsules: List<Capsule>) {
         if (settings.translateToRu) {
             withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
                 val listForTranslating = capsules.filter { it.lastUpdate != null }
-                val translatedList = listForTranslating.joinToString("\n") { "${it.lastUpdate}" }.run { translator.translate(this) }?.split("\n")
-                translatedList?.apply { for ((capsule, ruString) in (listForTranslating zip this)) capsule.lastUpdateRu = ruString }
+                translator.fromList(listForTranslating, readItem = { "${it.lastUpdate}" },
+                    writeItem = { capsule, translate -> capsule.lastUpdateRu = translate })
             }
         }
     }
