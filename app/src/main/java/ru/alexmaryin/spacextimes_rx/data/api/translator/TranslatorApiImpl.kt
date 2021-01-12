@@ -16,8 +16,7 @@ class TranslatorApiImpl @Inject constructor(val api: Api) : TranslatorApi {
                                       readItemToTranslate: (T) -> String,
                                       updateItemWithTranslate: (T, String) -> Unit): List<T>? {
         val response = fromString(source.joinToString("\n") { readItemToTranslate(it) })?.split("\n")
-        return if (source.size == response?.size) {
-            source.apply { for ((item, ruString) in (this zip response)) updateItemWithTranslate(item, ruString) }
-        } else null
+        return source.takeIf { source.size == response?.size }
+            ?.apply { for ((item, ruString) in (this zip response)) updateItemWithTranslate(item, ruString) 
     }
 }
