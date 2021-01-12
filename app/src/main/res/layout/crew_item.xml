@@ -2,6 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="clickListener"
+            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListener" />
+        <variable
+            name="crewMember"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Crew" />
+    </data>
+    
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{() -> clickListener.onClick(crewMember)}"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

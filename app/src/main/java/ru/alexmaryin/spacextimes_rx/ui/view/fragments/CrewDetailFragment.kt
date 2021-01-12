@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.databinding.CrewDetailFragmentBinding
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
 
 @AndroidEntryPoint
 class CrewDetailFragment : Fragment() {
+
+    private val args: CrewDetailFragmentArgs by navArgs()
 
     private val memberViewModel: CrewDetailViewModel by viewModels()
     private lateinit var binding: CrewDetailFragmentBinding
@@ -29,6 +30,7 @@ class CrewDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.crewMemberViewModel = memberViewModel
+//        binding.crewMemberViewModel = memberViewModel
+//        memberViewModel.setItem(args.crewMember)
     }
 }

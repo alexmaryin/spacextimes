@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
@@ -9,14 +8,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.hilt.Assisted
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListener
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CrewAdapter
@@ -33,8 +32,9 @@ class MainFragment: Fragment() {
 
     private var screen: Screen = Screen.Capsules
     private val spaceXViewModel: SpaceXViewModel by viewModels()
-    private val capsulesAdapter = CapsuleAdapter()
-    private val crewAdapter = CrewAdapter()
+    private val capsulesAdapter = CapsuleAdapter(AdapterClickListener {})
+    private val crewAdapter = CrewAdapter(AdapterClickListener { crewMember ->
+        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(crewMember)) })
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
