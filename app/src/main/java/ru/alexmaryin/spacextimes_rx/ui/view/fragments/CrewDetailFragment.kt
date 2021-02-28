@@ -56,6 +56,7 @@ class CrewDetailFragment : Fragment() {
 
         crewViewModel.crewDetails.observe(viewLifecycleOwner) {
             binding.wikiPage.loadUrl(it.wikipedia)
+            activity?.title = it.name
         }
     }
 }

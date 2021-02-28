@@ -111,10 +111,7 @@ class MainFragment: Fragment() {
     }
 
     private fun <T> renderItems(items: List<T>, adapter: BaseAdapter<T>) {
-        adapter.apply {
-            addData(items)
-            //notifyDataSetChanged()
-        }
+        adapter.addData(items)
     }
 
     private inline fun <reified T> itemObserver(state: Result, adapter: BaseAdapter<T>) =
