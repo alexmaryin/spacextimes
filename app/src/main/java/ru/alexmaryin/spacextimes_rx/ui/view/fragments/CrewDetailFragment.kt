@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,6 +19,7 @@ import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Success
+import ru.alexmaryin.spacextimes_rx.utils.crossFade
 
 @AndroidEntryPoint
 class CrewDetailFragment : Fragment() {
@@ -23,14 +27,27 @@ class CrewDetailFragment : Fragment() {
     private val args: CrewDetailFragmentArgs by navArgs()
     private val crewViewModel: CrewDetailViewModel by viewModels()
     private lateinit var binding: CrewDetailFragmentBinding
+    private val longAnimationDuration = 1000
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = DataBindingUtil.inflate(inflater, R.layout.crew_detail_fragment, container, false)
         binding.crewViewModel = crewViewModel
         binding.lifecycleOwner = this
+
+        binding.wikiPage.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                return false
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                binding.wikiPage.crossFade(from = binding.image, duration = longAnimationDuration)
+            }
+        }
         crewViewModel.crewId = args.crewId
         return binding.root
     }

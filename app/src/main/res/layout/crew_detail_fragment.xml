@@ -19,16 +19,19 @@
         android:layout_margin="5dp"
         tools:context=".ui.view.fragments.CrewDetailFragment">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <FrameLayout
                 android:id="@+id/detailsView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 tools:visibility="visible">
+
+                <WebView
+                    android:id="@+id/wikiPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0"/>
 
                 <ImageView
                     android:id="@+id/image"
@@ -38,13 +41,9 @@
                     app:imageUrl="@{crewViewModel.crewDetails.image}"
                     tools:srcCompat="@drawable/dragon2_0" />
 
-                <WebView
-                    android:id="@+id/wikiPage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </ScrollView>
+            </FrameLayout>
+
 
         <ProgressBar
             android:id="@+id/progress"
