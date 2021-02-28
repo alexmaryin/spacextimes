@@ -5,7 +5,7 @@
     <data>
         <variable
             name="clickListener"
-            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListener" />
+            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
         <variable
             name="crewMember"
             type="ru.alexmaryin.spacextimes_rx.data.model.Crew" />
@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{() -> clickListener.onClick(crewMember)}"
+            android:onClick="@{() -> clickListener.onClick(crewMember.id)}"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

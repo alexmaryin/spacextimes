@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.model
 import com.google.gson.annotations.SerializedName
 
 data class Crew(
+    val id: String,
     val name: String,
     val status: CrewStatus,
     val agency: String,

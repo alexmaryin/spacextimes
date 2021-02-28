@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.model
 import com.google.gson.annotations.SerializedName
 
 data class Core(
+    val id: String,
     val serial: String,
     val block: Int,
     val status: CoreStatus,

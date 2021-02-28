@@ -8,15 +8,15 @@ import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.CapsuleType
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListener
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
-class CapsuleAdapter(clickListener: AdapterClickListener<Capsule>): BaseAdapter<Capsule>(arrayListOf(), clickListener) {
+class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Capsule>(arrayListOf(), clickListener) {
 
     class ViewHolder (private val binding: CapsuleItemBinding): DataViewHolder<Capsule>(binding) {
 
-        override fun bind(item: Capsule, clickListener: AdapterClickListener<Capsule>) {
+        override fun bind(item: Capsule, clickListener: AdapterClickListenerById) {
             with (binding) {
                 capsuleSerial.text = item.serial
 

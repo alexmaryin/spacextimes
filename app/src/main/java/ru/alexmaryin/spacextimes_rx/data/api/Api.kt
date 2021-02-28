@@ -15,6 +15,8 @@ interface Api {
 
     suspend fun getCrew(): Response<List<Crew>>
 
+    suspend fun getCrewById(id: String): Response<Crew>
+
     suspend fun getDragons(): Response<List<Dragon>>
 
     suspend fun translate(source: String): Response<PlainTextResponse>

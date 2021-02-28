@@ -5,7 +5,7 @@ class SpacexUrls {
         const val Base = "https://api.spacexdata.com/v4/"
         const val AllCapsules = "capsules"
         const val AllCores = "cores"
-        const val AllCrew = "crew"
+        const val AllCrew = "crew/"
         const val AllDragons = "dragons"
     }
 }

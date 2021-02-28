@@ -1,10 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,9 +16,11 @@ import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.io.IOException
+import javax.inject.Inject
 import kotlin.reflect.KSuspendFunction0
 
-class SpaceXViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SpaceXViewModel @Inject constructor(
     private val repository: SpacexDataRepository,
     private val networkHelper: NetworkHelper,
     private val settings: Settings,

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<T>(private val items: ArrayList<T>, private val clickListener: AdapterClickListener<T>) : RecyclerView.Adapter<DataViewHolder<T>>() {
+abstract class BaseAdapter<T>(private val items: ArrayList<T>, private val clickListener: AdapterClickListenerById) : RecyclerView.Adapter<DataViewHolder<T>>() {
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<T>
 
@@ -15,9 +15,10 @@ abstract class BaseAdapter<T>(private val items: ArrayList<T>, private val click
     fun addData(list: List<T>) {
         items.clear()
         items.addAll(list)
+        notifyDataSetChanged()
     }
 }
 
 abstract class DataViewHolder<T>(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-    abstract fun bind(item: T, clickListener: AdapterClickListener<T>)
+    abstract fun bind(item: T, clickListener: AdapterClickListenerById)
 }

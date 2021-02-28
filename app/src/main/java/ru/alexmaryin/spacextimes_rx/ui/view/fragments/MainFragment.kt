@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListener
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CrewAdapter
@@ -32,9 +32,9 @@ class MainFragment: Fragment() {
 
     private var screen: Screen = Screen.Capsules
     private val spaceXViewModel: SpaceXViewModel by viewModels()
-    private val capsulesAdapter = CapsuleAdapter(AdapterClickListener {})
-    private val crewAdapter = CrewAdapter(AdapterClickListener { crewMember ->
-        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(crewMember)) })
+    private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {} )
+    private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -113,7 +113,7 @@ class MainFragment: Fragment() {
     private fun <T> renderItems(items: List<T>, adapter: BaseAdapter<T>) {
         adapter.apply {
             addData(items)
-            notifyDataSetChanged()
+            //notifyDataSetChanged()
         }
     }
 

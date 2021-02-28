@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class Dragon(
+    val id: String,
     val name: String,
     val type: String,
     val thrusters: List<Thruster>,

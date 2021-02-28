@@ -1,13 +1,12 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class Capsule(
+    val id: String,
     val serial: String,
     val status: CapsuleStatus,
     val type: CapsuleType,
-    @SerializedName("dragon") val id: UUID,
     @SerializedName("reuse_count") val reuseCount: Int,
     @SerializedName("water_landings") val waterLandings: Int,
     @SerializedName("land_landings") val landLandings: Int,

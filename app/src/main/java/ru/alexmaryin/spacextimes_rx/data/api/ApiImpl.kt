@@ -19,6 +19,8 @@ class ApiImpl @Inject constructor(private val apiService: ApiService): Api {
 
     override suspend fun getCrew(): Response<List<Crew>> = apiService.getCrew()
 
+    override suspend fun getCrewById(id: String): Response<Crew> = apiService.getCrewById(id)
+
     override suspend fun getDragons(): Response<List<Dragon>> = apiService.getDragons()
 
     override suspend fun translate(source: String): Response<PlainTextResponse> {

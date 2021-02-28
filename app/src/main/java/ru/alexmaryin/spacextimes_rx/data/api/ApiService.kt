@@ -21,6 +21,9 @@ interface ApiService {
     @GET(SpacexUrls.AllCrew)
     suspend fun getCrew(): Response<List<Crew>>
 
+    @GET(SpacexUrls.AllCrew+"{id}")
+    suspend fun getCrewById(@Path("id") id: String): Response<Crew>
+
     @GET(SpacexUrls.AllDragons)
     suspend fun getDragons(): Response<List<Dragon>>
 
