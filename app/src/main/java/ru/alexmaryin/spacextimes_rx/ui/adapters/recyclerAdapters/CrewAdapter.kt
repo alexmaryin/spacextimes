@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.adapters.spacex
+package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -15,8 +15,6 @@ class CrewDetailViewModel @Inject constructor(
     private val networkHelper: NetworkHelper,
 ) : ViewModel() {
 
-//    var crewId = ""
-
     private var _crewDetails = MutableLiveData<Crew>()
     val crewDetails: LiveData<Crew>
         get() = _crewDetails

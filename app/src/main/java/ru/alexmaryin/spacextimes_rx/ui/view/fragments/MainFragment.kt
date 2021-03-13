@@ -17,8 +17,8 @@ import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CapsuleAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.spacex.CrewAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CapsuleAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CrewAdapter
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error

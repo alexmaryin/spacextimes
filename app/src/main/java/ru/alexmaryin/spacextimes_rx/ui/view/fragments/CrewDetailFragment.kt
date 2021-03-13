@@ -62,9 +62,9 @@ class CrewDetailFragment : Fragment() {
             }
         }
 
-        crewViewModel.crewDetails.observe(viewLifecycleOwner) {
-            binding.wikiPage.loadUrl(it.wikipedia)
-            activity?.title = it.name
+        crewViewModel.crewDetails.observe(viewLifecycleOwner) { crewMember ->
+            binding.wikiButton.setOnClickListener { binding.wikiPage.loadUrl(crewMember.wikipedia) }
+            activity?.title = crewMember.name
         }
     }
 
@@ -89,7 +89,7 @@ class CrewDetailFragment : Fragment() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
                 when (newProgress) {
-                    100 -> binding.wikiPage.crossFade(from = binding.image, duration = longAnimationDuration)
+                    100 -> binding.wikiPage.crossFade(from = binding.detailsView, duration = longAnimationDuration)
                     else -> binding.wikiProgress.progress = newProgress
                 }
             }

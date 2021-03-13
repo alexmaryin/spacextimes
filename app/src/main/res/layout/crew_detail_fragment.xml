@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ImageAdapter" />
-
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.CrewAdapters" />
         <variable
             name="crewViewModel"
             type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel" />
@@ -19,35 +18,75 @@
         android:layout_margin="5dp"
         tools:context=".ui.view.fragments.CrewDetailFragment">
 
-
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detailsView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
-
-            <WebView
-                android:id="@+id/wikiPage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0" />
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="Photo of crew member"
+                android:layout_height="400dp"
+                android:contentDescription="@string/photo_of_crew_member_description"
                 app:imageUrl="@{crewViewModel.crewDetails.image}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/dragon2_0" />
 
+            <TextView
+                android:id="@+id/statusText"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:crewStatus="@{crewViewModel.crewDetails.status}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image"
+                tools:text="действует" />
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/agencyLabel"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agency_label_text"
+                app:hideIfEmpty="@{crewViewModel.crewDetails.agency}"
+                app:layout_constraintStart_toStartOf="@+id/statusText"
+                app:layout_constraintTop_toBottomOf="@+id/statusText" />
 
+            <TextView
+                android:id="@+id/agencyText"
+                style="@style/regularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{crewViewModel.crewDetails.agency}"
+                app:hideIfEmpty="@{crewViewModel.crewDetails.agency}"
+                app:layout_constraintBottom_toBottomOf="@+id/agencyLabel"
+                app:layout_constraintStart_toEndOf="@+id/agencyLabel"
+                tools:text="NASA" />
+
+            <Button
+                android:id="@+id/wikiButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/wiki_page_open_button"
+                android:text="@string/wiki_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/purple_700"
+                app:icon="@drawable/wikilogo"
+                app:iconGravity="top"
+                app:iconPadding="0dp"
+                app:iconSize="60dp"
+                app:iconTintMode="multiply"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progress"
@@ -55,6 +94,19 @@
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <WebView
+            android:id="@+id/wikiPage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,15 +118,12 @@
             style="@android:style/Widget.Material.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="wiki loading progress"
             android:max="100"
             android:progress="0"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
