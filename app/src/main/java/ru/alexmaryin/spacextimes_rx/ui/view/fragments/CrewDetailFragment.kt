@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +41,7 @@ class CrewDetailFragment : Fragment() {
         createWebClient(binding.wikiPage)
 
         crewViewModel.state.set("crewId", args.crewId)
+        crewViewModel.state.set("locale", getCurrentLocale())
         return binding.root
     }
 
@@ -63,10 +65,13 @@ class CrewDetailFragment : Fragment() {
         }
 
         crewViewModel.crewDetails.observe(viewLifecycleOwner) { crewMember ->
-            binding.wikiButton.setOnClickListener { binding.wikiPage.loadUrl(crewMember.wikipedia) }
+            binding.wikiButton.setOnClickListener { binding.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia) }
             activity?.title = crewMember.name
         }
     }
+
+    private fun getCurrentLocale() = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) requireContext().resources.configuration.locales[0].language
+        else requireContext().resources.configuration.locale.language
 
     private fun createWebClient(web: WebView) {
         web.webViewClient = object : WebViewClient() {

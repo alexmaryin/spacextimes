@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -13,6 +14,7 @@ class CrewDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     private val repository: SpacexDataRepository,
     private val networkHelper: NetworkHelper,
+    private val wikiApi: WikiLoaderApi,
 ) : ViewModel() {
 
     private var _crewDetails = MutableLiveData<Crew>()
@@ -28,6 +30,7 @@ class CrewDetailViewModel @Inject constructor(
                     repository.getCrewById(state.get("crewId") ?: "").let { response ->
                         if (response.isSuccessful) {
                             _crew.postValue(Success(response.body()))
+                            response.body()!!.wikiLocale = localeWikiUrl(response.body()!!.wikipedia)
                             _crewDetails.postValue(response.body()!!)
                         } else _crew.postValue(Error(response.errorBody().toString()))
                     }
@@ -35,4 +38,6 @@ class CrewDetailViewModel @Inject constructor(
             }
             return _crew
         }
+
+    private suspend fun localeWikiUrl(enUrl: String) = wikiApi.getLocaleLink(enUrl, state.get("locale") ?: "en")
 }

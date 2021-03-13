@@ -19,7 +19,7 @@ class SpaceXViewModelTest {
                     },
                     type = CapsuleType.values().random(),
                     status = CapsuleStatus.values().random(),
-                    id = UUID.randomUUID(),
+                    id = "373h3gh3636edetgey33",
                     reuseCount = Random().nextInt(10),
                     waterLandings = Random().nextInt(10),
                     landLandings = 0,

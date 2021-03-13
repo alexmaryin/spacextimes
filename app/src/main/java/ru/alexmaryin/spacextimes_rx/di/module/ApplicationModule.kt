@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.di.module
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,6 +17,8 @@ import ru.alexmaryin.spacextimes_rx.data.api.ApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
+import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
+import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -60,4 +63,6 @@ class ApplicationModule {
     @Singleton
     fun provideTranslator(translator: TranslatorApiImpl): TranslatorApi = translator
 
+    @Provides
+    fun provideWikiApi(wikiApi: WikiLoaderImpl): WikiLoaderApi = wikiApi
 }

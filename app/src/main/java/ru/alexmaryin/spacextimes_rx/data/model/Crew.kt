@@ -9,6 +9,7 @@ data class Crew(
     val agency: String,
     val image: String,
     val wikipedia: String,
+    var wikiLocale: String?,
     val launches: List<String> = emptyList()
 )
 
