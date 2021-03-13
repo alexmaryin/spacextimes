@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">spacextimes_rx</string>
+    <string name="capsulesTitle">Космические корабли</string>
+    <string name="crewTitle">Члены экипажей</string>
+    <string name="coresTitle">Ракетные блоки</string>
+    <string name="dragonsTitle">Корабли Dragon</string>
+    <string name="aiTranslateTitle">Машинный перевод</string>
+    <string name="aiTranslateOffText">Машинный перевод отключен</string>
+    <string name="experimentalTitle">Экспериментально!</string>
+    <string name="aiTranslateAlertText">Включение машинного перевода позволит перевести английский текст в описании, но не обязательно будет на 100% корректный! Аббревиатуры и прочие технические словечки могут быть переведены с ошибками.</string>
+    <string name="agreeText">Я согласен</string>
+    <string name="cancelText">Отмена</string>
+    <string name="unknownText">неизвестно</string>
+    <string name="activeText">действует</string>
+    <string name="inactiveText">не действует</string>
+    <string name="retiredText">на восстановлении</string>
+    <string name="destroyedText">уничтожена</string>
+
+    <plurals name="reuseCountString">
+        <item quantity="one">летала %d раз</item>
+        <item quantity="few">летала %d раза</item>
+        <item quantity="other">летала %d раз</item>
+    </plurals>
+
+    <string name="waterLandCountString">\nприземлений на воду: %d</string>
+    <string name="groundLandCountString">\nприземлений на землю: %d</string>
+    <string name="capsuleTypeString">capsule type image</string>
+    <string name="noInternetInfoString">Нет интернет-соединения!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="photo_of_crew_member_description">Photo of crew member</string>
+    <string name="agencyText">Работает в %s</string>
+    <string name="agency_label_text">Работает в</string>
+    <string name="wiki_label">Wiki</string>
+    <string name="wiki_page_open_button">wiki page open</string>
+</resources>
