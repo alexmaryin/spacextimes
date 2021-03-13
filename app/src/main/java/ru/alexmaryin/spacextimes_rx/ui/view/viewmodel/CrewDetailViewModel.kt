@@ -1,15 +1,8 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.squareup.picasso.Picasso
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -17,11 +10,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CrewDetailViewModel @Inject constructor(
+    val state: SavedStateHandle,
     private val repository: SpacexDataRepository,
     private val networkHelper: NetworkHelper,
 ) : ViewModel() {
 
-    var crewId = ""
+//    var crewId = ""
 
     private var _crewDetails = MutableLiveData<Crew>()
     val crewDetails: LiveData<Crew>
@@ -33,7 +27,7 @@ class CrewDetailViewModel @Inject constructor(
             viewModelScope.launch {
                 _crew.postValue(Loading)
                 if (networkHelper.isNetworkConnected()) {
-                    repository.getCrewById(crewId).let { response ->
+                    repository.getCrewById(state.get("crewId") ?: "").let { response ->
                         if (response.isSuccessful) {
                             _crew.postValue(Success(response.body()))
                             _crewDetails.postValue(response.body()!!)

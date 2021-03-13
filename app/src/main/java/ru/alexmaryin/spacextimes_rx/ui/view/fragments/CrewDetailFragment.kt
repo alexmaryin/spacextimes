@@ -1,31 +1,30 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.databinding.CrewDetailFragmentBinding
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
-import ru.alexmaryin.spacextimes_rx.utils.Error
-import ru.alexmaryin.spacextimes_rx.utils.Loading
-import ru.alexmaryin.spacextimes_rx.utils.Success
-import ru.alexmaryin.spacextimes_rx.utils.crossFade
+import ru.alexmaryin.spacextimes_rx.utils.*
 
 @AndroidEntryPoint
 class CrewDetailFragment : Fragment() {
 
     private val args: CrewDetailFragmentArgs by navArgs()
-    private val crewViewModel: CrewDetailViewModel by viewModels()
+    private val crewViewModel: CrewDetailViewModel by activityViewModels()
     private lateinit var binding: CrewDetailFragmentBinding
     private val longAnimationDuration = 1000
 
@@ -38,17 +37,9 @@ class CrewDetailFragment : Fragment() {
         binding.crewViewModel = crewViewModel
         binding.lifecycleOwner = this
 
-        binding.wikiPage.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                return false
-            }
+        createWebClient(binding.wikiPage)
 
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                binding.wikiPage.crossFade(from = binding.image, duration = longAnimationDuration)
-            }
-        }
-        crewViewModel.crewId = args.crewId
+        crewViewModel.state.set("crewId", args.crewId)
         return binding.root
     }
 
@@ -74,6 +65,34 @@ class CrewDetailFragment : Fragment() {
         crewViewModel.crewDetails.observe(viewLifecycleOwner) {
             binding.wikiPage.loadUrl(it.wikipedia)
             activity?.title = it.name
+        }
+    }
+
+    private fun createWebClient(web: WebView) {
+        web.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                return false
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                binding.wikiProgress.visibility = View.VISIBLE
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                binding.wikiProgress.visibility = View.GONE
+            }
+        }
+
+        web.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                when (newProgress) {
+                    100 -> binding.wikiPage.crossFade(from = binding.image, duration = longAnimationDuration)
+                    else -> binding.wikiProgress.progress = newProgress
+                }
+            }
         }
     }
 }

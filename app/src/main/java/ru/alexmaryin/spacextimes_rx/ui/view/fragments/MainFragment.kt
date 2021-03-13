@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +31,7 @@ import javax.inject.Inject
 class MainFragment: Fragment() {
 
     private var screen: Screen = Screen.Capsules
-    private val spaceXViewModel: SpaceXViewModel by viewModels()
+    private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {} )
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
