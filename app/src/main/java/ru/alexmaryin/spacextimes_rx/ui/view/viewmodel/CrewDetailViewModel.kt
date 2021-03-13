@@ -29,9 +29,9 @@ class CrewDetailViewModel @Inject constructor(
                 if (networkHelper.isNetworkConnected()) {
                     repository.getCrewById(state.get("crewId") ?: "").let { response ->
                         if (response.isSuccessful) {
-                            _crew.postValue(Success(response.body()))
                             response.body()!!.wikiLocale = localeWikiUrl(response.body()!!.wikipedia)
                             _crewDetails.postValue(response.body()!!)
+                            _crew.postValue(Success(response.body()))
                         } else _crew.postValue(Error(response.errorBody().toString()))
                     }
                 } else _crew.postValue(Error("No internet connection!"))
