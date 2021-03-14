@@ -30,7 +30,7 @@ class CrewDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.crew_detail_fragment, container, false)
         binding.crewViewModel = crewViewModel
         binding.lifecycleOwner = this
-        binding.wikiPage.attachProgressAndRootView(binding.wikiProgress, binding.detailsView)
+        binding.wikiFrame.wikiPage.attachProgressAndRootView(binding.wikiFrame.wikiProgress, binding.detailsView)
 
         crewViewModel.state.set("crewId", args.crewId)
         crewViewModel.state.set("locale", requireContext().getCurrentLocale())
@@ -43,22 +43,22 @@ class CrewDetailFragment : Fragment() {
         crewViewModel.crew.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is Loading -> {
-                    binding.progress.visibility = View.VISIBLE
+                    binding.wikiFrame.progress.visibility = View.VISIBLE
                     binding.detailsView.visibility = View.GONE
                 }
                 is Error -> {
-                    binding.progress.visibility = View.GONE
+                    binding.wikiFrame.progress.visibility = View.GONE
                     Toast.makeText(this.context, state.msg, Toast.LENGTH_SHORT).show()
                 }
                 is Success<*> -> {
-                    binding.progress.visibility = View.GONE
+                    binding.wikiFrame.progress.visibility = View.GONE
                     binding.detailsView.visibility = View.VISIBLE
                 }
             }
         }
 
         crewViewModel.crewDetails.observe(viewLifecycleOwner) { crewMember ->
-            binding.wikiButton.setOnClickListener { binding.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia) }
+            binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia) }
             activity?.title = crewMember.name
         }
     }

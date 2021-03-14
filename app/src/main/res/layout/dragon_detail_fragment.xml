@@ -4,19 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ImageAdapter" />
-        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.CrewAdapters" />
+
         <variable
-            name="crewViewModel"
-            type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel" />
+            name="dragonViewModel"
+            type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        tools:context=".ui.view.fragments.CrewDetailFragment">
+        android:layout_margin="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detailsView"
@@ -28,37 +26,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/image"
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/imagesCarousel"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:contentDescription="@string/photo_of_crew_member_description"
-                app:imageUrl="@{crewViewModel.crewDetails.image}"
+                android:layout_height="300dp"
+                app:fillColor="#FFFFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/dragon2_0" />
-
-            <TextView
-                android:id="@+id/statusText"
-                style="@style/regularText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:crewStatus="@{crewViewModel.crewDetails.status}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image"
-                tools:text="действует" />
-
-            <TextView
-                android:id="@+id/agencyText"
-                style="@style/regularText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text='@{@string/agency_label_text+crewViewModel.crewDetails.agency}'
-                app:hideIfEmpty="@{crewViewModel.crewDetails.agency}"
-                app:layout_constraintStart_toStartOf="@+id/statusText"
-                app:layout_constraintTop_toBottomOf="@+id/statusText"
-                tools:text="Работает в NASA" />
+                app:pageColor="#00000000"
+                app:radius="6dp"
+                app:strokeColor="#FF777777"
+                app:strokeWidth="1dp" />
 
             <ImageButton
                 android:id="@+id/wikiButton"
@@ -74,7 +53,7 @@
                 android:textColor="@color/purple_700"
                 app:iconGravity="top"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image" />
+                app:layout_constraintTop_toBottomOf="@+id/imagesCarousel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

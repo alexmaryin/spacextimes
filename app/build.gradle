@@ -66,6 +66,7 @@ dependencies {
 
     // UI
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation 'com.synnapps:carouselview:0.1.5'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
