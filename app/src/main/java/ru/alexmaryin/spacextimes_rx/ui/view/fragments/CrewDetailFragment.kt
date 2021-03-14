@@ -27,7 +27,6 @@ class CrewDetailFragment : Fragment() {
     private val args: CrewDetailFragmentArgs by navArgs()
     private val crewViewModel: CrewDetailViewModel by activityViewModels()
     private lateinit var binding: CrewDetailFragmentBinding
-    private val longAnimationDuration = 1000
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +69,7 @@ class CrewDetailFragment : Fragment() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun getCurrentLocale() = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) requireContext().resources.configuration.locales[0].language
         else requireContext().resources.configuration.locale.language
 
@@ -94,7 +94,7 @@ class CrewDetailFragment : Fragment() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
                 when (newProgress) {
-                    100 -> binding.wikiPage.crossFade(from = binding.detailsView, duration = longAnimationDuration)
+                    100 -> binding.wikiPage crossFadeWith binding.detailsView
                     else -> binding.wikiProgress.progress = newProgress
                 }
             }

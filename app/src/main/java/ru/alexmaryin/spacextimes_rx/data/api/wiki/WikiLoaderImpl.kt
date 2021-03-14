@@ -7,6 +7,7 @@ import javax.inject.Inject
 
 const val WIKI_INTERLANGUAGE_SELECTOR = ".interlanguage-link.interwiki"
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class WikiLoaderImpl @Inject constructor() : WikiLoaderApi {
     override suspend fun getLocaleLink(origin: String, locale: String): String {
         return withContext(Dispatchers.IO) {

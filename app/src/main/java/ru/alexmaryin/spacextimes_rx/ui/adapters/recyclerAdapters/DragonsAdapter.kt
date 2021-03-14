@@ -9,14 +9,19 @@ import ru.alexmaryin.spacextimes_rx.databinding.DragonItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.utils.expandOrSwapTo
+import ru.alexmaryin.spacextimes_rx.utils.swapVisibility
 
-class DragonsAdapter (clickListener: AdapterClickListenerById): BaseAdapter<Dragon>(arrayListOf(), clickListener) {
+class DragonsAdapter(clickListener: AdapterClickListenerById) : BaseAdapter<Dragon>(arrayListOf(), clickListener) {
 
     class ViewHolder(private val binding: DragonItemBinding) : DataViewHolder<Dragon>(binding) {
 
         override fun bind(item: Dragon, clickListener: AdapterClickListenerById) {
-            with (binding) {
+            with(binding) {
+                this.clickListener = clickListener
                 dragon = item
+                expandDescriptionButton.setOnClickListener { it.swapVisibility(); description expandOrSwapTo 5 }
+                description.setOnClickListener { expandDescriptionButton.swapVisibility(); description expandOrSwapTo 5  }
             }
         }
     }

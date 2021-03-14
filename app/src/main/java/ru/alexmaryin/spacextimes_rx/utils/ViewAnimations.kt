@@ -4,18 +4,18 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.View
 
-fun View.crossFade(from: View, duration: Int) {
-    this.apply {
-        alpha = 0f
-        visibility = View.VISIBLE
-        animate()
-            .alpha(1f)
-            .setDuration(duration.toLong())
-            .setListener(null)
-    }
+const val LONG_ANIMATION = 1500
+
+infix fun View.crossFadeWith(from: View) {
+    alpha = 0f
+    visibility = View.VISIBLE
+    animate()
+        .setDuration(LONG_ANIMATION.toLong())
+        .alpha(1f)
+        .setListener(null)
     from.animate()
+        .setDuration(LONG_ANIMATION.toLong())
         .alpha(0f)
-        .setDuration(duration.toLong())
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 from.visibility = View.GONE

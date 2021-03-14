@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.DateAdapter" />
+
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ImageAdapter" />
-        <variable name="dragon" type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
+
+        <variable
+            name="clickListener"
+            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+
+        <variable
+            name="dragon"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +30,7 @@
             android:text="@{dragon.name}"
             android:textSize="26sp"
             android:textStyle="bold"
+            android:onClick="@{() -> clickListener.onClick(dragon.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Dragon 1" />
@@ -32,12 +42,13 @@
             android:contentDescription="@string/photo_of_dragon_capsule_description"
             android:scaleType="fitCenter"
             app:imageUrl="@{dragon.images[0]}"
+            android:onClick="@{() -> clickListener.onClick(dragon.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/dragon1_1" />
 
         <TextView
-            android:id="@+id/fisrtFlightDate"
+            android:id="@+id/description"
             style="@style/regularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,7 +60,10 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dragonName"
-            tools:text="Описание корабля и прочий текст, который может быть и длинным" />
+            tools:text="Описание корабля и прочий текст, который может быть и длинным\n
+                        Описание корабля и прочий текст, который может быть и длинным\n
+                        Описание корабля и прочий текст, который может быть и длинным\n
+                        Описание корабля и прочий текст, который может быть и длинным\n" />
 
         <TextView
             android:id="@+id/firstFlight"
@@ -65,5 +79,13 @@
             app:layout_constraintStart_toEndOf="@+id/dragonName"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="12 января 2010 года" />
+
+        <ImageView
+            android:id="@+id/expandDescriptionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/description"
+            app:layout_constraintEnd_toEndOf="@+id/description"
+            app:srcCompat="@drawable/ellipsis_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

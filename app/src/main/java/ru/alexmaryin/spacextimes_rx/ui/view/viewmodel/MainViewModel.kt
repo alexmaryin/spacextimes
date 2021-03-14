@@ -30,6 +30,7 @@ class SpaceXViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var needRefresh: Boolean = false
+    var screen: Screen = Screen.Crew
 
     private val _capsules = MutableLiveData<Result>()
     val capsules: LiveData<Result>

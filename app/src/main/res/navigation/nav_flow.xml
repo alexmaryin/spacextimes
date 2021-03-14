@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_flow"
     app:startDestination="@id/mainFragment">
 
@@ -10,13 +11,36 @@
         android:label="fragment_main" >
         <action
             android:id="@+id/action_showCrewMember"
-            app:destination="@id/crewDetailFragment" />
+            app:destination="@id/crewDetailFragment"
+            app:popUpTo="@id/mainFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_showDragonDetails"
+            app:destination="@id/dragonDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/crewDetailFragment"
         android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.CrewDetailFragment"
         android:label="crew_detail_gragment">
-        <argument android:name="crewId"
+        <argument
+            android:name="crewId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/dragonDetailFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.DragonDetailFragment"
+        android:label="fragment_dragon_detail"
+        tools:layout="@layout/fragment_dragon_detail">
+        <argument
+            android:name="dragonId"
             app:argType="string" />
     </fragment>
 </navigation>

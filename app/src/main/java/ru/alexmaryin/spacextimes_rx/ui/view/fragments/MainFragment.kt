@@ -32,11 +32,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment: Fragment() {
 
-    private var screen: Screen = Screen.Capsules
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {})
     private val coreAdapter = CoreAdapter(AdapterClickListenerById {})
-    private val dragonAdapter = DragonsAdapter(AdapterClickListenerById {})
+    private val dragonAdapter = DragonsAdapter(AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) })
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
 
@@ -57,7 +57,7 @@ class MainFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.spaceXViewModel = spaceXViewModel
-        changeScreen(Screen.Crew, getString(R.string.crewTitle))
+        changeScreen(spaceXViewModel.screen)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -72,10 +72,10 @@ class MainFragment: Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.capsulesSelect -> changeScreen(Screen.Capsules, item.title.toString())
-            R.id.coresSelect -> changeScreen(Screen.Cores, item.title.toString())
-            R.id.crewSelect -> changeScreen(Screen.Crew, item.title.toString())
-            R.id.dragonsSelect -> changeScreen(Screen.Dragons, item.title.toString())
+            R.id.capsulesSelect -> changeScreen(Screen.Capsules)
+            R.id.coresSelect -> changeScreen(Screen.Cores)
+            R.id.crewSelect -> changeScreen(Screen.Crew)
+            R.id.dragonsSelect -> changeScreen(Screen.Dragons)
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -96,9 +96,14 @@ class MainFragment: Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun changeScreen(screen: Screen, itemTitle: String) {
-        this.screen = screen
-        activity?.title = itemTitle
+    private fun changeScreen(screen: Screen) {
+        spaceXViewModel.screen = screen
+        activity?.title = getString(when(screen) {
+            Screen.Capsules -> R.string.capsulesTitle
+            Screen.Cores -> R.string.coresTitle
+            Screen.Crew -> R.string.crewTitle
+            Screen.Dragons -> R.string.dragonsTitle
+        })
         setupObserver()
         setupUI()
     }
@@ -140,7 +145,7 @@ class MainFragment: Fragment() {
     * */
 
     private fun setupObserver() {
-        when (screen) {
+        when (spaceXViewModel.screen) {
             Screen.Capsules -> spaceXViewModel.capsules.observe(viewLifecycleOwner, { result -> itemObserver(result, capsulesAdapter) })
             Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner, { result -> itemObserver(result, coreAdapter) })
             Screen.Crew -> spaceXViewModel.crew.observe(viewLifecycleOwner, { result -> itemObserver(result, crewAdapter) })
@@ -156,7 +161,7 @@ class MainFragment: Fragment() {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainFragment.context)
             addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
-            adapter = when (screen) {
+            adapter = when (spaceXViewModel.screen) {
                 Screen.Capsules -> capsulesAdapter
                 Screen.Crew -> crewAdapter
                 Screen.Cores -> coreAdapter
