@@ -20,6 +20,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CapsuleAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CoreAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CrewAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.DragonsAdapter
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
@@ -33,8 +34,9 @@ class MainFragment: Fragment() {
 
     private var screen: Screen = Screen.Capsules
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
-    private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {} )
+    private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {})
     private val coreAdapter = CoreAdapter(AdapterClickListenerById {})
+    private val dragonAdapter = DragonsAdapter(AdapterClickListenerById {})
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
 
@@ -142,7 +144,7 @@ class MainFragment: Fragment() {
             Screen.Capsules -> spaceXViewModel.capsules.observe(viewLifecycleOwner, { result -> itemObserver(result, capsulesAdapter) })
             Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner, { result -> itemObserver(result, coreAdapter) })
             Screen.Crew -> spaceXViewModel.crew.observe(viewLifecycleOwner, { result -> itemObserver(result, crewAdapter) })
-            Screen.Dragons -> Unit
+            Screen.Dragons -> spaceXViewModel.dragons.observe(viewLifecycleOwner, { result -> itemObserver(result, dragonAdapter) })
         }
     }
 
@@ -158,7 +160,7 @@ class MainFragment: Fragment() {
                 Screen.Capsules -> capsulesAdapter
                 Screen.Crew -> crewAdapter
                 Screen.Cores -> coreAdapter
-                Screen.Dragons -> capsulesAdapter
+                Screen.Dragons -> dragonAdapter
             }
         }
     }

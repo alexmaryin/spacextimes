@@ -13,6 +13,7 @@ import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -84,11 +85,21 @@ class SpaceXViewModel @Inject constructor(
     val dragons: LiveData<Result>
         get() {
             if (_dragons.value == null || needRefresh) {
-                getItems(_dragons, repository::getDragons, { it })
+                getItems(_dragons, repository::getDragons, { it?.apply { translateDragonsDescription(this) } })
                 needRefresh = false
             }
             return _dragons
         }
+
+    private suspend fun translateDragonsDescription(dragons: List<Dragon>) {
+        if(settings.translateToRu) {
+            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+                val listForTranslating = dragons.filter { it.description != null }
+                translator.fromList(listForTranslating, readItemToTranslate = { "${it.description}" },
+                    updateItemWithTranslate = { dragon, translate -> dragon.descriptionRu = translate })
+            }
+        }
+    }
 
     private fun <T> getItems(
         items: MutableLiveData<Result>,

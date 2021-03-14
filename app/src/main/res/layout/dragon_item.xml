@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.DateAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ImageAdapter" />
+        <variable name="dragon" type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dragonName"
+            style="@style/regularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{dragon.name}"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Dragon 1" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:contentDescription="@string/photo_of_dragon_capsule_description"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{dragon.images[0]}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/dragon1_1" />
+
+        <TextView
+            android:id="@+id/fisrtFlightDate"
+            style="@style/regularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:text="@{dragon.descriptionRu ?? dragon.description}"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dragonName"
+            tools:text="Описание корабля и прочий текст, который может быть и длинным" />
+
+        <TextView
+            android:id="@+id/firstFlight"
+            style="@style/regularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_on_background_disabled"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:dateBind="@{dragon.firstFlight}"
+            app:layout_constraintBottom_toBottomOf="@+id/dragonName"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/dragonName"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12 января 2010 года" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

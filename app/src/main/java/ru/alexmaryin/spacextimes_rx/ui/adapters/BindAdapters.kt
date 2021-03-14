@@ -7,6 +7,8 @@ import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.CrewStatus
+import java.text.DateFormat
+import java.util.*
 
 object ImageAdapter {
     @JvmStatic
@@ -18,6 +20,16 @@ object ImageAdapter {
                 .placeholder(R.drawable.loading_img)
                 .error(R.drawable.ic_broken_image)
                 .into(view)
+        }
+    }
+}
+
+object DateAdapter {
+    @JvmStatic
+    @BindingAdapter("dateBind")
+    fun dateToString(view: TextView, date: Date?) {
+        date?.let {
+            view.text = DateFormat.getDateInstance(DateFormat.LONG).format(date)
         }
     }
 }
@@ -56,6 +68,4 @@ object CrewAdapters {
     fun setVisibility(view: View, agency: String?) {
         view.visibility = if(agency.isNullOrBlank()) View.GONE else View.VISIBLE
     }
-
-
 }

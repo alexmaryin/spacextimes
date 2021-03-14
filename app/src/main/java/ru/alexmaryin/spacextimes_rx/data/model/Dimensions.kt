@@ -13,8 +13,8 @@ data class Volume(
 )
 
 data class LineSize(
-    val meters: Int,
-    val feet: Int
+    val meters: Float,
+    val feet: Float
 )
 
 data class Thrust(

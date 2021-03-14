@@ -11,7 +11,8 @@ data class Dragon(
     val trunk: Trunk,
     val diameter: LineSize,
     val wikipedia: String,
-    val description: String,
+    val description: String?,
+    var descriptionRu: String?,
     @SerializedName("active") val isActive: Boolean,
     @SerializedName("crew_capacity") val crewCapacity: Int,
     @SerializedName("sidewall_angle_deg") val slideWallAngle: Int,
@@ -30,7 +31,7 @@ data class Dragon(
 
 data class Shield(
     val material: String,
-    @SerializedName("size_meters") val size: Int,
+    @SerializedName("size_meters") val size: Float,
     @SerializedName("temp_degrees") val temperature: Int,
     @SerializedName("dev_partner") val developPartner: String
 )

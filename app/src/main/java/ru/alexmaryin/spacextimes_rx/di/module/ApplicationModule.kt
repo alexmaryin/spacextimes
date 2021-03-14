@@ -18,6 +18,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -42,7 +43,7 @@ class ApplicationModule {
         .build()
 
     private val gsonBuilder = GsonBuilder()
-        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'")
+        .registerTypeAdapter(Date::class.java, DateJsonAdapter)
         .create()
 
     @Provides
