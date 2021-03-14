@@ -18,6 +18,7 @@ import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CapsuleAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CoreAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CrewAdapter
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
@@ -33,6 +34,7 @@ class MainFragment: Fragment() {
     private var screen: Screen = Screen.Capsules
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {} )
+    private val coreAdapter = CoreAdapter(AdapterClickListenerById {})
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
 
@@ -50,8 +52,8 @@ class MainFragment: Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.spaceXViewModel = spaceXViewModel
         changeScreen(Screen.Crew, getString(R.string.crewTitle))
     }
@@ -138,7 +140,7 @@ class MainFragment: Fragment() {
     private fun setupObserver() {
         when (screen) {
             Screen.Capsules -> spaceXViewModel.capsules.observe(viewLifecycleOwner, { result -> itemObserver(result, capsulesAdapter) })
-            Screen.Cores -> Unit
+            Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner, { result -> itemObserver(result, coreAdapter) })
             Screen.Crew -> spaceXViewModel.crew.observe(viewLifecycleOwner, { result -> itemObserver(result, crewAdapter) })
             Screen.Dragons -> Unit
         }
@@ -155,7 +157,7 @@ class MainFragment: Fragment() {
             adapter = when (screen) {
                 Screen.Capsules -> capsulesAdapter
                 Screen.Crew -> crewAdapter
-                Screen.Cores -> capsulesAdapter
+                Screen.Cores -> coreAdapter
                 Screen.Dragons -> capsulesAdapter
             }
         }

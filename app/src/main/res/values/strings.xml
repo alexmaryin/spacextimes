@@ -17,13 +17,15 @@
     <string name="destroyedText">уничтожена</string>
 
     <plurals name="reuseCountString">
-        <item quantity="one">летала %d раз</item>
-        <item quantity="few">летала %d раза</item>
-        <item quantity="other">летала %d раз</item>
+        <item quantity="one">повторно летала %d раз</item>
+        <item quantity="few">повторно летала %d раза</item>
+        <item quantity="other">повторно летала %d раз</item>
     </plurals>
 
     <string name="waterLandCountString">\nприземлений на воду: %d</string>
+    <string name="waterLandCoreCountString">\nприземлений на воду: %d/%d</string>
     <string name="groundLandCountString">\nприземлений на землю: %d</string>
+    <string name="groundLandCoreCountString">\nприземлений на землю: %d/%d</string>
     <string name="capsuleTypeString">capsule type image</string>
     <string name="noInternetInfoString">Нет интернет-соединения!</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -33,4 +35,5 @@
     <string name="agency_label_text">Работает в</string>
     <string name="wiki_label">Wiki</string>
     <string name="wiki_page_open_button">wiki page open</string>
+    <string name="core_thumbnail_picture_description">Core thumbnail picture</string>
 </resources>

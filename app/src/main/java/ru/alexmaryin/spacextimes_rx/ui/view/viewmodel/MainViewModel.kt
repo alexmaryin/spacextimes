@@ -12,6 +12,7 @@ import kotlinx.coroutines.yield
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
+import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.module.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -53,11 +54,21 @@ class SpaceXViewModel @Inject constructor(
     val cores: LiveData<Result>
         get() {
             if (_cores.value == null || needRefresh) {
-                getItems(_cores, repository::getCores, { it })
+                getItems(_cores, repository::getCores, { it?.apply { translateCoresLastUpdate(this) } })
                 needRefresh = false
             }
             return _cores
         }
+
+    private suspend fun translateCoresLastUpdate(cores: List<Core>) {
+        if(settings.translateToRu) {
+            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+                val listForTranslating = cores.filter { it.lastUpdate != null }
+                translator.fromList(listForTranslating, readItemToTranslate = { "${it.lastUpdate}" },
+                updateItemWithTranslate = { core, translate -> core.lastUpdateRu = translate })
+            }
+        }
+    }
 
     private val _crew = MutableLiveData<Result>()
     val crew: LiveData<Result>

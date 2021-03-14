@@ -1,15 +1,14 @@
 package ru.alexmaryin.spacextimes_rx.di.module
 
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import ru.alexmaryin.spacextimes_rx.BuildConfig
 import ru.alexmaryin.spacextimes_rx.data.api.Api
 import ru.alexmaryin.spacextimes_rx.data.api.ApiImpl
@@ -36,17 +35,21 @@ class ApplicationModule {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         OkHttpClient.Builder()
             .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .build()
     } else OkHttpClient.Builder()
         .build()
 
+    private val gsonBuilder = GsonBuilder()
+        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'")
+        .create()
+
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit =
         Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gsonBuilder))
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .build()
