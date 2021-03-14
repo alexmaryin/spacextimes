@@ -27,6 +27,9 @@ interface ApiService {
     @GET(SpacexUrls.AllDragons)
     suspend fun getDragons(): Response<List<Dragon>>
 
+    @GET(SpacexUrls.AllDragons+"{id}")
+    suspend fun getDragonById(@Path("id") id: String): Response<Dragon>
+
     @POST(TranslatorUrls.PlainText)
     suspend fun translate(@Body body: RequestBody): Response<PlainTextResponse>
 }

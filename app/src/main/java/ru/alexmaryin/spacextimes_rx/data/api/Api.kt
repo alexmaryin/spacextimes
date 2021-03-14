@@ -19,5 +19,7 @@ interface Api {
 
     suspend fun getDragons(): Response<List<Dragon>>
 
+    suspend fun getDragonById(id: String): Response<Dragon>
+
     suspend fun translate(source: String): Response<PlainTextResponse>
 }

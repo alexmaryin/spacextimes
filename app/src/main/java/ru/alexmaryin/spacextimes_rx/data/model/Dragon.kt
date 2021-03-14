@@ -11,6 +11,7 @@ data class Dragon(
     val trunk: Trunk,
     val diameter: LineSize,
     val wikipedia: String,
+    var wikiLocale: String?,
     val description: String?,
     var descriptionRu: String?,
     @SerializedName("active") val isActive: Boolean,

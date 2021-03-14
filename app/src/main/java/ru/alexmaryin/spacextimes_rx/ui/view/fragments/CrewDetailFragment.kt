@@ -1,15 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
-import android.graphics.Bitmap
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -36,11 +30,11 @@ class CrewDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.crew_detail_fragment, container, false)
         binding.crewViewModel = crewViewModel
         binding.lifecycleOwner = this
-
-        createWebClient(binding.wikiPage)
+        binding.wikiPage.attachProgressAndRootView(binding.wikiProgress, binding.detailsView)
 
         crewViewModel.state.set("crewId", args.crewId)
-        crewViewModel.state.set("locale", getCurrentLocale())
+        crewViewModel.state.set("locale", requireContext().getCurrentLocale())
+
         return binding.root
     }
 
@@ -66,38 +60,6 @@ class CrewDetailFragment : Fragment() {
         crewViewModel.crewDetails.observe(viewLifecycleOwner) { crewMember ->
             binding.wikiButton.setOnClickListener { binding.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia) }
             activity?.title = crewMember.name
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun getCurrentLocale() = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) requireContext().resources.configuration.locales[0].language
-        else requireContext().resources.configuration.locale.language
-
-    private fun createWebClient(web: WebView) {
-        web.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                return false
-            }
-
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                binding.wikiProgress.visibility = View.VISIBLE
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                binding.wikiProgress.visibility = View.GONE
-            }
-        }
-
-        web.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                super.onProgressChanged(view, newProgress)
-                when (newProgress) {
-                    100 -> binding.wikiPage crossFadeWith binding.detailsView
-                    else -> binding.wikiProgress.progress = newProgress
-                }
-            }
         }
     }
 }

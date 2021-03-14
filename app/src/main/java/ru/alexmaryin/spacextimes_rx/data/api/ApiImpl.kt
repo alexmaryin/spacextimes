@@ -23,6 +23,8 @@ class ApiImpl @Inject constructor(private val apiService: ApiService): Api {
 
     override suspend fun getDragons(): Response<List<Dragon>> = apiService.getDragons()
 
+    override suspend fun getDragonById(id: String): Response<Dragon> = apiService.getDragonById(id)
+
     override suspend fun translate(source: String): Response<PlainTextResponse> {
         val body = JSONObject().run {
             put("source", source)

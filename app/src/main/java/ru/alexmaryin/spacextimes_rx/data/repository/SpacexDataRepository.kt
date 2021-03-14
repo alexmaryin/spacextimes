@@ -14,4 +14,6 @@ class SpacexDataRepository @Inject constructor(private val api: Api)  {
     suspend fun getCrewById(id: String) = api.getCrewById(id)
 
     suspend fun getDragons() = api.getDragons()
+
+    suspend fun getDragonById(id: String) = api.getDragonById(id)
 }
