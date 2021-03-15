@@ -31,7 +31,7 @@ class CrewDetailViewModel @Inject constructor(
                         if (response.isSuccessful) {
                             response.body()!!.wikiLocale = localeWikiUrl(response.body()!!.wikipedia)
                             _crewDetails.postValue(response.body()!!)
-                            _crew.postValue(Success(response.body()))
+                            _crew.postValue(Success(null))
                         } else _crew.postValue(Error(response.errorBody().toString()))
                     }
                 } else _crew.postValue(Error("No internet connection!"))

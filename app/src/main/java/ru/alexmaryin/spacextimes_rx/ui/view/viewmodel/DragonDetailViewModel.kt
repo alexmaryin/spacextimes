@@ -31,7 +31,7 @@ class DragonDetailViewModel @Inject constructor(
                         if (response.isSuccessful) {
                             response.body()!!.wikiLocale = localeWikiUrl(response.body()!!.wikipedia)
                             _dragonDetails.postValue(response.body()!!)
-                            _dragon.postValue(Success(response.body()))
+                            _dragon.postValue(Success(null))
                         } else _dragon.postValue(Error(response.errorBody().toString()))
                     }
                 } else _dragon.postValue(Error("No internet connection!"))
