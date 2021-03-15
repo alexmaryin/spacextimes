@@ -2,6 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="capsule"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Capsule" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,11 +15,10 @@
 
         <TextView
             android:id="@+id/capsuleSerial"
-            style="@android:style/TextAppearance.DeviceDefault.Large"
+            style="@style/boldCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginStart="5dp"
+            android:text="@{capsule.serial}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="C201" />
@@ -22,10 +26,11 @@
 
         <TextView
             android:id="@+id/capsuleStatus"
-            android:layout_width="wrap_content"
+            style="@style/regularText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/capsuleSerial"
             app:layout_constraintEnd_toStartOf="@+id/capsuleImage"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/capsuleSerial"
@@ -34,19 +39,19 @@
 
         <TextView
             android:id="@+id/capsuleReused"
+            style="@style/regularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@+id/capsuleSerial"
             app:layout_constraintTop_toBottomOf="@+id/capsuleSerial"
             tools:text="летала 6 раз" />
 
         <TextView
             android:id="@+id/capsuleUpdate"
+            style="@style/descriptionText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textStyle="italic"
+            android:text="@{capsule.lastUpdateRu ?? capsule.lastUpdate}"
             app:layout_constraintEnd_toStartOf="@+id/capsuleImage"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/capsuleReused"

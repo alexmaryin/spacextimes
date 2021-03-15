@@ -3,11 +3,11 @@
 
 Android application for fetching all information about SpaceX&trade; rocket's launches and landings, posted media, vehicles technical data, crew members and over more. 
 
-Appication runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engine version 4.
+Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engine version 4.
 
 **Already launched:**
 
-- [x] Caplsules list
+- [x] Capsules list
 - [x] Cores list
 - [x] Crew members list, member details
 - [x] Dragons list, dragon details

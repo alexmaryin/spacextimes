@@ -4,15 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.DateAdapter" />
-
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ImageAdapter" />
-
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
-
         <variable
             name="dragon"
             type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
@@ -24,12 +20,10 @@
 
         <TextView
             android:id="@+id/dragonName"
-            style="@style/regularText"
+            style="@style/boldCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{dragon.name}"
-            android:textSize="26sp"
-            android:textStyle="bold"
             android:onClick="@{() -> clickListener.onClick(dragon.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,30 +43,24 @@
 
         <TextView
             android:id="@+id/description"
-            style="@style/regularText"
+            style="@style/descriptionText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="5"
             android:text="@{dragon.descriptionRu ?? dragon.description}"
-            android:textStyle="italic"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dragonName"
-            tools:text="Описание корабля и прочий текст, который может быть и длинным\n
-                        Описание корабля и прочий текст, который может быть и длинным\n
-                        Описание корабля и прочий текст, который может быть и длинным\n
-                        Описание корабля и прочий текст, который может быть и длинным\n" />
+            tools:text="Описание корабля и прочий текст, который может быть и длинным"/>
 
         <TextView
             android:id="@+id/firstFlight"
-            style="@style/regularText"
+            style="@style/descriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_on_background_disabled"
             android:textSize="12sp"
-            android:textStyle="italic"
             app:dateBind="@{dragon.firstFlight}"
             app:layout_constraintBottom_toBottomOf="@+id/dragonName"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
@@ -86,6 +74,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/description"
             app:layout_constraintEnd_toEndOf="@+id/description"
-            app:srcCompat="@drawable/ellipsis_button" />
+            app:srcCompat="@drawable/ellipsis_button"
+            android:contentDescription="@string/read_more_string" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

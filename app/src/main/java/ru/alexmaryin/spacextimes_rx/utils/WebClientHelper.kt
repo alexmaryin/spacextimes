@@ -28,8 +28,8 @@ fun WebView.attachProgressAndRootView(progress: ProgressBar, rootView: View) {
     webChromeClient = object : WebChromeClient() {
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             super.onProgressChanged(view, newProgress)
-            when (newProgress) {
-                100 -> this@attachProgressAndRootView crossFadeWith rootView
+            if (view != null) when (newProgress) {
+                100 -> view crossFadeWith rootView
                 else -> progress.progress = newProgress
             }
         }

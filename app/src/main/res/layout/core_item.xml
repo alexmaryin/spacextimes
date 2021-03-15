@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="core"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Core" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,14 +26,13 @@
 
         <TextView
             android:id="@+id/coreSerial"
-            style="@style/regularText"
+            style="@style/boldCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTintMode="add"
-            android:textSize="32sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@{core.serial}"
             tools:text="B1051" />
 
         <TextView
@@ -54,15 +58,14 @@
 
         <TextView
             android:id="@+id/coreLastUpdate"
-            style="@style/regularText"
+            style="@style/descriptionText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_on_background_disabled"
-            android:textStyle="italic"
             app:layout_constraintEnd_toStartOf="@+id/coreThumbnail"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/coreReusing"
-            tools:text="Находится в порту мыса Канаверал после доставки платформой " />
+            tools:text="Находится в порту мыса Канаверал после доставки платформой "
+            android:text="@{core.lastUpdateRu ?? core.lastUpdate}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

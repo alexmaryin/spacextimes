@@ -18,8 +18,7 @@ class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Capsu
 
         override fun bind(item: Capsule, clickListener: AdapterClickListenerById) {
             with (binding) {
-                capsuleSerial.text = item.serial
-
+                capsule = item
                 capsuleImage.setImageResource(
                     when (item.type) {
                         CapsuleType.DRAGON1_0 -> R.drawable.dragon1_0
@@ -55,8 +54,6 @@ class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Capsu
                     if (item.landLandings > 0) append(root.context.getString(R.string.groundLandCountString, item.landLandings))
                     if (item.waterLandings > 0) append(root.context.getString(R.string.waterLandCountString, item.waterLandings))
                 }
-
-                capsuleUpdate.text = item.lastUpdateRu?: item.lastUpdate
             }
         }
     }

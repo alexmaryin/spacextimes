@@ -27,9 +27,9 @@ object ImageAdapter {
 object DateAdapter {
     @JvmStatic
     @BindingAdapter("dateBind")
-    fun dateToString(view: TextView, date: Date?) {
+    fun firstFlightToString(view: TextView, date: Date?) {
         date?.let {
-            view.text = DateFormat.getDateInstance(DateFormat.LONG).format(date)
+            view.text = view.context.getString(R.string.first_flight_text, DateFormat.getDateInstance(DateFormat.LONG).format(date))
         }
     }
 }

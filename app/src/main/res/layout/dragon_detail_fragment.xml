@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="dragonViewModel"
             type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel" />
@@ -14,7 +13,8 @@
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        tools:context=".ui.view.fragments.DragonDetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detailsView"

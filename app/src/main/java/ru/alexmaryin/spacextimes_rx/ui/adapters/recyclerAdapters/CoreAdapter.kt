@@ -17,8 +17,7 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Core>(ar
 
         override fun bind(item: Core, clickListener: AdapterClickListenerById) {
             with (binding) {
-                coreSerial.text = item.serial
-
+                core = item
                 coreThumbnail.setImageResource(
                     when (item.block) {
                         null -> R.drawable.falcon1_block0
@@ -53,12 +52,13 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Core>(ar
                 }
 
                 coreReusing.text = buildString {
-                    if (item.reuseCount > 0) append(root.resources.getQuantityString(R.plurals.reuseCountString, item.reuseCount, item.reuseCount))
+                    if (item.reuseCount > 0) append(
+                        root.resources.getString(R.string.reuseText) +
+                        root.resources.getQuantityString(R.plurals.reuseCountString, item.reuseCount, item.reuseCount)
+                    )
                     if (item.groundLandAttempts > 0) append(root.context.getString(R.string.groundLandCoreCountString, item.groundLandings, item.groundLandAttempts))
                     if (item.waterLandAttempts > 0) append(root.context.getString(R.string.waterLandCoreCountString, item.waterLandings, item.waterLandAttempts))
                 }
-
-                coreLastUpdate.text = item.lastUpdateRu?: item.lastUpdate?: ""
             }
         }
     }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ImageAdapter" />
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
@@ -20,11 +21,12 @@
             android:id="@+id/photoCrew"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:contentDescription="Photo of crew member"
+            android:contentDescription="@string/photo_of_crew_member_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:imageUrl="@{crewMember.image}"
             android:onClick="@{() -> clickListener.onClick(crewMember.id)}"
             tools:srcCompat="@tools:sample/avatars" />
 
@@ -32,8 +34,9 @@
             android:id="@+id/nameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#3F51B5"
+            android:background="#633F51B5"
             android:gravity="center"
+            android:text="@{crewMember.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/photoCrew"

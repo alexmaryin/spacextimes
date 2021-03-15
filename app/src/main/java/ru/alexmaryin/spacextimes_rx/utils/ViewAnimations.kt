@@ -4,9 +4,10 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.View
 
-const val LONG_ANIMATION = 1500
+const val LONG_ANIMATION = 1000
 
 infix fun View.crossFadeWith(from: View) {
+    from.alpha = 1f
     alpha = 0f
     visibility = View.VISIBLE
     animate()
