@@ -47,6 +47,7 @@ class DragonDetailFragment : Fragment() {
                 is Loading -> {
                     binding.wikiFrame.progress.visibility = View.VISIBLE
                     binding.detailsView.visibility = View.GONE
+                    activity?.title = "Загрузка..."
                 }
                 is Error -> {
                     binding.wikiFrame.progress.visibility = View.GONE
@@ -55,13 +56,13 @@ class DragonDetailFragment : Fragment() {
                 is Success<*> -> {
                     binding.wikiFrame.progress.visibility = View.GONE
                     binding.detailsView.visibility = View.VISIBLE
+                    activity?.title = dragonViewModel.getTitle()
                 }
             }
         }
 
         dragonViewModel.dragonDetails.observe(viewLifecycleOwner) { dragon ->
             binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(dragon.wikiLocale ?: dragon.wikipedia) }
-            activity?.title = dragon.name
             binding.imagesCarousel.pageCount = dragon.images.size
         }
     }

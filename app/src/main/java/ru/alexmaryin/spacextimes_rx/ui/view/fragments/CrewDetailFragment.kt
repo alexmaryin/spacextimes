@@ -45,6 +45,7 @@ class CrewDetailFragment : Fragment() {
                 is Loading -> {
                     binding.wikiFrame.progress.visibility = View.VISIBLE
                     binding.detailsView.visibility = View.GONE
+                    activity?.title = "Загрузка..."
                 }
                 is Error -> {
                     binding.wikiFrame.progress.visibility = View.GONE
@@ -53,13 +54,13 @@ class CrewDetailFragment : Fragment() {
                 is Success<*> -> {
                     binding.wikiFrame.progress.visibility = View.GONE
                     binding.detailsView.visibility = View.VISIBLE
+                    activity?.title = crewViewModel.getTitle()
                 }
             }
         }
 
         crewViewModel.crewDetails.observe(viewLifecycleOwner) { crewMember ->
             binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia) }
-            activity?.title = crewMember.name
         }
     }
 }

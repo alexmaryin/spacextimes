@@ -14,8 +14,8 @@ data class Core(
     @SerializedName("asds_landings") val waterLandings: Int,
     @SerializedName("last_update") val lastUpdate: String?,
     var lastUpdateRu: String?,
-    val launches: List<String> = emptyList()
-)
+    val launches: List<String> = emptyList(),
+) { fun totalFlights() = launches.size }
 
 enum class CoreStatus {
     @SerializedName("active") ACTIVE,

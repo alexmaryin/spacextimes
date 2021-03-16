@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="capsulesTitle">Capsules</string>
+    <string name="crewTitle">Crew members</string>
+    <string name="coresTitle">Cores</string>
+    <string name="dragonsTitle">Dragons</string>
+    <string name="aiTranslateTitle">Auto-translate</string>
+    <string name="aiTranslateOffText">Auto-translate off</string>
+    <string name="experimentalTitle">Experimental!</string>
+    <string name="agreeText">Agree</string>
+    <string name="cancelText">Cancel</string>
+    <string name="activeText">Active</string>
+    <string name="inactiveText">Inactive</string>
+    <string name="retiredText">Retired</string>
+    <string name="destroyedText">Destroyed</string>
+    <string name="reuseText">"Reused "</string>
+    <string name="first_flight_text">First flight\n%s</string>
+    <string name="noInternetInfoString">No internet connection!</string>
+    <string name="agency_label_text">"Works in "</string>
+    <string name="unknownText">Unknown</string>
+    <string name="waterLandCountString">\nwater landings: %d</string>
+    <string name="waterLandCoreCountString">\nwater landings: %1$d/%2$d</string>
+    <string name="groundLandCountString">\nground landings: %d</string>
+    <string name="groundLandCoreCountString">\nground landings: %1$d/%2$d</string>
+
+    <plurals name="reuseCountString">
+        <item quantity="one">Total %d flight</item>
+        <item quantity="other">Total %d flights</item>
+    </plurals>
+    <string name="loadingText">loading…</string>
+
+</resources>

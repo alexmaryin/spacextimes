@@ -15,19 +15,20 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Core>(ar
 
     class ViewHolder (private val binding: CoreItemBinding): DataViewHolder<Core>(binding) {
 
+        private fun falconResourceName(item: Core) = if (item.block == null) "falcon1" else buildString {
+            append("falcon9block${item.block}")
+            append(if (item.block > 4 || item.totalFlights() >= 2) "legs_" else "_")
+            append(when {
+                item.totalFlights() < 1 -> 1
+                item.totalFlights() > 10 -> 10
+                else -> item.totalFlights()
+            })
+        }
+
         override fun bind(item: Core, clickListener: AdapterClickListenerById) {
             with (binding) {
                 core = item
-                coreThumbnail.setImageResource(
-                    when (item.block) {
-                        null -> R.drawable.falcon1_block0
-                        1 -> R.drawable.falcon9_block1
-                        2,3 -> R.drawable.falcon9_block2_3
-                        4 -> R.drawable.falcon9_block4
-                        5 -> R.drawable.falcon9_block5
-                        else -> R.drawable.falcon_heavy
-                    })
-
+                coreThumbnail.setImageResource(root.resources.getIdentifier(falconResourceName(item), "drawable", root.context.packageName))
                 when (item.status) {
                     CoreStatus.UNKNOWN -> {
                         coreStatus.text = root.context.getString(R.string.unknownText)
@@ -52,10 +53,7 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Core>(ar
                 }
 
                 coreReusing.text = buildString {
-                    if (item.reuseCount > 0) append(
-                        root.resources.getString(R.string.reuseText) +
-                        root.resources.getQuantityString(R.plurals.reuseCountString, item.reuseCount, item.reuseCount)
-                    )
+                    append(root.resources.getQuantityString(R.plurals.reuseCountString, item.totalFlights(), item.totalFlights()))
                     if (item.groundLandAttempts > 0) append(root.context.getString(R.string.groundLandCoreCountString, item.groundLandings, item.groundLandAttempts))
                     if (item.waterLandAttempts > 0) append(root.context.getString(R.string.waterLandCoreCountString, item.waterLandings, item.waterLandAttempts))
                 }

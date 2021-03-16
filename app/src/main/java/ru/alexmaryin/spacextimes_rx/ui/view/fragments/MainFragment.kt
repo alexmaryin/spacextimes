@@ -98,12 +98,6 @@ class MainFragment: Fragment() {
 
     private fun changeScreen(screen: Screen) {
         spaceXViewModel.screen = screen
-        activity?.title = getString(when(screen) {
-            Screen.Capsules -> R.string.capsulesTitle
-            Screen.Cores -> R.string.coresTitle
-            Screen.Crew -> R.string.crewTitle
-            Screen.Dragons -> R.string.dragonsTitle
-        })
         setupObserver()
         setupUI()
     }
@@ -129,6 +123,12 @@ class MainFragment: Fragment() {
                 binding.progressBar.visibility = View.GONE
                 (state.data as List<*>).map { it as T }.apply { renderItems(this, adapter) }
                 binding.recyclerView.visibility = View.VISIBLE
+                activity?.title = getString(when(spaceXViewModel.screen) {
+                    Screen.Capsules -> R.string.capsulesTitle
+                    Screen.Cores -> R.string.coresTitle
+                    Screen.Crew -> R.string.crewTitle
+                    Screen.Dragons -> R.string.dragonsTitle
+                })
             }
             is Error -> {
                 binding.progressBar.visibility = View.GONE
@@ -137,6 +137,7 @@ class MainFragment: Fragment() {
             is Loading -> {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.recyclerView.visibility = View.GONE
+                activity?.title = "Загрузка..."
             }
         }
 

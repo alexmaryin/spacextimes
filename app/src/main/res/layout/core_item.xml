@@ -16,13 +16,12 @@
         <ImageView
             android:id="@+id/coreThumbnail"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="170dp"
             android:contentDescription="@string/core_thumbnail_picture_description"
-            app:layout_constraintBottom_toBottomOf="@+id/coreLastUpdate"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/falcon_heavy"
-            tools:srcCompat="@drawable/falcon9_block2_3" />
+            tools:srcCompat="@drawable/falcon9block5legs_5" />
 
         <TextView
             android:id="@+id/coreSerial"
