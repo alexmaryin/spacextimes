@@ -30,6 +30,7 @@
         <item quantity="other">летала %d раз</item>
     </plurals>
 
+    <string name="noFlightString">Не летала</string>
     <string name="waterLandCountString">\nприземлений на воду: %d</string>
     <string name="waterLandCoreCountString">\nприземлений на воду: %1$d/%2$d</string>
     <string name="groundLandCountString">\nприземлений на землю: %d</string>

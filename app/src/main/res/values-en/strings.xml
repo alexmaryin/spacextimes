@@ -29,5 +29,6 @@
         <item quantity="other">Total %d flights</item>
     </plurals>
     <string name="loadingText">loading…</string>
+    <string name="noFlightString">No flights yet</string>
 
 </resources>

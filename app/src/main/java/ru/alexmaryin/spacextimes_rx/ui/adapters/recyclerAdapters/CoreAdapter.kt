@@ -53,7 +53,9 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Core>(ar
                 }
 
                 coreReusing.text = buildString {
-                    append(root.resources.getQuantityString(R.plurals.reuseCountString, item.totalFlights(), item.totalFlights()))
+                    append(if (item.totalFlights() > 0)
+                            root.resources.getQuantityString(R.plurals.reuseCountString, item.totalFlights(), item.totalFlights())
+                        else root.resources.getString(R.string.noFlightString))
                     if (item.groundLandAttempts > 0) append(root.context.getString(R.string.groundLandCoreCountString, item.groundLandings, item.groundLandAttempts))
                     if (item.waterLandAttempts > 0) append(root.context.getString(R.string.waterLandCoreCountString, item.waterLandings, item.waterLandAttempts))
                 }
