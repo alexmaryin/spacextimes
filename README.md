@@ -18,11 +18,11 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [ ] upcoming launches list, details
 - [ ] starlink list, details
 - [ ] roadster and Starman position details
-- [ ] launch library
+- [ ] company milestones feed
 
 **Interface languages:**
 - [x] Russian
-- [ ] English
+- [x] English
 
 **Features:**
 * Auto-translation for english descriptions and remarks by [FastTranslator](https://fasttranslator.herokuapp.com/)
