@@ -24,6 +24,7 @@
     <string name="groundLandCoreCountString">\nground landings: %1$d/%2$d</string>
 
     <plurals name="reuseCountString">
+        <item quantity="zero">No flights yet</item>
         <item quantity="one">Total %d flight</item>
         <item quantity="other">Total %d flights</item>
     </plurals>
