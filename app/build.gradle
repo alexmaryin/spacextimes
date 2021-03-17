@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\alexmaryin_android.pr0')
+            storePassword 'w256@ui_APK'
+            keyAlias 'key1'
+            keyPassword 'w256@ui_APK'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -22,6 +30,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexEnabled false
+        }
+        debug {
+            multiDexEnabled false
         }
     }
 

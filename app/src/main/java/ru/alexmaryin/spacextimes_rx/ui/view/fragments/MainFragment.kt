@@ -170,4 +170,9 @@ class MainFragment: Fragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        binding.unbind()
+        super.onDestroyView()
+    }
 }

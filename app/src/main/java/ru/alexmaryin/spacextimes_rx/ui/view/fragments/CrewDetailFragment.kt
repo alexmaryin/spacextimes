@@ -63,4 +63,9 @@ class CrewDetailFragment : Fragment() {
             binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia) }
         }
     }
+
+    override fun onDestroyView() {
+        binding.unbind()
+        super.onDestroyView()
+    }
 }

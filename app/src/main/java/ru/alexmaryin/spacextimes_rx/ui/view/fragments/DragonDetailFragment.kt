@@ -66,4 +66,9 @@ class DragonDetailFragment : Fragment() {
             binding.imagesCarousel.pageCount = dragon.images.size
         }
     }
+
+    override fun onDestroyView() {
+        binding.unbind()
+        super.onDestroyView()
+    }
 }
