@@ -17,10 +17,7 @@ import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CapsuleAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CoreAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.CrewAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.DragonsAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.Error
@@ -39,6 +36,7 @@ class MainFragment: Fragment() {
         findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) })
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
+    private val rocketAdapter = RocketAdapter(AdapterClickListenerById {})
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -76,6 +74,7 @@ class MainFragment: Fragment() {
             R.id.coresSelect -> changeScreen(Screen.Cores)
             R.id.crewSelect -> changeScreen(Screen.Crew)
             R.id.dragonsSelect -> changeScreen(Screen.Dragons)
+            R.id.rocketsSelect -> changeScreen(Screen.Rockets)
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -128,7 +127,7 @@ class MainFragment: Fragment() {
                     Screen.Cores -> R.string.coresTitle
                     Screen.Crew -> R.string.crewTitle
                     Screen.Dragons -> R.string.dragonsTitle
-                    Screen.Rockets -> TODO()
+                    Screen.Rockets -> R.string.rocketsTitle
                     Screen.Launches -> TODO()
                     Screen.LaunchPads -> TODO()
                     Screen.LandingPads -> TODO()
@@ -151,10 +150,14 @@ class MainFragment: Fragment() {
 
     private fun setupObserver() {
         when (spaceXViewModel.screen) {
-            Screen.Capsules -> spaceXViewModel.capsules.observe(viewLifecycleOwner, { result -> itemObserver(result, capsulesAdapter) })
-            Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner, { result -> itemObserver(result, coreAdapter) })
-            Screen.Crew -> spaceXViewModel.crew.observe(viewLifecycleOwner, { result -> itemObserver(result, crewAdapter) })
-            Screen.Dragons -> spaceXViewModel.dragons.observe(viewLifecycleOwner, { result -> itemObserver(result, dragonAdapter) })
+            Screen.Capsules -> spaceXViewModel.capsules.observe(viewLifecycleOwner) { result -> itemObserver(result, capsulesAdapter) }
+            Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner) { result -> itemObserver(result, coreAdapter) }
+            Screen.Crew -> spaceXViewModel.crew.observe(viewLifecycleOwner) { result -> itemObserver(result, crewAdapter) }
+            Screen.Dragons -> spaceXViewModel.dragons.observe(viewLifecycleOwner) { result -> itemObserver(result, dragonAdapter) }
+            Screen.Rockets -> spaceXViewModel.rockets.observe(viewLifecycleOwner) { result -> itemObserver(result, rocketAdapter) }
+            Screen.Launches -> TODO()
+            Screen.LaunchPads -> TODO()
+            Screen.LandingPads -> TODO()
         }
     }
 
@@ -171,7 +174,7 @@ class MainFragment: Fragment() {
                 Screen.Crew -> crewAdapter
                 Screen.Cores -> coreAdapter
                 Screen.Dragons -> dragonAdapter
-                Screen.Rockets -> TODO()
+                Screen.Rockets -> rocketAdapter
                 Screen.Launches -> TODO()
                 Screen.LaunchPads -> TODO()
                 Screen.LandingPads -> TODO()

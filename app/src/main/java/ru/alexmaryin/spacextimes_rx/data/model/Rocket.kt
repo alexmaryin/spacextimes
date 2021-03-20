@@ -19,6 +19,7 @@ data class Rocket(
     val company: String,
     val wikipedia: String?,
     val description: String?,
+    var descriptionRu: String? = null,
     val height: LineSize,
     val diameter: LineSize,
     val mass: Mass,

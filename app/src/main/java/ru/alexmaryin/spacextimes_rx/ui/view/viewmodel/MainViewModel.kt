@@ -14,6 +14,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
+import ru.alexmaryin.spacextimes_rx.data.model.Rocket
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -36,7 +37,7 @@ class SpaceXViewModel @Inject constructor(
     val capsules: LiveData<Result>
         get() {
             if (_capsules.value == null || needRefresh) {
-                getItems(_capsules, repository::getCapsules, { it?.apply { translateCapsulesLastUpdate(this) } })
+                getItems(_capsules, repository::getCapsules) { it?.apply { translateCapsulesLastUpdate(this) } }
                 needRefresh = false
             }
             return _capsules
@@ -56,7 +57,7 @@ class SpaceXViewModel @Inject constructor(
     val cores: LiveData<Result>
         get() {
             if (_cores.value == null || needRefresh) {
-                getItems(_cores, repository::getCores, { it?.apply { translateCoresLastUpdate(this) } })
+                getItems(_cores, repository::getCores) { it?.apply { translateCoresLastUpdate(this) } }
                 needRefresh = false
             }
             return _cores
@@ -86,7 +87,7 @@ class SpaceXViewModel @Inject constructor(
     val dragons: LiveData<Result>
         get() {
             if (_dragons.value == null || needRefresh) {
-                getItems(_dragons, repository::getDragons, { it?.apply { translateDragonsDescription(this) } })
+                getItems(_dragons, repository::getDragons) { it?.apply { translateDragonsDescription(this) } }
                 needRefresh = false
             }
             return _dragons
@@ -100,6 +101,26 @@ class SpaceXViewModel @Inject constructor(
                     updateItemWithTranslate = { dragon, translate -> dragon.descriptionRu = translate })
             }
         }
+    }
+
+    private val _rockets = MutableLiveData<Result>()
+    val rockets: LiveData<Result>
+        get() {
+            if (_rockets.value == null || needRefresh) {
+                getItems(_rockets, repository::getRockets) { it?.apply { translateRocketsDescription(this) } }
+                needRefresh = false
+            }
+            return _rockets
+        }
+
+    private suspend fun translateRocketsDescription(rockets: List<Rocket>) {
+       if(settings.translateToRu) {
+           withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+               val listForTranslating = rockets.filter { it.description != null }
+               translator.fromList(listForTranslating, readItemToTranslate = { "${it.description}" },
+                   updateItemWithTranslate = { rocket, translate -> rocket.descriptionRu = translate })
+           }
+       }
     }
 
     private fun <T> getItems(

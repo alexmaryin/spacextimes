@@ -9,10 +9,10 @@ import ru.alexmaryin.spacextimes_rx.data.model.*
 
 interface ApiService {
 
-    @GET(SpacexUrls.AllCapsules+"{id}")
+    @GET(SpacexUrls.AllCapsules)
     suspend fun getCapsules(): Response<List<Capsule>>
 
-    @GET(SpacexUrls.AllCapsules)
+    @GET(SpacexUrls.AllCapsules+"{id}")
     suspend fun getCapsuleById(@Path("id") id: String): Response<Capsule>
 
     @GET(SpacexUrls.AllCores)

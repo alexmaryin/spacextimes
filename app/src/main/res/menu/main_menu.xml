@@ -15,6 +15,9 @@
         android:id="@+id/dragonsSelect"
         android:title="@string/dragonsTitle" />
     <item
+        android:id="@+id/rocketsSelect"
+        android:title="@string/rocketsTitle" />
+    <item
         android:id="@+id/translateSwitch"
         android:checkable="true"
         android:checked="false"
