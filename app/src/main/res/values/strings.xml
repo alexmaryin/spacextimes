@@ -24,7 +24,6 @@
     <string name="first_flight_text">впервые полетел\n%s</string>
 
     <plurals name="reuseCountString">
-        <item quantity="zero">не летала</item>
         <item quantity="one">летала %d раз</item>
         <item quantity="few">летала %d раза</item>
         <item quantity="other">летала %d раз</item>
