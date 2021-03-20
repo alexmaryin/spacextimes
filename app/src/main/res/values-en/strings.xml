@@ -30,5 +30,12 @@
     </plurals>
     <string name="loadingText">loading…</string>
     <string name="noFlightString">No flights yet</string>
+    <string name="dragon_status_line_string">" ⇧ %1$d t / %2$d m³ ⇩ %3$d t / %4$d m³"</string>
+    <string name="dragon_size_string">↕ %1$.1f m ⌀ %2$.1f m pressurized capsule - %3$d м³</string>
+    <string name="heat_shield_string">Heatshield: ⌀ %1$.2f m, %2$s, 🔥%3$d℃\\n develop partner - %4$s</string>
+    <string name="crew_capacity_string">Crew capacity: %s</string>
+    <string name="list_thrusters_string">Capsule thrusters:</string>
+    <string name="capsule_thruster_line1">%1$d (per %2$d in pod) $3$s, thrust - %4$.1f kN, specific impulse - %5$d s</string>
+    <string name="capsule_thruster_line2">propellant: %1$s / %2$s</string>
 
 </resources>

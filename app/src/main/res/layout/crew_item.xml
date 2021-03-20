@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ImageAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.ImageAdapter" />
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />

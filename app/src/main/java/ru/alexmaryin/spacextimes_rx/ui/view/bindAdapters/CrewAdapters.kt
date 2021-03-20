@@ -1,38 +1,10 @@
-package ru.alexmaryin.spacextimes_rx.ui.adapters
+package ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters
 
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
-import java.text.DateFormat
-import java.util.*
-
-object ImageAdapter {
-    @JvmStatic
-    @BindingAdapter("imageUrl")
-    fun loadImage(view: ImageView, url: String?) {
-        url?.let {
-            Picasso.get()
-                .load(it)
-                .placeholder(R.drawable.loading_img)
-                .error(R.drawable.ic_broken_image)
-                .into(view)
-        }
-    }
-}
-
-object DateAdapter {
-    @JvmStatic
-    @BindingAdapter("dateBind")
-    fun firstFlightToString(view: TextView, date: Date?) {
-        date?.let {
-            view.text = view.context.getString(R.string.first_flight_text, DateFormat.getDateInstance(DateFormat.LONG).format(date))
-        }
-    }
-}
 
 object CrewAdapters {
     @JvmStatic
@@ -60,7 +32,6 @@ object CrewAdapters {
                 }
             }
         }
-
     }
 
     @JvmStatic

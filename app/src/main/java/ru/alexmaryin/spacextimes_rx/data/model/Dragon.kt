@@ -19,7 +19,7 @@ data class Dragon(
     val description: String?,
     var descriptionRu: String?,
     @SerializedName("active") val isActive: Boolean,
-    @SerializedName("crew_capacity") val crewCapacity: Int,
+    @SerializedName("crew_capacity") val crewCapacity: Int = 0,
     @SerializedName("sidewall_angle_deg") val slideWallAngle: Int,
     @SerializedName("orbit_duration_yr") val orbitDuration: Int,
     @SerializedName("dry_mass_kg") val dryMass: Int,

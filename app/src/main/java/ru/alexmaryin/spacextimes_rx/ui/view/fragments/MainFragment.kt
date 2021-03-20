@@ -128,6 +128,10 @@ class MainFragment: Fragment() {
                     Screen.Cores -> R.string.coresTitle
                     Screen.Crew -> R.string.crewTitle
                     Screen.Dragons -> R.string.dragonsTitle
+                    Screen.Rockets -> TODO()
+                    Screen.Launches -> TODO()
+                    Screen.LaunchPads -> TODO()
+                    Screen.LandingPads -> TODO()
                 })
             }
             is Error -> {
@@ -137,7 +141,7 @@ class MainFragment: Fragment() {
             is Loading -> {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.recyclerView.visibility = View.GONE
-                activity?.title = "Загрузка..."
+                activity?.title = getString(R.string.loadingText)
             }
         }
 
@@ -167,6 +171,10 @@ class MainFragment: Fragment() {
                 Screen.Crew -> crewAdapter
                 Screen.Cores -> coreAdapter
                 Screen.Dragons -> dragonAdapter
+                Screen.Rockets -> TODO()
+                Screen.Launches -> TODO()
+                Screen.LaunchPads -> TODO()
+                Screen.LandingPads -> TODO()
             }
         }
     }

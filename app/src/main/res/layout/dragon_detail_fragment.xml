@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.DragonAdapters" />
         <variable
             name="dragonViewModel"
             type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel" />
@@ -19,12 +20,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detailsView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:alpha="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <com.synnapps.carouselview.CarouselView
                 android:id="@+id/imagesCarousel"
@@ -42,6 +44,8 @@
             <ImageButton
                 android:id="@+id/wikiButton"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                app:layout_constraintBottom_toBottomOf="@id/imagesCarousel"
+                app:layout_constraintEnd_toEndOf="@id/imagesCarousel"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:contentDescription="@string/wiki_page_open_button"
@@ -51,9 +55,67 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/purple_700"
-                app:iconGravity="top"
+                app:iconGravity="top" />
+
+            <TextView
+                android:id="@+id/dragonStatusLine"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:dragonShortStatus="@{dragonViewModel.dragonDetails}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imagesCarousel"
+                tools:text="V ⇧ 6 т / 25 м³ ⇩ 3 т / 11 м³" />
+
+            <TextView
+                android:id="@+id/dragonSizeLine"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:dragonSize="@{dragonViewModel.dragonDetails}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dragonStatusLine"
+                tools:text="↕ 11.3 м ⌀ 22.1 м герметичный отсек - 11 м³" />
+
+            <TextView
+                android:id="@+id/heatShield"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:heatShield="@{dragonViewModel.dragonDetails.heatShield}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dragonSizeLine"
+                tools:text="Тепловой щит: ⌀ 3.6 м, PICA-X, 🔥3000℃\n партнер разработки - NASA" />
+
+            <TextView
+                android:id="@+id/crewCapacity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:crewCapacity="@{dragonViewModel.dragonDetails.crewCapacity}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/heatShield"
+                tools:text="Вместимость экипажа: 👤👤👤👤👤👤👤" />
+
+            <TextView
+                android:id="@+id/enginesLabel"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#591976D2"
+                android:text="@string/list_thrusters_string"
+                android:textAlignment="center"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagesCarousel" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/crewCapacity" />
+
+            <ListView
+                android:id="@+id/enginesList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/enginesLabel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

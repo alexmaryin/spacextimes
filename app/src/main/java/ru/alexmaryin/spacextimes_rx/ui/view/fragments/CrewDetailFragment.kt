@@ -45,7 +45,7 @@ class CrewDetailFragment : Fragment() {
                 is Loading -> {
                     binding.wikiFrame.progress.visibility = View.VISIBLE
                     binding.detailsView.visibility = View.GONE
-                    activity?.title = "Загрузка..."
+                    activity?.title = getString(R.string.loadingText)
                 }
                 is Error -> {
                     binding.wikiFrame.progress.visibility = View.GONE
