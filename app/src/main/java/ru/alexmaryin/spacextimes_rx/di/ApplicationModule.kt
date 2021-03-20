@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.di.module
+package ru.alexmaryin.spacextimes_rx.di
 
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -10,9 +10,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.alexmaryin.spacextimes_rx.BuildConfig
-import ru.alexmaryin.spacextimes_rx.data.api.Api
-import ru.alexmaryin.spacextimes_rx.data.api.ApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.ApiService
+import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
+import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
@@ -61,7 +61,7 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideApi(api: ApiImpl): Api = api
+    fun provideApi(api: SpaceXApiImpl): SpaceXApi = api
 
     @Provides
     @Singleton

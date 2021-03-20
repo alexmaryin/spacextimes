@@ -15,7 +15,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.di.module.Settings
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.io.IOException
 import javax.inject.Inject

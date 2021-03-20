@@ -1,6 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
-import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
 
 data class Crew(
     val id: String,
@@ -12,10 +12,3 @@ data class Crew(
     var wikiLocale: String?,
     val launches: List<String> = emptyList()
 )
-
-enum class CrewStatus {
-    @SerializedName("active") ACTIVE,
-    @SerializedName("inactive") INACTIVE,
-    @SerializedName("retired") RETIRED,
-    @SerializedName("unknown") UNKNOWN
-}

@@ -1,6 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.parts.PressurizedCapsule
+import ru.alexmaryin.spacextimes_rx.data.model.parts.Shield
+import ru.alexmaryin.spacextimes_rx.data.model.parts.Thruster
+import ru.alexmaryin.spacextimes_rx.data.model.parts.Trunk
 import java.util.*
 
 data class Dragon(
@@ -28,25 +32,4 @@ data class Dragon(
     @SerializedName("pressurized_capsule") val pressurizedCapsule: PressurizedCapsule,
     @SerializedName("height_w_trunk") val heightWithTrunk: LineSize,
     @SerializedName("flickr_images") val images: List<String>,
-)
-
-data class Shield(
-    val material: String,
-    @SerializedName("size_meters") val size: Float,
-    @SerializedName("temp_degrees") val temperature: Int,
-    @SerializedName("dev_partner") val developPartner: String
-)
-
-data class PressurizedCapsule(
-    @SerializedName("payload_volume") val payload: Volume
-)
-
-data class Trunk(
-    @SerializedName("trunk_volume") val volume: Volume,
-    val cargo: Cargo
-)
-
-data class Cargo(
-    @SerializedName("solar_array") val solarArray: Int,
-    @SerializedName("unpressurized_cargo") val unpressurized: Boolean
 )

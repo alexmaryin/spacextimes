@@ -1,10 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
-import ru.alexmaryin.spacextimes_rx.data.api.Api
+import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import java.io.IOException
 import javax.inject.Inject
 
-class TranslatorApiImpl @Inject constructor(val api: Api) : TranslatorApi {
+class TranslatorApiImpl @Inject constructor(val api: SpaceXApi) : TranslatorApi {
 
     override suspend fun fromString(source: String): String? {
         val response = api.translate(source)

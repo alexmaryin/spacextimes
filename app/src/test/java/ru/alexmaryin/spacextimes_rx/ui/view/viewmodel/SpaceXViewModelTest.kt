@@ -2,16 +2,15 @@ package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import retrofit2.Retrofit
-import ru.alexmaryin.spacextimes_rx.data.api.ApiImpl
+import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.ApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
-import ru.alexmaryin.spacextimes_rx.data.model.CapsuleStatus
-import ru.alexmaryin.spacextimes_rx.data.model.CapsuleType
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 import java.util.*
 
 class SpaceXViewModelTest {
@@ -21,7 +20,7 @@ class SpaceXViewModelTest {
         .client(OkHttpClient())
         .build()
 
-    private val translatorApi = TranslatorApiImpl(ApiImpl(retrofit.create(ApiService::class.java)))
+    private val translatorApi = TranslatorApiImpl(SpaceXApiImpl(retrofit.create(ApiService::class.java)))
 
     private fun testCapsulesList(isNullInLastUpdate: Boolean) = mutableListOf<Capsule>().apply {
         (0..9).forEach {

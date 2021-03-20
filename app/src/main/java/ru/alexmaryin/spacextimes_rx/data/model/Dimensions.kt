@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.enums.OrbitType
 
 data class Mass(
     val kg: Int,
@@ -20,4 +21,16 @@ data class LineSize(
 data class Thrust(
     val kN: Float,
     val lbf: Int
+)
+
+data class Isp(
+    val vacuum: Int,
+    @SerializedName("sea_level") val seaLevel: Int,
+)
+
+data class PayloadWeight(
+    val id: OrbitType,
+    val name: String,
+    val kg: Int,
+    val lb: Int,
 )

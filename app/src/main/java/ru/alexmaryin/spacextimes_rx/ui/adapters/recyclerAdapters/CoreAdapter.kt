@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
-import ru.alexmaryin.spacextimes_rx.data.model.CoreStatus
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 import ru.alexmaryin.spacextimes_rx.databinding.CoreItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter

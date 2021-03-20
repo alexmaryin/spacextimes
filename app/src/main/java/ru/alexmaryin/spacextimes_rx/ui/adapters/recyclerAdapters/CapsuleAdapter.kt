@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
-import ru.alexmaryin.spacextimes_rx.data.model.CapsuleStatus
-import ru.alexmaryin.spacextimes_rx.data.model.CapsuleType
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter

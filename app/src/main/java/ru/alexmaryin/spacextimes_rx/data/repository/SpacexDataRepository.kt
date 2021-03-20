@@ -1,9 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.data.repository
 
-import ru.alexmaryin.spacextimes_rx.data.api.Api
+import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import javax.inject.Inject
 
-class SpacexDataRepository @Inject constructor(private val api: Api)  {
+class SpacexDataRepository @Inject constructor(private val api: SpaceXApi)  {
 
     suspend fun getCapsules() = api.getCapsules()
 

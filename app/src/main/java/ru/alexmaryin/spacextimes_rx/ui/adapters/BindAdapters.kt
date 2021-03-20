@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.CrewStatus
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
 import java.text.DateFormat
 import java.util.*
 

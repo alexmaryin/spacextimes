@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 
 data class Core(
     val id: String,
@@ -16,12 +17,3 @@ data class Core(
     var lastUpdateRu: String?,
     val launches: List<String> = emptyList(),
 ) { fun totalFlights() = launches.size }
-
-enum class CoreStatus {
-    @SerializedName("active") ACTIVE,
-    @SerializedName("inactive") INACTIVE,
-    @SerializedName("unknown") UNKNOWN,
-    @SerializedName("expended") EXPENDED,
-    @SerializedName("lost") LOST,
-    @SerializedName("retired") RETIRED
-}

@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.di.module
+package ru.alexmaryin.spacextimes_rx.di
 
 import javax.inject.Inject
 import javax.inject.Singleton

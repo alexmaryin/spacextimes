@@ -1,14 +1,19 @@
-package ru.alexmaryin.spacextimes_rx.di.module
+package ru.alexmaryin.spacextimes_rx.di
 
 import android.util.Log
 import com.google.gson.*
 import java.lang.reflect.Type
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 
-val DATE_FORMATS = arrayOf("yyyy-MM-dd", "yyyy-MM-dd'T'HH:mm:ss.sss'Z'")
+val DATE_FORMATS = arrayOf(
+    "yyyy-MM-dd",
+    "yyyy-MM-dd'T'HH:mm:ss.sss'Z'",
+    "yyyy-MM-dd'T'HH:mm:ssX"
+)
 
 object DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
 
