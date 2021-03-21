@@ -33,13 +33,16 @@
             android:id="@+id/imageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_margin="5dp"
             android:contentDescription="@string/photo_of_dragon_capsule_description"
+            android:onClick="@{() -> clickListener.onClick(dragon.id)}"
             android:scaleType="fitCenter"
             app:imageUrl="@{dragon.images[0]}"
-            android:onClick="@{() -> clickListener.onClick(dragon.id)}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/dragon1_1" />
+            app:roundedCorners="@{true}"
+            tools:srcCompat="@drawable/dragon_1_1_foreground" />
 
         <TextView
             android:id="@+id/description"

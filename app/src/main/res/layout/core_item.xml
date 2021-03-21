@@ -19,6 +19,7 @@
             android:layout_height="170dp"
             android:contentDescription="@string/core_thumbnail_picture_description"
             android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/falcon9block5legs_5" />

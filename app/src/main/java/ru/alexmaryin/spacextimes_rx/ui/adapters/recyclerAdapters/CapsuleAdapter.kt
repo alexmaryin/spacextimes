@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
@@ -11,6 +12,7 @@ import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.utils.CircleTransformation
 
 class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Capsule>(arrayListOf(), clickListener) {
 
@@ -19,12 +21,17 @@ class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Capsu
         override fun bind(item: Capsule, clickListener: AdapterClickListenerById) {
             with (binding) {
                 capsule = item
-                capsuleImage.setImageResource(
-                    when (item.type) {
-                        CapsuleType.DRAGON1_0 -> R.drawable.dragon1_0
-                        CapsuleType.DRAGON1_1 -> R.drawable.dragon1_1
-                        CapsuleType.DRAGON2_0 -> R.drawable.dragon2_0
+
+                Picasso.get()
+                    .load(when (item.type) {
+                        CapsuleType.DRAGON1_0 -> R.drawable.dragon_1_0_foreground
+                        CapsuleType.DRAGON1_1 -> R.drawable.dragon_1_1_foreground
+                        CapsuleType.DRAGON2_0 -> R.drawable.dragon_2_0_foreground
                     })
+                    .transform(CircleTransformation())
+                    .placeholder(R.drawable.loading_img)
+                    .error(R.drawable.ic_broken_image)
+                    .into(capsuleImage)
 
                 when (item.status) {
                     CapsuleStatus.UNKNOWN -> {

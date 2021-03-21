@@ -33,11 +33,14 @@
             android:id="@+id/thumbnail"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_margin="5dp"
             android:contentDescription="@string/preview_of_rocket_string"
             android:scaleType="fitCenter"
             app:imageUrl="@{rocket.images[0]}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:roundedCorners="@{true}"
             app:srcCompat="@drawable/falcon9block5legs_1" />
 
         <TextView
