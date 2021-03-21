@@ -42,76 +42,15 @@ class SpaceXViewModel @Inject constructor(
             translator.translate(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
     }
 
-    private var needRefresh: Boolean = false
-    var screen: Screen = Screen.Crew
-
-    private val _capsules = MutableLiveData<Result>()
-    val capsules: LiveData<Result>
-        get() {
-            if (_capsules.value == null || needRefresh) {
-                getItems(_capsules, repository::getCapsules) { it?.apply { translateLastUpdate(this) } }
-                needRefresh = false
-            }
-            return _capsules
+    private fun <T> collectData(field: MutableLiveData<Result>,
+                                invoker: KSuspendFunction0<Response<List<T>>>,
+                                translator: suspend (List<T>) -> Unit = {} ): LiveData<Result> {
+        if (field.value == null || needRefresh) {
+            getItems(field, invoker) { it?.apply { translator(this) } }
+            needRefresh = false
         }
-
-    private val _cores = MutableLiveData<Result>()
-    val cores: LiveData<Result>
-        get() {
-            if (_cores.value == null || needRefresh) {
-                getItems(_cores, repository::getCores) { it?.apply { translateLastUpdate(this) } }
-                needRefresh = false
-            }
-            return _cores
-        }
-
-    private val _crew = MutableLiveData<Result>()
-    val crew: LiveData<Result>
-        get() {
-            if (_crew.value == null || needRefresh) {
-                getItems(_crew, repository::getCrew, { it })
-                needRefresh = false
-            }
-            return _crew
-        }
-
-    private val _dragons = MutableLiveData<Result>()
-    val dragons: LiveData<Result>
-        get() {
-            if (_dragons.value == null || needRefresh) {
-                getItems(_dragons, repository::getDragons) { it?.apply { translateDescription(this) } }
-                needRefresh = false
-            }
-            return _dragons
-        }
-
-    private val _rockets = MutableLiveData<Result>()
-    val rockets: LiveData<Result>
-        get() {
-            if (_rockets.value == null || needRefresh) {
-                getItems(_rockets, repository::getRockets) { it?.apply { translateDescription(this) } }
-                needRefresh = false
-            }
-            return _rockets
-        }
-
-    private val _launchPads = MutableLiveData<Result>()
-    val launchPads: LiveData<Result>
-        get() {
-            if (_launchPads.value == null || needRefresh) {
-                getItems(_launchPads, repository::getLaunchPads) { it?.apply { translateDetails(this) } }
-            }
-            return _launchPads
-        }
-
-    private val _landingPads = MutableLiveData<Result>()
-    val landingPads: LiveData<Result>
-        get() {
-            if (_landingPads.value == null || needRefresh) {
-                getItems(_landingPads, repository::getLandingPads) { it?.apply { translateDetails(this) } }
-            }
-            return _landingPads
-        }
+        return field
+    }
 
     private fun <T> getItems(
         items: MutableLiveData<Result>,
@@ -136,6 +75,30 @@ class SpaceXViewModel @Inject constructor(
             } else items.postValue(Error("No internet connection!"))
         }
     }
+
+    private var needRefresh: Boolean = false
+    var screen: Screen = Screen.Crew
+
+    private val _capsules = MutableLiveData<Result>()
+    val capsules: LiveData<Result> get() = collectData(_capsules, repository::getCapsules, ::translateLastUpdate)
+
+    private val _cores = MutableLiveData<Result>()
+    val cores: LiveData<Result> get() = collectData(_cores, repository::getCores, ::translateLastUpdate)
+
+    private val _crew = MutableLiveData<Result>()
+    val crew: LiveData<Result> get() = collectData(_crew, repository::getCrew)
+
+    private val _dragons = MutableLiveData<Result>()
+    val dragons: LiveData<Result> = collectData(_dragons, repository::getDragons, ::translateDescription)
+
+    private val _rockets = MutableLiveData<Result>()
+    val rockets: LiveData<Result> = collectData(_rockets, repository::getRockets, ::translateDescription)
+
+    private val _launchPads = MutableLiveData<Result>()
+    val launchPads: LiveData<Result> = collectData(_launchPads, repository::getLaunchPads, ::translateDetails)
+
+    private val _landingPads = MutableLiveData<Result>()
+    val landingPads: LiveData<Result> = collectData(_landingPads, repository::getLandingPads, ::translateDetails)
 
     fun armRefresh() {
         needRefresh = true
