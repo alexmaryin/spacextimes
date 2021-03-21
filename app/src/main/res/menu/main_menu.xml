@@ -18,6 +18,9 @@
         android:id="@+id/rocketsSelect"
         android:title="@string/rocketsTitle" />
     <item
+        android:id="@+id/launchPadsSelect"
+        android:title="@string/launchPadsTitle" />
+    <item
         android:id="@+id/translateSwitch"
         android:checkable="true"
         android:checked="false"

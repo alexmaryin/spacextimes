@@ -17,6 +17,6 @@ data class LandingPad(
     @SerializedName("landing_successes") val landingSuccesses: Int = 0,
     val wikipedia: String?,
     val details: String?,
-    val launches: List<Launch> = emptyList(),
+    val launches: List<String> = emptyList(),
     val status: PadStatus,
 )

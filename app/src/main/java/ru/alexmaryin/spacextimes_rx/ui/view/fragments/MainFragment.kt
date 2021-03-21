@@ -37,6 +37,7 @@ class MainFragment: Fragment() {
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
     private val rocketAdapter = RocketAdapter(AdapterClickListenerById {})
+    private val launchPadAdapter = LaunchPadAdapter(AdapterClickListenerById {})
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -75,6 +76,7 @@ class MainFragment: Fragment() {
             R.id.crewSelect -> changeScreen(Screen.Crew)
             R.id.dragonsSelect -> changeScreen(Screen.Dragons)
             R.id.rocketsSelect -> changeScreen(Screen.Rockets)
+            R.id.launchPadsSelect -> changeScreen(Screen.LaunchPads)
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -129,7 +131,7 @@ class MainFragment: Fragment() {
                     Screen.Dragons -> R.string.dragonsTitle
                     Screen.Rockets -> R.string.rocketsTitle
                     Screen.Launches -> TODO()
-                    Screen.LaunchPads -> TODO()
+                    Screen.LaunchPads -> R.string.launchPadsTitle
                     Screen.LandingPads -> TODO()
                 })
             }
@@ -156,7 +158,7 @@ class MainFragment: Fragment() {
             Screen.Dragons -> spaceXViewModel.dragons.observe(viewLifecycleOwner) { result -> itemObserver(result, dragonAdapter) }
             Screen.Rockets -> spaceXViewModel.rockets.observe(viewLifecycleOwner) { result -> itemObserver(result, rocketAdapter) }
             Screen.Launches -> TODO()
-            Screen.LaunchPads -> TODO()
+            Screen.LaunchPads -> spaceXViewModel.launchPads.observe(viewLifecycleOwner) { result -> itemObserver(result, launchPadAdapter) }
             Screen.LandingPads -> TODO()
         }
     }
@@ -176,7 +178,7 @@ class MainFragment: Fragment() {
                 Screen.Dragons -> dragonAdapter
                 Screen.Rockets -> rocketAdapter
                 Screen.Launches -> TODO()
-                Screen.LaunchPads -> TODO()
+                Screen.LaunchPads -> launchPadAdapter
                 Screen.LandingPads -> TODO()
             }
         }

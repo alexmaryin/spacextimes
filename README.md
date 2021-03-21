@@ -11,14 +11,16 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Cores list
 - [x] Crew members list, member details
 - [x] Dragons list, dragon details
+- [x] Rockets list
+- [x] Launch pads list with google-map location
 
 **To do:**
-- [ ] landing and launch pads list, details
-- [ ] past-launches list, details
-- [ ] upcoming launches list, details
+- [ ] landing pads list, details
+- [ ] launches list, details
+- [ ] payloads list, details
 - [ ] starlink list, details
+- [ ] ships list, details
 - [ ] roadster and Starman position details
-- [ ] company milestones feed
 
 **Interface languages:**
 - [x] Russian

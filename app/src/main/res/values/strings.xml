@@ -5,6 +5,7 @@
     <string name="coresTitle">Ракетные блоки</string>
     <string name="dragonsTitle">Корабли Dragon</string>
     <string name="rocketsTitle">Ракеты</string>
+    <string name="launchPadsTitle">Зоны запуска</string>
     <string name="aiTranslateTitle">Машинный перевод</string>
     <string name="loadingText">загрузка…</string>
     <string name="aiTranslateOffText">Машинный перевод отключен</string>

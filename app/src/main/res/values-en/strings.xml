@@ -38,5 +38,6 @@
     <string name="capsule_thruster_line1">%1$d (per %2$d in pod) %3$s, thrust - %4$.1f kN, specific impulse - %5$d s</string>
     <string name="capsule_thruster_line2">propellant: %1$s / %2$s</string>
     <string name="rocketsTitle">Rockets</string>
+    <string name="launchPadsTitle">Launch pads</string>
 
 </resources>
