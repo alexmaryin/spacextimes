@@ -8,8 +8,8 @@
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
         <variable
-            name="launchPad"
-            type="ru.alexmaryin.spacextimes_rx.data.model.LaunchPad" />
+            name="landingPad"
+            type="ru.alexmaryin.spacextimes_rx.data.model.LandingPad" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,33 +17,33 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/launchPadName"
+            android:id="@+id/landingPadName"
             style="@style/boldCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{launchPad.name}"
+            android:text="@{landingPad.name}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="KSC 39A" />
+            tools:text="Landing Zone 1" />
 
         <TextView
-            android:id="@+id/launchPadFullName"
+            android:id="@+id/landingPadFullName"
             style="@style/descriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{launchPad.fullName}"
+            android:text="@{landingPad.fullName}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/launchPadName"
+            app:layout_constraintTop_toBottomOf="@id/landingPadName"
             tools:text="Some description text" />
 
         <TextView
-            android:id="@+id/launchPadLocation"
+            android:id="@+id/landingPadLocation"
             style="@style/regularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{launchPad.locality+", "+launchPad.region}'
+            android:text='@{landingPad.locality+", "+landingPad.region}'
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/launchPadFullName"
+            app:layout_constraintTop_toBottomOf="@id/landingPadFullName"
             tools:text="Some location, USA"
             app:drawableEndCompat="@drawable/location_marker" />
     </androidx.constraintlayout.widget.ConstraintLayout>

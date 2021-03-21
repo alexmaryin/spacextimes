@@ -139,6 +139,25 @@ class SpaceXViewModel @Inject constructor(
         }
     }
 
+    private val _landingPads = MutableLiveData<Result>()
+    val landingPads: LiveData<Result>
+        get() {
+            if (_landingPads.value == null || needRefresh) {
+                getItems(_landingPads, repository::getLandingPads) { it?.apply { translateLandingPadDetails(this) } }
+            }
+            return _landingPads
+        }
+
+    private suspend fun translateLandingPadDetails(landingPads: List<LandingPad>) {
+        if (settings.translateToRu) {
+            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+                val listForTranslating = landingPads.filter { it.details != null }
+                translator.fromList(listForTranslating, readItemToTranslate = { "${it.details}" },
+                    updateItemWithTranslate = { landingPad, translate -> landingPad.detailsRu = translate })
+            }
+        }
+    }
+
     private fun <T> getItems(
         items: MutableLiveData<Result>,
         invoker: KSuspendFunction0<Response<List<T>>>,

@@ -39,5 +39,6 @@
     <string name="capsule_thruster_line2">propellant: %1$s / %2$s</string>
     <string name="rocketsTitle">Rockets</string>
     <string name="launchPadsTitle">Launch pads</string>
+    <string name="landingPadsTitle">Landing pads</string>
 
 </resources>

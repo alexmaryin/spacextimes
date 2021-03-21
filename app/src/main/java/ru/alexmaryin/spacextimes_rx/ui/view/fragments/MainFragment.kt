@@ -38,6 +38,7 @@ class MainFragment: Fragment() {
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
     private val rocketAdapter = RocketAdapter(AdapterClickListenerById {})
     private val launchPadAdapter = LaunchPadAdapter(AdapterClickListenerById {})
+    private val landingPadAdapter = LandingPadAdapter(AdapterClickListenerById {})
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -77,6 +78,7 @@ class MainFragment: Fragment() {
             R.id.dragonsSelect -> changeScreen(Screen.Dragons)
             R.id.rocketsSelect -> changeScreen(Screen.Rockets)
             R.id.launchPadsSelect -> changeScreen(Screen.LaunchPads)
+            R.id.landingPadsSelect -> changeScreen(Screen.LandingPads)
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -132,7 +134,7 @@ class MainFragment: Fragment() {
                     Screen.Rockets -> R.string.rocketsTitle
                     Screen.Launches -> TODO()
                     Screen.LaunchPads -> R.string.launchPadsTitle
-                    Screen.LandingPads -> TODO()
+                    Screen.LandingPads -> R.string.landingPadsTitle
                 })
             }
             is Error -> {
@@ -159,7 +161,7 @@ class MainFragment: Fragment() {
             Screen.Rockets -> spaceXViewModel.rockets.observe(viewLifecycleOwner) { result -> itemObserver(result, rocketAdapter) }
             Screen.Launches -> TODO()
             Screen.LaunchPads -> spaceXViewModel.launchPads.observe(viewLifecycleOwner) { result -> itemObserver(result, launchPadAdapter) }
-            Screen.LandingPads -> TODO()
+            Screen.LandingPads -> spaceXViewModel.landingPads.observe(viewLifecycleOwner) { result -> itemObserver(result, landingPadAdapter) }
         }
     }
 
@@ -179,7 +181,7 @@ class MainFragment: Fragment() {
                 Screen.Rockets -> rocketAdapter
                 Screen.Launches -> TODO()
                 Screen.LaunchPads -> launchPadAdapter
-                Screen.LandingPads -> TODO()
+                Screen.LandingPads -> landingPadAdapter
             }
         }
     }

@@ -13,9 +13,10 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Dragons list, dragon details
 - [x] Rockets list
 - [x] Launch pads list with google-map location
+- [x] Landing pads list with google-map location
 
 **To do:**
-- [ ] landing pads list, details
+- [ ] pads details
 - [ ] launches list, details
 - [ ] payloads list, details
 - [ ] starlink list, details
