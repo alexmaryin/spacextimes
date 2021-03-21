@@ -63,7 +63,7 @@ class DragonDetailFragment : Fragment() {
         }
 
         dragonViewModel.dragonDetails.observe(viewLifecycleOwner) { dragon ->
-            binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(dragon.wikiLocale ?: dragon.wikipedia) }
+            binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(dragon.wikiLocale ?: dragon.wikipedia ?: "") }
             binding.imagesCarousel.pageCount = dragon.images.size
 
             binding.enginesList.adapter = SimpleAdapter(

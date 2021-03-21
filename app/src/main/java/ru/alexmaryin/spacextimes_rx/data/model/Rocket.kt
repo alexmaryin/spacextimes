@@ -1,6 +1,8 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.RocketType
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Engine
 import ru.alexmaryin.spacextimes_rx.data.model.parts.FirstStage
@@ -17,9 +19,10 @@ data class Rocket(
     val boosters: Int,
     val country: String,
     val company: String,
-    val wikipedia: String?,
-    val description: String?,
-    var descriptionRu: String? = null,
+    override val wikipedia: String?,
+    override var wikiLocale: String?,
+    override val description: String?,
+    override var descriptionRu: String?,
     val height: LineSize,
     val diameter: LineSize,
     val mass: Mass,
@@ -32,4 +35,4 @@ data class Rocket(
     @SerializedName("landing_legs") val landingLegs: LandingLegs?,
     @SerializedName("payload_weights") val payloadWeights: List<PayloadWeight> = emptyList(),
     @SerializedName("flickr_images") val images: List<String> = emptyList(),
-)
+) : HasDescription, HasWiki

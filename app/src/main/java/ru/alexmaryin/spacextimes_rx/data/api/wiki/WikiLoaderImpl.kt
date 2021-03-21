@@ -9,11 +9,9 @@ const val WIKI_INTERLANGUAGE_SELECTOR = ".interlanguage-link.interwiki"
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class WikiLoaderImpl @Inject constructor() : WikiLoaderApi {
-    override suspend fun getLocaleLink(origin: String, locale: String): String {
-        return withContext(Dispatchers.IO) {
+    override suspend fun getLocaleLink(origin: String, locale: String): String = withContext(Dispatchers.IO) {
             val html = Jsoup.connect(origin).get()
             val link = html.selectFirst("$WIKI_INTERLANGUAGE_SELECTOR-$locale")
             link?.getElementsByTag("a")?.attr("href") ?: origin
         }
-    }
 }

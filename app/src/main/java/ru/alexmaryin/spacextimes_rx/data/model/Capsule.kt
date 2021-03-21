@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 
@@ -12,8 +13,7 @@ data class Capsule(
     @SerializedName("reuse_count") val reuseCount: Int,
     @SerializedName("water_landings") val waterLandings: Int,
     @SerializedName("land_landings") val landLandings: Int,
-    @SerializedName("last_update") val lastUpdate: String?,
-    var lastUpdateRu: String?,
+    @SerializedName("last_update") override val lastUpdate: String?,
+    override var lastUpdateRu: String?,
     val launches: List<String> = emptyList()
-
-)
+) : HasLastUpdate

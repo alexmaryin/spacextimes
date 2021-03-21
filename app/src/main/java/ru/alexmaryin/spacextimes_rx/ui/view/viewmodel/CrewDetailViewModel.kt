@@ -39,7 +39,9 @@ class CrewDetailViewModel @Inject constructor(
             return _crew
         }
 
-    private suspend fun localeWikiUrl(enUrl: String) = wikiApi.getLocaleLink(enUrl, state.get("locale") ?: "en")
+    private suspend fun localeWikiUrl(enUrl: String?) = enUrl?.let {
+        wikiApi.getLocaleLink(enUrl, state.get("locale") ?: "en")
+    }
 
     fun getTitle() = crewDetails.value?.name
 }

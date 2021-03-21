@@ -60,7 +60,7 @@ class CrewDetailFragment : Fragment() {
         }
 
         crewViewModel.crewDetails.observe(viewLifecycleOwner) { crewMember ->
-            binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia) }
+            binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia ?: "") }
         }
     }
 

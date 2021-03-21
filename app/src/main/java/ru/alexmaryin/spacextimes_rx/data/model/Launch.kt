@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
@@ -15,7 +16,8 @@ data class Launch(
     val rocket: String?,
     val success: Boolean?,
     val upcoming: Boolean,
-    val details: String?,
+    override val details: String?,
+    override var detailsRu: String?,
     val fairings: Fairings,
     val links: Links,
     val crew: List<String> = emptyList(),
@@ -35,4 +37,4 @@ data class Launch(
     @SerializedName("static_fire_date_unix") val staticFireDateUnix: Long?,
     @SerializedName("tbd") val toBeDetermined: Boolean = false,
     @SerializedName("net") val notEarlyThan: Boolean = false,
-)
+) : HasDetails

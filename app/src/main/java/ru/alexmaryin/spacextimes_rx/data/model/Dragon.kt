@@ -1,6 +1,8 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.parts.PressurizedCapsule
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Shield
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Thruster
@@ -14,10 +16,10 @@ data class Dragon(
     val thrusters: List<Thruster>,
     val trunk: Trunk,
     val diameter: LineSize,
-    val wikipedia: String,
-    var wikiLocale: String?,
-    val description: String?,
-    var descriptionRu: String?,
+    override val description: String?,
+    override var descriptionRu: String?,
+    override val wikipedia: String?,
+    override var wikiLocale: String?,
     @SerializedName("active") val isActive: Boolean,
     @SerializedName("crew_capacity") val crewCapacity: Int = 0,
     @SerializedName("sidewall_angle_deg") val slideWallAngle: Int,
@@ -32,4 +34,4 @@ data class Dragon(
     @SerializedName("pressurized_capsule") val pressurizedCapsule: PressurizedCapsule,
     @SerializedName("height_w_trunk") val heightWithTrunk: LineSize,
     @SerializedName("flickr_images") val images: List<String>,
-)
+) : HasDescription, HasWiki

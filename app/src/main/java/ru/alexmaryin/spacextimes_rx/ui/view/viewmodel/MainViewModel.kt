@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.model.*
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -27,6 +27,21 @@ class SpaceXViewModel @Inject constructor(
     private val translator: TranslatorApi
 ) : ViewModel() {
 
+    private suspend fun translateLastUpdate(items: List<HasLastUpdate>) {
+        if (settings.translateToRu)
+            translator.translate(viewModelScope.coroutineContext, items, HasLastUpdate::lastUpdate, HasLastUpdate::lastUpdateRu)
+    }
+
+    private suspend fun translateDescription(items: List<HasDescription>) {
+        if (settings.translateToRu)
+            translator.translate(viewModelScope.coroutineContext, items, HasDescription::description, HasDescription::descriptionRu)
+    }
+
+    private suspend fun translateDetails(items: List<HasDetails>) {
+        if (settings.translateToRu)
+            translator.translate(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
+    }
+
     private var needRefresh: Boolean = false
     var screen: Screen = Screen.Crew
 
@@ -34,41 +49,21 @@ class SpaceXViewModel @Inject constructor(
     val capsules: LiveData<Result>
         get() {
             if (_capsules.value == null || needRefresh) {
-                getItems(_capsules, repository::getCapsules) { it?.apply { translateCapsulesLastUpdate(this) } }
+                getItems(_capsules, repository::getCapsules) { it?.apply { translateLastUpdate(this) } }
                 needRefresh = false
             }
             return _capsules
         }
 
-    private suspend fun translateCapsulesLastUpdate(capsules: List<Capsule>) {
-        if (settings.translateToRu) {
-            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                val listForTranslating = capsules.filter { it.lastUpdate != null }
-                translator.fromList(listForTranslating, readItemToTranslate = { "${it.lastUpdate}" },
-                    updateItemWithTranslate = { capsule, translate -> capsule.lastUpdateRu = translate })
-            }
-        }
-    }
-
     private val _cores = MutableLiveData<Result>()
     val cores: LiveData<Result>
         get() {
             if (_cores.value == null || needRefresh) {
-                getItems(_cores, repository::getCores) { it?.apply { translateCoresLastUpdate(this) } }
+                getItems(_cores, repository::getCores) { it?.apply { translateLastUpdate(this) } }
                 needRefresh = false
             }
             return _cores
         }
-
-    private suspend fun translateCoresLastUpdate(cores: List<Core>) {
-        if (settings.translateToRu) {
-            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                val listForTranslating = cores.filter { it.lastUpdate != null }
-                translator.fromList(listForTranslating, readItemToTranslate = { "${it.lastUpdate}" },
-                    updateItemWithTranslate = { core, translate -> core.lastUpdateRu = translate })
-            }
-        }
-    }
 
     private val _crew = MutableLiveData<Result>()
     val crew: LiveData<Result>
@@ -84,79 +79,39 @@ class SpaceXViewModel @Inject constructor(
     val dragons: LiveData<Result>
         get() {
             if (_dragons.value == null || needRefresh) {
-                getItems(_dragons, repository::getDragons) { it?.apply { translateDragonsDescription(this) } }
+                getItems(_dragons, repository::getDragons) { it?.apply { translateDescription(this) } }
                 needRefresh = false
             }
             return _dragons
         }
 
-    private suspend fun translateDragonsDescription(dragons: List<Dragon>) {
-        if (settings.translateToRu) {
-            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                val listForTranslating = dragons.filter { it.description != null }
-                translator.fromList(listForTranslating, readItemToTranslate = { "${it.description}" },
-                    updateItemWithTranslate = { dragon, translate -> dragon.descriptionRu = translate })
-            }
-        }
-    }
-
     private val _rockets = MutableLiveData<Result>()
     val rockets: LiveData<Result>
         get() {
             if (_rockets.value == null || needRefresh) {
-                getItems(_rockets, repository::getRockets) { it?.apply { translateRocketsDescription(this) } }
+                getItems(_rockets, repository::getRockets) { it?.apply { translateDescription(this) } }
                 needRefresh = false
             }
             return _rockets
         }
 
-    private suspend fun translateRocketsDescription(rockets: List<Rocket>) {
-        if (settings.translateToRu) {
-            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                val listForTranslating = rockets.filter { it.description != null }
-                translator.fromList(listForTranslating, readItemToTranslate = { "${it.description}" },
-                    updateItemWithTranslate = { rocket, translate -> rocket.descriptionRu = translate })
-            }
-        }
-    }
-
     private val _launchPads = MutableLiveData<Result>()
     val launchPads: LiveData<Result>
         get() {
             if (_launchPads.value == null || needRefresh) {
-                getItems(_launchPads, repository::getLaunchPads) { it?.apply { translateLaunchPadDetails(this) } }
+                getItems(_launchPads, repository::getLaunchPads) { it?.apply { translateDetails(this) } }
             }
             return _launchPads
         }
-
-    private suspend fun translateLaunchPadDetails(launchPads: List<LaunchPad>) {
-        if (settings.translateToRu) {
-            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                val listForTranslating = launchPads.filter { it.details != null }
-                translator.fromList(listForTranslating, readItemToTranslate = { "${it.details}" },
-                    updateItemWithTranslate = { launchPad, translate -> launchPad.detailsRu = translate })
-            }
-        }
-    }
 
     private val _landingPads = MutableLiveData<Result>()
     val landingPads: LiveData<Result>
         get() {
             if (_landingPads.value == null || needRefresh) {
-                getItems(_landingPads, repository::getLandingPads) { it?.apply { translateLandingPadDetails(this) } }
+                getItems(_landingPads, repository::getLandingPads) { it?.apply { translateDetails(this) } }
             }
             return _landingPads
         }
-
-    private suspend fun translateLandingPadDetails(landingPads: List<LandingPad>) {
-        if (settings.translateToRu) {
-            withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-                val listForTranslating = landingPads.filter { it.details != null }
-                translator.fromList(listForTranslating, readItemToTranslate = { "${it.details}" },
-                    updateItemWithTranslate = { landingPad, translate -> landingPad.detailsRu = translate })
-            }
-        }
-    }
 
     private fun <T> getItems(
         items: MutableLiveData<Result>,
