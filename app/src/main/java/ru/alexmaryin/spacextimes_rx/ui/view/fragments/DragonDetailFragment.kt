@@ -13,7 +13,7 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.databinding.DragonDetailFragmentBinding
-import ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.ImageAdapter.loadImage
+import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter.loadImage
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 

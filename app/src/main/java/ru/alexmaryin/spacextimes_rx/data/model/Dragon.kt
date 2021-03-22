@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.parts.PressurizedCapsule
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Shield
@@ -10,7 +11,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.Trunk
 import java.util.*
 
 data class Dragon(
-    val id: String,
+    override val id: String,
     val name: String,
     val type: String,
     val thrusters: List<Thruster>,
@@ -34,4 +35,4 @@ data class Dragon(
     @SerializedName("pressurized_capsule") val pressurizedCapsule: PressurizedCapsule,
     @SerializedName("height_w_trunk") val heightWithTrunk: LineSize,
     @SerializedName("flickr_images") val images: List<String>,
-) : HasDescription, HasWiki
+) : HasStringId, HasDescription, HasWiki

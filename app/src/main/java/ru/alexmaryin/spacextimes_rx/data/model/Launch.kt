@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
@@ -10,7 +11,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
 import java.util.*
 
 data class Launch(
-    val id: String,
+    override val id: String,
     val name: String,
     val window: Int?,
     val rocket: String?,
@@ -37,4 +38,4 @@ data class Launch(
     @SerializedName("static_fire_date_unix") val staticFireDateUnix: Long?,
     @SerializedName("tbd") val toBeDetermined: Boolean = false,
     @SerializedName("net") val notEarlyThan: Boolean = false,
-) : HasDetails
+) : HasStringId, HasDetails

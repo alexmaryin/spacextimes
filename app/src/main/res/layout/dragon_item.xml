@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.DateAdapter" />
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.ImageAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DateAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter" />
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />

@@ -7,10 +7,10 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.databinding.CrewItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
-class CrewAdapter(clickListener: AdapterClickListenerById): BaseAdapter<Crew>(arrayListOf(), clickListener) {
+class CrewAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Crew>(arrayListOf(), clickListener) {
 
     class ViewHolder(private val binding: CrewItemBinding) : DataViewHolder<Crew>(binding) {
 

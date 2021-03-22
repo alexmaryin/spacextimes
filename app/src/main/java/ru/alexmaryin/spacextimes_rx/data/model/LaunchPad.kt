@@ -2,10 +2,11 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
 
 data class LaunchPad(
-    val id: String,
+    override val id: String,
     val name: String,
     val locality: String,
     val region: String,
@@ -20,4 +21,4 @@ data class LaunchPad(
     @SerializedName("full_name") val fullName: String,
     @SerializedName("launch_attempts") val launchAttempts: Int = 0,
     @SerializedName("launch_successes") val launchSuccesses: Int = 0,
-) : HasDetails
+) : HasStringId, HasDetails

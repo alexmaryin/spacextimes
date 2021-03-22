@@ -2,11 +2,12 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 
 data class Capsule(
-    val id: String,
+    override val id: String,
     val serial: String,
     val status: CapsuleStatus,
     val type: CapsuleType,
@@ -16,4 +17,4 @@ data class Capsule(
     @SerializedName("last_update") override val lastUpdate: String?,
     override var lastUpdateRu: String?,
     val launches: List<String> = emptyList()
-) : HasLastUpdate
+) : HasStringId, HasLastUpdate

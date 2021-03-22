@@ -10,10 +10,10 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.LaunchPad
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchPadItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
-class LaunchPadAdapter(clickListener: AdapterClickListenerById) : BaseAdapter<LaunchPad>(arrayListOf(), clickListener) {
+class LaunchPadAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<LaunchPad>(arrayListOf(), clickListener) {
 
     class ViewHolder(private val binding: LaunchPadItemBinding) : DataViewHolder<LaunchPad>(binding) {
 

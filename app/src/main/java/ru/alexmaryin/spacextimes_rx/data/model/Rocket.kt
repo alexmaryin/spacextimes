@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.RocketType
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Engine
@@ -11,7 +12,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.SecondStage
 import java.util.*
 
 data class Rocket(
-    val id: String,
+    override val id: String,
     val name: String,
     val type: RocketType,
     val active: Boolean,
@@ -35,4 +36,4 @@ data class Rocket(
     @SerializedName("landing_legs") val landingLegs: LandingLegs?,
     @SerializedName("payload_weights") val payloadWeights: List<PayloadWeight> = emptyList(),
     @SerializedName("flickr_images") val images: List<String> = emptyList(),
-) : HasDescription, HasWiki
+) : HasStringId, HasDescription, HasWiki

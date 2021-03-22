@@ -10,10 +10,10 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.LandingPad
 import ru.alexmaryin.spacextimes_rx.databinding.LandingPadItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
-class LandingPadAdapter(clickListener: AdapterClickListenerById) : BaseAdapter<LandingPad>(arrayListOf(), clickListener) {
+class LandingPadAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<LandingPad>(arrayListOf(), clickListener) {
 
     class ViewHolder(private val binding: LandingPadItemBinding) : DataViewHolder<LandingPad>(binding) {
 

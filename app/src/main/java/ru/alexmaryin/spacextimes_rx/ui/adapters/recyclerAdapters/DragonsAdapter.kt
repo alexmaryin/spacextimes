@@ -7,12 +7,12 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.databinding.DragonItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 import ru.alexmaryin.spacextimes_rx.utils.expandOrSwapTo
 import ru.alexmaryin.spacextimes_rx.utils.swapVisibility
 
-class DragonsAdapter(clickListener: AdapterClickListenerById) : BaseAdapter<Dragon>(arrayListOf(), clickListener) {
+class DragonsAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<Dragon>(arrayListOf(), clickListener) {
 
     class ViewHolder(private val binding: DragonItemBinding) : DataViewHolder<Dragon>(binding) {
 

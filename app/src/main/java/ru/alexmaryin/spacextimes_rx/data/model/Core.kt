@@ -2,10 +2,11 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 
 data class Core(
-    val id: String,
+    override val id: String,
     val serial: String,
     val block: Int?,
     val status: CoreStatus,
@@ -17,4 +18,4 @@ data class Core(
     @SerializedName("last_update") override val lastUpdate: String?,
     override var lastUpdateRu: String?,
     val launches: List<String> = emptyList(),
-) : HasLastUpdate { fun totalFlights() = launches.size }
+) : HasStringId, HasLastUpdate { fun totalFlights() = launches.size }

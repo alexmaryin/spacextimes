@@ -40,8 +40,9 @@
         <TextView
             android:id="@+id/capsuleReused"
             style="@style/regularText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/capsuleImage"
             app:layout_constraintStart_toStartOf="@+id/capsuleSerial"
             app:layout_constraintTop_toBottomOf="@+id/capsuleSerial"
             tools:text="летала 6 раз" />
@@ -60,8 +61,8 @@
 
         <ImageView
             android:id="@+id/capsuleImage"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="5dp"
             android:contentDescription="@string/capsuleTypeString"
             android:scaleType="centerInside"

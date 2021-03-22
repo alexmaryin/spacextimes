@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.ImageAdapter" />
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.CrewAdapters" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CrewAdapters" />
         <variable
             name="crewViewModel"
             type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel" />
@@ -37,7 +37,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/dragon2_0" />
+                tools:srcCompat="@drawable/dragon_2_0_foreground" />
 
             <TextView
                 android:id="@+id/statusText"

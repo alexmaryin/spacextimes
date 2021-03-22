@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.DragonAdapters" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DragonAdapters" />
         <variable
             name="dragonViewModel"
             type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel" />

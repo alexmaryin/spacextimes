@@ -13,10 +13,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
@@ -116,11 +117,11 @@ class MainFragment: Fragment() {
         setupObserver()
     }
 
-    private fun <T> renderItems(items: List<T>, adapter: BaseAdapter<T>) {
-        adapter.addData(items)
+    private fun <T : HasStringId> renderItems(items: List<T>, adapter: BaseListAdapter<T>) {
+        adapter.submitList(items)
     }
 
-    private inline fun <reified T> itemObserver(state: Result, adapter: BaseAdapter<T>) =
+    private inline fun <reified T : HasStringId> itemObserver(state: Result, adapter: BaseListAdapter<T>) =
         when (state) {
             is Success<*> -> {
                 binding.progressBar.visibility = View.GONE

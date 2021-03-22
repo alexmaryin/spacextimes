@@ -2,12 +2,13 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.LandingPadType
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
 
 data class LandingPad(
-    val id: String,
+    override val id: String,
     val name: String,
     val type: LandingPadType,
     val locality: String,
@@ -23,4 +24,4 @@ data class LandingPad(
     @SerializedName("full_name") val fullName: String,
     @SerializedName("landing_attempts") val landingAttempts: Int = 0,
     @SerializedName("landing_successes") val landingSuccesses: Int = 0,
-) : HasDetails, HasWiki
+) : HasStringId, HasDetails, HasWiki

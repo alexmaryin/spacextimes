@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.bindAdapters.ImageAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter" />
         <variable
             name="rocket"
             type="ru.alexmaryin.spacextimes_rx.data.model.Rocket" />
