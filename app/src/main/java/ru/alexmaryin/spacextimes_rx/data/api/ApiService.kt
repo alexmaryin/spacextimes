@@ -51,8 +51,8 @@ interface ApiService {
     @GET(SpacexUrls.AllRockets+"{id}")
     suspend fun getRocketById(@Path("id") id: String): Response<Rocket>
 
-    @GET(SpacexUrls.AllLaunches+"{filter}")
-    suspend fun getLaunches(@Path("filter") filter: String): Response<List<Launch>>
+    @GET(SpacexUrls.AllLaunches)
+    suspend fun getLaunches(): Response<List<Launch>>
 
     @GET(SpacexUrls.AllLaunches+"{id}")
     suspend fun getLaunchById(@Path("id") id: String): Response<Launch>

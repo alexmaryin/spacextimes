@@ -31,13 +31,7 @@ class SpaceXApiImpl @Inject constructor(private val apiService: ApiService): Spa
     override suspend fun getRockets(): Response<List<Rocket>> = apiService.getRockets()
     override suspend fun getRocketById(id: String): Response<Rocket> = apiService.getRocketById(id)
 
-    override suspend fun getLaunches(filter: LaunchesFilter): Response<List<Launch>> = apiService.getLaunches(when(filter) {
-        LaunchesFilter.ALL -> ""
-        LaunchesFilter.UPCOMING -> "upcoming"
-        LaunchesFilter.PAST -> "past"
-        LaunchesFilter.LATEST -> "latest"
-        LaunchesFilter.NEXT -> "next"
-    })
+    override suspend fun getLaunches(): Response<List<Launch>> = apiService.getLaunches()
     override suspend fun getLaunchById(id: String): Response<Launch> = apiService.getLaunchById(id)
 
     override suspend fun translate(source: String): Response<PlainTextResponse> {

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DateAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter" />
+        <variable
+            name="launch"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Launch" />
+        <variable
+            name="clickListener"
+            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/launchName"
+            style="@style/boldCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{launch.name}"
+            app:layout_constraintEnd_toStartOf="@+id/patchImage"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Starlink-27" />
+
+        <ImageView
+            android:id="@+id/patchImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:imageUrl="@{launch.links.patch.small}"
+            tools:srcCompat="@drawable/wikilogo"
+            android:contentDescription="@string/patch_preview_description" />
+
+        <TextView
+            android:id="@+id/launchDate"
+            style="@style/descriptionText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:longDateStr="@{launch.dateLocal}"
+            app:layout_constraintEnd_toStartOf="@+id/patchImage"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/launchName"
+            tools:text="27 марта 2021 г." />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

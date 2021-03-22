@@ -89,16 +89,19 @@ class SpaceXViewModel @Inject constructor(
     val crew: LiveData<Result> get() = collectData(_crew, repository::getCrew)
 
     private val _dragons = MutableLiveData<Result>()
-    val dragons: LiveData<Result> = collectData(_dragons, repository::getDragons, ::translateDescription)
+    val dragons: LiveData<Result> get() = collectData(_dragons, repository::getDragons, ::translateDescription)
 
     private val _rockets = MutableLiveData<Result>()
-    val rockets: LiveData<Result> = collectData(_rockets, repository::getRockets, ::translateDescription)
+    val rockets: LiveData<Result> get() = collectData(_rockets, repository::getRockets, ::translateDescription)
 
     private val _launchPads = MutableLiveData<Result>()
-    val launchPads: LiveData<Result> = collectData(_launchPads, repository::getLaunchPads, ::translateDetails)
+    val launchPads: LiveData<Result> get() = collectData(_launchPads, repository::getLaunchPads, ::translateDetails)
 
     private val _landingPads = MutableLiveData<Result>()
-    val landingPads: LiveData<Result> = collectData(_landingPads, repository::getLandingPads, ::translateDetails)
+    val landingPads: LiveData<Result> get() = collectData(_landingPads, repository::getLandingPads, ::translateDetails)
+
+    private val _launches = MutableLiveData<Result>()
+    val launches: LiveData<Result> get() = collectData(_launches, repository::getLaunches)
 
     fun armRefresh() {
         needRefresh = true

@@ -14,4 +14,12 @@ object DateAdapter {
             view.text = view.context.getString(R.string.first_flight_text, DateFormat.getDateInstance(DateFormat.LONG).format(date))
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("longDateStr")
+    fun dateToLongString(view: TextView, date: Date?) {
+        date?.let {
+            view.text = DateFormat.getDateInstance(DateFormat.LONG).format(date)
+        }
+    }
 }

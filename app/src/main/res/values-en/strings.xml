@@ -40,5 +40,6 @@
     <string name="rocketsTitle">Rockets</string>
     <string name="launchPadsTitle">Launch pads</string>
     <string name="landingPadsTitle">Landing pads</string>
+    <string name="launchesTitle">Launches</string>
 
 </resources>

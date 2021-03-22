@@ -27,7 +27,7 @@ class SpacexDataRepository @Inject constructor(private val api: SpaceXApi)  {
     suspend fun getLandingPads() = api.getLandingPads()
     suspend fun getLandingPadById(id: String) = api.getLandingPadById(id)
 
-    suspend fun getLaunches(filter: LaunchesFilter) = api.getLaunches(filter)
+    suspend fun getLaunches() = api.getLaunches()
     suspend fun getLaunchById(id: String) = api.getLaunchById(id)
 
 }

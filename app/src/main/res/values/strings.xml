@@ -7,6 +7,7 @@
     <string name="rocketsTitle">Ракеты</string>
     <string name="launchPadsTitle">Зоны запуска</string>
     <string name="landingPadsTitle">Зоны посадки</string>
+    <string name="launchesTitle">Запуски</string>
     <string name="aiTranslateTitle">Машинный перевод</string>
     <string name="loadingText">загрузка…</string>
     <string name="aiTranslateOffText">Машинный перевод отключен</string>
@@ -55,4 +56,5 @@
     <string name="capsule_thruster_line1">%1$d шт (в блоке - %2$d) %3$s, тяга - %4$.1f кН, удельный импульс - %5$d с</string>
     <string name="capsule_thruster_line2">топливо: %1$s, окислитель: %2$s</string>
     <string name="preview_of_rocket_string" translatable="false">preview of rocket</string>
+    <string name="patch_preview_description">official patch of launch</string>
 </resources>
