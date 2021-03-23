@@ -21,29 +21,29 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
-import ru.alexmaryin.spacextimes_rx.utils.Error
-import ru.alexmaryin.spacextimes_rx.utils.Loading
-import ru.alexmaryin.spacextimes_rx.utils.Result
-import ru.alexmaryin.spacextimes_rx.utils.Success
+import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainFragment: Fragment() {
+class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {})
     private val coreAdapter = CoreAdapter(AdapterClickListenerById {})
     private val dragonAdapter = DragonsAdapter(AdapterClickListenerById { id ->
-        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) })
+        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id))
+    })
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
-        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
+        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id))
+    })
     private val rocketAdapter = RocketAdapter(AdapterClickListenerById {})
     private val launchPadAdapter = LaunchPadAdapter(AdapterClickListenerById {})
     private val landingPadAdapter = LandingPadAdapter(AdapterClickListenerById {})
     private val launchesAdapter = LaunchesAdapter(AdapterClickListenerById {})
 
     private lateinit var binding: FragmentMainBinding
-    @Inject lateinit var settings: Settings
+    @Inject
+    lateinit var settings: Settings
 
     /*
         Setup main UI of main fragment
@@ -88,14 +88,12 @@ class MainFragment: Fragment() {
                     Toast.makeText(this.context, getString(R.string.aiTranslateOffText), Toast.LENGTH_SHORT).show()
                     processTranslate(false)
                 } else {
-                    this.context?.let {
-                        AlertDialog.Builder(it)
-                            .setTitle(getString(R.string.experimentalTitle))
-                            .setMessage(getString(R.string.aiTranslateAlertText))
-                            .setPositiveButton(getString(R.string.agreeText)) { _: DialogInterface, _: Int -> item.isChecked = true; processTranslate(true) }
-                            .setNegativeButton(getString(R.string.cancelText)) { _: DialogInterface, _: Int -> item.isChecked = false }
-                            .show()
-                    }
+                    AlertDialog.Builder(requireContext())
+                        .setTitle(getString(R.string.experimentalTitle))
+                        .setMessage(getString(R.string.aiTranslateAlertText))
+                        .setPositiveButton(getString(R.string.agreeText)) { _: DialogInterface, _: Int -> item.isChecked = true; processTranslate(true) }
+                        .setNegativeButton(getString(R.string.cancelText)) { _: DialogInterface, _: Int -> item.isChecked = false }
+                        .show()
                 }
             }
         }
@@ -123,22 +121,24 @@ class MainFragment: Fragment() {
         adapter.submitList(items)
     }
 
-    private inline fun <reified T : HasStringId> itemObserver(state: Result, adapter: BaseListAdapter<T>, reverse: Boolean = false) =
+    private inline fun <reified T : HasStringId> itemObserver(state: Result, adapter: BaseListAdapter<T>) =
         when (state) {
             is Success<*> -> {
                 binding.progressBar.visibility = View.GONE
-                (state.data as List<*>).map { it as T }.apply { renderItems(if (reverse) this.reversed() else this, adapter) }
+                state.toListOf<T>()!!.apply { renderItems(this, adapter) }
                 binding.recyclerView.visibility = View.VISIBLE
-                activity?.title = getString(when(spaceXViewModel.screen) {
-                    Screen.Capsules -> R.string.capsulesTitle
-                    Screen.Cores -> R.string.coresTitle
-                    Screen.Crew -> R.string.crewTitle
-                    Screen.Dragons -> R.string.dragonsTitle
-                    Screen.Rockets -> R.string.rocketsTitle
-                    Screen.Launches -> R.string.launchesTitle
-                    Screen.LaunchPads -> R.string.launchPadsTitle
-                    Screen.LandingPads -> R.string.landingPadsTitle
-                })
+                activity?.title = getString(
+                    when (spaceXViewModel.screen) {
+                        Screen.Capsules -> R.string.capsulesTitle
+                        Screen.Cores -> R.string.coresTitle
+                        Screen.Crew -> R.string.crewTitle
+                        Screen.Dragons -> R.string.dragonsTitle
+                        Screen.Rockets -> R.string.rocketsTitle
+                        Screen.Launches -> R.string.launchesTitle
+                        Screen.LaunchPads -> R.string.launchPadsTitle
+                        Screen.LandingPads -> R.string.landingPadsTitle
+                    }
+                )
             }
             is Error -> {
                 binding.progressBar.visibility = View.GONE
@@ -158,11 +158,11 @@ class MainFragment: Fragment() {
     private fun setupObserver() {
         when (spaceXViewModel.screen) {
             Screen.Capsules -> spaceXViewModel.capsules.observe(viewLifecycleOwner) { result -> itemObserver(result, capsulesAdapter) }
-            Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner) { result -> itemObserver(result, coreAdapter, true) }
+            Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner) { result -> itemObserver(result, coreAdapter) }
             Screen.Crew -> spaceXViewModel.crew.observe(viewLifecycleOwner) { result -> itemObserver(result, crewAdapter) }
             Screen.Dragons -> spaceXViewModel.dragons.observe(viewLifecycleOwner) { result -> itemObserver(result, dragonAdapter) }
             Screen.Rockets -> spaceXViewModel.rockets.observe(viewLifecycleOwner) { result -> itemObserver(result, rocketAdapter) }
-            Screen.Launches -> spaceXViewModel.launches.observe(viewLifecycleOwner) { result -> itemObserver(result, launchesAdapter, true) }
+            Screen.Launches -> spaceXViewModel.launches.observe(viewLifecycleOwner) { result -> itemObserver(result, launchesAdapter) }
             Screen.LaunchPads -> spaceXViewModel.launchPads.observe(viewLifecycleOwner) { result -> itemObserver(result, launchPadAdapter) }
             Screen.LandingPads -> spaceXViewModel.landingPads.observe(viewLifecycleOwner) { result -> itemObserver(result, landingPadAdapter) }
         }

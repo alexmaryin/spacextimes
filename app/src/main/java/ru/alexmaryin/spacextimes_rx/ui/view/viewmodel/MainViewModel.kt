@@ -1,14 +1,13 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
+import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
@@ -44,7 +43,8 @@ class SpaceXViewModel @Inject constructor(
 
     private fun <T> collectData(field: MutableLiveData<Result>,
                                 invoker: KSuspendFunction0<Response<List<T>>>,
-                                translator: suspend (List<T>) -> Unit = {} ): LiveData<Result> {
+                                translator: suspend (List<T>) -> Unit = {},
+    ): LiveData<Result> {
         if (field.value == null || needRefresh) {
             getItems(field, invoker) { it?.apply { translator(this) } }
             needRefresh = false
@@ -83,7 +83,9 @@ class SpaceXViewModel @Inject constructor(
     val capsules: LiveData<Result> get() = collectData(_capsules, repository::getCapsules, ::translateLastUpdate)
 
     private val _cores = MutableLiveData<Result>()
-    val cores: LiveData<Result> get() = collectData(_cores, repository::getCores, ::translateLastUpdate)
+    val cores: LiveData<Result> get() = Transformations.map(collectData(_cores, repository::getCores, ::translateLastUpdate)) { result ->
+        result.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: result
+    }
 
     private val _crew = MutableLiveData<Result>()
     val crew: LiveData<Result> get() = collectData(_crew, repository::getCrew)
@@ -101,7 +103,9 @@ class SpaceXViewModel @Inject constructor(
     val landingPads: LiveData<Result> get() = collectData(_landingPads, repository::getLandingPads, ::translateDetails)
 
     private val _launches = MutableLiveData<Result>()
-    val launches: LiveData<Result> get() = collectData(_launches, repository::getLaunches)
+    val launches: LiveData<Result> get() = Transformations.map(collectData(_launches, repository::getLaunches)) { result ->
+        result.toListOf<Launch>()?.sortedByDescending { it.dateLocal }?.toSuccess() ?: result
+    }
 
     fun armRefresh() {
         needRefresh = true

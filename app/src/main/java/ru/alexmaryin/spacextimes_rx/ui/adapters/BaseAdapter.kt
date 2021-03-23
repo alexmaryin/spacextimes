@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -24,6 +23,5 @@ abstract class DataViewHolder<T>(binding: ViewDataBinding) : RecyclerView.ViewHo
 
 class BaseDiffCallback<T : HasStringId> : DiffUtil.ItemCallback<T>() {
     override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem.id == newItem.id
-    @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean = newItem == oldItem
 }

@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.data.repository
 
-import ru.alexmaryin.spacextimes_rx.data.api.LaunchesFilter
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import javax.inject.Inject
 

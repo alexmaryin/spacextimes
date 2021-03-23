@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,6 +62,19 @@ class CrewDetailFragment : Fragment() {
 
         crewViewModel.crewDetails.observe(viewLifecycleOwner) { crewMember ->
             binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crewMember.wikiLocale ?: crewMember.wikipedia ?: "") }
+        }
+
+        binding.image.setOnLongClickListener { image ->
+            AlertDialog.Builder(requireContext())
+                .setTitle("Сохранение")
+                .setMessage("Сохранить фото в галерею?")
+                .setPositiveButton("Да") { dialog, _ ->
+                    image.saveToStorage(requireContext(), "${crewViewModel.crewDetails.value!!.name}.jpg")
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Нет") { dialog, _ -> dialog.dismiss() }
+                .show()
+            true
         }
     }
 
