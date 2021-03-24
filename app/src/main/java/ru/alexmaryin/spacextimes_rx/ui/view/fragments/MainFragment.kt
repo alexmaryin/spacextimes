@@ -42,8 +42,7 @@ class MainFragment : Fragment() {
     private val launchesAdapter = LaunchesAdapter(AdapterClickListenerById {})
 
     private lateinit var binding: FragmentMainBinding
-    @Inject
-    lateinit var settings: Settings
+    @Inject lateinit var settings: Settings
 
     /*
         Setup main UI of main fragment

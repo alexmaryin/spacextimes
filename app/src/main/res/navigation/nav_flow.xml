@@ -38,7 +38,7 @@
         android:id="@+id/dragonDetailFragment"
         android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.DragonDetailFragment"
         android:label="fragment_dragon_detail"
-        tools:layout="@layout/fragment_dragon_detail">
+        tools:layout="@layout/dragon_detail_fragment">
         <argument
             android:name="dragonId"
             app:argType="string" />

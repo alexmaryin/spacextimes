@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">spacexTimes</string>
+    <string name="notifications_channel" translatable="false">spacexTimes</string>
+    <string name="notifications_id" translatable="false">spacex</string>
+    <string name="notifications_description" translatable="false">Notify from SpaceX Times app</string>
     <string name="capsulesTitle">Космические корабли</string>
     <string name="crewTitle">Члены экипажей</string>
     <string name="coresTitle">Ракетные блоки</string>
@@ -15,7 +18,7 @@
     <string name="aiTranslateAlertText" translatable="false">Включение машинного перевода позволит перевести английский текст в описании, но не обязательно будет на 100% корректный!
         Аббревиатуры и прочие технические словечки могут быть переведены с ошибками.\n
         Перевод осуществляется сервисом https://fasttranslator.herokuapp.com\n
-        У сервиса имеется ограничение на бесплатный перевод - не боллее 5 запросов в час с одного ip.
+        У сервиса имеется ограничение на бесплатный перевод - не более 5 запросов в час с одного ip.
     </string>
     <string name="agreeText">Я согласен</string>
     <string name="cancelText">Отмена</string>
@@ -56,5 +59,5 @@
     <string name="capsule_thruster_line1">%1$d шт (в блоке - %2$d) %3$s, тяга - %4$.1f кН, удельный импульс - %5$d с</string>
     <string name="capsule_thruster_line2">топливо: %1$s, окислитель: %2$s</string>
     <string name="preview_of_rocket_string" translatable="false">preview of rocket</string>
-    <string name="patch_preview_description">official patch of launch</string>
+    <string name="patch_preview_description" translatable="false">official patch of launch</string>
 </resources>

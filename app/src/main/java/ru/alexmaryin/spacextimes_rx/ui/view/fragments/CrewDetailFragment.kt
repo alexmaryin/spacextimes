@@ -69,7 +69,9 @@ class CrewDetailFragment : Fragment() {
                 .setTitle("Сохранение")
                 .setMessage("Сохранить фото в галерею?")
                 .setPositiveButton("Да") { dialog, _ ->
-                    image.saveToStorage(requireContext(), "${crewViewModel.crewDetails.value!!.name}.jpg")
+                    image.saveToStorage(requireContext(), "${crewViewModel.crewDetails.value!!.name}.jpg")?.let {
+                        notifyOnSavedPhoto(requireContext(), it)
+                    } ?: Toast.makeText(requireContext(), "Сохранение не удалось!", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }
                 .setNegativeButton("Нет") { dialog, _ -> dialog.dismiss() }

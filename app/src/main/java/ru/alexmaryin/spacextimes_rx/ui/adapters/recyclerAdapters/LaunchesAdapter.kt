@@ -18,8 +18,11 @@ class LaunchesAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter
             with(binding) {
                 this.clickListener = clickListener
                 launch = item
-//                expandDescriptionButton.setOnClickListener { it.swapVisibility(); description expandOrSwapTo 5 }
-//                description.setOnClickListener { expandDescriptionButton.swapVisibility(); description expandOrSwapTo 5  }
+                box.setBackgroundColor(root.resources.getColor( when {
+                    item.upcoming -> R.color.design_default_color_background
+                    item.success -> R.color.success_color
+                    else -> R.color.fail_color
+                }, null))
             }
         }
     }
