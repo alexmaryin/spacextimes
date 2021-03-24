@@ -66,15 +66,15 @@ class CrewDetailFragment : Fragment() {
 
         binding.image.setOnLongClickListener { image ->
             AlertDialog.Builder(requireContext())
-                .setTitle("Сохранение")
-                .setMessage("Сохранить фото в галерею?")
-                .setPositiveButton("Да") { dialog, _ ->
+                .setTitle(getString(R.string.saving_title_string))
+                .setMessage(getString(R.string.save_image_dialog_string))
+                .setPositiveButton(getString(R.string.agreeText)) { dialog, _ ->
                     image.saveToStorage(requireContext(), "${crewViewModel.crewDetails.value!!.name}.jpg")?.let {
                         requireContext().notifyOnSavedPhoto(it)
-                    } ?: Toast.makeText(requireContext(), "Сохранение не удалось!", Toast.LENGTH_SHORT).show()
+                    } ?: Toast.makeText(requireContext(), getString(R.string.failed_image_save_string), Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }
-                .setNegativeButton("Нет") { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton(getString(R.string.cancelText)) { dialog, _ -> dialog.dismiss() }
                 .show()
             true
         }

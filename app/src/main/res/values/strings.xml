@@ -20,7 +20,7 @@
         Перевод осуществляется сервисом https://fasttranslator.herokuapp.com\n
         У сервиса имеется ограничение на бесплатный перевод - не более 5 запросов в час с одного ip.
     </string>
-    <string name="agreeText">Я согласен</string>
+    <string name="agreeText">Да</string>
     <string name="cancelText">Отмена</string>
     <string name="unknownText">неизвестно</string>
     <string name="activeText">действует</string>
@@ -62,4 +62,7 @@
     <string name="patch_preview_description" translatable="false">official patch of launch</string>
     <string name="saved_image_notification">Изображение сохранено</string>
     <string name="saved_image_text_notification">Нажмите, чтобы открыть в галерее или редакторе.</string>
+    <string name="saving_title_string">Сохранение</string>
+    <string name="save_image_dialog_string">Скачать фото в галерею?</string>
+    <string name="failed_image_save_string">Сохранение не удалось!</string>
 </resources>

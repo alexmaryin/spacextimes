@@ -43,5 +43,8 @@
     <string name="launchesTitle">Launches</string>
     <string name="saved_image_notification">Image saved</string>
     <string name="saved_image_text_notification">Click to open in gallery or edit</string>
+    <string name="saving_title_string">Save</string>
+    <string name="save_image_dialog_string">Download to storage?</string>
+    <string name="failed_image_save_string">Save failed!</string>
 
 </resources>
