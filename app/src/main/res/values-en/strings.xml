@@ -41,5 +41,7 @@
     <string name="launchPadsTitle">Launch pads</string>
     <string name="landingPadsTitle">Landing pads</string>
     <string name="launchesTitle">Launches</string>
+    <string name="saved_image_notification">Image saved</string>
+    <string name="saved_image_text_notification">Click to open in gallery or edit</string>
 
 </resources>

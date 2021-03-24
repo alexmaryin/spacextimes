@@ -60,4 +60,6 @@
     <string name="capsule_thruster_line2">топливо: %1$s, окислитель: %2$s</string>
     <string name="preview_of_rocket_string" translatable="false">preview of rocket</string>
     <string name="patch_preview_description" translatable="false">official patch of launch</string>
+    <string name="saved_image_notification">Изображение сохранено</string>
+    <string name="saved_image_text_notification">Нажмите, чтобы открыть в галерее или редакторе.</string>
 </resources>
