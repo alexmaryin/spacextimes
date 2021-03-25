@@ -12,6 +12,7 @@ import android.util.TypedValue
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import ru.alexmaryin.spacextimes_rx.R
+import java.util.*
 
 fun Context.getColorIdFromAttr(attrId: Int): Int = TypedValue().apply {
     theme.resolveAttribute(attrId, this, true)
@@ -46,5 +47,9 @@ fun Context.notifyOnSavedPhoto(imageUri: Uri) {
 }
 
 @Suppress("DEPRECATION")
-fun Context.getCurrentLocale(): String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+fun Context.currentLocaleLang(): String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
     resources.configuration.locales[0].language else resources.configuration.locale.language
+
+@Suppress("DEPRECATION")
+fun Context.currentLocale(): Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+    resources.configuration.locales[0] else resources.configuration.locale

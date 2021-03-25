@@ -49,11 +49,11 @@
             style="@style/descriptionText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:longDateStr="@{launch.dateLocal}"
+            app:launchDateFormat="@{launch}"
             app:layout_constraintEnd_toStartOf="@+id/patchImage"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/launchName"
-            tools:text="27 марта 2021 г." />
+            tools:text="27 марта 2021 г. 15:00" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

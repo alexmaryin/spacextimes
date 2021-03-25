@@ -36,7 +36,7 @@ class DragonDetailFragment : Fragment() {
         binding.imagesCarousel.setImageListener { position, imageView -> loadImage(imageView, dragonViewModel.dragonDetails.value?.images?.get(position)) }
 
         dragonViewModel.state.set("dragonId", args.dragonId)
-        dragonViewModel.state.set("locale", requireContext().getCurrentLocale())
+        dragonViewModel.state.set("locale", requireContext().currentLocaleLang())
 
         return binding.root
     }

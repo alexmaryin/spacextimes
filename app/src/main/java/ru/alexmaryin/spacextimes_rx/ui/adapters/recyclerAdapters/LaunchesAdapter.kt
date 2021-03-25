@@ -45,7 +45,8 @@ class LaunchesAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter
                         .setMessage(it.context.getString(R.string.save_image_dialog_string))
                         .setPositiveButton(it.context.getString(R.string.agreeText)) { dialog, _ ->
                             val request = DownloadManager.Request(Uri.parse(item.links.patch.large)).apply {
-                                setDestinationInExternalFilesDir(it.context, Environment.DIRECTORY_PICTURES, "${item.name}_patch.jpg")
+                                setTitle(it.context.getString(R.string.saving_title_string))
+                                setDestinationInExternalPublicDir (Environment.DIRECTORY_PICTURES, "${item.name}_patch.jpg")
                                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                             }
                             (it.context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).apply { enqueue(request) }

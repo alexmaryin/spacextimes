@@ -25,8 +25,6 @@ infix fun TextView.expandOrSwapTo(lines: Int) {
     maxLines = if (maxLines == lines) Integer.MAX_VALUE else lines
 }
 
-
-
 fun View.saveToStorage(context: Context, filename: String): Uri? {
     var res = false
     val resolver = context.contentResolver

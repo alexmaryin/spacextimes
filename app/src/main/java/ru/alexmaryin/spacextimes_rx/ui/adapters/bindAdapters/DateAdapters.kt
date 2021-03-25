@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import java.text.DateFormat
 import java.util.*
 
@@ -16,10 +17,14 @@ object DateAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("longDateStr")
-    fun dateToLongString(view: TextView, date: Date?) {
-        date?.let {
-            view.text = DateFormat.getDateInstance(DateFormat.LONG).format(date)
+    @BindingAdapter("launchDateFormat")
+    fun launchDateToString(view: TextView, launch: Launch?) {
+        launch?.let {
+            if (it.toBeDetermined) {
+                view.text = view.context.getString(R.string.to_be_determined_string)
+            } else {
+                view.text = (if (it.notEarlyThan) view.context.getString(R.string.not_early_string) else "") + launch.dateTrimmed(view.context)
+            }
         }
     }
 }

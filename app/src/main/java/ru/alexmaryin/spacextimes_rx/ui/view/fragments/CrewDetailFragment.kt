@@ -34,7 +34,7 @@ class CrewDetailFragment : Fragment() {
         binding.wikiFrame.wikiPage.attachProgressAndRootView(binding.wikiFrame.wikiProgress, binding.detailsView)
 
         crewViewModel.state.set("crewId", args.crewId)
-        crewViewModel.state.set("locale", requireContext().getCurrentLocale())
+        crewViewModel.state.set("locale", requireContext().currentLocaleLang())
 
         return binding.root
     }
