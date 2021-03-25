@@ -3,7 +3,7 @@ buildscript {
 
     ext {
         kotlin_version = "1.4.30"
-        hilt_version = '2.31.2-alpha'
+        hilt_version = '2.33-beta'
         version_navigation = '2.3.4'
     }
 
@@ -11,9 +11,10 @@ buildscript {
         google()
         mavenCentral()
         maven { url = "https://dl.bintray.com/kotlin/kotlin-eap" }
+        gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha11'
+        classpath 'com.android.tools.build:gradle:4.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation"

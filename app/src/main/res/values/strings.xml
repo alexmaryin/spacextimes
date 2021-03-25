@@ -65,12 +65,12 @@
     <string name="saving_title_string">Сохранение</string>
     <string name="save_image_dialog_string">Скачать фото в галерею?</string>
     <string name="failed_image_save_string">Сохранение не удалось!</string>
-    <string name="quarter1_string">\"I четверть \"</string>
-    <string name="quarter2_string">\"II четверть \"</string>
-    <string name="quarter3_string">\"III четверть \"</string>
-    <string name="quarter4_string">\"IV четверть \"</string>
-    <string name="half1_string">\"первая половина \"</string>
-    <string name="half2_string">\"вторая половина \"</string>
+    <string name="quarter1_string">"I четверть "</string>
+    <string name="quarter2_string">"II четверть "</string>
+    <string name="quarter3_string">"III четверть "</string>
+    <string name="quarter4_string">"IV четверть "</string>
+    <string name="half1_string">"первая половина "</string>
+    <string name="half2_string">"вторая половина "</string>
     <string name="to_be_determined_string">не определена</string>
-    <string name="not_early_string">\"не ранее \"</string>
+    <string name="not_early_string">"не ранее "</string>
 </resources>
