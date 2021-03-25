@@ -14,7 +14,7 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Rockets list
 - [x] Launch pads list with google-map location
 - [x] Landing pads list with google-map location
-- [ ] Launches list
+- [x] Launches list
 
 **To do:**
 - [ ] pads details
