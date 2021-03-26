@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -62,10 +61,10 @@ class MainFragment : Fragment() {
         changeScreen(spaceXViewModel.screen)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.main_menu, menu)
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
@@ -124,10 +123,8 @@ class MainFragment : Fragment() {
     private inline fun <reified T : HasStringId> itemObserver(state: Result, adapter: BaseListAdapter<T>) =
         when (state) {
             is Success<*> -> {
-//                binding.progressBar.visibility = View.GONE
-                binding.progressBar crossFadeWith binding.recyclerView
+                binding.recyclerView crossFadeFrom binding.progressBar
                 state.toListOf<T>()!!.apply { renderItems(this, adapter) }
-//                binding.recyclerView.visibility = View.VISIBLE
                 activity?.title = getString(
                     when (spaceXViewModel.screen) {
                         Screen.Capsules -> R.string.capsulesTitle
@@ -146,9 +143,7 @@ class MainFragment : Fragment() {
                 Toast.makeText(this.context, state.msg, Toast.LENGTH_SHORT).show()
             }
             is Loading -> {
-                binding.recyclerView crossFadeWith binding.progressBar
-//                binding.progressBar.visibility = View.VISIBLE
-//                binding.recyclerView.visibility = View.GONE
+                binding.progressBar crossFadeFrom binding.recyclerView
                 activity?.title = getString(R.string.loadingText)
             }
         }

@@ -6,7 +6,7 @@ import android.view.View
 
 const val LONG_ANIMATION = 1000
 
-infix fun View.crossFadeWith(from: View) {
+infix fun View.crossFadeFrom(from: View) {
     from.alpha = 1f
     alpha = 0f
     visibility = View.VISIBLE

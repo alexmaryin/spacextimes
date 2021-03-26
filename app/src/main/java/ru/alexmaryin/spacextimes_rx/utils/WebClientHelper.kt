@@ -29,7 +29,7 @@ fun WebView.attachProgressAndRootView(progress: ProgressBar, rootView: View) {
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             super.onProgressChanged(view, newProgress)
             if (view != null) when (newProgress) {
-                100 -> view crossFadeWith rootView
+                100 -> view crossFadeFrom rootView
                 else -> progress.progress = newProgress
             }
         }

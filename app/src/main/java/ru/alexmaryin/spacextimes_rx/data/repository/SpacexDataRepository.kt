@@ -3,30 +3,30 @@ package ru.alexmaryin.spacextimes_rx.data.repository
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import javax.inject.Inject
 
-class SpacexDataRepository @Inject constructor(private val api: SpaceXApi)  {
+class SpacexDataRepository @Inject constructor(private val remoteApi: SpaceXApi)  {
 
-    suspend fun getCapsules() = api.getCapsules()
-    suspend fun getCapsuleById(id: String) = api.getCapsuleById(id)
+    suspend fun getCapsules() = remoteApi.getCapsules()
+    suspend fun getCapsuleById(id: String) = remoteApi.getCapsuleById(id)
 
-    suspend fun getCores() = api.getCores()
-    suspend fun getCoreById(id: String) = api.getCoreById(id)
+    suspend fun getCores() = remoteApi.getCores()
+    suspend fun getCoreById(id: String) = remoteApi.getCoreById(id)
 
-    suspend fun getCrew() = api.getCrew()
-    suspend fun getCrewById(id: String) = api.getCrewById(id)
+    suspend fun getCrew() = remoteApi.getCrew()
+    suspend fun getCrewById(id: String) = remoteApi.getCrewById(id)
 
-    suspend fun getDragons() = api.getDragons()
-    suspend fun getDragonById(id: String) = api.getDragonById(id)
+    suspend fun getDragons() = remoteApi.getDragons()
+    suspend fun getDragonById(id: String) = remoteApi.getDragonById(id)
 
-    suspend fun getRockets() = api.getRockets()
-    suspend fun getRocketById(id: String) = api.getRocketById(id)
+    suspend fun getRockets() = remoteApi.getRockets()
+    suspend fun getRocketById(id: String) = remoteApi.getRocketById(id)
 
-    suspend fun getLaunchPads() = api.getLaunchPads()
-    suspend fun getLaunchPadById(id: String) = api.getLaunchPadById(id)
+    suspend fun getLaunchPads() = remoteApi.getLaunchPads()
+    suspend fun getLaunchPadById(id: String) = remoteApi.getLaunchPadById(id)
 
-    suspend fun getLandingPads() = api.getLandingPads()
-    suspend fun getLandingPadById(id: String) = api.getLandingPadById(id)
+    suspend fun getLandingPads() = remoteApi.getLandingPads()
+    suspend fun getLandingPadById(id: String) = remoteApi.getLandingPadById(id)
 
-    suspend fun getLaunches() = api.getLaunches()
-    suspend fun getLaunchById(id: String) = api.getLaunchById(id)
+    suspend fun getLaunches() = remoteApi.getLaunches()
+    suspend fun getLaunchById(id: String) = remoteApi.getLaunchById(id)
 
 }
