@@ -8,15 +8,15 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.MainFragment"
-        android:label="fragment_main" >
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_showCrewMember"
             app:destination="@id/crewDetailFragment"
-            app:popUpTo="@id/mainFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment" />
         <action
             android:id="@+id/action_showDragonDetails"
             app:destination="@id/dragonDetailFragment"
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/crewDetailFragment"
         android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.CrewDetailFragment"
-        android:label="crew_detail_gragment">
+        android:label="@string/crewTitle">
         <argument
             android:name="crewId"
             app:argType="string" />
@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/dragonDetailFragment"
         android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.DragonDetailFragment"
-        android:label="fragment_dragon_detail"
+        android:label="@string/dragonsTitle"
         tools:layout="@layout/dragon_detail_fragment">
         <argument
             android:name="dragonId"

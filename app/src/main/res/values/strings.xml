@@ -73,4 +73,5 @@
     <string name="half2_string">"вторая половина "</string>
     <string name="to_be_determined_string">не определена</string>
     <string name="not_early_string">"не ранее "</string>
+    <string name="description_of_the_page_text" translatable="false">description of the page</string>
 </resources>

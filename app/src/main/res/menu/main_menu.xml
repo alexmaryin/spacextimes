@@ -32,4 +32,10 @@
         android:checked="false"
         android:enabled="true"
         android:title="@string/aiTranslateTitle" />
+
+    <item
+        android:id="@+id/help_action"
+        android:icon="@drawable/ic_outline_help_outline_24"
+        android:title="@string/description_of_the_page_text"
+        app:showAsAction="ifRoom" />
 </menu>
