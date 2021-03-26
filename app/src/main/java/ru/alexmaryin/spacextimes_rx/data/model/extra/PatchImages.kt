@@ -5,5 +5,5 @@ import com.google.gson.annotations.Expose
 data class PatchImages(
     val small: String?,
     val large: String?,
-    @Expose(serialize = false, deserialize = false) var alternate: String?,
+//    @Expose(serialize = false, deserialize = false) var alternate: String?,
 )

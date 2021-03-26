@@ -8,6 +8,7 @@ const val LONG_ANIMATION = 1000
 
 infix fun View.crossFadeFrom(from: View) {
     from.alpha = 1f
+    from.visibility = View.VISIBLE
     alpha = 0f
     visibility = View.VISIBLE
     animate()
@@ -22,4 +23,9 @@ infix fun View.crossFadeFrom(from: View) {
                 from.visibility = View.GONE
             }
         })
+}
+
+infix fun View.replaceBy(view: View) {
+    view.visibility = View.VISIBLE
+    visibility = View.GONE
 }

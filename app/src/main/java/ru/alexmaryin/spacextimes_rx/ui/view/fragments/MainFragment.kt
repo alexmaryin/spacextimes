@@ -123,7 +123,6 @@ class MainFragment : Fragment() {
     private inline fun <reified T : HasStringId> itemObserver(state: Result, adapter: BaseListAdapter<T>) =
         when (state) {
             is Success<*> -> {
-                binding.recyclerView crossFadeFrom binding.progressBar
                 state.toListOf<T>()!!.apply { renderItems(this, adapter) }
                 activity?.title = getString(
                     when (spaceXViewModel.screen) {
@@ -137,13 +136,14 @@ class MainFragment : Fragment() {
                         Screen.LandingPads -> R.string.landingPadsTitle
                     }
                 )
+                binding.progressBar replaceBy binding.recyclerView
             }
             is Error -> {
                 binding.progressBar.visibility = View.GONE
                 Toast.makeText(this.context, state.msg, Toast.LENGTH_SHORT).show()
             }
             is Loading -> {
-                binding.progressBar crossFadeFrom binding.recyclerView
+                binding.recyclerView replaceBy binding.progressBar
                 activity?.title = getString(R.string.loadingText)
             }
         }

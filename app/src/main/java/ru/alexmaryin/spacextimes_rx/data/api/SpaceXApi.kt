@@ -29,7 +29,7 @@ interface SpaceXApi {
     suspend fun getRockets(): Response<List<Rocket>>
     suspend fun getRocketById(id: String): Response<Rocket>
 
-    suspend fun getLaunches(): Response<List<Launch>>
+    suspend fun getLaunches(): Response<ApiResponse<Launch>>
     suspend fun getLaunchById(id: String): Response<Launch>
 
     suspend fun translate(source: String): Response<PlainTextResponse>

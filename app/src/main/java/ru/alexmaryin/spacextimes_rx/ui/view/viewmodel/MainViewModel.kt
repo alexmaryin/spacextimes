@@ -7,7 +7,6 @@ import kotlinx.coroutines.yield
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Core
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
@@ -106,17 +105,22 @@ class SpaceXViewModel @Inject constructor(
 
     private val _launches = MutableLiveData<Result>()
     val launches: LiveData<Result>
-        get() = Transformations.map(collectData(_launches, repository::getLaunches, ::transformLaunches)) { result ->
-            result.toListOf<Launch>()?.sortedByDescending { it.dateLocal }?.toSuccess() ?: result
+        get() {
+            viewModelScope.launch {
+                _launches.postValue(Loading)
+                if (networkHelper.isNetworkConnected()) {
+                    repository.getLaunches().apply {
+                        if (isSuccessful) {
+                            _launches.postValue(Success(body()!!.docs.sortedByDescending { it.dateLocal }))
+                        } else _launches.postValue(Error(errorBody().toString()))
+                    }
+                } else _launches.postValue(Error("No internet connection!"))
+            }
+            return _launches
         }
-
-    private suspend fun transformLaunches(items: List<Launch>) = items.forEach {
-        if (it.links.patch.small == null && it.rocket != null) {
-            val rocketResponse = repository.getRocketById(it.rocket)
-            it.links.patch.alternate = if (rocketResponse.isSuccessful)
-                rocketResponse.body()!!.images[0] else null
-        }
-    }
+//        get() = Transformations.map(collectData(_launches, repository::getLaunches)) { result ->
+//            result.toListOf<Launch>()?.sortedByDescending { it.dateLocal }?.toSuccess() ?: result
+//        }
 
     fun armRefresh() {
         needRefresh = true

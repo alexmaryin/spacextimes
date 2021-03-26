@@ -15,3 +15,10 @@ build.gradle
 .externalNativeBuild
 .cxx
 local.properties
+/app/build/generated/source/kaptKotlin/debugAndroidTest/
+/app/build/generated/source/kapt/debug/
+/app/build/generated/ap_generated_sources/debug/out/
+/app/build/generated/source/buildConfig/debug/
+/app/build/generated/source/kaptKotlin/debug/
+/app/build/generated/source/kaptKotlin/debugUnitTest/
+/app/build/generated/source/buildConfig/androidTest/debug/
