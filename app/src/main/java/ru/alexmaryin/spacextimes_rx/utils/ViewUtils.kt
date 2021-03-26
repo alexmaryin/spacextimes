@@ -1,19 +1,15 @@
 package ru.alexmaryin.spacextimes_rx.utils
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.TextView
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.drawToBitmap
 import ru.alexmaryin.spacextimes_rx.R
 
@@ -39,4 +35,25 @@ fun View.saveToStorage(context: Context, filename: String): Uri? {
     val imageUri = resolver.insert(images, photo)
     resolver.openOutputStream(imageUri!!)?.let { res = drawToBitmap().compress(Bitmap.CompressFormat.JPEG, 100, it) }
     return if (res) imageUri else null
+}
+
+fun downloadByLongClickListener(url: String?, filename: String) = View.OnLongClickListener { view ->
+    view?.let {
+        AlertDialog.Builder(it.context)
+            .setTitle(it.context.getString(R.string.saving_title_string))
+            .setMessage(it.context.getString(R.string.save_image_dialog_string))
+            .setPositiveButton(it.context.getString(R.string.agreeText)) { dialog, _ ->
+                val request = DownloadManager.Request(Uri.parse(url)).apply {
+                    setTitle(it.context.getString(R.string.saving_title_string))
+                    setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, filename)
+                    setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                }
+                (it.context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).apply { enqueue(request) }
+                dialog.dismiss()
+            }
+            .setNegativeButton(it.context.getString(R.string.cancelText)) { dialog, _ -> dialog.dismiss() }
+            .show()
+        return@OnLongClickListener true
+    }
+    false
 }

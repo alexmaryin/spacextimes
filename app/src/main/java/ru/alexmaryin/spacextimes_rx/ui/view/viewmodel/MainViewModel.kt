@@ -41,9 +41,10 @@ class SpaceXViewModel @Inject constructor(
             translator.translate(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
     }
 
-    private fun <T> collectData(field: MutableLiveData<Result>,
-                                invoker: KSuspendFunction0<Response<List<T>>>,
-                                translator: suspend (List<T>) -> Unit = {},
+    private fun <T> collectData(
+        field: MutableLiveData<Result>,
+        invoker: KSuspendFunction0<Response<List<T>>>,
+        translator: suspend (List<T>) -> Unit = {},
     ): LiveData<Result> {
         if (field.value == null || needRefresh) {
             getItems(field, invoker) { it?.apply { translator(this) } }
@@ -83,9 +84,10 @@ class SpaceXViewModel @Inject constructor(
     val capsules: LiveData<Result> get() = collectData(_capsules, repository::getCapsules, ::translateLastUpdate)
 
     private val _cores = MutableLiveData<Result>()
-    val cores: LiveData<Result> get() = Transformations.map(collectData(_cores, repository::getCores, ::translateLastUpdate)) { result ->
-        result.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: result
-    }
+    val cores: LiveData<Result>
+        get() = Transformations.map(collectData(_cores, repository::getCores, ::translateLastUpdate)) { result ->
+            result.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: result
+        }
 
     private val _crew = MutableLiveData<Result>()
     val crew: LiveData<Result> get() = collectData(_crew, repository::getCrew)
@@ -103,8 +105,17 @@ class SpaceXViewModel @Inject constructor(
     val landingPads: LiveData<Result> get() = collectData(_landingPads, repository::getLandingPads, ::translateDetails)
 
     private val _launches = MutableLiveData<Result>()
-    val launches: LiveData<Result> get() = Transformations.map(collectData(_launches, repository::getLaunches)) { result ->
-        result.toListOf<Launch>()?.sortedByDescending { it.dateLocal }?.toSuccess() ?: result
+    val launches: LiveData<Result>
+        get() = Transformations.map(collectData(_launches, repository::getLaunches, ::transformLaunches)) { result ->
+            result.toListOf<Launch>()?.sortedByDescending { it.dateLocal }?.toSuccess() ?: result
+        }
+
+    private suspend fun transformLaunches(items: List<Launch>) = items.forEach {
+        if (it.links.patch.small == null && it.rocket != null) {
+            val rocketResponse = repository.getRocketById(it.rocket)
+            it.links.patch.alternate = if (rocketResponse.isSuccessful)
+                rocketResponse.body()!!.images[0] else null
+        }
     }
 
     fun armRefresh() {
