@@ -1,11 +1,13 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
@@ -13,6 +15,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
+import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.toListOf
 import ru.alexmaryin.spacextimes_rx.utils.toSuccess
@@ -20,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SpaceXViewModel @Inject constructor(
-    private val repository: SpacexDataRepository,
+    repository: SpacexDataRepository,
     private val settings: Settings,
     private val translator: TranslatorApi
 ) : ViewModel() {
@@ -40,33 +43,46 @@ class SpaceXViewModel @Inject constructor(
             translator.translate(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
     }
 
-    private var needRefresh: Boolean = false
-    var screen: Screen = Screen.Crew
+    private val state = MutableStateFlow<Result>(Loading)
+    fun getState() = state.asStateFlow()
 
-    val capsules: LiveData<Result> get() = repository.getCapsules { it?.let { translateLastUpdate(it) } }
-        .asLiveData(viewModelScope.coroutineContext)
+    var currentScreen = Screen.Crew
 
-    val cores: LiveData<Result> get() = repository.getCores { it?.let { translateLastUpdate(it) } }.map {
+    fun changeScreen(screen: Screen) {
+        viewModelScope.launch {
+            when (screen) {
+                Screen.Capsules -> capsules.collect { result -> state.value = result }
+                Screen.Cores -> cores.collect { result -> state.value = result }
+                Screen.Crew -> crew.collect { result -> state.value = result }
+                Screen.Dragons -> dragons.collect { result -> state.value = result }
+                Screen.Rockets -> rockets.collect { result -> state.value = result }
+                Screen.Launches -> launches.collect { result -> state.value = result }
+                Screen.LaunchPads -> launchPads.collect { result -> state.value = result }
+                Screen.LandingPads -> landingPads.collect { result -> state.value = result }
+            }
+        }
+        currentScreen = screen
+    }
+
+    private val capsules = repository.getCapsules { it?.let { translateLastUpdate(it) } }
+
+    private val cores = repository.getCores { it?.let { translateLastUpdate(it) } }.map {
                 it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it
-            }.asLiveData(viewModelScope.coroutineContext)
+            }
 
-    val crew: LiveData<Result> get() = repository.getCrew().asLiveData(viewModelScope.coroutineContext)
+    private val crew = repository.getCrew()
 
-    val dragons: LiveData<Result> get() = repository.getDragons { it?.let { translateDescription(it) } }
-        .asLiveData(viewModelScope.coroutineContext)
+    private val dragons = repository.getDragons { it?.let { translateDescription(it) } }
 
-    val rockets: LiveData<Result> get() = repository.getRockets { it?.let { translateDescription(it) } }
-        .asLiveData(viewModelScope.coroutineContext)
+    private val rockets = repository.getRockets { it?.let { translateDescription(it) } }
 
-    val launchPads: LiveData<Result> get() = repository.getLaunchPads { it?.let { translateDetails(it) } }
-        .asLiveData(viewModelScope.coroutineContext)
+    private val launchPads = repository.getLaunchPads { it?.let { translateDetails(it) } }
 
-    val landingPads: LiveData<Result> get() = repository.getLandingPads { it?.let { translateDetails(it) } }
-        .asLiveData(viewModelScope.coroutineContext)
+    private val landingPads = repository.getLandingPads { it?.let { translateDetails(it) } }
 
-    val launches: LiveData<Result> get() = repository.getLaunches().asLiveData(viewModelScope.coroutineContext)
+    private val launches = repository.getLaunches()
 
     fun armRefresh() {
-        needRefresh = true
+        changeScreen(currentScreen)
     }
 }

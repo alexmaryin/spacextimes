@@ -21,20 +21,22 @@ class SpacexDataRepository @Inject constructor(
     ) = flow {
         emit(Loading)
         if (networkHelper.isNetworkConnected()) {
-            apiCallback().apply {
-                if (isSuccessful) {
-                    try {
-                        emit(Success(when (body()) {
-                            is List<*> -> (body() as List<*>).apply { processTranslate(this.map { it as T }) }
-                            is ApiResponse<*> -> (body() as ApiResponse<*>).docs.apply { processTranslate(this.map { it as T }) }
-                            else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
-                        }))
-                    } catch (e: IOException) {
-                        emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
-                    }
+            try {
+                apiCallback().apply {
+                    if (isSuccessful) {
+                        try {
+                            emit(Success(when (body()) {
+                                is List<*> -> (body() as List<*>).apply { processTranslate(this.map { it as T }) }
+                                is ApiResponse<*> -> (body() as ApiResponse<*>).docs.apply { processTranslate(this.map { it as T }) }
+                                else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
+                            }))
+                        } catch (e: IOException) {
+                            emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
+                        }
 //                    TODO("Save to local")
-                } else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
-            }
+                    } else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
+                }
+            } catch (e: IOException) { emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.REMOTE_API_ERROR)) }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
 //        TODO("Let's load from cache if network is unavailable.")
     }

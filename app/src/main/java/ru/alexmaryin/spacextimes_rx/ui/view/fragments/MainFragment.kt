@@ -8,10 +8,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
@@ -31,11 +33,9 @@ class MainFragment : Fragment() {
     private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {})
     private val coreAdapter = CoreAdapter(AdapterClickListenerById {})
     private val dragonAdapter = DragonsAdapter(AdapterClickListenerById { id ->
-        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id))
-    })
+        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) })
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
-        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id))
-    })
+        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
     private val rocketAdapter = RocketAdapter(AdapterClickListenerById {})
     private val launchPadAdapter = LaunchPadAdapter(AdapterClickListenerById {})
     private val landingPadAdapter = LandingPadAdapter(AdapterClickListenerById {})
@@ -43,10 +43,6 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
-
-    /*
-        Setup main UI of main fragment
-    */
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
@@ -58,7 +54,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.spaceXViewModel = spaceXViewModel
-        changeScreen(spaceXViewModel.screen)
+        spaceXViewModel.changeScreen(spaceXViewModel.currentScreen)
+        collectState()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,14 +70,14 @@ class MainFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.launchesSelect -> changeScreen(Screen.Launches)
-            R.id.capsulesSelect -> changeScreen(Screen.Capsules)
-            R.id.coresSelect -> changeScreen(Screen.Cores)
-            R.id.crewSelect -> changeScreen(Screen.Crew)
-            R.id.dragonsSelect -> changeScreen(Screen.Dragons)
-            R.id.rocketsSelect -> changeScreen(Screen.Rockets)
-            R.id.launchPadsSelect -> changeScreen(Screen.LaunchPads)
-            R.id.landingPadsSelect -> changeScreen(Screen.LandingPads)
+            R.id.launchesSelect -> spaceXViewModel.changeScreen(Screen.Launches)
+            R.id.capsulesSelect -> spaceXViewModel.changeScreen(Screen.Capsules)
+            R.id.coresSelect -> spaceXViewModel.changeScreen(Screen.Cores)
+            R.id.crewSelect -> spaceXViewModel.changeScreen(Screen.Crew)
+            R.id.dragonsSelect -> spaceXViewModel.changeScreen(Screen.Dragons)
+            R.id.rocketsSelect -> spaceXViewModel.changeScreen(Screen.Rockets)
+            R.id.launchPadsSelect -> spaceXViewModel.changeScreen(Screen.LaunchPads)
+            R.id.landingPadsSelect -> spaceXViewModel.changeScreen(Screen.LandingPads)
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -99,93 +96,49 @@ class MainFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun changeScreen(screen: Screen) {
-        spaceXViewModel.screen = screen
-        setupObserver()
-        setupUI()
-    }
-
-    /*
-        Functions for main view model managing
-    */
-
+    private fun collectState() = lifecycleScope.launchWhenResumed {
+            spaceXViewModel.getState().collect { state ->
+                when (state) {
+                    Loading -> {
+                        binding.recyclerView replaceBy binding.progressBar
+                        activity?.title = getString(R.string.loadingText)
+                    }
+                    is Success<*> -> {
+                        when (spaceXViewModel.currentScreen) {
+                            Screen.Capsules -> { renderItems(state.toListOf()!!, capsulesAdapter, R.string.capsulesTitle) }
+                            Screen.Cores -> { renderItems(state.toListOf()!!, coreAdapter, R.string.coresTitle) }
+                            Screen.Crew -> { renderItems(state.toListOf()!!, crewAdapter, R.string.crewTitle) }
+                            Screen.Dragons -> { renderItems(state.toListOf()!!, dragonAdapter, R.string.dragonsTitle) }
+                            Screen.Rockets -> { renderItems(state.toListOf()!!, rocketAdapter, R.string.rocketsTitle) }
+                            Screen.Launches -> { renderItems(state.toListOf()!!, launchesAdapter, R.string.launchesTitle) }
+                            Screen.LaunchPads -> { renderItems(state.toListOf()!!, launchPadAdapter, R.string.launchPadsTitle) }
+                            Screen.LandingPads -> { renderItems(state.toListOf()!!, landingPadAdapter, R.string.landingPadsTitle) }
+                        }
+                        binding.progressBar replaceBy binding.recyclerView
+                    }
+                    is Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        if (state.error == ErrorType.REMOTE_TRANSLATOR_ERROR)
+                            processTranslate(false)
+                        Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
 
     private fun processTranslate(switch: Boolean) {
         settings.translateToRu = switch
         spaceXViewModel.armRefresh()
-        setupObserver()
     }
 
-    private fun <T : HasStringId> renderItems(items: List<T>, adapter: BaseListAdapter<T>) {
-        adapter.submitList(items)
-    }
-
-    private inline fun <reified T : HasStringId> itemObserver(state: Result, adapter: BaseListAdapter<T>) =
-        when (state) {
-            is Success<*> -> {
-                state.toListOf<T>()!!.apply { renderItems(this, adapter) }
-                activity?.title = getString(
-                    when (spaceXViewModel.screen) {
-                        Screen.Capsules -> R.string.capsulesTitle
-                        Screen.Cores -> R.string.coresTitle
-                        Screen.Crew -> R.string.crewTitle
-                        Screen.Dragons -> R.string.dragonsTitle
-                        Screen.Rockets -> R.string.rocketsTitle
-                        Screen.Launches -> R.string.launchesTitle
-                        Screen.LaunchPads -> R.string.launchPadsTitle
-                        Screen.LandingPads -> R.string.landingPadsTitle
-                    }
-                )
-                binding.progressBar replaceBy binding.recyclerView
-            }
-            is Error -> {
-                binding.progressBar.visibility = View.GONE
-                if (state.error == ErrorType.REMOTE_TRANSLATOR_ERROR)
-                    processTranslate(false)
-                Toast.makeText(this.context, state.msg, Toast.LENGTH_SHORT).show()
-            }
-            is Loading -> {
-                binding.recyclerView replaceBy binding.progressBar
-                activity?.title = getString(R.string.loadingText)
-            }
-        }
-
-    /*
-    * Setup observer for actual screen
-    * */
-
-    private fun setupObserver() {
-        when (spaceXViewModel.screen) {
-            Screen.Capsules -> spaceXViewModel.capsules.observe(viewLifecycleOwner) { result -> itemObserver(result, capsulesAdapter) }
-            Screen.Cores -> spaceXViewModel.cores.observe(viewLifecycleOwner) { result -> itemObserver(result, coreAdapter) }
-            Screen.Crew -> spaceXViewModel.crew.observe(viewLifecycleOwner) { result -> itemObserver(result, crewAdapter) }
-            Screen.Dragons -> spaceXViewModel.dragons.observe(viewLifecycleOwner) { result -> itemObserver(result, dragonAdapter) }
-            Screen.Rockets -> spaceXViewModel.rockets.observe(viewLifecycleOwner) { result -> itemObserver(result, rocketAdapter) }
-            Screen.Launches -> spaceXViewModel.launches.observe(viewLifecycleOwner) { result -> itemObserver(result, launchesAdapter) }
-            Screen.LaunchPads -> spaceXViewModel.launchPads.observe(viewLifecycleOwner) { result -> itemObserver(result, launchPadAdapter) }
-            Screen.LandingPads -> spaceXViewModel.landingPads.observe(viewLifecycleOwner) { result -> itemObserver(result, landingPadAdapter) }
-        }
-    }
-
-    /*
-    * Setup recycler view adapter for actual screen
-    * */
-
-    private fun setupUI() {
+    private fun <T : HasStringId> renderItems(items: List<T>, currentAdapter: BaseListAdapter<T>, titleResource: Int) {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainFragment.context)
             addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
-            adapter = when (spaceXViewModel.screen) {
-                Screen.Capsules -> capsulesAdapter
-                Screen.Crew -> crewAdapter
-                Screen.Cores -> coreAdapter
-                Screen.Dragons -> dragonAdapter
-                Screen.Rockets -> rocketAdapter
-                Screen.Launches -> launchesAdapter
-                Screen.LaunchPads -> launchPadAdapter
-                Screen.LandingPads -> landingPadAdapter
-            }
+            adapter = currentAdapter
+            activity?.title = getString(titleResource)
         }
+        currentAdapter.submitList(items)
     }
 
     override fun onDestroyView() {
