@@ -1,7 +1,11 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
@@ -42,11 +46,9 @@ class SpaceXViewModel @Inject constructor(
     val capsules: LiveData<Result> get() = repository.getCapsules { it?.let { translateLastUpdate(it) } }
         .asLiveData(viewModelScope.coroutineContext)
 
-    val cores: LiveData<Result> get() = Transformations.map(
-            repository.getCores { it?.let { translateLastUpdate(it) } }.asLiveData(viewModelScope.coroutineContext)
-        ) { result ->
-            result.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: result
-        }
+    val cores: LiveData<Result> get() = repository.getCores { it?.let { translateLastUpdate(it) } }.map {
+                it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it
+            }.asLiveData(viewModelScope.coroutineContext)
 
     val crew: LiveData<Result> get() = repository.getCrew().asLiveData(viewModelScope.coroutineContext)
 

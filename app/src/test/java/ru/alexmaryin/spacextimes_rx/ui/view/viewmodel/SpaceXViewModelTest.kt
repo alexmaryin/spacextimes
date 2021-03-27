@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import org.junit.Test
 import retrofit2.Retrofit
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApiImpl
-import ru.alexmaryin.spacextimes_rx.data.api.ApiService
+import ru.alexmaryin.spacextimes_rx.data.api.RetrofitApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
@@ -20,7 +20,7 @@ class SpaceXViewModelTest {
         .client(OkHttpClient())
         .build()
 
-    private val translatorApi = TranslatorApiImpl(SpaceXApiImpl(retrofit.create(ApiService::class.java)))
+    private val translatorApi = TranslatorApiImpl(SpaceXApiImpl(retrofit.create(RetrofitApiService::class.java)))
 
     private fun testCapsulesList(isNullInLastUpdate: Boolean) = mutableListOf<Capsule>().apply {
         (0..9).forEach {

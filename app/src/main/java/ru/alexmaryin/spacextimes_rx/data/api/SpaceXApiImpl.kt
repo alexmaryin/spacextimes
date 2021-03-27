@@ -9,7 +9,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import javax.inject.Inject
 
-class SpaceXApiImpl @Inject constructor(private val apiService: ApiService) : SpaceXApi {
+class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiService) : SpaceXApi {
 
     override suspend fun getCapsules(): Response<List<Capsule>> = apiService.getCapsules()
     override suspend fun getCapsuleById(id: String): Response<Capsule> = apiService.getCapsuleById(id)

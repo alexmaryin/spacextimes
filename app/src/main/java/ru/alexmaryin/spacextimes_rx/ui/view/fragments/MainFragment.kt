@@ -140,6 +140,8 @@ class MainFragment : Fragment() {
             }
             is Error -> {
                 binding.progressBar.visibility = View.GONE
+                if (state.error == ErrorType.REMOTE_TRANSLATOR_ERROR)
+                    processTranslate(false)
                 Toast.makeText(this.context, state.msg, Toast.LENGTH_SHORT).show()
             }
             is Loading -> {

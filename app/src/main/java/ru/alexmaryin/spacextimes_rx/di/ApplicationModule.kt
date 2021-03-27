@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.alexmaryin.spacextimes_rx.BuildConfig
-import ru.alexmaryin.spacextimes_rx.data.api.ApiService
+import ru.alexmaryin.spacextimes_rx.data.api.RetrofitApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
@@ -18,6 +18,8 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
+import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocal
+import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocalImpl
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -57,11 +59,15 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): RetrofitApiService = retrofit.create(RetrofitApiService::class.java)
 
     @Provides
     @Singleton
     fun provideApi(api: SpaceXApiImpl): SpaceXApi = api
+
+    @Provides
+    @Singleton
+    fun provideLocalApi(api: ApiLocalImpl): ApiLocal = api
 
     @Provides
     @Singleton

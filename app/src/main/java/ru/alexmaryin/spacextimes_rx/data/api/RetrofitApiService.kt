@@ -7,7 +7,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorUrls
 import ru.alexmaryin.spacextimes_rx.data.model.*
 
-interface ApiService {
+interface RetrofitApiService {
 
     @GET(SpacexUrls.AllCapsules)
     suspend fun getCapsules(): Response<List<Capsule>>
@@ -51,8 +51,6 @@ interface ApiService {
     @GET(SpacexUrls.AllRockets+"{id}")
     suspend fun getRocketById(@Path("id") id: String): Response<Rocket>
 
-//    @GET(SpacexUrls.AllLaunches)
-//    suspend fun getLaunches(): Response<List<Launch>>
     @POST(SpacexUrls.AllLaunchesQuery)
     suspend fun getLaunches(@Body body: RequestBody): Response<ApiResponse<Launch>>
 

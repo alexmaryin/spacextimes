@@ -32,7 +32,7 @@ object DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
     }
 
     override fun serialize(src: Date?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
-        val dateFormatAsString = dateFormatters[0].format(src ?: Calendar.getInstance())
+        val dateFormatAsString = dateFormatters.last().format(src ?: Calendar.getInstance())
         return JsonPrimitive(dateFormatAsString)
     }
 }
