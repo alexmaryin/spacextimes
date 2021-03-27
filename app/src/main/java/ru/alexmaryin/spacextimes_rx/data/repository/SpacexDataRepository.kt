@@ -1,32 +1,76 @@
 package ru.alexmaryin.spacextimes_rx.data.repository
 
+import kotlinx.coroutines.flow.flow
+import retrofit2.Response
+import ru.alexmaryin.spacextimes_rx.data.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
+import ru.alexmaryin.spacextimes_rx.data.model.*
+import ru.alexmaryin.spacextimes_rx.utils.*
+import java.io.IOException
 import javax.inject.Inject
 
-class SpacexDataRepository @Inject constructor(private val remoteApi: SpaceXApi)  {
+class SpacexDataRepository @Inject constructor(
+    private val remoteApi: SpaceXApi,
+    private val networkHelper: NetworkHelper,
+    ) {
 
-    suspend fun getCapsules() = remoteApi.getCapsules()
-    suspend fun getCapsuleById(id: String) = remoteApi.getCapsuleById(id)
+    /*
+    * Remote repository functions
+    * */
+    private inline fun <reified T, R> fetchItems(
+        noinline apiCallback: suspend () -> Response<R>,
+        noinline processTranslate: suspend (List<T>?) -> Unit = {},
+    ) = flow {
+        emit(Loading)
+        if (networkHelper.isNetworkConnected()) {
+            apiCallback().apply {
+                if (isSuccessful)
+                    try {
+                        emit(Success(when(body()) {
+                            is List<*> -> (body() as List<*>).apply { processTranslate(this.map { it as T }) }
+                            is ApiResponse<*> -> (body() as ApiResponse<*>).docs.apply { processTranslate(this.map { it as T }) }
+                            else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
+                        }))
+                    } catch (e: IOException) {
+                        emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
+                        emit(Success(body()))
+                    }
+                else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
+            }
+        } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
+    }
 
-    suspend fun getCores() = remoteApi.getCores()
-    suspend fun getCoreById(id: String) = remoteApi.getCoreById(id)
+    private fun <T> fetchItemById(id: String, apiCallback: suspend (String) -> Response<T>) = flow {
+        emit(Loading)
+        if (networkHelper.isNetworkConnected()) {
+            apiCallback(id).apply {
+                if (isSuccessful) emit(Success(body())) else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
+            }
+        } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
+    }
 
-    suspend fun getCrew() = remoteApi.getCrew()
-    suspend fun getCrewById(id: String) = remoteApi.getCrewById(id)
+    fun getCapsules(processTranslate: suspend (List<Capsule>?) -> Unit) = fetchItems(remoteApi::getCapsules, processTranslate)
+    fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById)
 
-    suspend fun getDragons() = remoteApi.getDragons()
-    suspend fun getDragonById(id: String) = remoteApi.getDragonById(id)
+    fun getCores(processTranslate: suspend (List<Core>?) -> Unit) = fetchItems(remoteApi::getCores, processTranslate)
+    fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById)
 
-    suspend fun getRockets() = remoteApi.getRockets()
-    suspend fun getRocketById(id: String) = remoteApi.getRocketById(id)
+    fun getCrew() = fetchItems<Crew, List<Crew>>(remoteApi::getCrew)
+    fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById)
 
-    suspend fun getLaunchPads() = remoteApi.getLaunchPads()
-    suspend fun getLaunchPadById(id: String) = remoteApi.getLaunchPadById(id)
+    fun getDragons(processTranslate: suspend (List<Dragon>?) -> Unit) = fetchItems(remoteApi::getDragons, processTranslate)
+    fun getDragonById(id: String) = fetchItemById(id, remoteApi::getDragonById)
 
-    suspend fun getLandingPads() = remoteApi.getLandingPads()
-    suspend fun getLandingPadById(id: String) = remoteApi.getLandingPadById(id)
+    fun getRockets(processTranslate: suspend (List<Rocket>?) -> Unit) = fetchItems(remoteApi::getRockets, processTranslate)
+    fun getRocketById(id: String) = fetchItemById(id, remoteApi::getRocketById)
 
-    suspend fun getLaunches() = remoteApi.getLaunches()
-    suspend fun getLaunchById(id: String) = remoteApi.getLaunchById(id)
+    fun getLaunchPads(processTranslate: suspend (List<LaunchPad>?) -> Unit) = fetchItems(remoteApi::getLaunchPads, processTranslate)
+    fun getLaunchPadById(id: String) = fetchItemById(id, remoteApi::getLaunchPadById)
+
+    fun getLandingPads(processTranslate: suspend (List<LandingPad>?) -> Unit) = fetchItems(remoteApi::getLandingPads, processTranslate)
+    fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById)
+
+    fun getLaunches() = fetchItems<Launch, ApiResponse<Launch>>(remoteApi::getLaunches)
+    fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById)
 
 }
