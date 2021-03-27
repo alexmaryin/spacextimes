@@ -1,57 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="15dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+        <variable
+            name="capsule"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Capsule" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="5dp">
+
 
         <TextView
             android:id="@+id/capsuleSerial"
-            style="@android:style/TextAppearance.DeviceDefault.Large"
+            style="@style/boldCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:text="@{capsule.serial}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="C201" />
+
 
         <TextView
             android:id="@+id/capsuleStatus"
-            android:layout_width="wrap_content"
+            style="@style/regularText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/capsuleSerial"
+            app:layout_constraintEnd_toStartOf="@+id/capsuleImage"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/capsuleSerial"
+            app:layout_constraintTop_toTopOf="@+id/capsuleSerial"
             tools:text="active" />
 
         <TextView
-            android:id="@+id/capsuleType"
-            style="@style/Widget.MaterialComponents.TextView"
-            android:layout_width="wrap_content"
+            android:id="@+id/capsuleReused"
+            style="@style/regularText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            tools:text="Dragon v2.0" />
+            app:layout_constraintEnd_toStartOf="@+id/capsuleImage"
+            app:layout_constraintStart_toStartOf="@+id/capsuleSerial"
+            app:layout_constraintTop_toBottomOf="@+id/capsuleSerial"
+            tools:text="летала 6 раз" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/capsuleUpdate"
+            style="@style/descriptionText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{capsule.lastUpdateRu ?? capsule.lastUpdate}"
+            app:layout_constraintEnd_toStartOf="@+id/capsuleImage"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/capsuleReused"
+            app:layout_constraintTop_toBottomOf="@+id/capsuleReused"
+            tools:text="Какой-то комментарий о капсуле" />
 
-    <TextView
-        android:id="@+id/capsuleReused"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        tools:text="летала 6 раз" />
+        <ImageView
+            android:id="@+id/capsuleImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/capsuleTypeString"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dragon_1_0_foreground" />
 
-    <TextView
-        android:id="@+id/capsuleUpdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textStyle="italic"
-        tools:text="Какой-то комментарий о капсуле" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
+

@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name" translatable="false">spacexTimes</string>
+    <string name="notifications_channel" translatable="false">spacexTimes</string>
+    <string name="notifications_id" translatable="false">spacex</string>
+    <string name="notifications_description" translatable="false">Notify from SpaceX Times app</string>
+    <string name="capsulesTitle">Космические корабли</string>
+    <string name="crewTitle">Члены экипажей</string>
+    <string name="coresTitle">Ракетные блоки</string>
+    <string name="dragonsTitle">Корабли Dragon</string>
+    <string name="rocketsTitle">Ракеты</string>
+    <string name="launchPadsTitle">Зоны запуска</string>
+    <string name="landingPadsTitle">Зоны посадки</string>
+    <string name="launchesTitle">Запуски</string>
+    <string name="aiTranslateTitle">Машинный перевод</string>
+    <string name="loadingText">загрузка…</string>
+    <string name="aiTranslateOffText">Машинный перевод отключен</string>
+    <string name="experimentalTitle">Экспериментально!</string>
+    <string name="aiTranslateAlertText" translatable="false">Включение машинного перевода позволит перевести английский текст в описании, но не обязательно будет на 100% корректный!
+        Аббревиатуры и прочие технические словечки могут быть переведены с ошибками.\n
+        Перевод осуществляется сервисом https://fasttranslator.herokuapp.com\n
+        У сервиса имеется ограничение на бесплатный перевод - не более 5 запросов в час с одного ip.
+    </string>
+    <string name="agreeText">Да</string>
+    <string name="cancelText">Отмена</string>
+    <string name="unknownText">неизвестно</string>
+    <string name="activeText">действует</string>
+    <string name="inactiveText">не действует</string>
+    <string name="retiredText">на восстановлении</string>
+    <string name="destroyedText">уничтожена</string>
+    <string name="reuseText">"повторно "</string>
+    <string name="first_flight_text">впервые полетел\n%s</string>
+
+    <plurals name="reuseCountString">
+        <item quantity="one">летала %d раз</item>
+        <item quantity="few">летала %d раза</item>
+        <item quantity="other">летала %d раз</item>
+    </plurals>
+
+    <string name="noFlightString">Не летала</string>
+    <string name="waterLandCountString">\nприземлений на воду: %d</string>
+    <string name="waterLandCoreCountString">\nприземлений на воду: %1$d/%2$d</string>
+    <string name="groundLandCountString">\nприземлений на землю: %d</string>
+    <string name="groundLandCoreCountString">\nприземлений на землю: %1$d/%2$d</string>
+    <string name="capsuleTypeString" translatable="false">capsule type image</string>
+    <string name="noInternetInfoString">Нет интернет-соединения!</string>
+    <string name="photo_of_crew_member_description" translatable="false">Photo of crew member</string>
+    <string name="agency_label_text">"Работает в "</string>
+    <string name="wiki_label" translatable="false">Wiki</string>
+    <string name="wiki_page_open_button" translatable="false">wiki page open</string>
+    <string name="core_thumbnail_picture_description" translatable="false">Core thumbnail picture</string>
+    <string name="photo_of_dragon_capsule_description" translatable="false">Photo of dragon capsule</string>
+    <string name="photo_of_crew_member_image" translatable="false">Photo of crew member</string>
+    <string name="read_more_string" translatable="false">read more</string>
+    <string name="dragon_status_line_string">" ⇧ %1$d т / %2$d м³ ⇩ %3$d т / %4$d м³"</string>
+    <string name="dragon_size_string">"↕ %1$.1f м ⌀ %2$.1f м герметичный отсек - %3$d м³"</string>
+    <string name="heat_shield_string">"Тепловой щит: ⌀ %1$.2f м, %2$s, 🔥%3$d℃\n партнер разработки - %4$s"</string>
+    <string name="crew_capacity_string">"Вместимость экипажа: %s"</string>
+    <string name="list_thrusters_string">Двигатели корабля:</string>
+    <string name="capsule_thruster_line1">%1$d шт (в блоке - %2$d) %3$s, тяга - %4$.1f кН, удельный импульс - %5$d с</string>
+    <string name="capsule_thruster_line2">топливо: %1$s, окислитель: %2$s</string>
+    <string name="preview_of_rocket_string" translatable="false">preview of rocket</string>
+    <string name="patch_preview_description" translatable="false">official patch of launch</string>
+    <string name="saved_image_notification">Изображение сохранено</string>
+    <string name="saved_image_text_notification">Нажмите, чтобы открыть в галерее или редакторе.</string>
+    <string name="saving_title_string">Сохранение</string>
+    <string name="save_image_dialog_string">Скачать фото в галерею?</string>
+    <string name="failed_image_save_string">Сохранение не удалось!</string>
+    <string name="quarter1_string">"I четверть "</string>
+    <string name="quarter2_string">"II четверть "</string>
+    <string name="quarter3_string">"III четверть "</string>
+    <string name="quarter4_string">"IV четверть "</string>
+    <string name="half1_string">"первая половина "</string>
+    <string name="half2_string">"вторая половина "</string>
+    <string name="to_be_determined_string">не определена</string>
+    <string name="not_early_string">"не ранее "</string>
+    <string name="description_of_the_page_text" translatable="false">description of the page</string>
+</resources>

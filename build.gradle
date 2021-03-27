@@ -1,0 +1,35 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    ext {
+        kotlin_version = "1.4.30"
+        hilt_version = '2.33-beta'
+        version_navigation = '2.3.4'
+    }
+
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url = "https://dl.bintray.com/kotlin/kotlin-eap" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha12'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        google()
+        mavenCentral()
+        maven { url = "https://dl.bintray.com/kotlin/kotlin-eap" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

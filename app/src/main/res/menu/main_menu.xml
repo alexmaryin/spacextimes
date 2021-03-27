@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/launchesSelect"
+        android:title="@string/launchesTitle" />
+    <item
+        android:id="@+id/capsulesSelect"
+        android:title="@string/capsulesTitle" />
+    <item
+        android:id="@+id/crewSelect"
+        android:title="@string/crewTitle" />
+    <item
+        android:id="@+id/coresSelect"
+        android:title="@string/coresTitle" />
+    <item
+        android:id="@+id/dragonsSelect"
+        android:title="@string/dragonsTitle" />
+    <item
+        android:id="@+id/rocketsSelect"
+        android:title="@string/rocketsTitle" />
+    <item
+        android:id="@+id/launchPadsSelect"
+        android:title="@string/launchPadsTitle" />
+    <item
+        android:id="@+id/landingPadsSelect"
+        android:title="@string/landingPadsTitle" />
+    <item
+        android:id="@+id/translateSwitch"
+        android:checkable="true"
+        android:checked="false"
+        android:enabled="true"
+        android:title="@string/aiTranslateTitle" />
+
+    <item
+        android:id="@+id/help_action"
+        android:icon="@drawable/ic_outline_help_outline_24"
+        android:title="@string/description_of_the_page_text"
+        app:showAsAction="ifRoom" />
+</menu>

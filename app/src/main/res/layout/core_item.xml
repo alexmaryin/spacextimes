@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="core"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Core" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/coreThumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:contentDescription="@string/core_thumbnail_picture_description"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/falcon9block5legs_5" />
+
+        <TextView
+            android:id="@+id/coreSerial"
+            style="@style/boldCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTintMode="add"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{core.serial}"
+            tools:text="B1051" />
+
+        <TextView
+            android:id="@+id/coreStatus"
+            style="@style/regularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/coreSerial"
+            app:layout_constraintEnd_toStartOf="@+id/coreThumbnail"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/coreSerial"
+            app:layout_constraintTop_toTopOf="@+id/coreSerial"
+            tools:text="Active" />
+
+        <TextView
+            android:id="@+id/coreReusing"
+            style="@style/regularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Летала 6 раз\nприземлений 2/2\nприводнений 4/4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/coreSerial" />
+
+        <TextView
+            android:id="@+id/coreLastUpdate"
+            style="@style/descriptionText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/coreThumbnail"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/coreReusing"
+            tools:text="Находится в порту мыса Канаверал после доставки платформой "
+            android:text="@{core.lastUpdateRu ?? core.lastUpdate}"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

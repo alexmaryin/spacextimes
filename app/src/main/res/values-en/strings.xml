@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="capsulesTitle">Capsules</string>
+    <string name="crewTitle">Crew members</string>
+    <string name="coresTitle">Cores</string>
+    <string name="dragonsTitle">Dragons</string>
+    <string name="aiTranslateTitle">Auto-translate</string>
+    <string name="aiTranslateOffText">Auto-translate off</string>
+    <string name="experimentalTitle">Experimental!</string>
+    <string name="agreeText">Agree</string>
+    <string name="cancelText">Cancel</string>
+    <string name="activeText">Active</string>
+    <string name="inactiveText">Inactive</string>
+    <string name="retiredText">Retired</string>
+    <string name="destroyedText">Destroyed</string>
+    <string name="reuseText">"Reused "</string>
+    <string name="first_flight_text">First flight\n%s</string>
+    <string name="noInternetInfoString">No internet connection!</string>
+    <string name="agency_label_text">"Works in "</string>
+    <string name="unknownText">Unknown</string>
+    <string name="waterLandCountString">\nwater landings: %d</string>
+    <string name="waterLandCoreCountString">\nwater landings: %1$d/%2$d</string>
+    <string name="groundLandCountString">\nground landings: %d</string>
+    <string name="groundLandCoreCountString">\nground landings: %1$d/%2$d</string>
+
+    <plurals name="reuseCountString">
+        <item quantity="one">Total %d flight</item>
+        <item quantity="other">Total %d flights</item>
+    </plurals>
+
+    <string name="loadingText">loading…</string>
+    <string name="noFlightString">No flights yet</string>
+    <string name="dragon_status_line_string">" ⇧ %1$d t / %2$d m³ ⇩ %3$d t / %4$d m³"</string>
+    <string name="dragon_size_string">↕ %1$.1f m ⌀ %2$.1f m pressurized capsule - %3$d m³</string>
+    <string name="heat_shield_string">Heat shield: ⌀ %1$.2f m, %2$s, 🔥%3$d℃\n develop partner - %4$s</string>
+    <string name="crew_capacity_string">Crew capacity: %s</string>
+    <string name="list_thrusters_string">Capsule thrusters:</string>
+    <string name="capsule_thruster_line1">%1$d (per %2$d in pod) %3$s, thrust - %4$.1f kN, specific impulse - %5$d s</string>
+    <string name="capsule_thruster_line2">propellant: %1$s / %2$s</string>
+    <string name="rocketsTitle">Rockets</string>
+    <string name="launchPadsTitle">Launch pads</string>
+    <string name="landingPadsTitle">Landing pads</string>
+    <string name="launchesTitle">Launches</string>
+    <string name="saved_image_notification">Image saved</string>
+    <string name="saved_image_text_notification">Click to open in gallery or edit</string>
+    <string name="saving_title_string">Save</string>
+    <string name="save_image_dialog_string">Download to storage?</string>
+    <string name="failed_image_save_string">Save failed!</string>
+    <string name="quarter1_string">\"1st quarter \"</string>
+    <string name="quarter2_string">\"2nd quarter \"</string>
+    <string name="quarter3_string">\"3rd quarter \"</string>
+    <string name="quarter4_string">\"4th quarter \"</string>
+    <string name="half1_string">\"First half of \"</string>
+    <string name="half2_string">\"Second half of \"</string>
+    <string name="to_be_determined_string">to be determined</string>
+    <string name="not_early_string">\"not early \"</string>
+
+</resources>
