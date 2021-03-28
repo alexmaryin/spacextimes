@@ -12,7 +12,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 import ru.alexmaryin.spacextimes_rx.utils.expandOrSwapTo
 import ru.alexmaryin.spacextimes_rx.utils.swapVisibility
 
-class RocketAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<Rocket>(arrayListOf(), clickListener) {
+class RocketAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<Rocket>(clickListener) {
 
     class ViewHolder(private val binding: RocketItemBinding) : DataViewHolder<Rocket>(binding) {
 

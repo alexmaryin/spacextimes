@@ -14,7 +14,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 import ru.alexmaryin.spacextimes_rx.utils.CircleTransformation
 
-class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Capsule>(arrayListOf(), clickListener) {
+class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Capsule>(clickListener) {
 
     class ViewHolder (private val binding: CapsuleItemBinding): DataViewHolder<Capsule>(binding) {
 

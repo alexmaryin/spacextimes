@@ -13,7 +13,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
-class LandingPadAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<LandingPad>(arrayListOf(), clickListener) {
+class LandingPadAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<LandingPad>(clickListener) {
 
     class ViewHolder(private val binding: LandingPadItemBinding) : DataViewHolder<LandingPad>(binding) {
 

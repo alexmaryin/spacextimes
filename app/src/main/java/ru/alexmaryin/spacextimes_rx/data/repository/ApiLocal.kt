@@ -11,7 +11,7 @@ interface ApiLocal {
         fun getCores(): List<Core>
         fun getCoreById(id: String): Core?
 
-        fun getCrew(): List<Crew>
+        fun getCrew(): List<Crews>
         fun getCrewById(id: String): Crew?
 
         fun getDragons(): List<Dragon>
@@ -26,6 +26,6 @@ interface ApiLocal {
         fun getRockets(): List<Rocket>
         fun getRocketById(id: String): Rocket?
 
-        fun getLaunches(): List<Launch>
+        fun getLaunches(): List<Launches>
         fun getLaunchById(id: String): Launch?
 }

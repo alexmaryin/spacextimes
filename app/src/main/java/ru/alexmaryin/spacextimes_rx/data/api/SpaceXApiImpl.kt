@@ -1,9 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.data.api
 
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.*
@@ -17,8 +17,22 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
     override suspend fun getCores(): Response<List<Core>> = apiService.getCores()
     override suspend fun getCoreById(id: String): Response<Core> = apiService.getCoreById(id)
 
-    override suspend fun getCrew(): Response<List<Crew>> = apiService.getCrew()
-    override suspend fun getCrewById(id: String): Response<Crew> = apiService.getCrewById(id)
+    override suspend fun getCrew(): Response<List<Crews>> = apiService.getCrew()
+    override suspend fun getCrewById(id: String): Response<ApiResponse<Crew>> {
+        val body = Gson().toJson(
+            ApiQuery(
+                query = mapOf("_id" to id),
+                options = mapOf(
+                    "populate" to JsonObject().apply {
+                        addProperty("path", "launches")
+                        add("populate", JsonObject().apply { addProperty("path", "rocket") })
+                    },
+                    "pagination" to false,
+                )
+            )
+        ).toRequestBody("application/json".toMediaTypeOrNull())
+        return apiService.getCrewById(body)
+    }
 
     override suspend fun getDragons(): Response<List<Dragon>> = apiService.getDragons()
     override suspend fun getDragonById(id: String): Response<Dragon> = apiService.getDragonById(id)
@@ -32,22 +46,26 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
     override suspend fun getRockets(): Response<List<Rocket>> = apiService.getRockets()
     override suspend fun getRocketById(id: String): Response<Rocket> = apiService.getRocketById(id)
 
-    override suspend fun getLaunches(): Response<ApiResponse<Launch>> {
-        val body = Gson().toJson(ApiQuery(options = mapOf(
-            "populate" to "rocket",
-            "pagination" to false,
-            "sort" to "field -date_local",
-        )))
-            .toRequestBody("application/json".toMediaTypeOrNull())
+    override suspend fun getLaunches(): Response<ApiResponse<Launches>> {
+        val body = Gson().toJson(
+            ApiQuery(
+                options = mapOf(
+                    "populate" to "rocket",
+                    "pagination" to false,
+                    "sort" to "field -date_local",
+                )
+            )
+        ).toRequestBody("application/json".toMediaTypeOrNull())
         return apiService.getLaunches(body)
     }
+
     override suspend fun getLaunchById(id: String): Response<Launch> = apiService.getLaunchById(id)
 
     override suspend fun translate(source: String): Response<PlainTextResponse> {
-        val body = JSONObject().run {
-            put("source", source)
-            put("lang", "en-ru")
-            put("as", "json")
+        val body = JsonObject().run {
+            addProperty("source", source)
+            addProperty("lang", "en-ru")
+            addProperty("as", "json")
         }.toString().toRequestBody("application/json".toMediaTypeOrNull())
         return apiService.translate(body)
     }

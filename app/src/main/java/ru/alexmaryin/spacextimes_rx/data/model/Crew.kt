@@ -12,5 +12,5 @@ data class Crew(
     val image: String,
     override val wikipedia: String?,
     override var wikiLocale: String?,
-    val launches: List<String> = emptyList()
+    val launches: List<Launches> = emptyList()
 ) : HasStringId, HasWiki

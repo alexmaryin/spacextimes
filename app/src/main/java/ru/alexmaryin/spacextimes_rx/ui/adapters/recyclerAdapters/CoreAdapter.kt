@@ -11,7 +11,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 
-class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Core>(arrayListOf(), clickListener) {
+class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Core>(clickListener) {
 
     class ViewHolder (private val binding: CoreItemBinding): DataViewHolder<Core>(binding) {
 

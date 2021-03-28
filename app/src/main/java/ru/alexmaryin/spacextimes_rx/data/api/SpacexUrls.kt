@@ -6,6 +6,7 @@ class SpacexUrls {
         const val AllCapsules = "capsules/"
         const val AllCores = "cores/"
         const val AllCrew = "crew/"
+        const val CrewQuery = "crew/query/"
         const val AllDragons = "dragons/"
         const val AllLandingPads = "landpads/"
         const val AllLaunchPads = "launchpads/"

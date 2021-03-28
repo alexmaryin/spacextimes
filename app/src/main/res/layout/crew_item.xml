@@ -9,7 +9,7 @@
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
         <variable
             name="crewMember"
-            type="ru.alexmaryin.spacextimes_rx.data.model.Crew" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.Crews" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.data.model.Launches
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
@@ -13,11 +13,11 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
 import ru.alexmaryin.spacextimes_rx.utils.downloadByLongClickListener
 import ru.alexmaryin.spacextimes_rx.utils.getColorIdFromAttr
 
-class LaunchesAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<Launch>(arrayListOf(), clickListener) {
+class LaunchesAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<Launches>(clickListener) {
 
-    class ViewHolder(private val binding: LaunchItemBinding) : DataViewHolder<Launch>(binding) {
+    class ViewHolder(private val binding: LaunchItemBinding) : DataViewHolder<Launches>(binding) {
 
-        override fun bind(item: Launch, clickListener: AdapterClickListenerById) {
+        override fun bind(item: Launches, clickListener: AdapterClickListenerById) {
             with(binding) {
                 this.clickListener = clickListener
                 launch = item
@@ -51,6 +51,6 @@ class LaunchesAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<Launch> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<Launches> =
         LayoutInflater.from(parent.context).run { ViewHolder(DataBindingUtil.inflate(this, R.layout.launch_item, parent, false)) }
 }

@@ -28,7 +28,7 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         return null
     }
 
-    override fun getCrew(): List<Crew> {
+    override fun getCrew(): List<Crews> {
         TODO("Not yet implemented")
     }
 
@@ -73,7 +73,7 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         return null
     }
 
-    override fun getLaunches(): List<Launch> {
+    override fun getLaunches(): List<Launches> {
         TODO("Not yet implemented")
     }
 

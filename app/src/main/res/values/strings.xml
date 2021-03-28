@@ -74,4 +74,5 @@
     <string name="to_be_determined_string">не определена</string>
     <string name="not_early_string">"не ранее "</string>
     <string name="description_of_the_page_text" translatable="false">description of the page</string>
+    <string name="crew_missions_list_header">Участие в миссиях:</string>
 </resources>

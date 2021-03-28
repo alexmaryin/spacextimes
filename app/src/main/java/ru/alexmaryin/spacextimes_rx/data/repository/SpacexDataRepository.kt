@@ -41,17 +41,21 @@ class SpacexDataRepository @Inject constructor(
 //        TODO("Let's load from cache if network is unavailable.")
     }
 
-    private fun <T> fetchItemById(
+    private inline fun <reified T, R> fetchItemById(
         id: String,
-        apiCallback: suspend (String) -> Response<T>,
-        localApiCallback: (String) -> T? = { null },
+        noinline apiCallback: suspend (String) -> Response<R>,
+        noinline localApiCallback: (String) -> T? = { null },
     ) = flow {
         emit(Loading)
         localApiCallback(id)?.let {
             emit(Success(it))
         } ?: if (networkHelper.isNetworkConnected()) {
             apiCallback(id).apply {
-                if (isSuccessful) emit(Success(body())) else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
+                if (isSuccessful) emit(Success(when (body()) {
+                    is T -> body()
+                    is ApiResponse<*> -> (body() as ApiResponse<*>).docs.first() as T
+                    else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
+                })) else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
     }
@@ -62,7 +66,7 @@ class SpacexDataRepository @Inject constructor(
     fun getCores(processTranslate: suspend (List<Core>?) -> Unit) = fetchItems(remoteApi::getCores, processTranslate)
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
 
-    fun getCrew() = fetchItems<Crew, List<Crew>>(remoteApi::getCrew)
+    fun getCrew() = fetchItems<Crews, List<Crews>>(remoteApi::getCrew)
     fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById)
 
     fun getDragons(processTranslate: suspend (List<Dragon>?) -> Unit) = fetchItems(remoteApi::getDragons, processTranslate)
@@ -77,7 +81,7 @@ class SpacexDataRepository @Inject constructor(
     fun getLandingPads(processTranslate: suspend (List<LandingPad>?) -> Unit) = fetchItems(remoteApi::getLandingPads, processTranslate)
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
-    fun getLaunches() = fetchItems<Launch, ApiResponse<Launch>>(remoteApi::getLaunches)
+    fun getLaunches() = fetchItems<Launches, ApiResponse<Launches>>(remoteApi::getLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById)
 
 }

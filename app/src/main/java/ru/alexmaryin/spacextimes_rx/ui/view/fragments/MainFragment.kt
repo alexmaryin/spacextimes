@@ -132,13 +132,13 @@ class MainFragment : Fragment() {
     }
 
     private fun <T : HasStringId> renderItems(items: List<T>, currentAdapter: BaseListAdapter<T>, titleResource: Int) {
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainFragment.context)
-            addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
-            adapter = currentAdapter
-            activity?.title = getString(titleResource)
-        }
+        activity?.title = getString(titleResource)
         currentAdapter.submitList(items)
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+            adapter = currentAdapter
+        }
     }
 
     override fun onDestroyView() {

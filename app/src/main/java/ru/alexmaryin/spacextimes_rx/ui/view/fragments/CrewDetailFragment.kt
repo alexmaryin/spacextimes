@@ -10,11 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.databinding.CrewDetailFragmentBinding
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.LaunchesAdapter
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 
@@ -24,6 +28,7 @@ class CrewDetailFragment : Fragment() {
     private val args: CrewDetailFragmentArgs by navArgs()
     private val crewViewModel: CrewDetailViewModel by activityViewModels()
     private lateinit var binding: CrewDetailFragmentBinding
+    private val missionsAdapter = LaunchesAdapter(AdapterClickListenerById {})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +75,12 @@ class CrewDetailFragment : Fragment() {
         binding.crew = crew
         binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crew.wikiLocale ?: crew.wikipedia ?: "") }
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
+        missionsAdapter.submitList(crew.launches)
+        binding.crewMissions.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+            adapter = missionsAdapter
+        }
     }
 
     override fun onDestroyView() {

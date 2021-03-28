@@ -22,10 +22,10 @@ interface RetrofitApiService {
     suspend fun getCoreById(@Path("id") id: String): Response<Core>
 
     @GET(SpacexUrls.AllCrew)
-    suspend fun getCrew(): Response<List<Crew>>
+    suspend fun getCrew(): Response<List<Crews>>
 
-    @GET(SpacexUrls.AllCrew+"{id}")
-    suspend fun getCrewById(@Path("id") id: String): Response<Crew>
+    @POST(SpacexUrls.CrewQuery)
+    suspend fun getCrewById(@Body body: RequestBody): Response<ApiResponse<Crew>>
 
     @GET(SpacexUrls.AllDragons)
     suspend fun getDragons(): Response<List<Dragon>>
@@ -52,7 +52,7 @@ interface RetrofitApiService {
     suspend fun getRocketById(@Path("id") id: String): Response<Rocket>
 
     @POST(SpacexUrls.AllLaunchesQuery)
-    suspend fun getLaunches(@Body body: RequestBody): Response<ApiResponse<Launch>>
+    suspend fun getLaunches(@Body body: RequestBody): Response<ApiResponse<Launches>>
 
     @GET(SpacexUrls.AllLaunches+"{id}")
     suspend fun getLaunchById(@Path("id") id: String): Response<Launch>

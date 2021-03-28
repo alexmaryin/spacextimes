@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 
 abstract class BaseListAdapter<T : HasStringId>(
-    private val items: ArrayList<T>,
     private val clickListener: AdapterClickListenerById
 ) : ListAdapter<T, DataViewHolder<T>>(BaseDiffCallback()) {
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<T>
 
     override fun onBindViewHolder(holder: DataViewHolder<T>, position: Int) = holder.bind(getItem(position), clickListener)
+
 }
 
 abstract class DataViewHolder<T>(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
