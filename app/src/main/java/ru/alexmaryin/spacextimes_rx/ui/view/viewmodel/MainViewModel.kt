@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.Cores
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
@@ -43,32 +43,31 @@ class SpaceXViewModel @Inject constructor(
             translator.translate(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
     }
 
+    var currentScreen = Screen.Crew
+
     private val state = MutableStateFlow<Result>(Loading)
     fun getState() = state.asStateFlow()
 
-    var currentScreen = Screen.Crew
-
     fun changeScreen(screen: Screen) {
+        currentScreen = screen
         viewModelScope.launch {
             when (screen) {
-                Screen.Capsules -> capsules.collect { result -> state.value = result }
-                Screen.Cores -> cores.collect { result -> state.value = result }
-                Screen.Crew -> crew.collect { result -> state.value = result }
-                Screen.Dragons -> dragons.collect { result -> state.value = result }
-                Screen.Rockets -> rockets.collect { result -> state.value = result }
-                Screen.Launches -> launches.collect { result -> state.value = result }
-                Screen.LaunchPads -> launchPads.collect { result -> state.value = result }
-                Screen.LandingPads -> landingPads.collect { result -> state.value = result }
-            }
+                Screen.Capsules -> capsules
+                Screen.Cores -> cores
+                Screen.Crew -> crew
+                Screen.Dragons -> dragons
+                Screen.Rockets -> rockets
+                Screen.Launches -> launches
+                Screen.LaunchPads -> launchPads
+                Screen.LandingPads -> landingPads
+            }.collect { result -> state.value = result }
         }
-        currentScreen = screen
     }
 
     private val capsules = repository.getCapsules { it?.let { translateLastUpdate(it) } }
 
     private val cores = repository.getCores { it?.let { translateLastUpdate(it) } }.map {
-                it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it
-            }
+                it.toListOf<Cores>()?.sortedWith(compareBy(Cores::block, Cores::serial))?.reversed()?.toSuccess() ?: it }
 
     private val crew = repository.getCrew()
 

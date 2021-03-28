@@ -12,102 +12,107 @@
             type="ru.alexmaryin.spacextimes_rx.data.model.Crew" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rootLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        tools:context=".ui.view.fragments.CrewDetailFragment">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/detailsView"
+            android:id="@+id/rootLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            tools:context=".ui.view.fragments.CrewDetailFragment">
 
-            <ImageView
-                android:id="@+id/image"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detailsView"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:contentDescription="@string/photo_of_crew_member_description"
-                app:imageUrl="@{crew.image}"
+                android:layout_height="match_parent"
+                android:alpha="1"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/dragon_2_0_foreground" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/statusText"
-                style="@style/regularText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:crewStatus="@{crew.status}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image"
-                tools:text="действует" />
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:contentDescription="@string/photo_of_crew_member_description"
+                    app:imageUrl="@{crew.image}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/dragon_2_0_foreground" />
 
-            <TextView
-                android:id="@+id/agencyText"
-                style="@style/regularText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text='@{@string/agency_label_text+crew.agency}'
-                app:hideIfEmpty="@{crew.agency}"
-                app:layout_constraintStart_toStartOf="@+id/statusText"
-                app:layout_constraintTop_toBottomOf="@+id/statusText"
-                tools:text="Работает в NASA" />
+                <TextView
+                    android:id="@+id/statusText"
+                    style="@style/regularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:crewStatus="@{crew.status}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image"
+                    tools:text="действует" />
 
-            <ImageButton
-                android:id="@+id/wikiButton"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginEnd="1dp"
-                android:contentDescription="@string/wiki_page_open_button"
-                android:scaleType="fitCenter"
-                android:src="@drawable/wikilogo"
-                android:text="@string/wiki_label"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_700"
-                app:iconGravity="top"
-                app:layout_constraintBottom_toBottomOf="@+id/image"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <TextView
+                    android:id="@+id/agencyText"
+                    style="@style/regularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{@string/agency_label_text+crew.agency}'
+                    app:hideIfEmpty="@{crew.agency}"
+                    app:layout_constraintStart_toStartOf="@+id/statusText"
+                    app:layout_constraintTop_toBottomOf="@+id/statusText"
+                    tools:text="Работает в NASA" />
 
-            <TextView
-                style="@style/regularText"
-                android:id="@+id/missionsLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="#591976D2"
-                android:textAlignment="center"
-                android:textStyle="italic"
-                app:layout_constraintTop_toBottomOf="@id/agencyText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/crew_missions_list_header"
-                android:visibility="@{crew.launches.empty ? View.GONE : View.VISIBLE}"/>
+                <ImageButton
+                    android:id="@+id/wikiButton"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="1dp"
+                    android:contentDescription="@string/wiki_page_open_button"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/wikilogo"
+                    android:text="@string/wiki_label"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/purple_700"
+                    app:iconGravity="top"
+                    app:layout_constraintBottom_toBottomOf="@+id/image"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/crewMissions"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/missionsLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                    style="@style/regularText"
+                    android:id="@+id/missionsLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#591976D2"
+                    android:textAlignment="center"
+                    android:textStyle="italic"
+                    app:layout_constraintTop_toBottomOf="@id/agencyText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/crew_missions_list_header"
+                    android:visibility="@{crew.launches.empty ? View.GONE : View.VISIBLE}"/>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/crewMissions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/missionsLabel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                android:id="@+id/wikiFrame"
+                layout="@layout/progress_webview_part" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include
-            android:id="@+id/wikiFrame"
-            layout="@layout/progress_webview_part" />
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -11,28 +11,28 @@ import javax.inject.Inject
 
 class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiService) : SpaceXApi {
 
+    private val populateLaunches = mapOf(
+        "populate" to JsonObject().apply {
+            addProperty("path", "launches")
+            add("populate", JsonObject().apply { addProperty("path", "rocket") })
+        },
+        "pagination" to false,
+    )
+
+    private fun requestById(id: String, options: Map<String, Any> = emptyMap()) = Gson().toJson(
+        ApiQuery(query = mapOf("_id" to id), options = options)
+    ).toRequestBody("application/json".toMediaTypeOrNull())
+
     override suspend fun getCapsules(): Response<List<Capsule>> = apiService.getCapsules()
     override suspend fun getCapsuleById(id: String): Response<Capsule> = apiService.getCapsuleById(id)
 
-    override suspend fun getCores(): Response<List<Core>> = apiService.getCores()
-    override suspend fun getCoreById(id: String): Response<Core> = apiService.getCoreById(id)
+    override suspend fun getCores(): Response<List<Cores>> = apiService.getCores()
+    override suspend fun getCoreById(id: String): Response<ApiResponse<Core>> =
+        apiService.getCoreById(requestById(id, populateLaunches))
 
     override suspend fun getCrew(): Response<List<Crews>> = apiService.getCrew()
-    override suspend fun getCrewById(id: String): Response<ApiResponse<Crew>> {
-        val body = Gson().toJson(
-            ApiQuery(
-                query = mapOf("_id" to id),
-                options = mapOf(
-                    "populate" to JsonObject().apply {
-                        addProperty("path", "launches")
-                        add("populate", JsonObject().apply { addProperty("path", "rocket") })
-                    },
-                    "pagination" to false,
-                )
-            )
-        ).toRequestBody("application/json".toMediaTypeOrNull())
-        return apiService.getCrewById(body)
-    }
+    override suspend fun getCrewById(id: String): Response<ApiResponse<Crew>> =
+        apiService.getCrewById(requestById(id, populateLaunches))
 
     override suspend fun getDragons(): Response<List<Dragon>> = apiService.getDragons()
     override suspend fun getDragonById(id: String): Response<Dragon> = apiService.getDragonById(id)

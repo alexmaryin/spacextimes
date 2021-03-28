@@ -63,7 +63,7 @@ class SpacexDataRepository @Inject constructor(
     fun getCapsules(processTranslate: suspend (List<Capsule>?) -> Unit) = fetchItems(remoteApi::getCapsules, processTranslate)
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById)
 
-    fun getCores(processTranslate: suspend (List<Core>?) -> Unit) = fetchItems(remoteApi::getCores, processTranslate)
+    fun getCores(processTranslate: suspend (List<Cores>?) -> Unit) = fetchItems(remoteApi::getCores, processTranslate)
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
 
     fun getCrew() = fetchItems<Crews, List<Crews>>(remoteApi::getCrew)

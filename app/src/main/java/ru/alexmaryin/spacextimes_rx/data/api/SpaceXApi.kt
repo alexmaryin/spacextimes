@@ -11,8 +11,8 @@ interface SpaceXApi {
     suspend fun getCapsules(): Response<List<Capsule>>
     suspend fun getCapsuleById(id: String): Response<Capsule>
 
-    suspend fun getCores(): Response<List<Core>>
-    suspend fun getCoreById(id: String): Response<Core>
+    suspend fun getCores(): Response<List<Cores>>
+    suspend fun getCoreById(id: String): Response<ApiResponse<Core>>
 
     suspend fun getCrew(): Response<List<Crews>>
     suspend fun getCrewById(id: String): Response<ApiResponse<Crew>>

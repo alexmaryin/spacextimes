@@ -31,7 +31,8 @@ class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {})
-    private val coreAdapter = CoreAdapter(AdapterClickListenerById {})
+    private val coreAdapter = CoreAdapter(AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id)) })
     private val dragonAdapter = DragonsAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) })
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->

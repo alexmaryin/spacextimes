@@ -10,119 +10,126 @@
             type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rootLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        tools:context=".ui.view.fragments.DragonDetailFragment">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/detailsView"
+            android:id="@+id/rootLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:alpha="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_margin="5dp"
+            tools:context=".ui.view.fragments.DragonDetailFragment">
 
-            <com.synnapps.carouselview.CarouselView
-                android:id="@+id/imagesCarousel"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detailsView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                app:disableAutoPlayOnUserInteraction="true"
-                app:fillColor="#FFFFFFFF"
+                android:layout_height="wrap_content"
+                android:alpha="1"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:pageColor="#00000000"
-                app:radius="6dp"
-                app:strokeColor="#FF777777"
-                app:strokeWidth="1dp" />
+                app:layout_constraintVertical_bias="0.0">
 
-            <ImageButton
-                android:id="@+id/wikiButton"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                app:layout_constraintBottom_toBottomOf="@id/imagesCarousel"
-                app:layout_constraintEnd_toEndOf="@id/imagesCarousel"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:contentDescription="@string/wiki_page_open_button"
-                android:scaleType="fitCenter"
-                android:src="@drawable/wikilogo"
-                android:text="@string/wiki_label"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_700"
-                app:iconGravity="top" />
+                <com.synnapps.carouselview.CarouselView
+                    android:id="@+id/imagesCarousel"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:disableAutoPlayOnUserInteraction="true"
+                    app:fillColor="#FFFFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:pageColor="#00000000"
+                    app:radius="6dp"
+                    app:strokeColor="#FF777777"
+                    app:strokeWidth="1dp" />
 
-            <TextView
-                android:id="@+id/dragonStatusLine"
-                style="@style/regularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:dragonShortStatus="@{dragon}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagesCarousel"
-                tools:text="строка со статусом" />
+                <ImageButton
+                    android:id="@+id/wikiButton"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    app:layout_constraintBottom_toBottomOf="@id/imagesCarousel"
+                    app:layout_constraintEnd_toEndOf="@id/imagesCarousel"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/wiki_page_open_button"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/wikilogo"
+                    android:text="@string/wiki_label"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/purple_700"
+                    app:iconGravity="top" />
 
-            <TextView
-                android:id="@+id/dragonSizeLine"
-                style="@style/regularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:dragonSize="@{dragon}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dragonStatusLine"
-                tools:text="Строка с размерами" />
+                <TextView
+                    android:id="@+id/dragonStatusLine"
+                    style="@style/regularText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dragonShortStatus="@{dragon}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imagesCarousel"
+                    tools:text="строка со статусом" />
 
-            <TextView
-                android:id="@+id/heatShield"
-                style="@style/regularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:heatShield="@{dragon.heatShield}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dragonSizeLine"
-                tools:text="Строка с описанием щита" />
+                <TextView
+                    android:id="@+id/dragonSizeLine"
+                    style="@style/regularText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dragonSize="@{dragon}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dragonStatusLine"
+                    tools:text="Строка с размерами" />
 
-            <TextView
-                android:id="@+id/crewCapacity"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:crewCapacity="@{dragon.crewCapacity}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/heatShield"
-                tools:text="вместимость экипажа" />
+                <TextView
+                    android:id="@+id/heatShield"
+                    style="@style/regularText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:heatShield="@{dragon.heatShield}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dragonSizeLine"
+                    tools:text="Строка с описанием щита" />
 
-            <TextView
-                android:id="@+id/enginesLabel"
-                style="@style/regularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="#591976D2"
-                android:text="@string/list_thrusters_string"
-                android:textAlignment="center"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/crewCapacity" />
+                <TextView
+                    android:id="@+id/crewCapacity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:crewCapacity="@{dragon.crewCapacity}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/heatShield"
+                    tools:text="вместимость экипажа" />
 
-            <ListView
-                android:id="@+id/enginesList"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/enginesLabel" />
+                <TextView
+                    android:id="@+id/enginesLabel"
+                    style="@style/regularText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="#591976D2"
+                    android:text="@string/list_thrusters_string"
+                    android:textAlignment="center"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/crewCapacity" />
+
+                <ListView
+                    android:id="@+id/enginesList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/enginesLabel" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                android:id="@+id/wikiFrame"
+                layout="@layout/progress_webview_part" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include
-            android:id="@+id/wikiFrame"
-            layout="@layout/progress_webview_part" />
+    </androidx.core.widget.NestedScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

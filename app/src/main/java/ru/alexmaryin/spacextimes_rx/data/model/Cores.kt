@@ -5,7 +5,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 
-data class Core(
+data class Cores(
     override val id: String,
     val serial: String,
     val block: Int?,
@@ -17,5 +17,5 @@ data class Core(
     @SerializedName("asds_landings") val waterLandings: Int,
     @SerializedName("last_update") override val lastUpdate: String?,
     override var lastUpdateRu: String?,
-    val launches: List<Launches> = emptyList(),
+    val launches: List<String> = emptyList(),
 ) : HasStringId, HasLastUpdate { fun totalFlights() = launches.size }
