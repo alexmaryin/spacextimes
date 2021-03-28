@@ -8,12 +8,15 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentCoreDetailBinding
@@ -38,8 +41,10 @@ class CoreDetailFragment : Fragment() {
         binding.lifecycleOwner = this
         coreViewModel.state.set("coreId", args.coreId)
 
-        lifecycleScope.launchWhenResumed {
-            coreViewModel.getState().collect { state ->
+        lifecycleScope.launch {
+            coreViewModel.getState()
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collect { state ->
                 when (state) {
                     is Loading -> {
                         binding.detailsView replaceBy binding.progress

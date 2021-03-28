@@ -8,12 +8,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
@@ -97,8 +100,10 @@ class MainFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun collectState() = lifecycleScope.launchWhenResumed {
-            spaceXViewModel.getState().collect { state ->
+    private fun collectState() {
+        lifecycleScope.launch { spaceXViewModel.getState()
+            .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+            .collect { state ->
                 when (state) {
                     Loading -> {
                         binding.recyclerView replaceBy binding.progressBar
@@ -126,6 +131,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
+    }
 
     private fun processTranslate(switch: Boolean) {
         settings.translateToRu = switch

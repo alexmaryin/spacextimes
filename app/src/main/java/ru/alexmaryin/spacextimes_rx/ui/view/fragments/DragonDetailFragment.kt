@@ -9,10 +9,13 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.databinding.DragonDetailFragmentBinding
@@ -48,23 +51,28 @@ class DragonDetailFragment : Fragment() {
         observeState()
     }
 
-    private fun observeState() = lifecycleScope.launchWhenResumed {
-        dragonViewModel.getDragonState().collect { state ->
-            when (state) {
-                is Loading -> {
-                    binding.detailsView replaceBy binding.wikiFrame.progress
-                    activity?.title = getString(R.string.loadingText)
-                }
-                is Error -> {
-                    binding.wikiFrame.progress.visibility = View.GONE
-                    Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
-                }
-                is Success<*> -> {
-                    binding.wikiFrame.progress replaceBy binding.detailsView
-                    bindDetails(state.toDetails())
+    private fun observeState() {
+        lifecycleScope.launch {
+            dragonViewModel.getDragonState()
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collect { state ->
+                when (state) {
+                    is Loading -> {
+                        binding.detailsView replaceBy binding.wikiFrame.progress
+                        activity?.title = getString(R.string.loadingText)
+                    }
+                    is Error -> {
+                        binding.wikiFrame.progress.visibility = View.GONE
+                        Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
+                    }
+                    is Success<*> -> {
+                        binding.wikiFrame.progress replaceBy binding.detailsView
+                        bindDetails(state.toDetails())
+                    }
                 }
             }
         }
+
     }
 
     private fun bindDetails(dragon: Dragon) {
