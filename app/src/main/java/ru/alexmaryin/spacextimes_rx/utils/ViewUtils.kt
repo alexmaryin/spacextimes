@@ -10,6 +10,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.drawToBitmap
 import ru.alexmaryin.spacextimes_rx.R
 
@@ -56,4 +57,19 @@ fun downloadByLongClickListener(url: String?, filename: String) = View.OnLongCli
         return@OnLongClickListener true
     }
     false
+}
+
+fun saveByLongClickListener(context: Context, filename: String) = View.OnLongClickListener { view ->
+    AlertDialog.Builder(context)
+        .setTitle(context.getString(R.string.saving_title_string))
+        .setMessage(context.getString(R.string.save_image_dialog_string))
+        .setPositiveButton(context.getString(R.string.agreeText)) { dialog, _ ->
+            view.saveToStorage(context, filename)?.let {
+                context.notifyOnSavedPhoto(it)
+            } ?: Toast.makeText(context, context.getString(R.string.failed_image_save_string), Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        .setNegativeButton(context.getString(R.string.cancelText)) { dialog, _ -> dialog.dismiss() }
+        .show()
+    true
 }

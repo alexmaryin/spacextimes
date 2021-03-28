@@ -43,7 +43,10 @@ class LaunchesAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter
                     )
                 )
 
-                patchImage.setOnLongClickListener(downloadByLongClickListener(item.links.patch.large, "${item.name}_patch.jpg"))
+                patchImage.setOnLongClickListener(downloadByLongClickListener(
+                    item.links.patch.large ?: item.rocket.images[0],
+                    "${item.name}_patch.jpg")
+                )
             }
         }
     }

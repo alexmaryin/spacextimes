@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -6,8 +6,8 @@
     <data>
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DragonAdapters" />
         <variable
-            name="dragonViewModel"
-            type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel" />
+            name="dragon"
+            type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +32,7 @@
                 android:id="@+id/imagesCarousel"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                app:disableAutoPlayOnUserInteraction="true"
                 app:fillColor="#FFFFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,40 +63,40 @@
                 style="@style/regularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:dragonShortStatus="@{dragonViewModel.dragonDetails}"
+                app:dragonShortStatus="@{dragon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imagesCarousel"
-                tools:text="V ⇧ 6 т / 25 м³ ⇩ 3 т / 11 м³" />
+                tools:text="строка со статусом" />
 
             <TextView
                 android:id="@+id/dragonSizeLine"
                 style="@style/regularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:dragonSize="@{dragonViewModel.dragonDetails}"
+                app:dragonSize="@{dragon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dragonStatusLine"
-                tools:text="↕ 11.3 м ⌀ 22.1 м герметичный отсек - 11 м³" />
+                tools:text="Строка с размерами" />
 
             <TextView
                 android:id="@+id/heatShield"
                 style="@style/regularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:heatShield="@{dragonViewModel.dragonDetails.heatShield}"
+                app:heatShield="@{dragon.heatShield}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dragonSizeLine"
-                tools:text="Тепловой щит: ⌀ 3.6 м, PICA-X, 🔥3000℃\n партнер разработки - NASA" />
+                tools:text="Строка с описанием щита" />
 
             <TextView
                 android:id="@+id/crewCapacity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:crewCapacity="@{dragonViewModel.dragonDetails.crewCapacity}"
+                app:crewCapacity="@{dragon.crewCapacity}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/heatShield"
-                tools:text="Вместимость экипажа: 👤👤👤👤👤👤👤" />
+                tools:text="вместимость экипажа" />
 
             <TextView
                 android:id="@+id/enginesLabel"

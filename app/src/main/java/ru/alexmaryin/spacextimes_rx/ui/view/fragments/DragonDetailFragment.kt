@@ -9,9 +9,12 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.databinding.DragonDetailFragmentBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter.loadImage
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel
@@ -30,50 +33,56 @@ class DragonDetailFragment : Fragment() {
     ): View {
         activity?.title = getString(R.string.loadingText)
         binding = DataBindingUtil.inflate(inflater, R.layout.dragon_detail_fragment, container, false)
-        binding.dragonViewModel = dragonViewModel
         binding.lifecycleOwner = this
         binding.wikiFrame.wikiPage.attachProgressAndRootView(binding.wikiFrame.wikiProgress, binding.detailsView)
-        binding.imagesCarousel.setImageListener { position, imageView -> loadImage(imageView, dragonViewModel.dragonDetails.value?.images?.get(position)) }
 
         dragonViewModel.state.set("dragonId", args.dragonId)
         dragonViewModel.state.set("locale", requireContext().currentLocaleLang())
+        dragonViewModel.loadDragon()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dragonViewModel.dragon.observe(viewLifecycleOwner) { state ->
+        observeState()
+    }
+
+    private fun observeState() = lifecycleScope.launchWhenResumed {
+        dragonViewModel.getDragonState().collect { state ->
             when (state) {
                 is Loading -> {
-                    binding.wikiFrame.progress.visibility = View.VISIBLE
-                    binding.detailsView.visibility = View.GONE
+                    binding.detailsView replaceBy binding.wikiFrame.progress
                     activity?.title = getString(R.string.loadingText)
                 }
                 is Error -> {
                     binding.wikiFrame.progress.visibility = View.GONE
-                    Toast.makeText(this.context, state.msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
                 }
                 is Success<*> -> {
-                    binding.wikiFrame.progress.visibility = View.GONE
-                    binding.detailsView.visibility = View.VISIBLE
-                    activity?.title = dragonViewModel.getTitle()
+                    binding.wikiFrame.progress replaceBy binding.detailsView
+                    bindDetails(state.toDetails())
                 }
             }
         }
+    }
 
-        dragonViewModel.dragonDetails.observe(viewLifecycleOwner) { dragon ->
-            binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(dragon.wikiLocale ?: dragon.wikipedia ?: "") }
-            binding.imagesCarousel.pageCount = dragon.images.size
-
-            binding.enginesList.adapter = SimpleAdapter(
-                requireContext(),
-                dragonViewModel.thrustersMap(requireContext()),
-                android.R.layout.simple_list_item_2,
-                dragonViewModel.thrustersLines,
-                arrayOf(android.R.id.text1, android.R.id.text2).toIntArray()
-            )
+    private fun bindDetails(dragon: Dragon) {
+        activity?.title = dragon.name
+        binding.dragon = dragon
+        binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(dragon.wikiLocale ?: dragon.wikipedia ?: "") }
+        binding.imagesCarousel.apply {
+            setImageListener { position, imageView -> loadImage(imageView, dragon.images[position]) }
+            setOnLongClickListener(saveByLongClickListener(requireContext(), "${dragon.name}.jpg"))  // TODO("Don't work with CarouselView!")
+            pageCount = dragon.images.size
         }
+        binding.enginesList.adapter = SimpleAdapter(
+            requireContext(),
+            dragonViewModel.thrustersMap(requireContext(), dragon),
+            android.R.layout.simple_list_item_2,
+            dragonViewModel.thrustersLines,
+            arrayOf(android.R.id.text1, android.R.id.text2).toIntArray()
+        )
     }
 
     override fun onDestroyView() {

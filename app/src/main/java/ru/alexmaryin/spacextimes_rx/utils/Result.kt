@@ -14,3 +14,5 @@ sealed class Result
 inline fun <reified T> Result.toListOf(): List<T>? = if (this is Success<*>) (data as List<*>).map { it as T } else null
 
 fun <T> List<T>.toSuccess() = Success(this)
+
+inline fun <reified T> Result.toDetails(): T = (this as Success<*>).data as T
