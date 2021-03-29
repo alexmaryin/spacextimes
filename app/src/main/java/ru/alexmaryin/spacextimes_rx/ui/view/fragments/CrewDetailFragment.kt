@@ -84,11 +84,13 @@ class CrewDetailFragment : Fragment() {
         binding.crew = crew
         binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crew.wikiLocale ?: crew.wikipedia ?: "") }
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
-        missionsAdapter.submitList(listOf(getString(R.string.crew_missions_list_header).asHeader()).plus(crew.launches.asBody()))
-        binding.crewMissions.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = missionsAdapter
+        if (crew.launches.isNotEmpty()) {
+            missionsAdapter.submitList(listOf(getString(R.string.crew_missions_list_header).asHeader()).plus(crew.launches.asBody()))
+            binding.crewMissions.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+                adapter = missionsAdapter
+            }
         }
     }
 
