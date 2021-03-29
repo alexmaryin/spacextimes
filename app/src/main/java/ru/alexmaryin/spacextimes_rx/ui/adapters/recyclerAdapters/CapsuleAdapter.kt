@@ -9,21 +9,20 @@ import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.*
 import ru.alexmaryin.spacextimes_rx.utils.CircleTransformation
 
-class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Capsule>(clickListener) {
+class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(clickListener) {
 
-    class ViewHolder (private val binding: CapsuleItemBinding): DataViewHolder<Capsule>(binding) {
+    class ViewHolder (private val binding: CapsuleItemBinding): DataViewHolder(binding) {
 
-        override fun bind(item: Capsule, clickListener: AdapterClickListenerById) {
+        override fun bind(item: DataItem, clickListener: AdapterClickListenerById) {
+            val capsule = item.asData<Capsule>()!!
             with (binding) {
-                capsule = item
+                this.capsule = capsule
 
                 Picasso.get()
-                    .load(when (item.type) {
+                    .load(when (capsule.type) {
                         CapsuleType.DRAGON1_0 -> R.drawable.dragon_1_0_foreground
                         CapsuleType.DRAGON1_1 -> R.drawable.dragon_1_1_foreground
                         CapsuleType.DRAGON2_0 -> R.drawable.dragon_2_0_foreground
@@ -33,7 +32,7 @@ class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<C
                     .error(R.drawable.ic_broken_image)
                     .into(capsuleImage)
 
-                when (item.status) {
+                when (capsule.status) {
                     CapsuleStatus.UNKNOWN -> {
                         capsuleStatus.text = root.context.getString(R.string.unknownText)
                         capsuleStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_unknown, 0, 0, 0)
@@ -57,17 +56,17 @@ class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<C
                 }
 
                 capsuleReused.text = buildString {
-                    if (item.reuseCount > 0) append(root.resources.getQuantityString(R.plurals.reuseCountString, item.reuseCount, item.reuseCount))
-                    if (item.landLandings > 0) append(root.context.getString(R.string.groundLandCountString, item.landLandings))
-                    if (item.waterLandings > 0) append(root.context.getString(R.string.waterLandCountString, item.waterLandings))
+                    if (capsule.reuseCount > 0) append(root.resources.getQuantityString(R.plurals.reuseCountString, capsule.reuseCount, capsule.reuseCount))
+                    if (capsule.landLandings > 0) append(root.context.getString(R.string.groundLandCountString, capsule.landLandings))
+                    if (capsule.waterLandings > 0) append(root.context.getString(R.string.waterLandCountString, capsule.waterLandings))
                 }
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<Capsule> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == BODY_TYPE)
         LayoutInflater.from(parent.context).run { ViewHolder(DataBindingUtil.inflate(this, R.layout.capsule_item, parent, false)) }
-
+    else super.onCreateViewHolder(parent, viewType)
 }
 
 

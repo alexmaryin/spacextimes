@@ -44,23 +44,27 @@ class SpaceXViewModel @Inject constructor(
     }
 
     var currentScreen = Screen.Crew
+    var needRefresh = true
 
     private val state = MutableStateFlow<Result>(Loading)
     fun getState() = state.asStateFlow()
 
     fun changeScreen(screen: Screen) {
-        currentScreen = screen
-        viewModelScope.launch {
-            when (screen) {
-                Screen.Capsules -> capsules
-                Screen.Cores -> cores
-                Screen.Crew -> crew
-                Screen.Dragons -> dragons
-                Screen.Rockets -> rockets
-                Screen.Launches -> launches
-                Screen.LaunchPads -> launchPads
-                Screen.LandingPads -> landingPads
-            }.collect { result -> state.value = result }
+        if (screen != currentScreen || needRefresh) {
+            currentScreen = screen
+            needRefresh = false
+            viewModelScope.launch {
+                when (screen) {
+                    Screen.Capsules -> capsules
+                    Screen.Cores -> cores
+                    Screen.Crew -> crew
+                    Screen.Dragons -> dragons
+                    Screen.Rockets -> rockets
+                    Screen.Launches -> launches
+                    Screen.LaunchPads -> launchPads
+                    Screen.LandingPads -> landingPads
+                }.collect { result -> state.value = result }
+            }
         }
     }
 
@@ -82,6 +86,7 @@ class SpaceXViewModel @Inject constructor(
     private val launches = repository.getLaunches()
 
     fun armRefresh() {
+        needRefresh = true
         changeScreen(currentScreen)
     }
 }

@@ -23,6 +23,7 @@ import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.asBody
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
@@ -138,9 +139,9 @@ class MainFragment : Fragment() {
         spaceXViewModel.armRefresh()
     }
 
-    private fun <T : HasStringId> renderItems(items: List<T>, currentAdapter: BaseListAdapter<T>, titleResource: Int) {
+    private fun <T : HasStringId> renderItems(items: List<T>, currentAdapter: BaseListAdapter, titleResource: Int) {
         activity?.title = getString(titleResource)
-        currentAdapter.submitList(items)
+        currentAdapter.submitList(items.asBody())
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))

@@ -8,13 +8,11 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Cores
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 import ru.alexmaryin.spacextimes_rx.databinding.CoreItemBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.*
 
-class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Cores>(clickListener) {
+class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(clickListener) {
 
-    class ViewHolder (private val binding: CoreItemBinding): DataViewHolder<Cores>(binding) {
+    class ViewHolder (private val binding: CoreItemBinding): DataViewHolder(binding) {
 
         private fun falconResourceName(item: Cores) = if (item.block == null) "falcon1" else buildString {
             append("falcon9block${item.block}")
@@ -26,15 +24,16 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Core
             })
         }
 
-        override fun bind(item: Cores, clickListener: AdapterClickListenerById) {
+        override fun bind(item: DataItem, clickListener: AdapterClickListenerById) {
+            val core = item.asData<Cores>()!!
             with (binding) {
-                core = item
-                this.clickListener = if(item.totalFlights() > 0) clickListener else AdapterClickListenerById {
+                this.core = core
+                this.clickListener = if(core.totalFlights() > 0) clickListener else AdapterClickListenerById {
                     Toast.makeText(root.context, root.context.getString(R.string.core_not_fly_text), Toast.LENGTH_LONG).show()
                 }
 
-                coreThumbnail.setImageResource(root.resources.getIdentifier(falconResourceName(item), "drawable", root.context.packageName))
-                when (item.status) {
+                coreThumbnail.setImageResource(root.resources.getIdentifier(falconResourceName(core), "drawable", root.context.packageName))
+                when (core.status) {
                     CoreStatus.UNKNOWN -> {
                         coreStatus.text = root.context.getString(R.string.unknownText)
                         coreStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_unknown, 0, 0, 0)
@@ -58,17 +57,17 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter<Core
                 }
 
                 coreReusing.text = buildString {
-                    append(if (item.totalFlights() > 0)
-                            root.resources.getQuantityString(R.plurals.reuseCountString, item.totalFlights(), item.totalFlights())
+                    append(if (core.totalFlights() > 0)
+                            root.resources.getQuantityString(R.plurals.reuseCountString, core.totalFlights(), core.totalFlights())
                         else root.resources.getString(R.string.noFlightString))
-                    if (item.groundLandAttempts > 0) append(root.context.getString(R.string.groundLandCoreCountString, item.groundLandings, item.groundLandAttempts))
-                    if (item.waterLandAttempts > 0) append(root.context.getString(R.string.waterLandCoreCountString, item.waterLandings, item.waterLandAttempts))
+                    if (core.groundLandAttempts > 0) append(root.context.getString(R.string.groundLandCoreCountString, core.groundLandings, core.groundLandAttempts))
+                    if (core.waterLandAttempts > 0) append(root.context.getString(R.string.waterLandCoreCountString, core.waterLandings, core.waterLandAttempts))
                 }
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<Cores> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder = if (viewType == BODY_TYPE)
         LayoutInflater.from(parent.context).run { ViewHolder(DataBindingUtil.inflate(this, R.layout.core_item, parent, false)) }
-
+    else super.onCreateViewHolder(parent, viewType)
 }

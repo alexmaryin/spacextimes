@@ -82,25 +82,11 @@
                     app:layout_constraintBottom_toBottomOf="@+id/image"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <TextView
-                    style="@style/regularText"
-                    android:id="@+id/missionsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#591976D2"
-                    android:textAlignment="center"
-                    android:textStyle="italic"
-                    app:layout_constraintTop_toBottomOf="@id/agencyText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:text="@string/crew_missions_list_header"
-                    android:visibility="@{crew.launches.empty ? View.GONE : View.VISIBLE}"/>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/crewMissions"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/missionsLabel"
+                    app:layout_constraintTop_toBottomOf="@id/agencyText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 

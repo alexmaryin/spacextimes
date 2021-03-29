@@ -8,7 +8,7 @@ import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +27,7 @@ import ru.alexmaryin.spacextimes_rx.utils.*
 class DragonDetailFragment : Fragment() {
 
     private val args: DragonDetailFragmentArgs by navArgs()
-    private val dragonViewModel: DragonDetailViewModel by activityViewModels()
+    private val dragonViewModel: DragonDetailViewModel by viewModels()
     private lateinit var binding: DragonDetailFragmentBinding
 
     override fun onCreateView(
