@@ -3,8 +3,8 @@ package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -15,7 +15,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
-import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.toListOf
 import ru.alexmaryin.spacextimes_rx.utils.toSuccess
@@ -44,10 +43,10 @@ class SpaceXViewModel @Inject constructor(
     }
 
     var currentScreen = Screen.Crew
-    var needRefresh = true
+    private var needRefresh = true
 
-    private val state = MutableStateFlow<Result>(Loading)
-    fun getState() = state.asStateFlow()
+    private val state = MutableSharedFlow<Result>(1)
+    fun getState() = state.asSharedFlow()
 
     fun changeScreen(screen: Screen) {
         if (screen != currentScreen || needRefresh) {
@@ -63,7 +62,7 @@ class SpaceXViewModel @Inject constructor(
                     Screen.Launches -> launches
                     Screen.LaunchPads -> launchPads
                     Screen.LandingPads -> landingPads
-                }.collect { result -> state.value = result }
+                }.collect { result -> state.tryEmit(result) }
             }
         }
     }
