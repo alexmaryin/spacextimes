@@ -148,9 +148,4 @@ class MainFragment : Fragment() {
             adapter = currentAdapter
         }
     }
-
-    override fun onDestroyView() {
-        binding.unbind()
-        super.onDestroyView()
-    }
 }

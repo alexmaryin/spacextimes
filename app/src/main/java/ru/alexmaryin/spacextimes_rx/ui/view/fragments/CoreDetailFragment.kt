@@ -20,7 +20,9 @@ import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentCoreDetailBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.*
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
+import ru.alexmaryin.spacextimes_rx.ui.adapters.asBody
+import ru.alexmaryin.spacextimes_rx.ui.adapters.asHeader
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.LaunchesAdapter
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CoreDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*

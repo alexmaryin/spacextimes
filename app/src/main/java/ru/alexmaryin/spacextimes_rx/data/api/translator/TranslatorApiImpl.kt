@@ -32,7 +32,8 @@ class TranslatorApiImpl @Inject constructor(val api: SpaceXApi) : TranslatorApi 
         to: KMutableProperty1<T, String?>
     ) {
         withContext(context + Dispatchers.IO) {
-            val listForTranslating = items.filter { from.get(it) != null }
+            // Put to list items which have field for translate and have no translated field yet
+            val listForTranslating = items.filter { from.get(it) != null && to.get(it) == null }
             fromList(listForTranslating, readItemToTranslate = { from.get(it)!! },
                 updateItemWithTranslate = { item, translate -> to.set(item, translate) })
         }

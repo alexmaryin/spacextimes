@@ -62,11 +62,8 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
     override suspend fun getLaunchById(id: String): Response<Launch> = apiService.getLaunchById(id)
 
     override suspend fun translate(source: String): Response<PlainTextResponse> {
-        val body = JsonObject().run {
-            addProperty("source", source)
-            addProperty("lang", "en-ru")
-            addProperty("as", "json")
-        }.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        val body = Gson().toJson(mapOf("source" to source, "lang" to "en-ru","as" to "json"))
+            .toRequestBody("application/json".toMediaTypeOrNull())
         return apiService.translate(body)
     }
 }
