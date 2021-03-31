@@ -1,9 +1,12 @@
 package ru.alexmaryin.spacextimes_rx.di
 
+import android.content.Context
+import androidx.room.Room
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,10 +21,12 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
+import ru.alexmaryin.spacextimes_rx.data.local.TranslateDatabase
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocalImpl
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -59,6 +64,20 @@ class ApplicationModule {
 
     @Provides
     @Singleton
+    fun provideTranslationsDatabase(@ApplicationContext context: Context) =
+        Room.databaseBuilder(
+            context,
+            TranslateDatabase::class.java,
+            "translationsDb"
+        ).fallbackToDestructiveMigration()
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideTranslationsDao(db: TranslateDatabase) = db.dao
+
+    @Provides
+    @Singleton
     fun provideApiService(retrofit: Retrofit): RetrofitApiService = retrofit.create(RetrofitApiService::class.java)
 
     @Provides
@@ -70,7 +89,6 @@ class ApplicationModule {
     fun provideLocalApi(api: ApiLocalImpl): ApiLocal = api
 
     @Provides
-    @Singleton
     fun provideTranslator(translator: TranslatorApiImpl): TranslatorApi = translator
 
     @Provides

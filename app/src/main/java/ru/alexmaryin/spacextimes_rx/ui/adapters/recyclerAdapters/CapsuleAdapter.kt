@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Capsule
+import ru.alexmaryin.spacextimes_rx.data.model.Capsules
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
@@ -17,7 +17,7 @@ class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(c
     class ViewHolder (private val binding: CapsuleItemBinding): DataViewHolder(binding) {
 
         override fun bind(item: DataItem, clickListener: AdapterClickListenerById) {
-            val capsule = item.asData<Capsule>()!!
+            val capsule = item.asData<Capsules>()!!
             with (binding) {
                 this.capsule = capsule
 

@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.ApiResponse
@@ -33,12 +34,10 @@ class SpacexDataRepository @Inject constructor(
                         } catch (e: IOException) {
                             emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
                         }
-//                    TODO("Save to local")
                     } else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                 }
             } catch (e: IOException) { emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.REMOTE_API_ERROR)) }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
-//        TODO("Let's load from cache if network is unavailable.")
     }
 
     private inline fun <reified T, R> fetchItemById(
@@ -49,6 +48,7 @@ class SpacexDataRepository @Inject constructor(
         emit(Loading)
         localApiCallback(id)?.let {
             emit(Success(it))
+            Log.d("REPOSITORY", "fetchItemById loaded local $it")
         } ?: if (networkHelper.isNetworkConnected()) {
             apiCallback(id).apply {
                 if (isSuccessful) emit(Success(when (body()) {
@@ -56,11 +56,13 @@ class SpacexDataRepository @Inject constructor(
                     is ApiResponse<*> -> (body() as ApiResponse<*>).docs.first() as T
                     else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
                 })) else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
+
+                Log.d("REPOSITORY", "fetchItemById loaded remote ${this.body()}")
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
     }
 
-    fun getCapsules(processTranslate: suspend (List<Capsule>?) -> Unit) = fetchItems(remoteApi::getCapsules, processTranslate)
+    fun getCapsules(processTranslate: suspend (List<Capsules>?) -> Unit) = fetchItems(remoteApi::getCapsules, processTranslate)
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById)
 
     fun getCores(processTranslate: suspend (List<Cores>?) -> Unit) = fetchItems(remoteApi::getCores, processTranslate)

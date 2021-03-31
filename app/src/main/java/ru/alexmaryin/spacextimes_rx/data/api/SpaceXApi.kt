@@ -8,8 +8,8 @@ import ru.alexmaryin.spacextimes_rx.data.model.*
 
 interface SpaceXApi {
 
-    suspend fun getCapsules(): Response<List<Capsule>>
-    suspend fun getCapsuleById(id: String): Response<Capsule>
+    suspend fun getCapsules(): Response<List<Capsules>>
+    suspend fun getCapsuleById(id: String): Response<Capsules>
 
     suspend fun getCores(): Response<List<Cores>>
     suspend fun getCoreById(id: String): Response<ApiResponse<Core>>

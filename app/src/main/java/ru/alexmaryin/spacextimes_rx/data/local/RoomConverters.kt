@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.data.repository
+package ru.alexmaryin.spacextimes_rx.data.local
 
 import androidx.room.TypeConverter
 import java.util.*

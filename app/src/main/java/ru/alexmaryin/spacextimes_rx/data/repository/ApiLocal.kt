@@ -4,9 +4,9 @@ import ru.alexmaryin.spacextimes_rx.data.model.*
 
 interface ApiLocal {
 
-        fun getCapsules(): List<Capsule>
-        fun saveCapsules(capsules: List<Capsule>)
-        fun getCapsuleById(id: String): Capsule?
+        fun getCapsules(): List<Capsules>
+        fun saveCapsules(capsules: List<Capsules>)
+        fun getCapsuleById(id: String): Capsules?
 
         fun getCores(): List<Core>
         fun getCoreById(id: String): Core?

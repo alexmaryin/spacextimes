@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.data.repository
+package ru.alexmaryin.spacextimes_rx.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,9 +13,9 @@ interface TranslateDao {
     @Update
     fun update(item: TranslateItem)
 
-    @Query("select * from translations_table where id=:key")
+    @Query("select * from translations where id=:key")
     fun get(key: Int): TranslateItem?
 
-    @Query("delete from translations_table")
+    @Query("delete from translations")
     fun clear()
 }

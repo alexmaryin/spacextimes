@@ -3,13 +3,17 @@ package ru.alexmaryin.spacextimes_rx.data.api.translator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
+import ru.alexmaryin.spacextimes_rx.data.local.TranslateDao
 import java.io.IOException
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 
-class TranslatorApiImpl @Inject constructor(val api: SpaceXApi) : TranslatorApi {
+class TranslatorApiImpl @Inject constructor(
+    val api: SpaceXApi,
+    val translationsDao: TranslateDao,
+    ) : TranslatorApi {
 
     override suspend fun fromString(source: String): String? {
         val response = api.translate(source)

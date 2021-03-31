@@ -10,10 +10,10 @@ import ru.alexmaryin.spacextimes_rx.data.model.*
 interface RetrofitApiService {
 
     @GET(SpacexUrls.AllCapsules)
-    suspend fun getCapsules(): Response<List<Capsule>>
+    suspend fun getCapsules(): Response<List<Capsules>>
 
     @GET(SpacexUrls.AllCapsules+"{id}")
-    suspend fun getCapsuleById(@Path("id") id: String): Response<Capsule>
+    suspend fun getCapsuleById(@Path("id") id: String): Response<Capsules>
 
     @GET(SpacexUrls.AllCores)
     suspend fun getCores(): Response<List<Cores>>
