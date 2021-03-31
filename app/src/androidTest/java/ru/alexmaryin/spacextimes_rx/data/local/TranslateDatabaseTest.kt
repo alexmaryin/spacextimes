@@ -63,9 +63,7 @@ class TranslateDatabaseTest {
         val testStr = "Translate me, please!"
         val item = TranslateItem(testStr.hashCode(), testStr, testStr, Date())
         dao.insert(item)
-        print("Saved item with id=${item.id}; ")
         val restoredItem = dao.get(testStr.hashCode())
-        println("restored item with id=${restoredItem?.id}")
         assertEquals(testStr, restoredItem?.translation)
     }
 }

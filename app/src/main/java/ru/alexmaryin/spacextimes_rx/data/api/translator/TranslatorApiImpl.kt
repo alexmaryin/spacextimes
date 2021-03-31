@@ -4,7 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDao
+import ru.alexmaryin.spacextimes_rx.data.local.TranslateItem
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlin.reflect.KMutableProperty1
@@ -36,10 +38,23 @@ class TranslatorApiImpl @Inject constructor(
         to: KMutableProperty1<T, String?>
     ) {
         withContext(context + Dispatchers.IO) {
-            // Put to list items which have field for translate and have no translated field yet
+            // At first try to load local copy of translation for the specified string
+            items.forEach { to.set(it, translationsDao.get(from.get(it).hashCode())?.translation) }
+            // Then put to list items which have field for translate and have no translated field yet
             val listForTranslating = items.filter { from.get(it) != null && to.get(it) == null }
-            fromList(listForTranslating, readItemToTranslate = { from.get(it)!! },
-                updateItemWithTranslate = { item, translate -> to.set(item, translate) })
+            if (listForTranslating.isNotEmpty()) {
+                fromList(listForTranslating, readItemToTranslate = { from.get(it)!! },
+                    updateItemWithTranslate = { item, translate ->
+                        to.set(item, translate)
+                        // At finish save fetched translations locally
+                        translationsDao.insert(TranslateItem(
+                            id = from.get(item).hashCode(),
+                            origin = from.get(item)!!,
+                            translation = translate,
+                            insertDate = Date()
+                        ))
+                    })
+            }
         }
     }
 }
