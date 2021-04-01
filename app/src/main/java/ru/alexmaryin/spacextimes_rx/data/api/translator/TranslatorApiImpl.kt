@@ -2,7 +2,8 @@ package ru.alexmaryin.spacextimes_rx.data.api.translator
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDao
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateItem
@@ -18,7 +19,7 @@ class TranslatorApiImpl @Inject constructor(
     val api: SpaceXApi,
     private val translationsDao: TranslateDao,
     @ApplicationContext val appContext: Context,
-    ) : TranslatorApi {
+) : TranslatorApi {
 
     override suspend fun fromString(source: String): String? =
         withContext(Dispatchers.IO) {
@@ -30,9 +31,11 @@ class TranslatorApiImpl @Inject constructor(
             if (response.isSuccessful) response.body()?.data else throw IOException(response.message())
         }
 
-    override suspend fun <T> fromList(source: List<T>,
-                                      readItemToTranslate: (T) -> String,
-                                      updateItemWithTranslate: (T, String) -> Unit): List<T>? {
+    override suspend fun <T> fromList(
+        source: List<T>,
+        readItemToTranslate: (T) -> String,
+        updateItemWithTranslate: (T, String) -> Unit
+    ): List<T>? {
         val response = fromString(source.joinToString("\n") { readItemToTranslate(it) })?.split("\n")
         return source.takeIf { source.size == response?.size }
             ?.apply { for ((item, ruString) in (this zip response!!)) updateItemWithTranslate(item, ruString) }
@@ -43,25 +46,34 @@ class TranslatorApiImpl @Inject constructor(
         items: List<T>,
         from: KProperty1<T, String?>,
         to: KMutableProperty1<T, String?>
-    ) {
-        withContext(context + Dispatchers.IO) {
-            // At first try to load local copy of translation for the specified string
-            items.forEach { to.set(it, translationsDao.get(from.get(it).hashCode())?.translation) }
-            // Then put to list items which have field for translate and have no translated field yet
-            val listForTranslating = items.filter { from.get(it) != null && to.get(it) == null }
-            if (listForTranslating.isNotEmpty()) {
-                fromList(listForTranslating, readItemToTranslate = { from.get(it)!! },
-                    updateItemWithTranslate = { item, translate ->
-                        to.set(item, translate)
-                        // At finish save fetched translations locally
-                        translationsDao.insert(TranslateItem(
-                            id = from.get(item).hashCode(),
-                            origin = from.get(item)!!,
-                            translation = translate,
-                            insertDate = Date()
-                        ))
-                    })
-            }
+    ) = withContext(context + Dispatchers.IO) {
+        val listForTranslating = items.filter { from.get(it) != null && to.get(it) == null }
+        if (listForTranslating.isNotEmpty()) {
+            fromList(listForTranslating, readItemToTranslate = { from.get(it)!! },
+                updateItemWithTranslate = { item, translate -> to.set(item, translate) })
+        }
+    }
+
+    override suspend fun <T> tryLoadLocalTranslate(
+        context: CoroutineContext,
+        items: List<T>,
+        from: KProperty1<T, String?>,
+        to: KMutableProperty1<T, String?>
+    ) = withContext(context + Dispatchers.IO) {
+        items.forEach { from.get(it)?.let { origin -> to.set(it, translationsDao.findString(origin)?.translation) } }
+    }
+
+    override suspend fun <T> saveLocalTranslations(
+        context: CoroutineContext,
+        items: List<T>,
+        from: KProperty1<T, String?>,
+        to: KMutableProperty1<T, String?>
+    ) = withContext(context + Dispatchers.IO) {
+        items.filter { from.get(it) != null && to.get(it) != null }.forEach {
+            translationsDao.insert(TranslateItem(
+                    origin = from.get(it)!!,
+                    translation = to.get(it)!!,
+                    insertDate = Date()))
         }
     }
 }

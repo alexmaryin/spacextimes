@@ -18,7 +18,7 @@ class SpacexDataRepository @Inject constructor(
 
     private inline fun <reified T, R> fetchItems(
         noinline apiCallback: suspend () -> Response<R>,
-        noinline processTranslate: suspend (List<T>?) -> Unit = {},
+        processCallbacks: List<suspend (List<T>?) -> Unit> = emptyList(),
     ) = flow {
         emit(Loading)
         if (networkHelper.isNetworkConnected()) {
@@ -27,8 +27,12 @@ class SpacexDataRepository @Inject constructor(
                     if (isSuccessful) {
                         try {
                             emit(Success(when (body()) {
-                                is List<*> -> (body() as List<*>).apply { processTranslate(this.map { it as T }) }
-                                is ApiResponse<*> -> (body() as ApiResponse<*>).docs.apply { processTranslate(this.map { it as T }) }
+                                is List<*> -> (body() as List<*>).apply {
+                                    processCallbacks.forEach { process -> process(this.map { it as T }) }
+                                }
+                                is ApiResponse<*> -> (body() as ApiResponse<*>).docs.apply {
+                                    processCallbacks.forEach { process -> process(this.map { it as T }) }
+                                }
                                 else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
                             }))
                         } catch (e: IOException) {
@@ -36,7 +40,7 @@ class SpacexDataRepository @Inject constructor(
                         }
                     } else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                 }
-            } catch (e: IOException) { emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.REMOTE_API_ERROR)) }
+            } catch (e: Exception) { emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.OTHER_ERROR)) }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
     }
 
@@ -62,25 +66,25 @@ class SpacexDataRepository @Inject constructor(
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
     }
 
-    fun getCapsules(processTranslate: suspend (List<Capsules>?) -> Unit) = fetchItems(remoteApi::getCapsules, processTranslate)
+    fun getCapsules(processCallbacks: List<suspend (List<Capsules>?) -> Unit>) = fetchItems(remoteApi::getCapsules, processCallbacks)
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById)
 
-    fun getCores(processTranslate: suspend (List<Cores>?) -> Unit) = fetchItems(remoteApi::getCores, processTranslate)
+    fun getCores(processCallbacks: List<suspend (List<Cores>?) -> Unit>) = fetchItems(remoteApi::getCores, processCallbacks)
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
 
     fun getCrew() = fetchItems<Crews, List<Crews>>(remoteApi::getCrew)
     fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById)
 
-    fun getDragons(processTranslate: suspend (List<Dragon>?) -> Unit) = fetchItems(remoteApi::getDragons, processTranslate)
+    fun getDragons(processCallbacks: List<suspend (List<Dragon>?) -> Unit>) = fetchItems(remoteApi::getDragons, processCallbacks)
     fun getDragonById(id: String) = fetchItemById(id, remoteApi::getDragonById, localApi::getDragonById)
 
-    fun getRockets(processTranslate: suspend (List<Rocket>?) -> Unit) = fetchItems(remoteApi::getRockets, processTranslate)
+    fun getRockets(processCallbacks: List<suspend (List<Rocket>?) -> Unit>) = fetchItems(remoteApi::getRockets, processCallbacks)
     fun getRocketById(id: String) = fetchItemById(id, remoteApi::getRocketById, localApi::getRocketById)
 
-    fun getLaunchPads(processTranslate: suspend (List<LaunchPad>?) -> Unit) = fetchItems(remoteApi::getLaunchPads, processTranslate)
+    fun getLaunchPads(processCallbacks: List<suspend (List<LaunchPad>?) -> Unit>) = fetchItems(remoteApi::getLaunchPads, processCallbacks)
     fun getLaunchPadById(id: String) = fetchItemById(id, remoteApi::getLaunchPadById, localApi::getLaunchPadById)
 
-    fun getLandingPads(processTranslate: suspend (List<LandingPad>?) -> Unit) = fetchItems(remoteApi::getLandingPads, processTranslate)
+    fun getLandingPads(processCallbacks: List<suspend (List<LandingPad>?) -> Unit>) = fetchItems(remoteApi::getLandingPads, processCallbacks)
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
     fun getLaunches() = fetchItems<Launches, ApiResponse<Launches>>(remoteApi::getLaunches)

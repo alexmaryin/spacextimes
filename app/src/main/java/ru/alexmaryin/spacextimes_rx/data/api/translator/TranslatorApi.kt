@@ -9,4 +9,6 @@ interface TranslatorApi {
     suspend fun <T> fromList(source: List<T>, readItemToTranslate: (T) -> String,
                              updateItemWithTranslate: (T, String) -> Unit): List<T>?
     suspend fun <T> translate(context: CoroutineContext, items: List<T>, from: KProperty1<T, String?>, to: KMutableProperty1<T, String?>)
+    suspend fun <T> tryLoadLocalTranslate(context: CoroutineContext, items: List<T>, from: KProperty1<T, String?>, to: KMutableProperty1<T, String?>)
+    suspend fun <T> saveLocalTranslations(context: CoroutineContext, items: List<T>, from: KProperty1<T, String?>, to: KMutableProperty1<T, String?>)
 }

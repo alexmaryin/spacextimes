@@ -27,19 +27,28 @@ class SpaceXViewModel @Inject constructor(
     private val translator: TranslatorApi
 ) : ViewModel() {
 
-    private suspend fun translateLastUpdate(items: List<HasLastUpdate>) {
-        if (settings.translateToRu)
+    private suspend fun translateLastUpdate(items: List<HasLastUpdate>?) {
+        if (settings.translateToRu && items != null) {
+            translator.tryLoadLocalTranslate(viewModelScope.coroutineContext, items, HasLastUpdate::lastUpdate, HasLastUpdate::lastUpdateRu)
             translator.translate(viewModelScope.coroutineContext, items, HasLastUpdate::lastUpdate, HasLastUpdate::lastUpdateRu)
+            translator.saveLocalTranslations(viewModelScope.coroutineContext, items, HasLastUpdate::lastUpdate, HasLastUpdate::lastUpdateRu)
+        }
     }
 
-    private suspend fun translateDescription(items: List<HasDescription>) {
-        if (settings.translateToRu)
+    private suspend fun translateDescription(items: List<HasDescription>?) {
+        if (settings.translateToRu && items != null) {
+            translator.tryLoadLocalTranslate(viewModelScope.coroutineContext, items, HasDescription::description, HasDescription::descriptionRu)
             translator.translate(viewModelScope.coroutineContext, items, HasDescription::description, HasDescription::descriptionRu)
+            translator.saveLocalTranslations(viewModelScope.coroutineContext, items, HasDescription::description, HasDescription::descriptionRu)
+        }
     }
 
-    private suspend fun translateDetails(items: List<HasDetails>) {
-        if (settings.translateToRu)
+    private suspend fun translateDetails(items: List<HasDetails>?) {
+        if (settings.translateToRu && items != null) {
+            translator.tryLoadLocalTranslate(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
             translator.translate(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
+            translator.saveLocalTranslations(viewModelScope.coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
+        }
     }
 
     var currentScreen = Screen.Crew
@@ -67,20 +76,20 @@ class SpaceXViewModel @Inject constructor(
         }
     }
 
-    private val capsules = repository.getCapsules { it?.let { translateLastUpdate(it) } }
+    private val capsules = repository.getCapsules(listOf(::translateLastUpdate))
 
-    private val cores = repository.getCores { it?.let { translateLastUpdate(it) } }.map {
+    private val cores = repository.getCores(listOf(::translateLastUpdate)).map {
                 it.toListOf<Cores>()?.sortedWith(compareBy(Cores::block, Cores::serial))?.reversed()?.toSuccess() ?: it }
 
     private val crew = repository.getCrew()
 
-    private val dragons = repository.getDragons { it?.let { translateDescription(it) } }
+    private val dragons = repository.getDragons(listOf(::translateDescription))
 
-    private val rockets = repository.getRockets { it?.let { translateDescription(it) } }
+    private val rockets = repository.getRockets(listOf(::translateDescription))
 
-    private val launchPads = repository.getLaunchPads { it?.let { translateDetails(it) } }
+    private val launchPads = repository.getLaunchPads(listOf(::translateDetails))
 
-    private val landingPads = repository.getLandingPads { it?.let { translateDetails(it) } }
+    private val landingPads = repository.getLandingPads(listOf(::translateDetails))
 
     private val launches = repository.getLaunches()
 

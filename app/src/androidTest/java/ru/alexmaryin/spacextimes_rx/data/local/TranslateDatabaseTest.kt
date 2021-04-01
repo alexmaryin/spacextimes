@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -59,11 +60,11 @@ class TranslateDatabaseTest {
     }
 
     @Test
-    fun room_should_save_and_restore_identical_strings_by_hashcode() {
+    fun room_should_save_and_restore_identical_strings_by_hashcode() = runBlocking {
         val testStr = "Translate me, please!"
-        val item = TranslateItem(testStr.hashCode(), testStr, testStr, Date())
+        val item = TranslateItem(origin = testStr, translation = testStr, insertDate = Date())
         dao.insert(item)
-        val restoredItem = dao.get(testStr.hashCode())
+        val restoredItem = dao.findString(testStr)
         assertEquals(testStr, restoredItem?.translation)
     }
 }
