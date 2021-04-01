@@ -21,7 +21,6 @@ data class Launch(
     override val id: String,
     val name: String,
     val window: Int?,
-//    val rocket: String?,
     val rocket: Rocket,
     val success: Boolean,
     val upcoming: Boolean,

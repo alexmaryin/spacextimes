@@ -3,19 +3,20 @@ package ru.alexmaryin.spacextimes_rx.data.api
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import java.io.File
 
-enum class LaunchesFilter { ALL, UPCOMING, PAST, LATEST, NEXT }
+//enum class LaunchesFilter { ALL, UPCOMING, PAST, LATEST, NEXT }
 
 interface SpaceXApi {
 
-    suspend fun getCapsules(): Response<List<Capsule>>
-    suspend fun getCapsuleById(id: String): Response<Capsule>
+    suspend fun getCapsules(): Response<List<Capsules>>
+    suspend fun getCapsuleById(id: String): Response<Capsules>
 
-    suspend fun getCores(): Response<List<Core>>
-    suspend fun getCoreById(id: String): Response<Core>
+    suspend fun getCores(): Response<List<Cores>>
+    suspend fun getCoreById(id: String): Response<ApiResponse<Core>>
 
-    suspend fun getCrew(): Response<List<Crew>>
-    suspend fun getCrewById(id: String): Response<Crew>
+    suspend fun getCrew(): Response<List<Crews>>
+    suspend fun getCrewById(id: String): Response<ApiResponse<Crew>>
 
     suspend fun getDragons(): Response<List<Dragon>>
     suspend fun getDragonById(id: String): Response<Dragon>
@@ -29,8 +30,8 @@ interface SpaceXApi {
     suspend fun getRockets(): Response<List<Rocket>>
     suspend fun getRocketById(id: String): Response<Rocket>
 
-    suspend fun getLaunches(): Response<ApiResponse<Launch>>
+    suspend fun getLaunches(): Response<ApiResponse<Launches>>
     suspend fun getLaunchById(id: String): Response<Launch>
 
-    suspend fun translate(source: String): Response<PlainTextResponse>
+    suspend fun translate(file: File): Response<PlainTextResponse>
 }

@@ -8,7 +8,6 @@ const val LONG_ANIMATION = 1000
 
 infix fun View.crossFadeFrom(from: View) {
     from.alpha = 1f
-    from.visibility = View.VISIBLE
     alpha = 0f
     visibility = View.VISIBLE
     animate()

@@ -6,15 +6,15 @@ import javax.inject.Inject
 
 class ApiLocalImpl @Inject constructor(): ApiLocal {
 
-    override fun getCapsules(): List<Capsule> {
+    override fun getCapsules(): List<Capsules> {
         TODO("Not yet implemented")
     }
 
-    override fun saveCapsules(capsules: List<Capsule>) {
+    override fun saveCapsules(capsules: List<Capsules>) {
         TODO("Not yet implemented")
     }
 
-    override fun getCapsuleById(id: String): Capsule? {
+    override fun getCapsuleById(id: String): Capsules? {
         Log.d("REPO_LOCAL", "Local capsule with id $id is requested. Return null for debug.")
         return null
     }
@@ -28,7 +28,7 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         return null
     }
 
-    override fun getCrew(): List<Crew> {
+    override fun getCrew(): List<Crews> {
         TODO("Not yet implemented")
     }
 
@@ -73,7 +73,7 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         return null
     }
 
-    override fun getLaunches(): List<Launch> {
+    override fun getLaunches(): List<Launches> {
         TODO("Not yet implemented")
     }
 

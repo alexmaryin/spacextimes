@@ -6,7 +6,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 
-data class Capsule(
+data class Capsules(
     override val id: String,
     val serial: String,
     val status: CapsuleStatus,

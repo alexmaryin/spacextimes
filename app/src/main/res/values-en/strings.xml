@@ -54,5 +54,7 @@
     <string name="half2_string">\"Second half of \"</string>
     <string name="to_be_determined_string">to be determined</string>
     <string name="not_early_string">\"not early \"</string>
+    <string name="crew_missions_list_header">Joined missions:</string>
+    <string name="core_not_fly_text">This core doesn\'t fly yet!</string>
 
 </resources>

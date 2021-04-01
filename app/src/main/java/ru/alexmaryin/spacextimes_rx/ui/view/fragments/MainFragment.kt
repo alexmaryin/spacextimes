@@ -8,18 +8,22 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.asBody
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
@@ -31,7 +35,8 @@ class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {})
-    private val coreAdapter = CoreAdapter(AdapterClickListenerById {})
+    private val coreAdapter = CoreAdapter(AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id)) })
     private val dragonAdapter = DragonsAdapter(AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) })
     private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
@@ -96,8 +101,10 @@ class MainFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun collectState() = lifecycleScope.launchWhenResumed {
-            spaceXViewModel.getState().collect { state ->
+    private fun collectState() {
+        lifecycleScope.launch { spaceXViewModel.getState()
+            .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+            .collect { state ->
                 when (state) {
                     Loading -> {
                         binding.recyclerView replaceBy binding.progressBar
@@ -125,24 +132,20 @@ class MainFragment : Fragment() {
                 }
             }
         }
+    }
 
     private fun processTranslate(switch: Boolean) {
         settings.translateToRu = switch
         spaceXViewModel.armRefresh()
     }
 
-    private fun <T : HasStringId> renderItems(items: List<T>, currentAdapter: BaseListAdapter<T>, titleResource: Int) {
+    private fun <T : HasStringId> renderItems(items: List<T>, currentAdapter: BaseListAdapter, titleResource: Int) {
+        activity?.title = getString(titleResource)
+        currentAdapter.submitList(items.asBody())
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainFragment.context)
-            addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
             adapter = currentAdapter
-            activity?.title = getString(titleResource)
         }
-        currentAdapter.submitList(items)
-    }
-
-    override fun onDestroyView() {
-        binding.unbind()
-        super.onDestroyView()
     }
 }

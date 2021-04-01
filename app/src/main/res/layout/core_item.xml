@@ -6,7 +6,10 @@
     <data>
         <variable
             name="core"
-            type="ru.alexmaryin.spacextimes_rx.data.model.Core" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.Cores" />
+        <variable
+            name="clickListener"
+            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +22,7 @@
             android:layout_height="170dp"
             android:contentDescription="@string/core_thumbnail_picture_description"
             android:scaleType="fitCenter"
+            android:onClick="@{() -> clickListener.onClick(core.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTintMode="add"
+            android:onClick="@{() -> clickListener.onClick(core.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@{core.serial}"

@@ -8,7 +8,7 @@
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter" />
         <variable
             name="launch"
-            type="ru.alexmaryin.spacextimes_rx.data.model.Launch" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.Launches" />
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />

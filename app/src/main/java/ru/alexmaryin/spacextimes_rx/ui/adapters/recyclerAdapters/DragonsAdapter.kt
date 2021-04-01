@@ -4,28 +4,26 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.databinding.DragonItemBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.DataViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.*
 import ru.alexmaryin.spacextimes_rx.utils.expandOrSwapTo
 import ru.alexmaryin.spacextimes_rx.utils.swapVisibility
 
-class DragonsAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter<Dragon>(arrayListOf(), clickListener) {
+class DragonsAdapter(clickListener: AdapterClickListenerById) : BaseListAdapter(clickListener) {
 
-    class ViewHolder(private val binding: DragonItemBinding) : DataViewHolder<Dragon>(binding) {
+    class ViewHolder(private val binding: DragonItemBinding) : DataViewHolder(binding) {
 
-        override fun bind(item: Dragon, clickListener: AdapterClickListenerById) {
+        override fun bind(item: DataItem, clickListener: AdapterClickListenerById) {
             with(binding) {
                 this.clickListener = clickListener
-                dragon = item
+                dragon = item.asData()!!
                 expandDescriptionButton.setOnClickListener { it.swapVisibility(); description expandOrSwapTo 5 }
                 description.setOnClickListener { expandDescriptionButton.swapVisibility(); description expandOrSwapTo 5  }
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder<Dragon> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder = if (viewType == BODY_TYPE)
         LayoutInflater.from(parent.context).run { ViewHolder(DataBindingUtil.inflate(this, R.layout.dragon_item, parent, false)) }
+    else super.onCreateViewHolder(parent, viewType)
 }

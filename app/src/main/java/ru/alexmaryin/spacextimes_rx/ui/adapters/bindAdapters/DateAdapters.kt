@@ -4,6 +4,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.data.model.Launches
 import java.text.DateFormat
 import java.util.*
 
@@ -18,7 +19,7 @@ object DateAdapter {
 
     @JvmStatic
     @BindingAdapter("launchDateFormat")
-    fun launchDateToString(view: TextView, launch: Launch?) {
+    fun launchDateToString(view: TextView, launch: Launches?) {
         launch?.let {
             if (it.toBeDetermined) {
                 view.text = view.context.getString(R.string.to_be_determined_string)
