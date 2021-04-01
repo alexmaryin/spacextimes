@@ -46,9 +46,9 @@ android {
         abortOnError false
     }
 
-    packagingOptions {
-        pickFirst  'META-INF/*'
-    }
+//    packagingOptions {
+//        pickFirst  'META-INF/*'
+//    }
 
     hilt {
         enableTransformForLocalTests = true

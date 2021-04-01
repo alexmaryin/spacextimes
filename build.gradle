@@ -6,7 +6,7 @@ buildscript {
         hilt_version = '2.33-beta'
         version_navigation = '2.3.4'
         lifecycle_version = '2.4.0-alpha01'
-        room_version = '2.2.6'
+        room_version = '2.3.0-rc01'
     }
 
     repositories {

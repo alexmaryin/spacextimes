@@ -20,16 +20,15 @@ class TranslatorApiImpl @Inject constructor(
     @ApplicationContext val appContext: Context,
     ) : TranslatorApi {
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun fromString(source: String): String? {
-        val file = File.createTempFile("translate${source.hashCode()}", ".txt", appContext.cacheDir).apply {
-            writeText(source)
+    override suspend fun fromString(source: String): String? =
+        withContext(Dispatchers.IO) {
+            val file = File.createTempFile("translate${source.hashCode()}", ".txt", appContext.cacheDir).apply {
+                writeText(source)
+            }
+            val response = api.translate(file)
+            file.delete()
+            if (response.isSuccessful) response.body()?.data else throw IOException(response.message())
         }
-        val response = api.translate(file)
-        file.delete()
-        return if (response.isSuccessful) response.body()?.data
-            else throw IOException(response.message())
-    }
 
     override suspend fun <T> fromList(source: List<T>,
                                       readItemToTranslate: (T) -> String,
