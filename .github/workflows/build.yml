@@ -4,11 +4,8 @@ name: build
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the retrofit_dagger branch
-  push:
-    branches: [ retrofit_dagger ]
   pull_request:
-    branches: [ retrofit_dagger ]
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
