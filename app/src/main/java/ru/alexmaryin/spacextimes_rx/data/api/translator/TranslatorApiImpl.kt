@@ -1,10 +1,12 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.*
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDao
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateItem
+import java.io.File
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
@@ -14,11 +16,17 @@ import kotlin.reflect.KProperty1
 
 class TranslatorApiImpl @Inject constructor(
     val api: SpaceXApi,
-    val translationsDao: TranslateDao,
+    private val translationsDao: TranslateDao,
+    @ApplicationContext val appContext: Context,
     ) : TranslatorApi {
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun fromString(source: String): String? {
-        val response = api.translate(source)
+        val file = File.createTempFile("translate${source.hashCode()}", ".txt", appContext.cacheDir).apply {
+            writeText(source)
+        }
+        val response = api.translate(file)
+        file.delete()
         return if (response.isSuccessful) response.body()?.data
             else throw IOException(response.message())
     }

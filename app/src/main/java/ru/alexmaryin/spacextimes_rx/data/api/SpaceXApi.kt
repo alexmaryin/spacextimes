@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.api
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import java.io.File
 
 //enum class LaunchesFilter { ALL, UPCOMING, PAST, LATEST, NEXT }
 
@@ -32,5 +33,5 @@ interface SpaceXApi {
     suspend fun getLaunches(): Response<ApiResponse<Launches>>
     suspend fun getLaunchById(id: String): Response<Launch>
 
-    suspend fun translate(source: String): Response<PlainTextResponse>
+    suspend fun translate(file: File): Response<PlainTextResponse>
 }

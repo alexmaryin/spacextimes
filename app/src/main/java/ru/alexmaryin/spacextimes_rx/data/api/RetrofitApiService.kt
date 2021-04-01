@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.api
 
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -57,7 +58,11 @@ interface RetrofitApiService {
     @GET(SpacexUrls.AllLaunches+"{id}")
     suspend fun getLaunchById(@Path("id") id: String): Response<Launch>
 
-    @POST(TranslatorUrls.PlainText)
-    suspend fun translate(@Body body: RequestBody): Response<PlainTextResponse>
+//    @POST(TranslatorUrls.PlainText)
+//    suspend fun translate(@Body body: RequestBody): Response<PlainTextResponse>
+
+    @Multipart
+    @POST(TranslatorUrls.FileToText)
+    suspend fun translate(@Part("lang") lang: RequestBody, @Part file: MultipartBody.Part): Response<PlainTextResponse>
 
 }

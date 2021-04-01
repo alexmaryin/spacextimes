@@ -3,10 +3,13 @@ package ru.alexmaryin.spacextimes_rx.data.api
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import java.io.File
 import javax.inject.Inject
 
 class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiService) : SpaceXApi {
@@ -61,9 +64,9 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
 
     override suspend fun getLaunchById(id: String): Response<Launch> = apiService.getLaunchById(id)
 
-    override suspend fun translate(source: String): Response<PlainTextResponse> {
-        val body = Gson().toJson(mapOf("source" to source, "lang" to "en-ru","as" to "json"))
-            .toRequestBody("application/json".toMediaTypeOrNull())
-        return apiService.translate(body)
+    override suspend fun translate(file: File): Response<PlainTextResponse> {
+        val lang = "en-ru".toRequestBody("application/json".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("file", file.path, file.asRequestBody("text/plain".toMediaTypeOrNull()))
+        return apiService.translate(lang, body)
     }
 }
