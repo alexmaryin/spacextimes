@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="historyEvent"
+            type="ru.alexmaryin.spacextimes_rx.data.model.History" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DateAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/historyEventTitle"
+            style="@style/boldCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{historyEvent.title}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Первый запуск SpaceX" />
+
+        <TextView
+            android:id="@+id/eventDateUtc"
+            style="@style/descriptionText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:dateLong="@{historyEvent.eventDateUTC}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/historyEventTitle"
+            tools:text="14 января 2010 года" />
+
+        <TextView
+            style="@style/regularText"
+            android:id="@+id/eventDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Описание события длинное"
+            android:text="@{historyEvent.detailsRu ?? historyEvent.details}"
+            app:layout_constraintTop_toBottomOf="@id/eventDateUtc"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/eventLinkText"
+            style="@style/descriptionText"
+            url="@{historyEvent.links.article}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/open_event_web_link"
+            app:underlined="@{true}"
+            android:textColor="#303F9F"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/eventDescription"
+            tools:text="Открыть подробности" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

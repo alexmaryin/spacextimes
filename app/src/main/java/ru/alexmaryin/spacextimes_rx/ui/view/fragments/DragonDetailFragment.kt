@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.databinding.DragonDetailFragmentBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter.loadImage
+import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters.loadImage
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 

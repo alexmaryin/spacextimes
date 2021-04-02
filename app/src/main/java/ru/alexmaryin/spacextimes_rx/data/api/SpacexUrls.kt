@@ -16,5 +16,7 @@ class SpacexUrls {
         const val UpcomingLaunches = "launches/upcoming"
         const val PastLaunches = "launches/past"
         const val AllRockets = "rockets/"
+        const val AllHistoryEvents = "history/"
+        const val AllPayloads = "payloads/"
     }
 }

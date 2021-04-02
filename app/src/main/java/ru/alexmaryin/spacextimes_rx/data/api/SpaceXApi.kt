@@ -33,5 +33,11 @@ interface SpaceXApi {
     suspend fun getLaunches(): Response<ApiResponse<Launches>>
     suspend fun getLaunchById(id: String): Response<Launch>
 
+    suspend fun getPayloads(): Response<List<Payload>>
+    suspend fun getPayloadById(id: String): Response<Payload>
+
+    suspend fun getHistoryEvents(): Response<List<History>>
+    suspend fun getEventById(id: String): Response<History>
+
     suspend fun translate(file: File): Response<PlainTextResponse>
 }

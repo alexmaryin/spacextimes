@@ -6,6 +6,12 @@
         android:id="@+id/launchesSelect"
         android:title="@string/launchesTitle" />
     <item
+        android:id="@+id/historySelect"
+        android:title="@string/historyEventsTitle" />
+    <item
+        android:id="@+id/payloadsSelect"
+        android:title="@string/payloadsTitle" />
+    <item
         android:id="@+id/capsulesSelect"
         android:title="@string/capsulesTitle" />
     <item

@@ -90,4 +90,9 @@ class SpacexDataRepository @Inject constructor(
     fun getLaunches() = fetchItems<Launches, ApiResponse<Launches>>(remoteApi::getLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById)
 
+    fun getPayloads() = fetchItems<Payload, List<Payload>>(remoteApi::getPayloads)
+    fun getPayloadById(id: String) = fetchItemById(id, remoteApi::getPayloadById, localApi::getPayloadById)
+
+    fun getHistoryEvents(processCallbacks: List<suspend (List<History>?) -> Unit>) = fetchItems(remoteApi::getHistoryEvents, processCallbacks)
+    fun getEventById(id: String) = fetchItemById(id, remoteApi::getEventById, localApi::getEventById)
 }

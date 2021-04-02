@@ -9,4 +9,6 @@ enum class Screen {
     Launches,
     LaunchPads,
     LandingPads,
+    Payloads,
+    HistoryEvents,
 }

@@ -76,4 +76,7 @@
     <string name="description_of_the_page_text" translatable="false">description of the page</string>
     <string name="crew_missions_list_header">Участие в миссиях:</string>
     <string name="core_not_fly_text">Этот ускоритель еще не летал</string>
+    <string name="historyEventsTitle">Исторические события</string>
+    <string name="payloadsTitle">Полезная нагрузка</string>
+    <string name="open_event_web_link">Открыть подробности</string>
 </resources>

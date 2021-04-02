@@ -5,7 +5,7 @@
 
     <data>
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DateAdapter" />
-        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.ImageAdapter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
         <variable
             name="launch"
             type="ru.alexmaryin.spacextimes_rx.data.model.Launches" />

@@ -45,6 +45,7 @@ class MainFragment : Fragment() {
     private val launchPadAdapter = LaunchPadAdapter(AdapterClickListenerById {})
     private val landingPadAdapter = LandingPadAdapter(AdapterClickListenerById {})
     private val launchesAdapter = LaunchesAdapter(AdapterClickListenerById {})
+    private val historyEventsAdapter = HistoryEventsAdapter(AdapterClickListenerById {})
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -83,6 +84,8 @@ class MainFragment : Fragment() {
             R.id.rocketsSelect -> spaceXViewModel.changeScreen(Screen.Rockets)
             R.id.launchPadsSelect -> spaceXViewModel.changeScreen(Screen.LaunchPads)
             R.id.landingPadsSelect -> spaceXViewModel.changeScreen(Screen.LandingPads)
+            R.id.historySelect -> spaceXViewModel.changeScreen(Screen.HistoryEvents)
+            R.id.payloadsSelect -> spaceXViewModel.changeScreen(Screen.Payloads)
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -120,6 +123,8 @@ class MainFragment : Fragment() {
                             Screen.Launches -> { renderItems(state.toListOf()!!, launchesAdapter, R.string.launchesTitle) }
                             Screen.LaunchPads -> { renderItems(state.toListOf()!!, launchPadAdapter, R.string.launchPadsTitle) }
                             Screen.LandingPads -> { renderItems(state.toListOf()!!, landingPadAdapter, R.string.landingPadsTitle) }
+                            Screen.HistoryEvents -> { renderItems(state.toListOf()!!, historyEventsAdapter, R.string.historyEventsTitle) }
+                            Screen.Payloads -> TODO()
                         }
                         binding.progressBar replaceBy binding.recyclerView
                     }
