@@ -7,11 +7,13 @@ import ru.alexmaryin.spacextimes_rx.data.model.Launches
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterVisitor
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
 import ru.alexmaryin.spacextimes_rx.utils.downloadByLongClickListener
 import ru.alexmaryin.spacextimes_rx.utils.getColorIdFromAttr
 
-class LaunchesViewHolder : AdapterVisitor {
+class LaunchesViewHolder : ViewHolderVisitor {
+
+    override val layout = R.layout.launch_item
 
     override fun bind(binding: ViewDataBinding, item: HasStringId, clickListener: AdapterClickListenerById) {
         val launch = item as Launches

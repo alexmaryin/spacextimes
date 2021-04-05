@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.ui.adapters
+package ru.alexmaryin.spacextimes_rx.data.model
 
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 

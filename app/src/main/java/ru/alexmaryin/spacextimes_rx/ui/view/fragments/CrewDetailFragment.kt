@@ -21,9 +21,9 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.databinding.CrewDetailFragmentBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdaptersManager
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.RecyclerHeader
+import ru.alexmaryin.spacextimes_rx.data.model.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class CrewDetailFragment : Fragment() {
 
     private val args: CrewDetailFragmentArgs by navArgs()
     private val crewViewModel: CrewDetailViewModel by viewModels()
-    @Inject lateinit var adaptersManager: AdaptersManager
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: CrewDetailFragmentBinding
 
     override fun onCreateView(
@@ -86,7 +86,7 @@ class CrewDetailFragment : Fragment() {
         binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crew.wikiLocale ?: crew.wikipedia ?: "") }
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
         if (crew.launches.isNotEmpty()) {
-            val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, adaptersManager)
+            val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
             missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.crew_missions_list_header))).plus(crew.launches))
             binding.crewMissions.apply {
                 layoutManager = LinearLayoutManager(requireContext())

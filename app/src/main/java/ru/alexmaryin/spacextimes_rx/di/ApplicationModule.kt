@@ -25,9 +25,9 @@ import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDatabase
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocalImpl
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdaptersManager
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdaptersManagerImpl
-import ru.alexmaryin.spacextimes_rx.ui.adapters.HeaderViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManagerImpl
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders.HeaderViewHolder
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders.*
 import java.util.*
@@ -101,16 +101,16 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideAdaptersManager(): AdaptersManager = AdaptersManagerImpl().apply {
-        registerAdapter(ItemTypes.HEADER, HeaderViewHolder(), R.layout.recycler_header_item)
-        registerAdapter(ItemTypes.CAPSULE, CapsuleViewHolder(), R.layout.capsule_item)
-        registerAdapter(ItemTypes.CORE, CoreViewHolder(), R.layout.core_item)
-        registerAdapter(ItemTypes.CREW, CrewViewHolder(), R.layout.crew_item)
-        registerAdapter(ItemTypes.DRAGON, DragonsViewHolder(), R.layout.dragon_item)
-        registerAdapter(ItemTypes.HISTORY_EVENT, HistoryEventsViewHolder(), R.layout.history_event_item)
-        registerAdapter(ItemTypes.LANDING_PAD, LandingPadViewHolder(), R.layout.landing_pad_item)
-        registerAdapter(ItemTypes.LAUNCH, LaunchesViewHolder(), R.layout.launch_item)
-        registerAdapter(ItemTypes.LAUNCH_PAD, LaunchPadViewHolder(), R.layout.launch_pad_item)
-        registerAdapter(ItemTypes.ROCKET, RocketViewHolder(), R.layout.rocket_item)
+    fun provideAdaptersManager(): ViewHoldersManager = ViewHoldersManagerImpl().apply {
+        registerViewHolder(ItemTypes.HEADER, HeaderViewHolder())
+        registerViewHolder(ItemTypes.CAPSULE, CapsuleViewHolder())
+        registerViewHolder(ItemTypes.CORE, CoreViewHolder())
+        registerViewHolder(ItemTypes.CREW, CrewViewHolder())
+        registerViewHolder(ItemTypes.DRAGON, DragonsViewHolder())
+        registerViewHolder(ItemTypes.HISTORY_EVENT, HistoryEventsViewHolder())
+        registerViewHolder(ItemTypes.LANDING_PAD, LandingPadViewHolder())
+        registerViewHolder(ItemTypes.LAUNCH, LaunchesViewHolder())
+        registerViewHolder(ItemTypes.LAUNCH_PAD, LaunchPadViewHolder())
+        registerViewHolder(ItemTypes.ROCKET, RocketViewHolder())
     }
 }

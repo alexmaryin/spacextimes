@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentCoreDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CoreDetailViewModel
@@ -30,7 +31,7 @@ class CoreDetailFragment : Fragment() {
 
     private val args: CoreDetailFragmentArgs by navArgs()
     private val coreViewModel: CoreDetailViewModel by viewModels()
-    @Inject lateinit var adaptersManager: AdaptersManager
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentCoreDetailBinding
 
     override fun onCreateView(
@@ -66,7 +67,7 @@ class CoreDetailFragment : Fragment() {
 
     private fun bindDetails(core: Core) {
         activity?.title = core.serial
-        val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, adaptersManager)
+        val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
         missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.crew_missions_list_header))).plus(core.launches))
         binding.coreMissions.apply {
             layoutManager = LinearLayoutManager(requireContext())

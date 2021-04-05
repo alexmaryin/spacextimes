@@ -11,25 +11,25 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 
 class BaseListAdapter(
     private val clickListener: AdapterClickListenerById,
-    private val adaptersManager: AdaptersManager
+    private val viewHoldersManager: ViewHoldersManager
 ) : ListAdapter<HasStringId, BaseListAdapter.DataViewHolder>(BaseDiffCallback()) {
 
-    private lateinit var holder: AdapterItem
+    private lateinit var holder: ViewHolderVisitor
 
     inner class DataViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HasStringId, clickListener: AdapterClickListenerById) =
-            holder.adapter.bind(binding, item, clickListener)
+            holder.bind(binding, item, clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
         LayoutInflater.from(parent.context).run {
-            holder = adaptersManager.getAdapter(viewType)
+            holder = viewHoldersManager.getViewHolder(viewType)
             DataViewHolder(DataBindingUtil.inflate(this, holder.layout, parent, false))
         }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) = holder.bind(getItem(position), clickListener)
 
-    override fun getItemViewType(position: Int): Int = adaptersManager.getItemType(getItem(position))
+    override fun getItemViewType(position: Int): Int = viewHoldersManager.getItemType(getItem(position))
 }
 
 class BaseDiffCallback : DiffUtil.ItemCallback<HasStringId>() {

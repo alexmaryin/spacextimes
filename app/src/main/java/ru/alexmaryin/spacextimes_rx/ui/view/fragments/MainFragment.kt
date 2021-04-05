@@ -22,7 +22,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdaptersManager
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
@@ -42,7 +42,7 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
-    @Inject lateinit var adaptersManager: AdaptersManager
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
@@ -143,7 +143,7 @@ class MainFragment : Fragment() {
         titleResource: Int,
         clickListener: AdapterClickListenerById = AdapterClickListenerById {}) {
         activity?.title = getString(titleResource)
-        val currentAdapter = BaseListAdapter(clickListener, adaptersManager).apply { submitList(items) }
+        val currentAdapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
