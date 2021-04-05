@@ -18,4 +18,4 @@ data class Core(
     @SerializedName("last_update") override val lastUpdate: String?,
     override var lastUpdateRu: String?,
     val launches: List<Launches> = emptyList(),
-) : HasStringId, HasLastUpdate { fun totalFlights() = launches.size }
+) : HasStringId, HasLastUpdate

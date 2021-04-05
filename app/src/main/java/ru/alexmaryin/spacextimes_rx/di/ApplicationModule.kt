@@ -13,7 +13,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.alexmaryin.spacextimes_rx.BuildConfig
-import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.RetrofitApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApiImpl
@@ -25,10 +24,9 @@ import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDatabase
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocalImpl
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManagerImpl
-import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders.HeaderViewHolder
-import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders.*
 import java.util.*
 import java.util.concurrent.TimeUnit

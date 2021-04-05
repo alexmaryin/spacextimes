@@ -17,8 +17,9 @@ class BaseListAdapter(
     private lateinit var holder: ViewHolderVisitor
 
     inner class DataViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) =
-            holder.bind(binding, item, clickListener)
+        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) {
+            if(holder.acceptVisitor(item)) holder.bind(binding, item, clickListener)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =

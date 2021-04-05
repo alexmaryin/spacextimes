@@ -21,7 +21,9 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentCoreDetailBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.*
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CoreDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
@@ -68,7 +70,7 @@ class CoreDetailFragment : Fragment() {
     private fun bindDetails(core: Core) {
         activity?.title = core.serial
         val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
-        missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.crew_missions_list_header))).plus(core.launches))
+        missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.crew_missions_list_header))) + core.launches)
         binding.coreMissions.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
