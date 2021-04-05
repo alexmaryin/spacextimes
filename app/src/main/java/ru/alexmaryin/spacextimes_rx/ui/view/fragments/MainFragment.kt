@@ -22,9 +22,8 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdaptersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
-import ru.alexmaryin.spacextimes_rx.ui.adapters.asBody
-import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -34,21 +33,16 @@ import javax.inject.Inject
 class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
-    private val capsulesAdapter = CapsuleAdapter(AdapterClickListenerById {})
-    private val coreAdapter = CoreAdapter(AdapterClickListenerById { id ->
-        findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id)) })
-    private val dragonAdapter = DragonsAdapter(AdapterClickListenerById { id ->
-        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) })
-    private val crewAdapter = CrewAdapter(AdapterClickListenerById { id ->
-        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) })
-    private val rocketAdapter = RocketAdapter(AdapterClickListenerById {})
-    private val launchPadAdapter = LaunchPadAdapter(AdapterClickListenerById {})
-    private val landingPadAdapter = LandingPadAdapter(AdapterClickListenerById {})
-    private val launchesAdapter = LaunchesAdapter(AdapterClickListenerById {})
-    private val historyEventsAdapter = HistoryEventsAdapter(AdapterClickListenerById {})
+    private val coreClickListener = AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id)) }
+    private val dragonClickListener = AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) }
+    private val crewClickListener = AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) }
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
+    @Inject lateinit var adaptersManager: AdaptersManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
@@ -115,15 +109,15 @@ class MainFragment : Fragment() {
                     }
                     is Success<*> -> {
                         when (spaceXViewModel.currentScreen) {
-                            Screen.Capsules -> { renderItems(state.toListOf()!!, capsulesAdapter, R.string.capsulesTitle) }
-                            Screen.Cores -> { renderItems(state.toListOf()!!, coreAdapter, R.string.coresTitle) }
-                            Screen.Crew -> { renderItems(state.toListOf()!!, crewAdapter, R.string.crewTitle) }
-                            Screen.Dragons -> { renderItems(state.toListOf()!!, dragonAdapter, R.string.dragonsTitle) }
-                            Screen.Rockets -> { renderItems(state.toListOf()!!, rocketAdapter, R.string.rocketsTitle) }
-                            Screen.Launches -> { renderItems(state.toListOf()!!, launchesAdapter, R.string.launchesTitle) }
-                            Screen.LaunchPads -> { renderItems(state.toListOf()!!, launchPadAdapter, R.string.launchPadsTitle) }
-                            Screen.LandingPads -> { renderItems(state.toListOf()!!, landingPadAdapter, R.string.landingPadsTitle) }
-                            Screen.HistoryEvents -> { renderItems(state.toListOf()!!, historyEventsAdapter, R.string.historyEventsTitle) }
+                            Screen.Capsules -> { renderItems(state.toListOf()!!, R.string.capsulesTitle) }
+                            Screen.Cores -> { renderItems(state.toListOf()!!, R.string.coresTitle, coreClickListener) }
+                            Screen.Crew -> { renderItems(state.toListOf()!!, R.string.crewTitle, crewClickListener) }
+                            Screen.Dragons -> { renderItems(state.toListOf()!!, R.string.dragonsTitle, dragonClickListener) }
+                            Screen.Rockets -> { renderItems(state.toListOf()!!, R.string.rocketsTitle) }
+                            Screen.Launches -> { renderItems(state.toListOf()!!, R.string.launchesTitle) }
+                            Screen.LaunchPads -> { renderItems(state.toListOf()!!, R.string.launchPadsTitle) }
+                            Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle) }
+                            Screen.HistoryEvents -> { renderItems(state.toListOf()!!, R.string.historyEventsTitle) }
                             Screen.Payloads -> TODO()
                         }
                         binding.progressBar replaceBy binding.recyclerView
@@ -144,9 +138,12 @@ class MainFragment : Fragment() {
         spaceXViewModel.armRefresh()
     }
 
-    private fun <T : HasStringId> renderItems(items: List<T>, currentAdapter: BaseListAdapter, titleResource: Int) {
+    private fun <T : HasStringId> renderItems(
+        items: List<T>,
+        titleResource: Int,
+        clickListener: AdapterClickListenerById = AdapterClickListenerById {}) {
         activity?.title = getString(titleResource)
-        currentAdapter.submitList(items.asBody())
+        val currentAdapter = BaseListAdapter(clickListener, adaptersManager).apply { submitList(items) }
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))

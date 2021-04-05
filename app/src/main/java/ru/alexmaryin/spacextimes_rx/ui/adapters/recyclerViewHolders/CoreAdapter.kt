@@ -1,18 +1,16 @@
-package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters
+package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Cores
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 import ru.alexmaryin.spacextimes_rx.databinding.CoreItemBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.*
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterVisitor
 
-class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(clickListener) {
-
-    class ViewHolder (private val binding: CoreItemBinding): DataViewHolder(binding) {
+class CoreViewHolder : AdapterVisitor {
 
         private fun falconResourceName(item: Cores) = if (item.block == null) "falcon1" else buildString {
             append("falcon9block${item.block}")
@@ -24,9 +22,9 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(clic
             })
         }
 
-        override fun bind(item: DataItem, clickListener: AdapterClickListenerById) {
-            val core = item.asData<Cores>()!!
-            with (binding) {
+        override fun bind(binding: ViewDataBinding, item: HasStringId, clickListener: AdapterClickListenerById) {
+            val core = item as Cores
+            with (binding as CoreItemBinding) {
                 this.core = core
                 this.clickListener = if(core.totalFlights() > 0) clickListener else AdapterClickListenerById {
                     Toast.makeText(root.context, root.context.getString(R.string.core_not_fly_text), Toast.LENGTH_LONG).show()
@@ -65,9 +63,6 @@ class CoreAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(clic
                 }
             }
         }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder = if (viewType == BODY_TYPE)
-        LayoutInflater.from(parent.context).run { ViewHolder(DataBindingUtil.inflate(this, R.layout.core_item, parent, false)) }
-    else super.onCreateViewHolder(parent, viewType)
+    override fun acceptVisitor(item: HasStringId): Boolean = item is Cores
 }

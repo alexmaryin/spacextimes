@@ -13,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.alexmaryin.spacextimes_rx.BuildConfig
+import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.RetrofitApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApiImpl
@@ -24,9 +25,13 @@ import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDatabase
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocalImpl
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdaptersManager
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdaptersManagerImpl
+import ru.alexmaryin.spacextimes_rx.ui.adapters.HeaderViewHolder
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders.*
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -93,4 +98,19 @@ class ApplicationModule {
 
     @Provides
     fun provideWikiApi(wikiApi: WikiLoaderImpl): WikiLoaderApi = wikiApi
+
+    @Provides
+    @Singleton
+    fun provideAdaptersManager(): AdaptersManager = AdaptersManagerImpl().apply {
+        registerAdapter(ItemTypes.HEADER, HeaderViewHolder(), R.layout.recycler_header_item)
+        registerAdapter(ItemTypes.CAPSULE, CapsuleViewHolder(), R.layout.capsule_item)
+        registerAdapter(ItemTypes.CORE, CoreViewHolder(), R.layout.core_item)
+        registerAdapter(ItemTypes.CREW, CrewViewHolder(), R.layout.crew_item)
+        registerAdapter(ItemTypes.DRAGON, DragonsViewHolder(), R.layout.dragon_item)
+        registerAdapter(ItemTypes.HISTORY_EVENT, HistoryEventsViewHolder(), R.layout.history_event_item)
+        registerAdapter(ItemTypes.LANDING_PAD, LandingPadViewHolder(), R.layout.landing_pad_item)
+        registerAdapter(ItemTypes.LAUNCH, LaunchesViewHolder(), R.layout.launch_item)
+        registerAdapter(ItemTypes.LAUNCH_PAD, LaunchPadViewHolder(), R.layout.launch_pad_item)
+        registerAdapter(ItemTypes.ROCKET, RocketViewHolder(), R.layout.rocket_item)
+    }
 }

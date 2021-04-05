@@ -21,6 +21,7 @@ class TranslatorApiImpl @Inject constructor(
     @ApplicationContext val appContext: Context,
 ) : TranslatorApi {
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun fromString(source: String): String? =
         withContext(Dispatchers.IO) {
             val file = File.createTempFile("translate${source.hashCode()}", ".txt", appContext.cacheDir).apply {

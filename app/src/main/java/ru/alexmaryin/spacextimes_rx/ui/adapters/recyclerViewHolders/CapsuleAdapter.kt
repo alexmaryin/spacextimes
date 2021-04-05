@@ -1,24 +1,22 @@
-package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters
+package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsules
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
-import ru.alexmaryin.spacextimes_rx.ui.adapters.*
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterVisitor
 import ru.alexmaryin.spacextimes_rx.utils.CircleTransformation
 
-class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(clickListener) {
+class CapsuleViewHolder : AdapterVisitor {
 
-    class ViewHolder (private val binding: CapsuleItemBinding): DataViewHolder(binding) {
-
-        override fun bind(item: DataItem, clickListener: AdapterClickListenerById) {
-            val capsule = item.asData<Capsules>()!!
-            with (binding) {
+    override fun bind(binding: ViewDataBinding, item: HasStringId, clickListener: AdapterClickListenerById) {
+            val capsule = item as Capsules
+            with (binding as CapsuleItemBinding) {
                 this.capsule = capsule
 
                 Picasso.get()
@@ -62,12 +60,6 @@ class CapsuleAdapter(clickListener: AdapterClickListenerById): BaseListAdapter(c
                 }
             }
         }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == BODY_TYPE)
-        LayoutInflater.from(parent.context).run { ViewHolder(DataBindingUtil.inflate(this, R.layout.capsule_item, parent, false)) }
-    else super.onCreateViewHolder(parent, viewType)
+    override fun acceptVisitor(item: HasStringId): Boolean = item is Capsules
 }
-
-
-
