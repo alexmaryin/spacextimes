@@ -5,7 +5,7 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.RecyclerHeaderItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.data.model.RecyclerHeader
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
 
 class HeaderViewHolder : ViewHolderVisitor {
@@ -16,5 +16,5 @@ class HeaderViewHolder : ViewHolderVisitor {
         (binding as RecyclerHeaderItemBinding).headerItem = item as RecyclerHeader
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is RecyclerHeader
+    override fun acceptBinding(item: HasStringId): Boolean = item is RecyclerHeader
 }

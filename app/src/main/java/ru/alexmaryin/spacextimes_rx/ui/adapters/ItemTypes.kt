@@ -12,4 +12,5 @@ object ItemTypes {
     const val LAUNCH = 7
     const val LAUNCH_PAD = 8
     const val ROCKET = 9
+    const val TWO_STRINGS = 10
 }

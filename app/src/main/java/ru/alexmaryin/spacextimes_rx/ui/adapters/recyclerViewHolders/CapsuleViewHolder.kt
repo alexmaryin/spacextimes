@@ -65,5 +65,5 @@ class CapsuleViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is Capsules
+    override fun acceptBinding(item: HasStringId): Boolean = item is Capsules
 }

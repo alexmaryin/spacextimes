@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -13,21 +12,28 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.databinding.DragonDetailFragmentBinding
+import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters.loadImage
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DragonDetailFragment : Fragment() {
 
     private val args: DragonDetailFragmentArgs by navArgs()
     private val dragonViewModel: DragonDetailViewModel by viewModels()
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: DragonDetailFragmentBinding
 
     override fun onCreateView(
@@ -84,13 +90,14 @@ class DragonDetailFragment : Fragment() {
             setOnLongClickListener(saveByLongClickListener(requireContext(), "${dragon.name}.jpg"))  // TODO("Don't work with CarouselView!")
             pageCount = dragon.images.size
         }
-        binding.enginesList.adapter = SimpleAdapter(
-            requireContext(),
-            dragonViewModel.thrustersMap(requireContext(), dragon),
-            android.R.layout.simple_list_item_2,
-            dragonViewModel.thrustersLines,
-            arrayOf(android.R.id.text1, android.R.id.text2).toIntArray()
-        )
+
+        val detailsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
+        detailsAdapter.submitList(dragonViewModel.composeDetails(requireContext(), dragon))
+        binding.detailsList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+            adapter = detailsAdapter
+        }
     }
 
     override fun onDestroyView() {

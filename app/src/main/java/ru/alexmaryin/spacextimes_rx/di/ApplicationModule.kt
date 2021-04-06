@@ -110,5 +110,6 @@ class ApplicationModule {
         registerViewHolder(ItemTypes.LAUNCH, LaunchesViewHolder())
         registerViewHolder(ItemTypes.LAUNCH_PAD, LaunchPadViewHolder())
         registerViewHolder(ItemTypes.ROCKET, RocketViewHolder())
+        registerViewHolder(ItemTypes.TWO_STRINGS, TwoStringsViewHolder())
     }
 }

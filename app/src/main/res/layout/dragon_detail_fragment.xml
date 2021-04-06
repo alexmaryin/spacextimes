@@ -12,19 +12,12 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/rootLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            tools:context=".ui.view.fragments.DragonDetailFragment">
+        android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detailsView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:alpha="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,61 +61,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:dragonShortStatus="@{dragon}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:textAlignment="center"
                     app:layout_constraintTop_toBottomOf="@+id/imagesCarousel"
                     tools:text="строка со статусом" />
 
-                <TextView
-                    android:id="@+id/dragonSizeLine"
-                    style="@style/regularText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:dragonSize="@{dragon}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dragonStatusLine"
-                    tools:text="Строка с размерами" />
-
-                <TextView
-                    android:id="@+id/heatShield"
-                    style="@style/regularText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:heatShield="@{dragon.heatShield}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dragonSizeLine"
-                    tools:text="Строка с описанием щита" />
-
-                <TextView
-                    android:id="@+id/crewCapacity"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:crewCapacity="@{dragon.crewCapacity}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/heatShield"
-                    tools:text="вместимость экипажа" />
-
-                <TextView
-                    android:id="@+id/enginesLabel"
-                    style="@style/regularText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="#591976D2"
-                    android:text="@string/list_thrusters_string"
-                    android:textAlignment="center"
-                    android:textStyle="italic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/crewCapacity" />
-
-                <ListView
-                    android:id="@+id/enginesList"
-                    android:layout_width="0dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/detailsList"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/enginesLabel" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toBottomOf="@id/dragonStatusLine" />
 
             <include
                 android:id="@+id/wikiFrame"

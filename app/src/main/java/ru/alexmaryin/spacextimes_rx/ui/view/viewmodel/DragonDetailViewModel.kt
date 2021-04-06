@@ -12,6 +12,9 @@ import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
@@ -24,8 +27,6 @@ class DragonDetailViewModel @Inject constructor(
     private val repository: SpacexDataRepository,
     private val wikiApi: WikiLoaderApi,
 ) : ViewModel() {
-
-    val thrustersLines = arrayOf("line_1", "line_2")
 
     private val dragonState = MutableStateFlow<Result>(Loading)
     fun getDragonState() = dragonState.asStateFlow()
@@ -40,10 +41,48 @@ class DragonDetailViewModel @Inject constructor(
         wikiApi.getLocaleLink(enUrl, state.get("locale") ?: "en")
     }
 
-    fun thrustersMap(res: Context, dragon: Dragon) = dragon.thrusters.map {
-        mapOf(
-            thrustersLines[0] to res.getString(R.string.capsule_thruster_line1, it.amount, it.pods, it.type, it.thrust.kN, it.isp),
-            thrustersLines[1] to res.getString(R.string.capsule_thruster_line2, it.HotComponent, it.OxidizerComponent)
+    fun composeDetails(res: Context, dragon: Dragon) = mutableListOf<HasStringId>().apply {
+        add(RecyclerHeader(text = res.getString(R.string.spacecraft_characteristics_string)))
+
+        add(TwoStringsItem(
+            caption = res.getString(R.string.dragon_payload_caption),
+            details = res.getString(R.string.dragon_payload_line_string,
+                dragon.launchPayloadMass.kg / 1000,
+                dragon.launchPayloadVolume.inMeters,
+                dragon.returnPayloadMass.kg / 1000,
+                dragon.returnPayloadVolume.inMeters)
+        ))
+
+        add(TwoStringsItem(
+            caption = res.getString(R.string.dragon_size_caption),
+            details = res.getString(R.string.dragon_size_string,
+                dragon.heightWithTrunk.meters,
+                dragon.diameter.meters,
+                dragon.pressurizedCapsule.payload.inMeters
+            )
+        ))
+
+        add(TwoStringsItem(
+            caption = res.getString(R.string.heat_shield_caption),
+            details = res.getString(R.string.heat_shield_string,
+                dragon.heatShield.size,
+                dragon.heatShield.material,
+                dragon.heatShield.temperature,
+                dragon.heatShield.developPartner
+            )
+        ))
+
+        if(dragon.crewCapacity > 0)
+            add(TwoStringsItem(
+                caption = res.getString(R.string.crew_capacity_string),
+                details = "\uD83D\uDC64".repeat(dragon.crewCapacity)))
+
+        add(RecyclerHeader(text = res.getString(R.string.list_thrusters_string)))
+        addAll(dragon.thrusters.map {
+            TwoStringsItem(
+                caption =  res.getString(R.string.capsule_thruster_line1, it.amount, it.pods, it.type, it.thrust.kN, it.isp),
+                details = res.getString(R.string.capsule_thruster_line2, it.HotComponent, it.OxidizerComponent)
+            )}
         )
     }
 }

@@ -14,18 +14,17 @@ class BaseListAdapter(
     private val viewHoldersManager: ViewHoldersManager
 ) : ListAdapter<HasStringId, BaseListAdapter.DataViewHolder>(BaseDiffCallback()) {
 
-    private lateinit var holder: ViewHolderVisitor
-
-    inner class DataViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) {
-            if(holder.acceptVisitor(item)) holder.bind(binding, item, clickListener)
-        }
+    inner class DataViewHolder(
+        val binding: ViewDataBinding,
+        private val holder: ViewHolderVisitor) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) =
+            holder.bind(binding, item, clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
         LayoutInflater.from(parent.context).run {
-            holder = viewHoldersManager.getViewHolder(viewType)
-            DataViewHolder(DataBindingUtil.inflate(this, holder.layout, parent, false))
+            val holder = viewHoldersManager.getViewHolder(viewType)
+            DataViewHolder(DataBindingUtil.inflate(this, holder.layout, parent, false), holder)
         }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) = holder.bind(getItem(position), clickListener)

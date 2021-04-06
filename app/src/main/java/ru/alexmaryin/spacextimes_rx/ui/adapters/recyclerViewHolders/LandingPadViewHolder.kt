@@ -32,5 +32,5 @@ class LandingPadViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is LandingPad
+    override fun acceptBinding(item: HasStringId): Boolean = item is LandingPad
 }

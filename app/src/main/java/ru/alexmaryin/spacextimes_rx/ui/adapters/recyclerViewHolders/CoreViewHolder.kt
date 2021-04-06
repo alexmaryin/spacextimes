@@ -70,5 +70,5 @@ class CoreViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is Cores
+    override fun acceptBinding(item: HasStringId): Boolean = item is Cores
 }

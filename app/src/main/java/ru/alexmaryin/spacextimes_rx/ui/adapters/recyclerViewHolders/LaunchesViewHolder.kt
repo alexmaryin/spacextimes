@@ -51,5 +51,5 @@ class LaunchesViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is Launches
+    override fun acceptBinding(item: HasStringId): Boolean = item is Launches
 }

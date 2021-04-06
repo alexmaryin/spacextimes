@@ -19,5 +19,5 @@ class CrewViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is Crews
+    override fun acceptBinding(item: HasStringId): Boolean = item is Crews
 }

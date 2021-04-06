@@ -23,5 +23,5 @@ class DragonsViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is Dragon
+    override fun acceptBinding(item: HasStringId): Boolean = item is Dragon
 }

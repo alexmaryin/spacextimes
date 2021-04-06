@@ -11,7 +11,7 @@ class ViewHoldersManagerImpl : ViewHoldersManager {
 
     override fun getItemType(item: HasStringId): Int {
         holdersMap.forEach { (itemType, holder) ->
-            if(holder.acceptVisitor(item)) return itemType
+            if(holder.acceptBinding(item)) return itemType
         }
         return ItemTypes.UNKNOWN
     }

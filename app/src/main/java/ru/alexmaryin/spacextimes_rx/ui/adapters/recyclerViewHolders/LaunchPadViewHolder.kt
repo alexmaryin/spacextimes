@@ -32,5 +32,5 @@ class LaunchPadViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptVisitor(item: HasStringId): Boolean = item is LaunchPad
+    override fun acceptBinding(item: HasStringId): Boolean = item is LaunchPad
 }

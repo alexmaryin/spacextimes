@@ -51,10 +51,14 @@
     <string name="photo_of_dragon_capsule_description" translatable="false">Photo of dragon capsule</string>
     <string name="photo_of_crew_member_image" translatable="false">Photo of crew member</string>
     <string name="read_more_string" translatable="false">read more</string>
-    <string name="dragon_status_line_string">" ⇧ %1$d т / %2$d м³ ⇩ %3$d т / %4$d м³"</string>
+    <string name="dragon_payload_caption">Объем запускаемого и возвращаемого груза:</string>
+    <string name="dragon_size_caption">Высота, диаметр:</string>
+    <string name="dragon_payload_line_string">" ⇧ %1$d т / %2$d м³ ⇩ %3$d т / %4$d м³"</string>
     <string name="dragon_size_string">"↕ %1$.1f м ⌀ %2$.1f м герметичный отсек - %3$d м³"</string>
-    <string name="heat_shield_string">"Тепловой щит: ⌀ %1$.2f м, %2$s, 🔥%3$d℃\n партнер разработки - %4$s"</string>
-    <string name="crew_capacity_string">"Вместимость экипажа: %s"</string>
+    <string name="heat_shield_caption">"Диаметр, материал и выдерживаемая температура теплового щита:"</string>
+    <string name="heat_shield_string">"⌀ %1$.2f м, %2$s, 🔥%3$d℃\n партнер разработки - %4$s"</string>
+    <string name="spacecraft_characteristics_string">Характеристики корабля</string>
+    <string name="crew_capacity_string">Вместимость экипажа:</string>
     <string name="list_thrusters_string">Двигатели корабля:</string>
     <string name="capsule_thruster_line1">%1$d шт (в блоке - %2$d) %3$s, тяга - %4$.1f кН, удельный импульс - %5$d с</string>
     <string name="capsule_thruster_line2">топливо: %1$s, окислитель: %2$s</string>
