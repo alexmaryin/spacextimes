@@ -13,6 +13,7 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
@@ -73,9 +74,9 @@ class DragonDetailViewModel @Inject constructor(
         ))
 
         if(dragon.crewCapacity > 0)
-            add(TwoStringsItem(
-                caption = res.getString(R.string.crew_capacity_string),
-                details = "\uD83D\uDC64".repeat(dragon.crewCapacity)))
+            add(OneLineItem2(
+                left = res.getString(R.string.crew_capacity_string),
+                right = "\uD83D\uDC64".repeat(dragon.crewCapacity)))
 
         add(RecyclerHeader(text = res.getString(R.string.list_thrusters_string)))
         addAll(dragon.thrusters.map {

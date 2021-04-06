@@ -43,7 +43,6 @@ class DragonDetailFragment : Fragment() {
         activity?.title = getString(R.string.loadingText)
         binding = DataBindingUtil.inflate(inflater, R.layout.dragon_detail_fragment, container, false)
         binding.lifecycleOwner = this
-        binding.wikiFrame.wikiPage.attachProgressAndRootView(binding.wikiFrame.wikiProgress, binding.detailsView)
 
         dragonViewModel.state.set("dragonId", args.dragonId)
         dragonViewModel.state.set("locale", requireContext().currentLocaleLang())
@@ -64,15 +63,15 @@ class DragonDetailFragment : Fragment() {
                 .collect { state ->
                 when (state) {
                     is Loading -> {
-                        binding.detailsView replaceBy binding.wikiFrame.progress
+                        binding.detailsView replaceBy binding.progress
                         activity?.title = getString(R.string.loadingText)
                     }
                     is Error -> {
-                        binding.wikiFrame.progress.visibility = View.GONE
+                        binding.progress.visibility = View.GONE
                         Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
                     }
                     is Success<*> -> {
-                        binding.wikiFrame.progress replaceBy binding.detailsView
+                        binding.progress replaceBy binding.detailsView
                         bindDetails(state.toDetails())
                     }
                 }
@@ -84,7 +83,6 @@ class DragonDetailFragment : Fragment() {
     private fun bindDetails(dragon: Dragon) {
         activity?.title = dragon.name
         binding.dragon = dragon
-        binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(dragon.wikiLocale ?: dragon.wikipedia ?: "") }
         binding.imagesCarousel.apply {
             setImageListener { position, imageView -> loadImage(imageView, dragon.images[position]) }
             setOnLongClickListener(saveByLongClickListener(requireContext(), "${dragon.name}.jpg"))  // TODO("Don't work with CarouselView!")

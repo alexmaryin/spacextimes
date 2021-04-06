@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters
 
-import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import ru.alexmaryin.spacextimes_rx.R
@@ -32,11 +31,5 @@ object CrewAdapters {
                 }
             }
         }
-    }
-
-    @JvmStatic
-    @BindingAdapter("hideIfEmpty")
-    fun setVisibility(view: View, agency: String?) {
-        view.visibility = if(agency.isNullOrBlank()) View.GONE else View.VISIBLE
     }
 }

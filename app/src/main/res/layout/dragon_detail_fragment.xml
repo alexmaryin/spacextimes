@@ -4,79 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DragonAdapters" />
-        <variable
-            name="dragon"
-            type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
+
+        <variable name="dragon" type="ru.alexmaryin.spacextimes_rx.data.model.Dragon" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/detailsView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/imagesCarousel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="1"
+                android:layout_height="300dp"
+                app:disableAutoPlayOnUserInteraction="true"
+                app:fillColor="#FFFFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:pageColor="#00000000"
+                app:radius="6dp"
+                app:strokeColor="#FF777777"
+                app:strokeWidth="1dp" />
+
+            <ImageButton
+                android:id="@+id/wikiButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                app:url="@{dragon.wikiLocale ?? dragon.wikipedia}"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/wiki_page_open_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/wikilogo"
+                android:text="@string/wiki_label"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/purple_700"
+                app:iconGravity="top"
+                app:layout_constraintBottom_toBottomOf="@id/imagesCarousel"
+                app:layout_constraintEnd_toEndOf="@id/imagesCarousel" />
+
+            <TextView
+                android:id="@+id/dragonStatusLine"
+                style="@style/regularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                app:dragonShortStatus="@{dragon}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imagesCarousel"
+                tools:text="строка со статусом" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detailsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dragonStatusLine" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:indeterminate="true"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0">
-
-                <com.synnapps.carouselview.CarouselView
-                    android:id="@+id/imagesCarousel"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    app:disableAutoPlayOnUserInteraction="true"
-                    app:fillColor="#FFFFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:pageColor="#00000000"
-                    app:radius="6dp"
-                    app:strokeColor="#FF777777"
-                    app:strokeWidth="1dp" />
-
-                <ImageButton
-                    android:id="@+id/wikiButton"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    app:layout_constraintBottom_toBottomOf="@id/imagesCarousel"
-                    app:layout_constraintEnd_toEndOf="@id/imagesCarousel"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:contentDescription="@string/wiki_page_open_button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/wikilogo"
-                    android:text="@string/wiki_label"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_700"
-                    app:iconGravity="top" />
-
-                <TextView
-                    android:id="@+id/dragonStatusLine"
-                    style="@style/regularText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:dragonShortStatus="@{dragon}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textAlignment="center"
-                    app:layout_constraintTop_toBottomOf="@+id/imagesCarousel"
-                    tools:text="строка со статусом" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/detailsList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dragonStatusLine" />
-
-            <include
-                android:id="@+id/wikiFrame"
-                layout="@layout/progress_webview_part" />
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -21,9 +21,8 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.databinding.CrewDetailFragmentBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
-import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
@@ -43,7 +42,6 @@ class CrewDetailFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.crew_detail_fragment, container, false)
         binding.lifecycleOwner = this
-        binding.wikiFrame.wikiPage.attachProgressAndRootView(binding.wikiFrame.wikiProgress, binding.detailsView)
 
         crewViewModel.state.set("crewId", args.crewId)
         crewViewModel.state.set("locale", requireContext().currentLocaleLang())
@@ -59,15 +57,15 @@ class CrewDetailFragment : Fragment() {
                 .collect { state ->
                 when (state) {
                     is Loading -> {
-                        binding.detailsView replaceBy binding.wikiFrame.progress
+                        binding.detailsView replaceBy binding.progress
                         activity?.title = getString(R.string.loadingText)
                     }
                     is Error -> {
-                        binding.wikiFrame.progress.visibility = View.GONE
+                        binding.progress.visibility = View.GONE
                         Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
                     }
                     is Success<*> -> {
-                        binding.wikiFrame.progress replaceBy binding.detailsView
+                        binding.progress replaceBy binding.detailsView
                         bindDetails(state.toDetails())
                     }
                 }
@@ -83,11 +81,10 @@ class CrewDetailFragment : Fragment() {
     private fun bindDetails(crew: Crew) {
         activity?.title = crew.name
         binding.crew = crew
-        binding.wikiButton.setOnClickListener { binding.wikiFrame.wikiPage.loadUrl(crew.wikiLocale ?: crew.wikipedia ?: "") }
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
         if (crew.launches.isNotEmpty()) {
             val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
-            missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.crew_missions_list_header))) + crew.launches)
+            missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
             binding.crewMissions.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))

@@ -8,7 +8,7 @@ import java.util.*
 
 data class History(
     override val id: String,
-    val title: String,
+    val title: String?,
     var titleRu: String?,
     override val details: String,
     override var detailsRu: String?,
