@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,6 +80,7 @@ class CrewDetailFragment : Fragment() {
     }
 
     private fun bindDetails(crew: Crew) {
+        Log.d("WIKI_LOCALE", "Wiki link ${crew.wikipedia}\n Local wiki link ${crew.wikiLocale}")
         activity?.title = crew.name
         binding.crew = crew
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))

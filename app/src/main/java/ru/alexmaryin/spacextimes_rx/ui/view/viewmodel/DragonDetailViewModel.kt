@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
@@ -33,9 +34,9 @@ class DragonDetailViewModel @Inject constructor(
     fun getDragonState() = dragonState.asStateFlow()
 
     fun loadDragon() = viewModelScope.launch {
-        repository.getDragonById(state.get("dragonId") ?: "").apply {
-            if (this is Success<*>) (data as Dragon).wikiLocale = localeWikiUrl(data.wikipedia)
-        }.collect { result -> dragonState.value = result }
+        repository.getDragonById(state.get("dragonId") ?: "")
+            .map { if (it is Success<*>) (it.data as Dragon).wikiLocale = localeWikiUrl(it.data.wikipedia); it }
+            .collect { result -> dragonState.value = result }
     }
 
     private suspend fun localeWikiUrl(enUrl: String?) = enUrl?.let {

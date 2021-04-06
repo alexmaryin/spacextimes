@@ -39,6 +39,8 @@ class MainFragment : Fragment() {
         findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) }
     private val crewClickListener = AdapterClickListenerById { id ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) }
+    private val rocketClickListener = AdapterClickListenerById { id ->
+        findNavController().navigate(MainFragmentDirections.actionShowRocketDetails(id)) }
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -113,7 +115,7 @@ class MainFragment : Fragment() {
                             Screen.Cores -> { renderItems(state.toListOf()!!, R.string.coresTitle, coreClickListener) }
                             Screen.Crew -> { renderItems(state.toListOf()!!, R.string.crewTitle, crewClickListener) }
                             Screen.Dragons -> { renderItems(state.toListOf()!!, R.string.dragonsTitle, dragonClickListener) }
-                            Screen.Rockets -> { renderItems(state.toListOf()!!, R.string.rocketsTitle) }
+                            Screen.Rockets -> { renderItems(state.toListOf()!!, R.string.rocketsTitle, rocketClickListener) }
                             Screen.Launches -> { renderItems(state.toListOf()!!, R.string.launchesTitle) }
                             Screen.LaunchPads -> { renderItems(state.toListOf()!!, R.string.launchPadsTitle) }
                             Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle) }

@@ -5,6 +5,9 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.RocketType
+import ru.alexmaryin.spacextimes_rx.data.model.extra.LineSize
+import ru.alexmaryin.spacextimes_rx.data.model.extra.Mass
+import ru.alexmaryin.spacextimes_rx.data.model.extra.PayloadWeight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Engine
 import ru.alexmaryin.spacextimes_rx.data.model.parts.FirstStage
 import ru.alexmaryin.spacextimes_rx.data.model.parts.LandingLegs

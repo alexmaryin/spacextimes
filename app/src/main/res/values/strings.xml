@@ -83,4 +83,22 @@
     <string name="historyEventsTitle">Исторические события</string>
     <string name="payloadsTitle">Полезная нагрузка</string>
     <string name="open_event_web_link">Открыть подробности</string>
+    <string name="rocket_size_caption">Высота, диаметр и масса</string>
+    <string name="rocket_size_string">"↕ %1$.1f м ⌀ %2$.1f м ⚖ %3$d т"</string>
+    <string name="stages_count_string">ступеней</string>
+    <string name="boosters_count_string">боковых ускорителей</string>
+    <string name="rocket_success_rate_string">Оценка успешности ракеты</string>
+    <string name="rocket_cost_launch_string">Стоимость одного запуска</string>
+    <string name="rocket_engines_caption">Двигители ракеты:</string>
+    <plurals name="rocket_engines_string">
+        <item quantity="one">%1$d двигатель %2$s версии %3$s</item>
+        <item quantity="few">%1$d двигателя %2$s версии %3$s</item>
+        <item quantity="many">%1$d двигателей %2$s версии %3$s</item>
+    </plurals>
+    <string name="rocket_isp_caption">Удельный импульс:</string>
+    <string name="rocket_isp_string">На уровне моря: %1$d с, в вакууме: %2$d с</string>
+    <string name="rocket_thrust_caption">Тяга одного двигателя:</string>
+    <string name="rocket_thrust_string">На уровне моря: %1$.1f кН, в вакууме: %2$.1f кН</string>
+    <string name="engine_twr_string">Тяговооруженность: %.2f кН/кг⋅G</string>
+    <string name="engine_loss_string">Допускаемый отказ двигателей (шт): %d</string>
 </resources>

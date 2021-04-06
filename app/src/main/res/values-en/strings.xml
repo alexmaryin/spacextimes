@@ -63,5 +63,21 @@
     <string name="dragon_payload_caption">Value of launch and return payload:</string>
     <string name="dragon_size_caption">Height and diameter:</string>
     <string name="heat_shield_caption">Diameter, material and max temperature of heat shield:</string>
-
+    <string name="rocket_size_caption">Height, diameter and mass</string>
+    <string name="rocket_size_string">↕ %1$.1f m ⌀ %2$.1f m ⚖ %3$d t</string>
+    <string name="stages_count_string">stages</string>
+    <string name="boosters_count_string">side boosters</string>
+    <string name="rocket_success_rate_string">Success launches rate</string>
+    <string name="rocket_cost_launch_string">Cost per launch</string>
+    <string name="rocket_engines_caption">Rocket engines:</string>
+    <plurals name="rocket_engines_string">
+        <item quantity="one">%1$d engine %2$s version %3$s</item>
+        <item quantity="other">%1$d engines %2$s version %3$s</item>
+    </plurals>
+    <string name="rocket_isp_caption">Specific impulse:</string>
+    <string name="rocket_isp_string">Sea level: %1$d sec, in vacuum: %2$d sec</string>
+    <string name="rocket_thrust_caption">One engine thrust:</string>
+    <string name="rocket_thrust_string">Sea level: %1$.1f kN, in vacuum: %2$.1f kN</string>
+    <string name="engine_twr_string">Thrust-to-weight %.2f kN/kg⋅G</string>
+    <string name="engine_loss_string">Engines loss max: %d</string>
 </resources>

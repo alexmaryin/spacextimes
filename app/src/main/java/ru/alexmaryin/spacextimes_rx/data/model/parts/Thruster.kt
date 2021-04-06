@@ -1,7 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.model.parts
 
 import com.google.gson.annotations.SerializedName
-import ru.alexmaryin.spacextimes_rx.data.model.Thrust
+import ru.alexmaryin.spacextimes_rx.data.model.extra.Thrust
 
 data class Thruster(
     val type: String,
