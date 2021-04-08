@@ -55,7 +55,7 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
                 options = mapOf(
                     "populate" to "rocket",
                     "pagination" to false,
-                    "sort" to "field -date_local",
+                    "sort" to "field  -upcoming -date_local -name",
                 )
             )
         ).toRequestBody("application/json".toMediaTypeOrNull())

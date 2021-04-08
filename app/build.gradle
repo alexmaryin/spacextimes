@@ -49,10 +49,10 @@ android {
 //    packagingOptions {
 //        pickFirst  'META-INF/*'
 //    }
-
-    hilt {
-        enableTransformForLocalTests = true
-    }
+//
+//    hilt {
+//        enableTransformForLocalTests = true
+//    }
 }
 
 dependencies {

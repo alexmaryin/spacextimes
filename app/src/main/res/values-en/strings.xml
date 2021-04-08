@@ -30,10 +30,10 @@
 
     <string name="loadingText">loading…</string>
     <string name="noFlightString">No flights yet</string>
-    <string name="dragon_status_line_string">" ⇧ %1$d t / %2$d m³ ⇩ %3$d t / %4$d m³"</string>
+    <string name="dragon_payload_line_string">" ⇧ %1$d t / %2$d m³ ⇩ %3$d t / %4$d m³"</string>
     <string name="dragon_size_string">↕ %1$.1f m ⌀ %2$.1f m pressurized capsule - %3$d m³</string>
-    <string name="heat_shield_string">Heat shield: ⌀ %1$.2f m, %2$s, 🔥%3$d℃\n develop partner - %4$s</string>
-    <string name="crew_capacity_string">Crew capacity: %s</string>
+    <string name="heat_shield_string">⌀ %1$.2f m, %2$s, 🔥%3$d℃  develop partner - %4$s</string>
+    <string name="crew_capacity_string">Crew capacity:</string>
     <string name="list_thrusters_string">Capsule thrusters:</string>
     <string name="capsule_thruster_line1">%1$d (per %2$d in pod) %3$s, thrust - %4$.1f kN, specific impulse - %5$d s</string>
     <string name="capsule_thruster_line2">propellant: %1$s / %2$s</string>
@@ -59,5 +59,48 @@
     <string name="historyEventsTitle">History events</string>
     <string name="payloadsTitle">Payloads</string>
     <string name="open_event_web_link">Open link for details</string>
-
+    <string name="spacecraft_characteristics_string">Spacecraft details</string>
+    <string name="dragon_payload_caption">Value of launch and return payload:</string>
+    <string name="dragon_size_caption">Height and diameter:</string>
+    <string name="heat_shield_caption">Diameter, material and max temperature of heat shield:</string>
+    <string name="rocket_size_caption">Height, diameter and mass</string>
+    <string name="rocket_size_string">↕ %1$.1f m ⌀ %2$.1f m ⚖ %3$d t</string>
+    <string name="stages_count_string">stages</string>
+    <string name="boosters_count_string">side boosters</string>
+    <string name="rocket_success_rate_string">Success launches rate</string>
+    <string name="rocket_cost_launch_string">Cost per launch</string>
+    <string name="rocket_engines_caption">Rocket engines:</string>
+    <plurals name="rocket_engines_string">
+        <item quantity="one">%1$d engine %2$s version %3$s</item>
+        <item quantity="other">%1$d engines %2$s version %3$s</item>
+    </plurals>
+    <string name="rocket_isp_caption">Specific impulse:</string>
+    <string name="rocket_isp_string">Sea level: %1$d sec, in vacuum: %2$d sec</string>
+    <string name="rocket_thrust_caption">One engine thrust:</string>
+    <string name="rocket_thrust_string">Sea level: %1$.1f kN, in vacuum: %2$.1f kN</string>
+    <string name="engine_twr_string">Thrust-to-weight %.2f kN/kg⋅G</string>
+    <string name="engine_loss_string">Engines loss max: %d</string>
+    <string name="error_title">Error</string>
+    <string name="first_flight_caption">First flight</string>
+    <string name="landing_legs_caption">Landing legs quantity</string>
+    <string name="landing_legs_str">%1$d (%2$s)</string>
+    <string name="engines_numb_str">engines quantity: %1$d</string>
+    <string name="reusable_stage_str">Reusable</string>
+    <string name="expendable_stage_str">Expendable</string>
+    <string name="thrust_sl_caption">Sea-level thrust</string>
+    <string name="thrust_str">%1$.2f kN</string>
+    <string name="thrust_vac_caption">Vacuum thrust</string>
+    <string name="stage_fuel_amount_str">Fuel load: %1$.1f t</string>
+    <string name="stage_burn_time_str">Burn time: %1$d sec</string>
+    <string name="first_stage_caption">First stage:</string>
+    <string name="second_stage_caption">Second stage:</string>
+    <string name="fairing_caption">Fairing details:</string>
+    <string name="fairing_details_str">Height: %1$.1f m, diameter: %2$.1f m</string>
+    <string name="leo_caption">Low Earth orbit</string>
+    <string name="gso_caption">Geosynchronous orbit</string>
+    <string name="mars_caption">to Mars</string>
+    <string name="pluto_caption">to Pluto</string>
+    <string name="moon_caption">to Moon</string>
+    <string name="weight_string">%1$d kg</string>
+    <string name="max_payload_caption">Max payload:</string>
 </resources>

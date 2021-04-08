@@ -32,6 +32,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/mainFragment" />
+        <action
+            android:id="@+id/action_showRocketDetails"
+            app:destination="@id/rocketDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/crewDetailFragment"
@@ -53,6 +61,14 @@
         android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.CoreDetailFragment" >
         <argument
             android:name="coreId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/rocketDetailFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.RocketDetailFragment"
+        tools:layout="@layout/fragment_rocket_detail" >
+        <argument
+            android:name="rocketId"
             app:argType="string" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.data.model
+package ru.alexmaryin.spacextimes_rx.data.model.extra
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.enums.OrbitType
@@ -14,8 +14,8 @@ data class Volume(
 )
 
 data class LineSize(
-    val meters: Float,
-    val feet: Float
+    val meters: Float?,
+    val feet: Float?
 )
 
 data class Thrust(

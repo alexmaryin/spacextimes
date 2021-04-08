@@ -54,4 +54,6 @@ object CommonAdapters {
     fun underline(view: TextView, underlined: Boolean) {
         if (underlined) view.paintFlags = view.paintFlags or Paint.UNDERLINE_TEXT_FLAG
     }
+
+
 }

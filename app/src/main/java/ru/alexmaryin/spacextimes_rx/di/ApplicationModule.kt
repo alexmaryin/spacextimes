@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,30 +25,37 @@ import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDatabase
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocalImpl
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManagerImpl
+import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders.*
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ApplicationModule {
 
+    private val cacheSize = 10 * 1024 * 1024
+
     @Provides
     fun provideBaseUrl() = SpacexUrls.Base
 
     @Provides
     @Singleton
-    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        OkHttpClient.Builder()
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor)
+    fun provideOkHttpClient(@ApplicationContext context: Context) = if (BuildConfig.DEBUG) {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .addInterceptor(loggingInterceptor)
+                .cache(Cache(context.cacheDir, cacheSize.toLong()))
+                .build()
+        } else OkHttpClient.Builder()
+            .cache(Cache(context.cacheDir, cacheSize.toLong()))
             .build()
-    } else OkHttpClient.Builder()
-        .build()
 
     private val gsonBuilder = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateJsonAdapter)
@@ -93,4 +101,21 @@ class ApplicationModule {
 
     @Provides
     fun provideWikiApi(wikiApi: WikiLoaderImpl): WikiLoaderApi = wikiApi
+
+    @Provides
+    @Singleton
+    fun provideAdaptersManager(): ViewHoldersManager = ViewHoldersManagerImpl().apply {
+        registerViewHolder(ItemTypes.HEADER, HeaderViewHolder())
+        registerViewHolder(ItemTypes.CAPSULE, CapsuleViewHolder())
+        registerViewHolder(ItemTypes.CORE, CoreViewHolder())
+        registerViewHolder(ItemTypes.CREW, CrewViewHolder())
+        registerViewHolder(ItemTypes.DRAGON, DragonsViewHolder())
+        registerViewHolder(ItemTypes.HISTORY_EVENT, HistoryEventsViewHolder())
+        registerViewHolder(ItemTypes.LANDING_PAD, LandingPadViewHolder())
+        registerViewHolder(ItemTypes.LAUNCH, LaunchesViewHolder())
+        registerViewHolder(ItemTypes.LAUNCH_PAD, LaunchPadViewHolder())
+        registerViewHolder(ItemTypes.ROCKET, RocketViewHolder())
+        registerViewHolder(ItemTypes.TWO_STRINGS, TwoStringsViewHolder())
+        registerViewHolder(ItemTypes.ONE_LINE_STRINGS, OneLine2ViewHolder())
+    }
 }

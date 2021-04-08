@@ -8,7 +8,7 @@ data class Crew(
     override val id: String,
     val name: String,
     val status: CrewStatus,
-    val agency: String,
+    val agency: String?,
     val image: String,
     override val wikipedia: String?,
     override var wikiLocale: String?,

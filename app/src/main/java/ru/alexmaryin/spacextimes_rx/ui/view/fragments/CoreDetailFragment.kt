@@ -19,21 +19,22 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentCoreDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.asBody
-import ru.alexmaryin.spacextimes_rx.ui.adapters.asHeader
-import ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerAdapters.LaunchesAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CoreDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CoreDetailFragment : Fragment() {
 
     private val args: CoreDetailFragmentArgs by navArgs()
     private val coreViewModel: CoreDetailViewModel by viewModels()
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentCoreDetailBinding
-    private val missionsAdapter = LaunchesAdapter(AdapterClickListenerById {})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +69,8 @@ class CoreDetailFragment : Fragment() {
 
     private fun bindDetails(core: Core) {
         activity?.title = core.serial
-        missionsAdapter.submitList(listOf(getString(R.string.crew_missions_list_header).asHeader()).plus(core.launches.asBody()))
+        val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
+        missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.crew_missions_list_header))) + core.launches)
         binding.coreMissions.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))

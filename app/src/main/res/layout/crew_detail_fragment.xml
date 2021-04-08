@@ -4,38 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CrewAdapters" />
-        <import type="android.view.View" />
+
         <variable
             name="crew"
             type="ru.alexmaryin.spacextimes_rx.data.model.Crew" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/rootLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            tools:context=".ui.view.fragments.CrewDetailFragment">
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detailsView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_margin="5dp"
+                tools:context=".ui.view.fragments.CrewDetailFragment">
 
                 <ImageView
                     android:id="@+id/image"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="400dp"
                     android:contentDescription="@string/photo_of_crew_member_description"
                     app:imageUrl="@{crew.image}"
@@ -47,37 +42,26 @@
                 <TextView
                     android:id="@+id/statusText"
                     style="@style/regularText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     app:crewStatus="@{crew.status}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/image"
                     tools:text="действует" />
 
-                <TextView
-                    android:id="@+id/agencyText"
-                    style="@style/regularText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{@string/agency_label_text+crew.agency}'
-                    app:hideIfEmpty="@{crew.agency}"
-                    app:layout_constraintStart_toStartOf="@+id/statusText"
-                    app:layout_constraintTop_toBottomOf="@+id/statusText"
-                    tools:text="Работает в NASA" />
-
                 <ImageButton
                     android:id="@+id/wikiButton"
                     style="@style/Widget.AppCompat.Button.Borderless"
+                    app:url="@{crew.wikiLocale ?? crew.wikipedia}"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="1dp"
                     android:contentDescription="@string/wiki_page_open_button"
                     android:scaleType="fitCenter"
                     android:src="@drawable/wikilogo"
-                    android:text="@string/wiki_label"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_700"
                     app:iconGravity="top"
                     app:layout_constraintBottom_toBottomOf="@+id/image"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -85,20 +69,29 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/crewMissions"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/agencyText"
+                    android:layout_height="match_parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/statusText" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include
-                android:id="@+id/wikiFrame"
-                layout="@layout/progress_webview_part" />
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

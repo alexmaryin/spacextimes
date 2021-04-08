@@ -1,7 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.model.parts
 
 import com.google.gson.annotations.SerializedName
-import ru.alexmaryin.spacextimes_rx.data.model.Volume
+import ru.alexmaryin.spacextimes_rx.data.model.extra.Volume
 
 data class Trunk(
     @SerializedName("trunk_volume") val volume: Volume,

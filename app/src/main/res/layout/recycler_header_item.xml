@@ -4,7 +4,7 @@
     <data>
         <variable
             name="headerItem"
-            type="ru.alexmaryin.spacextimes_rx.ui.adapters.RecyclerHeader" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader" />
     </data>
 
     <TextView

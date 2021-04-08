@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Cores
+import ru.alexmaryin.spacextimes_rx.data.model.History
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
@@ -97,7 +98,14 @@ class SpaceXViewModel @Inject constructor(
 
     private val payloads = repository.getPayloads()
 
-    private val historyEvents = repository.getHistoryEvents(listOf(::translateDetails))
+    private val historyEvents = repository.getHistoryEvents(listOf(::translateDetails, {
+        val items = it?.map { item -> item as History }
+        if (settings.translateToRu && items != null) {
+            translator.tryLoadLocalTranslate(viewModelScope.coroutineContext, items, History::title, History::titleRu)
+            translator.translate(viewModelScope.coroutineContext, items, History::title, History::titleRu)
+            translator.saveLocalTranslations(viewModelScope.coroutineContext, items, History::title, History::titleRu)
+        }
+    }))
 
     fun armRefresh() {
         needRefresh = true

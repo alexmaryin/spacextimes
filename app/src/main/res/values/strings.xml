@@ -29,6 +29,7 @@
     <string name="destroyedText">уничтожена</string>
     <string name="reuseText">"повторно "</string>
     <string name="first_flight_text">впервые полетел\n%s</string>
+    <string name="first_flight_caption">Первый полет</string>
 
     <plurals name="reuseCountString">
         <item quantity="one">летала %d раз</item>
@@ -51,10 +52,14 @@
     <string name="photo_of_dragon_capsule_description" translatable="false">Photo of dragon capsule</string>
     <string name="photo_of_crew_member_image" translatable="false">Photo of crew member</string>
     <string name="read_more_string" translatable="false">read more</string>
-    <string name="dragon_status_line_string">" ⇧ %1$d т / %2$d м³ ⇩ %3$d т / %4$d м³"</string>
+    <string name="dragon_payload_caption">Объем запускаемого и возвращаемого груза:</string>
+    <string name="dragon_size_caption">Высота, диаметр:</string>
+    <string name="dragon_payload_line_string">" ⇧ %1$d т / %2$d м³ ⇩ %3$d т / %4$d м³"</string>
     <string name="dragon_size_string">"↕ %1$.1f м ⌀ %2$.1f м герметичный отсек - %3$d м³"</string>
-    <string name="heat_shield_string">"Тепловой щит: ⌀ %1$.2f м, %2$s, 🔥%3$d℃\n партнер разработки - %4$s"</string>
-    <string name="crew_capacity_string">"Вместимость экипажа: %s"</string>
+    <string name="heat_shield_caption">"Диаметр, материал и выдерживаемая температура теплового щита:"</string>
+    <string name="heat_shield_string">"⌀ %1$.2f м, %2$s, 🔥%3$d℃\n партнер разработки - %4$s"</string>
+    <string name="spacecraft_characteristics_string">Характеристики корабля</string>
+    <string name="crew_capacity_string">Вместимость экипажа:</string>
     <string name="list_thrusters_string">Двигатели корабля:</string>
     <string name="capsule_thruster_line1">%1$d шт (в блоке - %2$d) %3$s, тяга - %4$.1f кН, удельный импульс - %5$d с</string>
     <string name="capsule_thruster_line2">топливо: %1$s, окислитель: %2$s</string>
@@ -79,4 +84,44 @@
     <string name="historyEventsTitle">Исторические события</string>
     <string name="payloadsTitle">Полезная нагрузка</string>
     <string name="open_event_web_link">Открыть подробности</string>
+    <string name="rocket_size_caption">Высота, диаметр и масса</string>
+    <string name="rocket_size_string">"↕ %1$.1f м ⌀ %2$.1f м ⚖ %3$d т"</string>
+    <string name="stages_count_string">ступеней</string>
+    <string name="boosters_count_string">боковых ускорителей</string>
+    <string name="rocket_success_rate_string">Оценка успешности ракеты</string>
+    <string name="rocket_cost_launch_string">Стоимость одного запуска</string>
+    <string name="rocket_engines_caption">Двигатели ракеты:</string>
+    <plurals name="rocket_engines_string">
+        <item quantity="one">%1$d двигатель %2$s версии %3$s</item>
+        <item quantity="few">%1$d двигателя %2$s версии %3$s</item>
+        <item quantity="many">%1$d двигателей %2$s версии %3$s</item>
+    </plurals>
+    <string name="rocket_isp_caption">Удельный импульс:</string>
+    <string name="rocket_isp_string">На уровне моря: %1$d с, в вакууме: %2$d с</string>
+    <string name="rocket_thrust_caption">Тяга одного двигателя:</string>
+    <string name="rocket_thrust_string">На уровне моря: %1$.1f кН, в вакууме: %2$.1f кН</string>
+    <string name="engine_twr_string">Тяговооруженность: %.2f кН/кг⋅G</string>
+    <string name="engine_loss_string">Допускаемый отказ двигателей (шт): %d</string>
+    <string name="error_title">Ошибка</string>
+    <string name="landing_legs_caption">Посадочные опоры</string>
+    <string name="landing_legs_str">%1$d шт (%2$s)</string>
+    <string name="engines_numb_str">двигателей ступени: %1$d шт</string>
+    <string name="reusable_stage_str">Возвращаемая ступень</string>
+    <string name="expendable_stage_str">Расходуемая ступень</string>
+    <string name="thrust_sl_caption">Тяга на уровне моря</string>
+    <string name="thrust_str">%1$.2f кН</string>
+    <string name="thrust_vac_caption">Тяга в вакууме</string>
+    <string name="stage_fuel_amount_str">Загрузка топлива: %1$.1f т</string>
+    <string name="stage_burn_time_str">Время работы: %1$d с</string>
+    <string name="first_stage_caption">Первая ступень:</string>
+    <string name="second_stage_caption">Вторая ступень:</string>
+    <string name="fairing_caption">Характеристики носового обтекателя:</string>
+    <string name="fairing_details_str">Высота: %1$.1f м, диаметр: %2$.1f м</string>
+    <string name="leo_caption">Низкая околоземная орбита</string>
+    <string name="gso_caption">Геосинхронная орбита</string>
+    <string name="mars_caption">к Марсу</string>
+    <string name="pluto_caption">к Плутону</string>
+    <string name="weight_string">%1$d кг</string>
+    <string name="max_payload_caption">Максимальная полезная нагрузка:</string>
+    <string name="moon_caption">к Луне</string>
 </resources>
