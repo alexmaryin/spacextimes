@@ -80,4 +80,27 @@
     <string name="rocket_thrust_string">Sea level: %1$.1f kN, in vacuum: %2$.1f kN</string>
     <string name="engine_twr_string">Thrust-to-weight %.2f kN/kg⋅G</string>
     <string name="engine_loss_string">Engines loss max: %d</string>
+    <string name="error_title">Error</string>
+    <string name="first_flight_caption">First flight</string>
+    <string name="landing_legs_caption">Landing legs quantity</string>
+    <string name="landing_legs_str">%1$d (%2$s)</string>
+    <string name="engines_numb_str">engines quantity: %1$d</string>
+    <string name="reusable_stage_str">Reusable</string>
+    <string name="expendable_stage_str">Expendable</string>
+    <string name="thrust_sl_caption">Sea-level thrust</string>
+    <string name="thrust_str">%1$.2f kN</string>
+    <string name="thrust_vac_caption">Vacuum thrust</string>
+    <string name="stage_fuel_amount_str">Fuel load: %1$.1f t</string>
+    <string name="stage_burn_time_str">Burn time: %1$d sec</string>
+    <string name="first_stage_caption">First stage:</string>
+    <string name="second_stage_caption">Second stage:</string>
+    <string name="fairing_caption">Fairing details:</string>
+    <string name="fairing_details_str">Height: %1$.1f m, diameter: %2$.1f m</string>
+    <string name="leo_caption">Low Earth orbit</string>
+    <string name="gso_caption">Geosynchronous orbit</string>
+    <string name="mars_caption">to Mars</string>
+    <string name="pluto_caption">to Pluto</string>
+    <string name="moon_caption">to Moon</string>
+    <string name="weight_string">%1$d kg</string>
+    <string name="max_payload_caption">Max payload:</string>
 </resources>

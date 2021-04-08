@@ -4,7 +4,6 @@ import androidx.databinding.ViewDataBinding
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsules
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
@@ -16,7 +15,7 @@ class CapsuleViewHolder : ViewHolderVisitor {
 
     override val layout = R.layout.capsule_item
 
-    override fun bind(binding: ViewDataBinding, item: HasStringId, clickListener: AdapterClickListenerById) {
+    override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
         val capsule = item as Capsules
         with(binding as CapsuleItemBinding) {
             this.capsule = capsule
@@ -65,5 +64,5 @@ class CapsuleViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptBinding(item: HasStringId): Boolean = item is Capsules
+    override fun acceptBinding(item: Any): Boolean = item is Capsules
 }

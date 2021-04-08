@@ -129,6 +129,7 @@ class MainFragment : Fragment() {
                         if (state.error == ErrorType.REMOTE_TRANSLATOR_ERROR)
                             processTranslate(false)
                         Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
+                        activity?.title = getString(R.string.error_title)
                     }
                 }
             }

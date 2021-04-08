@@ -1,7 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters
 
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
-
 class ViewHoldersManagerImpl : ViewHoldersManager {
     private val holdersMap = emptyMap<Int, ViewHolderVisitor>().toMutableMap()
 
@@ -9,7 +7,7 @@ class ViewHoldersManagerImpl : ViewHoldersManager {
         holdersMap += itemType to viewHolder
     }
 
-    override fun getItemType(item: HasStringId): Int {
+    override fun getItemType(item: Any): Int {
         holdersMap.forEach { (itemType, holder) ->
             if(holder.acceptBinding(item)) return itemType
         }

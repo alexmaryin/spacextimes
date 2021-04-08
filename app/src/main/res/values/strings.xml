@@ -29,6 +29,7 @@
     <string name="destroyedText">уничтожена</string>
     <string name="reuseText">"повторно "</string>
     <string name="first_flight_text">впервые полетел\n%s</string>
+    <string name="first_flight_caption">Первый полет</string>
 
     <plurals name="reuseCountString">
         <item quantity="one">летала %d раз</item>
@@ -89,7 +90,7 @@
     <string name="boosters_count_string">боковых ускорителей</string>
     <string name="rocket_success_rate_string">Оценка успешности ракеты</string>
     <string name="rocket_cost_launch_string">Стоимость одного запуска</string>
-    <string name="rocket_engines_caption">Двигители ракеты:</string>
+    <string name="rocket_engines_caption">Двигатели ракеты:</string>
     <plurals name="rocket_engines_string">
         <item quantity="one">%1$d двигатель %2$s версии %3$s</item>
         <item quantity="few">%1$d двигателя %2$s версии %3$s</item>
@@ -101,4 +102,26 @@
     <string name="rocket_thrust_string">На уровне моря: %1$.1f кН, в вакууме: %2$.1f кН</string>
     <string name="engine_twr_string">Тяговооруженность: %.2f кН/кг⋅G</string>
     <string name="engine_loss_string">Допускаемый отказ двигателей (шт): %d</string>
+    <string name="error_title">Ошибка</string>
+    <string name="landing_legs_caption">Посадочные опоры</string>
+    <string name="landing_legs_str">%1$d шт (%2$s)</string>
+    <string name="engines_numb_str">двигателей ступени: %1$d шт</string>
+    <string name="reusable_stage_str">Возвращаемая ступень</string>
+    <string name="expendable_stage_str">Расходуемая ступень</string>
+    <string name="thrust_sl_caption">Тяга на уровне моря</string>
+    <string name="thrust_str">%1$.2f кН</string>
+    <string name="thrust_vac_caption">Тяга в вакууме</string>
+    <string name="stage_fuel_amount_str">Загрузка топлива: %1$.1f т</string>
+    <string name="stage_burn_time_str">Время работы: %1$d с</string>
+    <string name="first_stage_caption">Первая ступень:</string>
+    <string name="second_stage_caption">Вторая ступень:</string>
+    <string name="fairing_caption">Характеристики носового обтекателя:</string>
+    <string name="fairing_details_str">Высота: %1$.1f м, диаметр: %2$.1f м</string>
+    <string name="leo_caption">Низкая околоземная орбита</string>
+    <string name="gso_caption">Геосинхронная орбита</string>
+    <string name="mars_caption">к Марсу</string>
+    <string name="pluto_caption">к Плутону</string>
+    <string name="weight_string">%1$d кг</string>
+    <string name="max_payload_caption">Максимальная полезная нагрузка:</string>
+    <string name="moon_caption">к Луне</string>
 </resources>

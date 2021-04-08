@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launches
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
@@ -15,7 +14,7 @@ class LaunchesViewHolder : ViewHolderVisitor {
 
     override val layout = R.layout.launch_item
 
-    override fun bind(binding: ViewDataBinding, item: HasStringId, clickListener: AdapterClickListenerById) {
+    override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
         val launch = item as Launches
         with(binding as LaunchItemBinding) {
             this.clickListener = clickListener
@@ -51,5 +50,5 @@ class LaunchesViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptBinding(item: HasStringId): Boolean = item is Launches
+    override fun acceptBinding(item: Any): Boolean = item is Launches
 }

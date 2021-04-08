@@ -11,18 +11,16 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Cores list
 - [x] Crew members list, member details
 - [x] Dragons list, dragon details
-- [x] Rockets list
+- [x] Rockets list, rocket details
 - [x] Launch pads list with google-map location
 - [x] Landing pads list with google-map location
 - [x] Launches list
+- [x] Company milestone events 
 
 **To do:**
 - [ ] pads details
 - [ ] launches details
 - [ ] payloads list, details
-- [ ] starlink list, details
-- [ ] ships list, details
-- [ ] roadster and Starman position details
 
 **Interface languages:**
 - [x] Russian
@@ -31,6 +29,8 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 **Features:**
 * Auto-translation for english descriptions and remarks by [FastTranslator](https://fasttranslator.herokuapp.com/)
 * Wiki-pages interlanguage auto-selecting with [Jsoup](https://jsoup.org/)
+* Cache for translations on Room (sqlite)
+* Cache for network responses and pictures download by okHttp and Picasso
 
 **UI previews -- ARE STILL SUBJECT TO CHANGE!!!!**
 

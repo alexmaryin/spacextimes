@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Cores
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 import ru.alexmaryin.spacextimes_rx.databinding.CoreItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
@@ -26,7 +25,7 @@ class CoreViewHolder : ViewHolderVisitor {
         )
     }
 
-    override fun bind(binding: ViewDataBinding, item: HasStringId, clickListener: AdapterClickListenerById) {
+    override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
         val core = item as Cores
         with(binding as CoreItemBinding) {
             this.core = core
@@ -70,5 +69,5 @@ class CoreViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptBinding(item: HasStringId): Boolean = item is Cores
+    override fun acceptBinding(item: Any): Boolean = item is Cores
 }

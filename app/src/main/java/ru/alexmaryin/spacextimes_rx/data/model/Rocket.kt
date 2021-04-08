@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
+import android.content.Context
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
@@ -12,6 +13,8 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.Engine
 import ru.alexmaryin.spacextimes_rx.data.model.parts.FirstStage
 import ru.alexmaryin.spacextimes_rx.data.model.parts.LandingLegs
 import ru.alexmaryin.spacextimes_rx.data.model.parts.SecondStage
+import ru.alexmaryin.spacextimes_rx.utils.currentLocale
+import java.text.DateFormat
 import java.util.*
 
 data class Rocket(
@@ -36,7 +39,10 @@ data class Rocket(
     @SerializedName("first_flight") val firstFlight: Date,
     @SerializedName("first_stage") val firstStage: FirstStage,
     @SerializedName("second_stage") val secondStage: SecondStage,
-    @SerializedName("landing_legs") val landingLegs: LandingLegs?,
+    @SerializedName("landing_legs") val landingLegs: LandingLegs,
     @SerializedName("payload_weights") val payloadWeights: List<PayloadWeight> = emptyList(),
     @SerializedName("flickr_images") val images: List<String> = emptyList(),
-) : HasStringId, HasDescription, HasWiki
+) : HasStringId, HasDescription, HasWiki {
+    fun firstFlightStr(context: Context): String =
+        DateFormat.getDateInstance(DateFormat.LONG, context.currentLocale()).format(firstFlight)
+}

@@ -7,5 +7,5 @@ enum class OrbitType{
     @SerializedName("gto") GEOSYNCHRONOUS,
     @SerializedName("mars") MARS,
     @SerializedName("pluto") PLUTO,
-
+    @SerializedName("moon") MOON
 }
