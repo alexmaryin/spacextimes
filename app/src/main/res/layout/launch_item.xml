@@ -8,10 +8,7 @@
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
         <variable
             name="launch"
-            type="ru.alexmaryin.spacextimes_rx.data.model.Launches" />
-        <variable
-            name="clickListener"
-            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.lists.Launches" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

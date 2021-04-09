@@ -11,6 +11,7 @@
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{rocket.name}"
-            android:onClick="@{() -> clickListener.onClick(rocket.id)}"
+            android:onClick="@{() -> clickListener.onClick(rocket.id, ItemTypes.ROCKET)}"
             app:layout_constraintEnd_toStartOf="@+id/thumbnail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +39,7 @@
             android:contentDescription="@string/preview_of_rocket_string"
             android:scaleType="fitCenter"
             app:imageUrl="@{rocket.images[0]}"
-            android:onClick="@{() -> clickListener.onClick(rocket.id)}"
+            android:onClick="@{() -> clickListener.onClick(rocket.id, ItemTypes.ROCKET)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

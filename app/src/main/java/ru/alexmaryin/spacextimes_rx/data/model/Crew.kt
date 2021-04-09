@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.model
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 
 data class Crew(
     override val id: String,

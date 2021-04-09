@@ -3,9 +3,9 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 import androidx.databinding.ViewDataBinding
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Capsules
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Capsules
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor

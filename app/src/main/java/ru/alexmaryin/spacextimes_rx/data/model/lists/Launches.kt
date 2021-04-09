@@ -1,8 +1,9 @@
-package ru.alexmaryin.spacextimes_rx.data.model
+package ru.alexmaryin.spacextimes_rx.data.model.lists
 
 import android.content.Context
 import com.google.android.material.timepicker.TimeFormat
 import com.google.gson.annotations.SerializedName
+import ru.alexmaryin.spacextimes_rx.data.model.Rocket
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links

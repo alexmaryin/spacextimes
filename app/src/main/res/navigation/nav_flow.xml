@@ -40,6 +40,22 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/mainFragment"/>
+        <action
+            android:id="@+id/action_showLaunchPadDetails"
+            app:destination="@id/launchPadDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment"/>
+        <action
+            android:id="@+id/action_showLandingPadDetails"
+            app:destination="@id/landingPadDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/crewDetailFragment"
@@ -69,6 +85,28 @@
         tools:layout="@layout/fragment_rocket_detail" >
         <argument
             android:name="rocketId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/launchPadDetailFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.LaunchPadDetailFragment" >
+        <argument
+            android:name="launchPadId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_showRocketDetails"
+            app:destination="@id/rocketDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/launchPadDetailFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/landingPadDetailFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.LandingPadDetailFragment" >
+        <argument
+            android:name="landingPadId"
             app:argType="string" />
     </fragment>
 </navigation>

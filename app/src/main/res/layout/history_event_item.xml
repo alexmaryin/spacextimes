@@ -47,13 +47,12 @@
 
         <TextView
             android:id="@+id/eventLinkText"
-            style="@style/descriptionText"
+            style="@style/linkText"
             url="@{historyEvent.links.article}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/open_event_web_link"
             app:underlined="@{true}"
-            android:textColor="#303F9F"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/eventDescription"
             tools:text="Открыть подробности" />

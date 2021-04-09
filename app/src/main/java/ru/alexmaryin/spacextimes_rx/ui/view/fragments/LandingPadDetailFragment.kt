@@ -18,21 +18,21 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Core
-import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
+import ru.alexmaryin.spacextimes_rx.data.model.LandingPad
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentRecyclerDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
-import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CoreDetailViewModel
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LandingPadDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CoreDetailFragment : Fragment() {
+class LandingPadDetailFragment : Fragment() {
 
-    private val args: CoreDetailFragmentArgs by navArgs()
-    private val coreViewModel: CoreDetailViewModel by viewModels()
+    private val args: LandingPadDetailFragmentArgs by navArgs()
+    private val padViewModel: LandingPadDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentRecyclerDetailBinding
 
@@ -42,39 +42,54 @@ class CoreDetailFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
         binding.lifecycleOwner = this
-        coreViewModel.state.set("coreId", args.coreId)
 
-        lifecycleScope.launch {
-            coreViewModel.getState()
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect { state ->
-                when (state) {
-                    is Loading -> {
-                        binding.detailsView replaceBy binding.progress
-                        activity?.title = getString(R.string.loadingText)
-                    }
-                    is Error -> {
-                        binding.progress.visibility = View.GONE
-                        Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
-                    }
-                    is Success<*> -> {
-                        binding.progress replaceBy binding.detailsView
-                        bindDetails(state.toDetails())
-                    }
-                }
-            }
-        }
+        padViewModel.state.set("landingPadId", args.landingPadId)
+        padViewModel.loadLandingPad()
+
         return binding.root
     }
 
-    private fun bindDetails(core: Core) {
-        activity?.title = core.serial
-        val missionsAdapter = BaseListAdapter(AdapterClickListenerById { _, _ -> }, viewHoldersManager)
-        missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.missions_list_header))) + core.launches)
+    private fun observeState() {
+        lifecycleScope.launch {
+            padViewModel.getPadState()
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collect { state ->
+                    when (state) {
+                        is Loading -> {
+                            binding.detailsView replaceBy binding.progress
+                            activity?.title = getString(R.string.loadingText)
+                        }
+                        is Error -> {
+                            binding.progress.visibility = View.GONE
+                            Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
+                            activity?.title = getString(R.string.error_title)
+                        }
+                        is Success<*> -> {
+                            binding.progress replaceBy binding.detailsView
+                            bindDetails(state.toDetails())
+                        }
+                    }
+                }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeState()
+    }
+
+    private fun bindDetails(landingPad: LandingPad) {
+        activity?.title = landingPad.name
+        val detailsAdapter = BaseListAdapter(AdapterClickListenerById { id, listenerType ->
+            when(listenerType) {
+                ItemTypes.LAUNCH -> Unit
+            }
+        }, viewHoldersManager)
+        detailsAdapter.submitList(padViewModel.composeDetails(requireContext(), landingPad))
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = missionsAdapter
+            adapter = detailsAdapter
         }
     }
 }

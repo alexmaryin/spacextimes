@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.data.model
+package ru.alexmaryin.spacextimes_rx.data.model.lists
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate

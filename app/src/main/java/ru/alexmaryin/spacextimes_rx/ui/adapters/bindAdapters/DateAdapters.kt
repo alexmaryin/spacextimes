@@ -3,7 +3,7 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Launches
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import java.text.DateFormat
 import java.util.*
 

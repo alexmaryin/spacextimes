@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="spaceXViewModel"
-            type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel" />
+        <variable name="spaceXViewModel" type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

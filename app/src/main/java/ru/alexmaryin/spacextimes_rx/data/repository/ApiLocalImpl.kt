@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data.repository
 
 import android.util.Log
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 import javax.inject.Inject
 
 class ApiLocalImpl @Inject constructor(): ApiLocal {
@@ -46,7 +47,7 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         return null
     }
 
-    override fun getLaunchPads(): List<LaunchPad> {
+    override fun getLaunchPads(): List<LaunchPads> {
         TODO("Not yet implemented")
     }
 
@@ -55,7 +56,7 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         return null
     }
 
-    override fun getLandingPads(): List<LandingPad> {
+    override fun getLandingPads(): List<LandingPads> {
         TODO("Not yet implemented")
     }
 

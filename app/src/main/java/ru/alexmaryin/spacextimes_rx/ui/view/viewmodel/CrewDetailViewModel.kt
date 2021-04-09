@@ -48,7 +48,7 @@ class CrewDetailViewModel @Inject constructor(
                 )
             )
         }
-        add(RecyclerHeader(text = res.getString(R.string.crew_missions_list_header)))
+        add(RecyclerHeader(text = res.getString(R.string.missions_list_header)))
         addAll(crew.launches)
     }
 }

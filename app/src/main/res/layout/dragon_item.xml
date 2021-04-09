@@ -6,6 +6,7 @@
     <data>
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DateAdapter" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
@@ -24,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{dragon.name}"
-            android:onClick="@{() -> clickListener.onClick(dragon.id)}"
+            android:onClick="@{() -> clickListener.onClick(dragon.id, ItemTypes.DRAGON)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Dragon 1" />
@@ -35,7 +36,7 @@
             android:layout_height="120dp"
             android:layout_margin="5dp"
             android:contentDescription="@string/photo_of_dragon_capsule_description"
-            android:onClick="@{() -> clickListener.onClick(dragon.id)}"
+            android:onClick="@{() -> clickListener.onClick(dragon.id, ItemTypes.DRAGON)}"
             android:scaleType="fitCenter"
             app:imageUrl="@{dragon.images[0]}"
             app:layout_constraintBottom_toBottomOf="parent"

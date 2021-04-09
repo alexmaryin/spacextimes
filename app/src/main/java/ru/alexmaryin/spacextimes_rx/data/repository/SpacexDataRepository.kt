@@ -6,6 +6,7 @@ import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.io.IOException
 import javax.inject.Inject
@@ -81,10 +82,10 @@ class SpacexDataRepository @Inject constructor(
     fun getRockets(processCallbacks: List<suspend (List<Rocket>?) -> Unit>) = fetchItems(remoteApi::getRockets, processCallbacks)
     fun getRocketById(id: String) = fetchItemById(id, remoteApi::getRocketById, localApi::getRocketById)
 
-    fun getLaunchPads(processCallbacks: List<suspend (List<LaunchPad>?) -> Unit>) = fetchItems(remoteApi::getLaunchPads, processCallbacks)
+    fun getLaunchPads(processCallbacks: List<suspend (List<LaunchPads>?) -> Unit>) = fetchItems(remoteApi::getLaunchPads, processCallbacks)
     fun getLaunchPadById(id: String) = fetchItemById(id, remoteApi::getLaunchPadById, localApi::getLaunchPadById)
 
-    fun getLandingPads(processCallbacks: List<suspend (List<LandingPad>?) -> Unit>) = fetchItems(remoteApi::getLandingPads, processCallbacks)
+    fun getLandingPads(processCallbacks: List<suspend (List<LandingPads>?) -> Unit>) = fetchItems(remoteApi::getLandingPads, processCallbacks)
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
     fun getLaunches() = fetchItems<Launches, ApiResponse<Launches>>(remoteApi::getLaunches)

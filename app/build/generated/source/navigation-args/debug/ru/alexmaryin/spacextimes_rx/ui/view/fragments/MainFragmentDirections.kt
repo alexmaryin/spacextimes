@@ -55,6 +55,30 @@ public class MainFragmentDirections private constructor() {
     }
   }
 
+  private data class ActionShowLaunchPadDetails(
+    public val launchPadId: String
+  ) : NavDirections {
+    public override fun getActionId(): Int = R.id.action_showLaunchPadDetails
+
+    public override fun getArguments(): Bundle {
+      val result = Bundle()
+      result.putString("launchPadId", this.launchPadId)
+      return result
+    }
+  }
+
+  private data class ActionShowLandingPadDetails(
+    public val landingPadId: String
+  ) : NavDirections {
+    public override fun getActionId(): Int = R.id.action_showLandingPadDetails
+
+    public override fun getArguments(): Bundle {
+      val result = Bundle()
+      result.putString("landingPadId", this.landingPadId)
+      return result
+    }
+  }
+
   public companion object {
     public fun actionShowCrewMember(crewId: String): NavDirections = ActionShowCrewMember(crewId)
 
@@ -65,5 +89,11 @@ public class MainFragmentDirections private constructor() {
 
     public fun actionShowRocketDetails(rocketId: String): NavDirections =
         ActionShowRocketDetails(rocketId)
+
+    public fun actionShowLaunchPadDetails(launchPadId: String): NavDirections =
+        ActionShowLaunchPadDetails(launchPadId)
+
+    public fun actionShowLandingPadDetails(landingPadId: String): NavDirections =
+        ActionShowLandingPadDetails(landingPadId)
   }
 }

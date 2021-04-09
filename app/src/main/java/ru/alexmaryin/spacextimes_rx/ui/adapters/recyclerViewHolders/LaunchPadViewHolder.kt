@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.LaunchPad
+import ru.alexmaryin.spacextimes_rx.data.model.lists.LaunchPads
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchPadItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
@@ -15,7 +15,7 @@ class LaunchPadViewHolder : ViewHolderVisitor {
     override val layout = R.layout.launch_pad_item
 
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
-        val launchPad = item as LaunchPad
+        val launchPad = item as LaunchPads
         with(binding as LaunchPadItemBinding) {
             this.clickListener = clickListener
             this.launchPad = launchPad
@@ -31,5 +31,5 @@ class LaunchPadViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptBinding(item: Any): Boolean = item is LaunchPad
+    override fun acceptBinding(item: Any): Boolean = item is LaunchPads
 }

@@ -4,12 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable
-            name="clickListener"
-            type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
-        <variable
-            name="landingPad"
-            type="ru.alexmaryin.spacextimes_rx.data.model.LandingPad" />
+        <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+        <variable name="landingPad" type="ru.alexmaryin.spacextimes_rx.data.model.lists.LandingPads" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +17,11 @@
         <TextView
             android:id="@+id/landingPadName"
             style="@style/boldCaption"
-            android:layout_width="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(landingPad.id, ItemTypes.LANDING_PAD)}"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{landingPad.name}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Landing Zone 1" />
@@ -29,22 +29,26 @@
         <TextView
             android:id="@+id/landingPadFullName"
             style="@style/descriptionText"
-            android:layout_width="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(landingPad.id, ItemTypes.LANDING_PAD)}"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{landingPad.fullName}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/landingPadName"
             tools:text="Some description text" />
 
         <TextView
             android:id="@+id/landingPadLocation"
-            style="@style/regularText"
-            android:layout_width="wrap_content"
+            style="@style/linkText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text='@{landingPad.locality+", "+landingPad.region}'
+            app:drawableStartCompat="@drawable/location_marker"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/landingPadFullName"
-            tools:text="Some location, USA"
-            app:drawableEndCompat="@drawable/location_marker" />
+            app:underlined="@{true}"
+            tools:text="Some location, USA" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

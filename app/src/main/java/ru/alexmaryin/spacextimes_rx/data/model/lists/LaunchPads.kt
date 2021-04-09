@@ -1,19 +1,24 @@
-package ru.alexmaryin.spacextimes_rx.data.model
+package ru.alexmaryin.spacextimes_rx.data.model.lists
 
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 
-data class LaunchPad(
+data class LaunchPads(
     override val id: String,
     val name: String,
-    val rockets: List<Rocket> = emptyList(),
-    val launches: List<Launches> = emptyList(),
+    val locality: String,
+    val region: String,
+    val latitude: Float,
+    val longitude: Float,
+    val rockets: List<String> = emptyList(),
+    val launches: List<String> = emptyList(),
     override val details: String?,
     override var detailsRu: String?,
     val status: PadStatus,
+    @SerializedName("timezone") val timeZone: String,
+    @SerializedName("full_name") val fullName: String,
     @SerializedName("launch_attempts") val launchAttempts: Int = 0,
     @SerializedName("launch_successes") val launchSuccesses: Int = 0,
 ) : HasStringId, HasDetails

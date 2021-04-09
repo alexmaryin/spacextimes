@@ -54,7 +54,7 @@
     <string name="half2_string">\"Second half of \"</string>
     <string name="to_be_determined_string">to be determined</string>
     <string name="not_early_string">\"not early \"</string>
-    <string name="crew_missions_list_header">Joined missions:</string>
+    <string name="missions_list_header">Joined missions:</string>
     <string name="core_not_fly_text">This core doesn\'t fly yet!</string>
     <string name="historyEventsTitle">History events</string>
     <string name="payloadsTitle">Payloads</string>
@@ -103,4 +103,15 @@
     <string name="moon_caption">to Moon</string>
     <string name="weight_string">%1$d kg</string>
     <string name="max_payload_caption">Max payload:</string>
+    <string name="status_pad_caption">Pad status</string>
+    <string name="underConstructionText">under reconstruction</string>
+    <string name="launch_statistic_caption">Success launch statistic</string>
+    <string name="statistic_text">%1$d of %2$d</string>
+    <string name="pad_details_caption">Short description:</string>
+    <string name="rockets_launched_caption">Flying rockets:</string>
+    <string name="pad_launches_caption">Launches from pad:</string>
+    <string name="landing_statistic_caption">Успешных посадок</string>
+    <string name="landing_pad_type_caption">Landing pad type</string>
+    <string name="site_text">ground site</string>
+    <string name="drone_text">drone ship</string>
 </resources>

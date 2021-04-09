@@ -51,10 +51,10 @@ class ApplicationModule {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
-                .cache(Cache(context.cacheDir, cacheSize.toLong()))
+                //.cache(Cache(context.cacheDir, cacheSize.toLong()))
                 .build()
         } else OkHttpClient.Builder()
-            .cache(Cache(context.cacheDir, cacheSize.toLong()))
+            //.cache(Cache(context.cacheDir, cacheSize.toLong()))
             .build()
 
     private val gsonBuilder = GsonBuilder()

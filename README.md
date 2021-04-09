@@ -12,13 +12,12 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Crew members list, member details
 - [x] Dragons list, dragon details
 - [x] Rockets list, rocket details
-- [x] Launch pads list with google-map location
-- [x] Landing pads list with google-map location
+- [x] Launch pads list with google-map location, pad details
+- [x] Landing pads list with google-map location, pad details
 - [x] Launches list
 - [x] Company milestone events 
 
 **To do:**
-- [ ] pads details
 - [ ] launches details
 - [ ] payloads list, details
 

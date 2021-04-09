@@ -15,4 +15,9 @@
         <item name="android:textStyle">italic</item>
         <item name="android:textColor">@color/material_on_background_emphasis_medium</item>
     </style>
+
+    <style name="linkText" parent="regularText">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
 </resources>

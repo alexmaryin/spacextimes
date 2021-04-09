@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 
 data class Core(
     override val id: String,

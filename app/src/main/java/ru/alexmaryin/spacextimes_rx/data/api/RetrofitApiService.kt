@@ -7,6 +7,7 @@ import retrofit2.http.*
 import ru.alexmaryin.spacextimes_rx.data.api.translator.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorUrls
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 
 interface RetrofitApiService {
 
@@ -35,16 +36,16 @@ interface RetrofitApiService {
     suspend fun getDragonById(@Path("id") id: String): Response<Dragon>
 
     @GET(SpacexUrls.AllLaunchPads)
-    suspend fun getLaunchPads(): Response<List<LaunchPad>>
+    suspend fun getLaunchPads(): Response<List<LaunchPads>>
 
-    @GET(SpacexUrls.AllLaunchPads+"{id}")
-    suspend fun getLaunchPadById(@Path("id") id: String): Response<LaunchPad>
+    @POST(SpacexUrls.LaunchPadQuery)
+    suspend fun getLaunchPadById(@Body body: RequestBody): Response<ApiResponse<LaunchPad>>
 
     @GET(SpacexUrls.AllLandingPads)
-    suspend fun getLandingPads(): Response<List<LandingPad>>
+    suspend fun getLandingPads(): Response<List<LandingPads>>
 
-    @GET(SpacexUrls.AllLandingPads+"{id}")
-    suspend fun getLandingPadById(@Path("id") id: String): Response<LandingPad>
+    @POST(SpacexUrls.LandingPadQuery)
+    suspend fun getLandingPadById(@Body body: RequestBody): Response<ApiResponse<LandingPad>>
 
     @GET(SpacexUrls.AllRockets)
     suspend fun getRockets(): Response<List<Rocket>>

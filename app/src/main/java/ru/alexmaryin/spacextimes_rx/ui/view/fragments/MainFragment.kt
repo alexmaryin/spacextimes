@@ -33,14 +33,18 @@ import javax.inject.Inject
 class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
-    private val coreClickListener = AdapterClickListenerById { id ->
+    private val coreClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id)) }
-    private val dragonClickListener = AdapterClickListenerById { id ->
+    private val dragonClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) }
-    private val crewClickListener = AdapterClickListenerById { id ->
+    private val crewClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) }
-    private val rocketClickListener = AdapterClickListenerById { id ->
+    private val rocketClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowRocketDetails(id)) }
+    private val launchPadClickListener = AdapterClickListenerById { id, _ ->
+        findNavController().navigate(MainFragmentDirections.actionShowLaunchPadDetails(id)) }
+    private val landingPadClickListener = AdapterClickListenerById { id, _ ->
+        findNavController().navigate(MainFragmentDirections.actionShowLandingPadDetails(id)) }
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -117,8 +121,8 @@ class MainFragment : Fragment() {
                             Screen.Dragons -> { renderItems(state.toListOf()!!, R.string.dragonsTitle, dragonClickListener) }
                             Screen.Rockets -> { renderItems(state.toListOf()!!, R.string.rocketsTitle, rocketClickListener) }
                             Screen.Launches -> { renderItems(state.toListOf()!!, R.string.launchesTitle) }
-                            Screen.LaunchPads -> { renderItems(state.toListOf()!!, R.string.launchPadsTitle) }
-                            Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle) }
+                            Screen.LaunchPads -> { renderItems(state.toListOf()!!, R.string.launchPadsTitle, launchPadClickListener) }
+                            Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle, landingPadClickListener) }
                             Screen.HistoryEvents -> { renderItems(state.toListOf()!!, R.string.historyEventsTitle) }
                             Screen.Payloads -> TODO()
                         }
@@ -144,7 +148,7 @@ class MainFragment : Fragment() {
     private fun <T : HasStringId> renderItems(
         items: List<T>,
         titleResource: Int,
-        clickListener: AdapterClickListenerById = AdapterClickListenerById {}) {
+        clickListener: AdapterClickListenerById = AdapterClickListenerById {_, _ -> }) {
         activity?.title = getString(titleResource)
         val currentAdapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
         binding.recyclerView.apply {

@@ -3,8 +3,8 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Cores
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 import ru.alexmaryin.spacextimes_rx.databinding.CoreItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
@@ -29,7 +29,7 @@ class CoreViewHolder : ViewHolderVisitor {
         val core = item as Cores
         with(binding as CoreItemBinding) {
             this.core = core
-            this.clickListener = if (core.totalFlights() > 0) clickListener else AdapterClickListenerById {
+            this.clickListener = if (core.totalFlights() > 0) clickListener else AdapterClickListenerById { _, _ ->
                 Toast.makeText(root.context, root.context.getString(R.string.core_not_fly_text), Toast.LENGTH_LONG).show()
             }
 

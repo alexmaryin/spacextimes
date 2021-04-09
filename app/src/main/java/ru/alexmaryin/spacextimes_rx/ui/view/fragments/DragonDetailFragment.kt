@@ -89,7 +89,7 @@ class DragonDetailFragment : Fragment() {
             pageCount = dragon.images.size
         }
 
-        val detailsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
+        val detailsAdapter = BaseListAdapter(AdapterClickListenerById {_, _ -> }, viewHoldersManager)
         detailsAdapter.submitList(dragonViewModel.composeDetails(requireContext(), dragon))
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())

@@ -2,7 +2,7 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Crews
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Crews
 import ru.alexmaryin.spacextimes_rx.databinding.CrewItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor

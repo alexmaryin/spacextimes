@@ -9,7 +9,8 @@
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
         <variable
             name="crewMember"
-            type="ru.alexmaryin.spacextimes_rx.data.model.Crews" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.lists.Crews" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:imageUrl="@{crewMember.image}"
-            android:onClick="@{() -> clickListener.onClick(crewMember.id)}"
+            android:onClick="@{() -> clickListener.onClick(crewMember.id, ItemTypes.CREW)}"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

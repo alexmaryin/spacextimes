@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.repository
 
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 
 interface ApiLocal {
 
@@ -17,10 +18,10 @@ interface ApiLocal {
         fun getDragons(): List<Dragon>
         fun getDragonById(id: String): Dragon?
 
-        fun getLaunchPads(): List<LaunchPad>
+        fun getLaunchPads(): List<LaunchPads>
         fun getLaunchPadById(id: String): LaunchPad?
 
-        fun getLandingPads(): List<LandingPad>
+        fun getLandingPads(): List<LandingPads>
         fun getLandingPadById(id: String): LandingPad?
 
         fun getRockets(): List<Rocket>

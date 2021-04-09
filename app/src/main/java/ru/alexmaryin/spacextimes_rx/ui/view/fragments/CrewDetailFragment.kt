@@ -85,7 +85,7 @@ class CrewDetailFragment : Fragment() {
         binding.crew = crew
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
         if (crew.launches.isNotEmpty()) {
-            val missionsAdapter = BaseListAdapter(AdapterClickListenerById {}, viewHoldersManager)
+            val missionsAdapter = BaseListAdapter(AdapterClickListenerById {_, _ -> }, viewHoldersManager)
             missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
             binding.crewMissions.apply {
                 layoutManager = LinearLayoutManager(requireContext())

@@ -3,7 +3,7 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 import android.os.Build
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Launches
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
@@ -17,7 +17,7 @@ class LaunchesViewHolder : ViewHolderVisitor {
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
         val launch = item as Launches
         with(binding as LaunchItemBinding) {
-            this.clickListener = clickListener
+//            this.clickListener = clickListener
             this.launch = launch
 
             @Suppress("DEPRECATION")
