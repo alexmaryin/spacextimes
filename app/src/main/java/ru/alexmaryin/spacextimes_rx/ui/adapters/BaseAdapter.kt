@@ -21,6 +21,10 @@ class BaseListAdapter(
             holder.bind(binding, item, clickListener)
     }
 
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
         LayoutInflater.from(parent.context).run {
             val holder = viewHoldersManager.getViewHolder(viewType)

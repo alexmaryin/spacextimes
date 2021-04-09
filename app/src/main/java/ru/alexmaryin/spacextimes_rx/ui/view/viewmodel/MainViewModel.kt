@@ -9,14 +9,16 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 import ru.alexmaryin.spacextimes_rx.data.model.History
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.Success
 import ru.alexmaryin.spacextimes_rx.utils.toListOf
 import ru.alexmaryin.spacextimes_rx.utils.toSuccess
 import javax.inject.Inject
@@ -54,6 +56,7 @@ class SpaceXViewModel @Inject constructor(
 
     var currentScreen = Screen.Launches
     private var needRefresh = true
+    private var currentListMap = emptyMap<String, List<HasStringId>>().toMutableMap()
 
     private val state = MutableSharedFlow<Result>(1)
     fun getState() = state.asSharedFlow()
@@ -62,19 +65,23 @@ class SpaceXViewModel @Inject constructor(
         if (screen != currentScreen || needRefresh) {
             currentScreen = screen
             needRefresh = false
-            viewModelScope.launch {
-                when (screen) {
-                    Screen.Capsules -> capsules
-                    Screen.Cores -> cores
-                    Screen.Crew -> crew
-                    Screen.Dragons -> dragons
-                    Screen.Rockets -> rockets
-                    Screen.Launches -> launches
-                    Screen.LaunchPads -> launchPads
-                    Screen.LandingPads -> landingPads
-                    Screen.Payloads -> payloads
-                    Screen.HistoryEvents -> historyEvents
-                }.collect { result -> state.tryEmit(result) }
+            currentListMap[currentScreen.name]?.let { cachedList ->
+                state.tryEmit(Success(cachedList))
+            } ?: run {
+                viewModelScope.launch {
+                    when (screen) {
+                        Screen.Capsules -> capsules
+                        Screen.Cores -> cores
+                        Screen.Crew -> crew
+                        Screen.Dragons -> dragons
+                        Screen.Rockets -> rockets
+                        Screen.Launches -> launches
+                        Screen.LaunchPads -> launchPads
+                        Screen.LandingPads -> landingPads
+                        Screen.Payloads -> payloads
+                        Screen.HistoryEvents -> historyEvents
+                    }.collect { result -> state.tryEmit(result) }
+                }
             }
         }
     }
@@ -109,6 +116,11 @@ class SpaceXViewModel @Inject constructor(
 
     fun armRefresh() {
         needRefresh = true
+        currentListMap.clear()
         changeScreen(currentScreen)
+    }
+
+    fun saveCurrentList(items: List<HasStringId>) {
+        currentListMap.plusAssign(currentScreen.name to items)
     }
 }

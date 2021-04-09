@@ -22,8 +22,8 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
-import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -32,7 +32,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private val coreClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id)) }
     private val dragonClickListener = AdapterClickListenerById { id, _ ->
@@ -48,6 +47,7 @@ class MainFragment : Fragment() {
     private val capsuleClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowCapsuleDetails(id)) }
 
+    private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
@@ -158,5 +158,6 @@ class MainFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
             adapter = currentAdapter
         }
+        spaceXViewModel.saveCurrentList(items)
     }
 }
