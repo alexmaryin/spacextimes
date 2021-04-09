@@ -15,7 +15,7 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         TODO("Not yet implemented")
     }
 
-    override fun getCapsuleById(id: String): Capsules? {
+    override fun getCapsuleById(id: String): Capsule? {
         Log.d("REPO_LOCAL", "Local capsule with id $id is requested. Return null for debug.")
         return null
     }

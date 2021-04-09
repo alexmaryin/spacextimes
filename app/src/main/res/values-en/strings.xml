@@ -110,8 +110,9 @@
     <string name="pad_details_caption">Short description:</string>
     <string name="rockets_launched_caption">Flying rockets:</string>
     <string name="pad_launches_caption">Launches from pad:</string>
-    <string name="landing_statistic_caption">Успешных посадок</string>
+    <string name="landing_statistic_caption">Success landing statistic</string>
     <string name="landing_pad_type_caption">Landing pad type</string>
     <string name="site_text">ground site</string>
     <string name="drone_text">drone ship</string>
+    <string name="capsule_not_fly_text">This capsule doesn\'t fly yet!</string>
 </resources>

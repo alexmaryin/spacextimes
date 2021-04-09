@@ -31,7 +31,7 @@ class SpacexDataRepository @Inject constructor(
                                 is List<*> -> (body() as List<*>).apply {
                                     processCallbacks.forEach { process -> process(this.map { it as T }) }
                                 }
-                                is ApiResponse<*> -> (body() as ApiResponse<*>).docs.apply {
+                                is ApiResponse<*> -> ((body() as ApiResponse<*>).docs as List<*>).apply {
                                     processCallbacks.forEach { process -> process(this.map { it as T }) }
                                 }
                                 else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
@@ -88,7 +88,7 @@ class SpacexDataRepository @Inject constructor(
     fun getLandingPads(processCallbacks: List<suspend (List<LandingPads>?) -> Unit>) = fetchItems(remoteApi::getLandingPads, processCallbacks)
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
-    fun getLaunches() = fetchItems<Launches, ApiResponse<Launches>>(remoteApi::getLaunches)
+    fun getLaunches(processCallbacks: List<suspend (List<Launches>?) -> Unit>) = fetchItems(remoteApi::getLaunches, processCallbacks)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById)
 
     fun getPayloads() = fetchItems<Payload, List<Payload>>(remoteApi::getPayloads)

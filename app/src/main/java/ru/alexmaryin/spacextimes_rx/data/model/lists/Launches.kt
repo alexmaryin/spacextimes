@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.android.material.timepicker.TimeFormat
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.Rocket
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
@@ -21,11 +22,13 @@ data class Launches(
     val upcoming: Boolean,
     val links: Links,
     val rocket: Rocket,
+    override val details: String?,
+    override var detailsRu: String?,
     @SerializedName("tbd") val toBeDetermined: Boolean = false,
     @SerializedName("net") val notEarlyThan: Boolean = false,
     @SerializedName("date_local") val dateLocal: Date,
     @SerializedName("date_precision") val datePrecision: DatePrecision,
-    ) : HasStringId {
+    ) : HasStringId, HasDetails {
     fun dateTrimmed(context: Context): String = when(datePrecision) {
         DatePrecision.YEAR_HALF -> halfYearString(context, dateLocal)
         DatePrecision.YEAR_QUARTER -> quarterYearString(context, dateLocal)

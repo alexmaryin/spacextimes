@@ -8,8 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.LandingPad
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.LandingPadType
@@ -18,14 +20,18 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.Success
 import javax.inject.Inject
 
 @HiltViewModel
 class LandingPadDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     val repository: SpacexDataRepository,
+    private val settings: Settings,
+    private val translateApi: TranslatorApi,
 ) : ViewModel() {
 
     private val padState = MutableStateFlow<Result>(Loading)
@@ -33,7 +39,17 @@ class LandingPadDetailViewModel @Inject constructor(
 
     fun loadLandingPad() = viewModelScope.launch {
         repository.getLandingPadById(state.get("landingPadId") ?: "")
-            .collect { result -> padState.value = result }
+            .map { state ->
+                if(settings.translateToRu && state is Success<*>) {
+                    translateApi.tryLoadLocalTranslate(
+                        viewModelScope.coroutineContext,
+                        listOf(state.data as LandingPad),
+                        LandingPad::details,
+                        LandingPad::detailsRu
+                    )
+                 }
+                state
+            }.collect { result -> padState.value = result }
     }
 
     fun composeDetails(res: Context, landingPad: LandingPad) = mutableListOf<HasStringId>().apply {

@@ -11,7 +11,7 @@ import java.io.File
 interface SpaceXApi {
 
     suspend fun getCapsules(): Response<List<Capsules>>
-    suspend fun getCapsuleById(id: String): Response<Capsules>
+    suspend fun getCapsuleById(id: String): Response<ApiResponse<Capsule>>
 
     suspend fun getCores(): Response<List<Cores>>
     suspend fun getCoreById(id: String): Response<ApiResponse<Core>>

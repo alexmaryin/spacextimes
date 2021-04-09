@@ -7,7 +7,7 @@ interface ApiLocal {
 
         fun getCapsules(): List<Capsules>
         fun saveCapsules(capsules: List<Capsules>)
-        fun getCapsuleById(id: String): Capsules?
+        fun getCapsuleById(id: String): Capsule?
 
         fun getCores(): List<Core>
         fun getCoreById(id: String): Core?

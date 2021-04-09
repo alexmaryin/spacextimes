@@ -52,7 +52,7 @@ class SpaceXViewModel @Inject constructor(
         }
     }
 
-    var currentScreen = Screen.Crew
+    var currentScreen = Screen.Launches
     private var needRefresh = true
 
     private val state = MutableSharedFlow<Result>(1)
@@ -94,7 +94,7 @@ class SpaceXViewModel @Inject constructor(
 
     private val landingPads = repository.getLandingPads(listOf(::translateDetails))
 
-    private val launches = repository.getLaunches()
+    private val launches = repository.getLaunches(listOf(::translateDetails))
 
     private val payloads = repository.getPayloads()
 

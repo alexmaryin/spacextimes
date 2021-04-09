@@ -45,6 +45,8 @@ class MainFragment : Fragment() {
         findNavController().navigate(MainFragmentDirections.actionShowLaunchPadDetails(id)) }
     private val landingPadClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowLandingPadDetails(id)) }
+    private val capsuleClickListener = AdapterClickListenerById { id, _ ->
+        findNavController().navigate(MainFragmentDirections.actionShowCapsuleDetails(id)) }
 
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var settings: Settings
@@ -115,7 +117,7 @@ class MainFragment : Fragment() {
                     }
                     is Success<*> -> {
                         when (spaceXViewModel.currentScreen) {
-                            Screen.Capsules -> { renderItems(state.toListOf()!!, R.string.capsulesTitle) }
+                            Screen.Capsules -> { renderItems(state.toListOf()!!, R.string.capsulesTitle, capsuleClickListener) }
                             Screen.Cores -> { renderItems(state.toListOf()!!, R.string.coresTitle, coreClickListener) }
                             Screen.Crew -> { renderItems(state.toListOf()!!, R.string.crewTitle, crewClickListener) }
                             Screen.Dragons -> { renderItems(state.toListOf()!!, R.string.dragonsTitle, dragonClickListener) }

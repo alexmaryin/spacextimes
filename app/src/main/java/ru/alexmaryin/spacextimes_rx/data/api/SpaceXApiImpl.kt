@@ -34,7 +34,8 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
     ).toRequestBody("application/json".toMediaTypeOrNull())
 
     override suspend fun getCapsules(): Response<List<Capsules>> = apiService.getCapsules()
-    override suspend fun getCapsuleById(id: String): Response<Capsules> = apiService.getCapsuleById(id)
+    override suspend fun getCapsuleById(id: String): Response<ApiResponse<Capsule>> =
+        apiService.getCapsuleById(requestById(id, populateLaunches))
 
     override suspend fun getCores(): Response<List<Cores>> = apiService.getCores()
     override suspend fun getCoreById(id: String): Response<ApiResponse<Core>> =

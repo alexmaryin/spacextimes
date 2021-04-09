@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 
+import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
@@ -18,6 +19,9 @@ class CapsuleViewHolder : ViewHolderVisitor {
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
         val capsule = item as Capsules
         with(binding as CapsuleItemBinding) {
+            this.clickListener = if (capsule.launches.isNotEmpty()) clickListener else AdapterClickListenerById { _, _ ->
+                Toast.makeText(root.context, root.context.getString(R.string.capsule_not_fly_text), Toast.LENGTH_LONG).show()
+            }
             this.capsule = capsule
 
             Picasso.get()

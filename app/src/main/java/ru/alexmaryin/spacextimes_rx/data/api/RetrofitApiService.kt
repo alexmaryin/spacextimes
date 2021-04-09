@@ -14,8 +14,8 @@ interface RetrofitApiService {
     @GET(SpacexUrls.AllCapsules)
     suspend fun getCapsules(): Response<List<Capsules>>
 
-    @GET(SpacexUrls.AllCapsules+"{id}")
-    suspend fun getCapsuleById(@Path("id") id: String): Response<Capsules>
+    @POST(SpacexUrls.CapsuleQuery)
+    suspend fun getCapsuleById(@Body body: RequestBody): Response<ApiResponse<Capsule>>
 
     @GET(SpacexUrls.AllCores)
     suspend fun getCores(): Response<List<Cores>>

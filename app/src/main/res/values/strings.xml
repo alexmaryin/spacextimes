@@ -135,4 +135,5 @@
     <string name="landing_pad_type_caption">Тип посадачной платформы</string>
     <string name="site_text">наземная</string>
     <string name="drone_text">плавучая</string>
+    <string name="capsule_not_fly_text">Эта капсула еще не летата</string>
 </resources>

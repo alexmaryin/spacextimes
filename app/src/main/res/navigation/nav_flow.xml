@@ -56,6 +56,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/mainFragment"/>
+        <action
+            android:id="@+id/action_showCapsuleDetails"
+            app:destination="@id/capsuleDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/crewDetailFragment"
@@ -107,6 +115,13 @@
         android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.LandingPadDetailFragment" >
         <argument
             android:name="landingPadId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/capsuleDetailFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.CapsuleDetailFragment" >
+        <argument
+            android:name="capsuleId"
             app:argType="string" />
     </fragment>
 </navigation>
