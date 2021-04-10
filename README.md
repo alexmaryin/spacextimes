@@ -14,11 +14,11 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Rockets list, rocket details
 - [x] Launch pads list with google-map location, pad details
 - [x] Landing pads list with google-map location, pad details
-- [x] Launches list
+- [x] Launches list, launches details
 - [x] Company milestone events 
+- [x] Navigation between elements
 
 **To do:**
-- [ ] launches details
 - [ ] payloads list, details
 
 **Interface languages:**
@@ -30,6 +30,7 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 * Wiki-pages interlanguage auto-selecting with [Jsoup](https://jsoup.org/)
 * Cache for translations on Room (sqlite)
 * Cache for network responses and pictures download by okHttp and Picasso
+* Memory cache for fetched data in application life
 
 **UI previews -- ARE STILL SUBJECT TO CHANGE!!!!**
 
