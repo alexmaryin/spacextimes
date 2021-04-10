@@ -128,7 +128,7 @@
     <string name="underConstructionText">на реконструкции</string>
     <string name="launch_statistic_caption">Успешных запусков</string>
     <string name="statistic_text">%1$d из %2$d</string>
-    <string name="pad_details_caption">Краткое описание:</string>
+    <string name="details_caption">Краткое описание:</string>
     <string name="rockets_launched_caption">Стартовавшие ракеты:</string>
     <string name="pad_launches_caption">Запуски с этой зоны:</string>
     <string name="landing_statistic_caption">Успешных посадок</string>
@@ -136,4 +136,27 @@
     <string name="site_text">наземная</string>
     <string name="drone_text">плавучая</string>
     <string name="capsule_not_fly_text">Эта капсула еще не летата</string>
+    <plurals name="assigned_core_caption">
+        <item quantity="one">Назначенная ступень</item>
+        <item quantity="other">Назначенные ступени</item>
+    </plurals>
+    <plurals name="assigned_crew_caption">
+        <item quantity="one">Член экипажа</item>
+        <item quantity="other">Члены экипажа</item>
+    </plurals>
+    <plurals name="assigned_capsules_caption">
+        <item quantity="one">Назначенная капсула</item>
+        <item quantity="other">Назначенные капсулы</item>
+    </plurals>
+    <string name="assigned_launch_pad_caption">Стартовая площадка</string>
+    <string name="failures_list_caption">Неисправности миссии</string>
+    <string name="failure_time_altitude_text">Время: %1$d сек, высота: %2$d км</string>
+    <string name="failure_reason_text">Причина: %1$s</string>
+    <string name="launch_number_caption">Запуск</string>
+    <string name="static_fire_date_caption">Дата прожига</string>
+    <string name="launch_date_caption">Дата запуска</string>
+    <string name="landing_attempts_caption">Сведения о посадке:</string>
+    <string name="landing_success_string">успешно</string>
+    <string name="landing_fail_string">неудачно</string>
+    <string name="no_landing_attempt_string">не предпринималась</string>
 </resources>

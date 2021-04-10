@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentRecyclerDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CoreDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -48,28 +50,32 @@ class CoreDetailFragment : Fragment() {
             coreViewModel.getState()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect { state ->
-                when (state) {
-                    is Loading -> {
-                        binding.detailsView replaceBy binding.progress
-                        activity?.title = getString(R.string.loadingText)
-                    }
-                    is Error -> {
-                        binding.progress.visibility = View.GONE
-                        Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
-                    }
-                    is Success<*> -> {
-                        binding.progress replaceBy binding.detailsView
-                        bindDetails(state.toDetails())
+                    when (state) {
+                        is Loading -> {
+                            binding.detailsView replaceBy binding.progress
+                            activity?.title = getString(R.string.loadingText)
+                        }
+                        is Error -> {
+                            binding.progress.visibility = View.GONE
+                            Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
+                        }
+                        is Success<*> -> {
+                            binding.progress replaceBy binding.detailsView
+                            bindDetails(state.toDetails())
+                        }
                     }
                 }
-            }
         }
         return binding.root
     }
 
     private fun bindDetails(core: Core) {
         activity?.title = core.serial
-        val missionsAdapter = BaseListAdapter(AdapterClickListenerById { _, _ -> }, viewHoldersManager)
+        val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
+            when (itemType) {
+                ItemTypes.LAUNCH -> findNavController().navigate(CoreDetailFragmentDirections.actionShowLaunchDetails(id))
+            }
+        }, viewHoldersManager)
         missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.missions_list_header))) + core.launches)
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())

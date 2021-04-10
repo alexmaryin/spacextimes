@@ -46,6 +46,8 @@ class MainFragment : Fragment() {
         findNavController().navigate(MainFragmentDirections.actionShowLandingPadDetails(id)) }
     private val capsuleClickListener = AdapterClickListenerById { id, _ ->
         findNavController().navigate(MainFragmentDirections.actionShowCapsuleDetails(id)) }
+    private val launchClickListener = AdapterClickListenerById { id, _ ->
+        findNavController().navigate(MainFragmentDirections.actionShowLaunchDetails(id)) }
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
@@ -122,7 +124,7 @@ class MainFragment : Fragment() {
                             Screen.Crew -> { renderItems(state.toListOf()!!, R.string.crewTitle, crewClickListener) }
                             Screen.Dragons -> { renderItems(state.toListOf()!!, R.string.dragonsTitle, dragonClickListener) }
                             Screen.Rockets -> { renderItems(state.toListOf()!!, R.string.rocketsTitle, rocketClickListener) }
-                            Screen.Launches -> { renderItems(state.toListOf()!!, R.string.launchesTitle) }
+                            Screen.Launches -> { renderItems(state.toListOf()!!, R.string.launchesTitle, launchClickListener) }
                             Screen.LaunchPads -> { renderItems(state.toListOf()!!, R.string.launchPadsTitle, launchPadClickListener) }
                             Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle, landingPadClickListener) }
                             Screen.HistoryEvents -> { renderItems(state.toListOf()!!, R.string.historyEventsTitle) }

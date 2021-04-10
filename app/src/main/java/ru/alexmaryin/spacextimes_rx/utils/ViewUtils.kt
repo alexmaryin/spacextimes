@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.drawToBitmap
+import com.synnapps.carouselview.ImageClickListener
 import ru.alexmaryin.spacextimes_rx.R
 
 fun View.swapVisibility() {
@@ -38,22 +39,26 @@ fun View.saveToStorage(context: Context, filename: String): Uri? {
     return if (res) imageUri else null
 }
 
+fun downloadDialog(context: Context, url: String?, filename: String) {
+    AlertDialog.Builder(context)
+        .setTitle(context.getString(R.string.saving_title_string))
+        .setMessage(context.getString(R.string.save_image_dialog_string))
+        .setPositiveButton(context.getString(R.string.agreeText)) { dialog, _ ->
+            val request = DownloadManager.Request(Uri.parse(url)).apply {
+                setTitle(context.getString(R.string.saving_title_string))
+                setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, filename)
+                setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            }
+            (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).apply { enqueue(request) }
+            dialog.dismiss()
+        }
+        .setNegativeButton(context.getString(R.string.cancelText)) { dialog, _ -> dialog.dismiss() }
+        .show()
+}
+
 fun downloadByLongClickListener(url: String?, filename: String) = View.OnLongClickListener { view ->
     view?.let {
-        AlertDialog.Builder(it.context)
-            .setTitle(it.context.getString(R.string.saving_title_string))
-            .setMessage(it.context.getString(R.string.save_image_dialog_string))
-            .setPositiveButton(it.context.getString(R.string.agreeText)) { dialog, _ ->
-                val request = DownloadManager.Request(Uri.parse(url)).apply {
-                    setTitle(it.context.getString(R.string.saving_title_string))
-                    setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, filename)
-                    setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                }
-                (it.context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).apply { enqueue(request) }
-                dialog.dismiss()
-            }
-            .setNegativeButton(it.context.getString(R.string.cancelText)) { dialog, _ -> dialog.dismiss() }
-            .show()
+        downloadDialog(it.context, url, filename)
         return@OnLongClickListener true
     }
     false
@@ -72,4 +77,8 @@ fun saveByLongClickListener(context: Context, filename: String) = View.OnLongCli
         .setNegativeButton(context.getString(R.string.cancelText)) { dialog, _ -> dialog.dismiss() }
         .show()
     true
+}
+
+fun downloadImageFromCarousel(context: Context, images: List<String>, filename: String) = ImageClickListener { position ->
+    downloadDialog(context, images[position], filename)
 }

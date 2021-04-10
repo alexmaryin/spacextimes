@@ -4,3 +4,4 @@ class AdapterClickListenerById(val clickListener: (id: String, listenerType: Int
     fun onClick(id: String, listenerType: Int) = clickListener(id, listenerType)
 }
 
+val  emptyClickListener = AdapterClickListenerById { _, _ -> }

@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -37,10 +36,7 @@ class RocketDetailFragment : Fragment() {
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentRocketDetailBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rocket_detail, container, false)
         binding.lifecycleOwner = this
 
@@ -64,6 +60,7 @@ class RocketDetailFragment : Fragment() {
                         is Error -> {
                             binding.progress.visibility = View.GONE
                             Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
+                            activity?.title = getString(R.string.error_title)
                         }
                         is Success<*> -> {
                             binding.progress replaceBy binding.detailsView

@@ -107,7 +107,7 @@
     <string name="underConstructionText">under reconstruction</string>
     <string name="launch_statistic_caption">Success launch statistic</string>
     <string name="statistic_text">%1$d of %2$d</string>
-    <string name="pad_details_caption">Short description:</string>
+    <string name="details_caption">Short description:</string>
     <string name="rockets_launched_caption">Flying rockets:</string>
     <string name="pad_launches_caption">Launches from pad:</string>
     <string name="landing_statistic_caption">Success landing statistic</string>
@@ -115,4 +115,27 @@
     <string name="site_text">ground site</string>
     <string name="drone_text">drone ship</string>
     <string name="capsule_not_fly_text">This capsule doesn\'t fly yet!</string>
+    <plurals name="assigned_core_caption">
+        <item quantity="one">Assigned core</item>
+        <item quantity="other">Assigned cores</item>
+    </plurals>
+    <plurals name="assigned_crew_caption">
+        <item quantity="one">Crew member</item>
+        <item quantity="other">Crew members</item>
+    </plurals>
+    <plurals name="assigned_capsules_caption">
+        <item quantity="one">Assigned capsule</item>
+        <item quantity="other">Assigned capsules</item>
+    </plurals>
+    <string name="assigned_launch_pad_caption">Launch pad</string>
+    <string name="failures_list_caption">Failures in mission</string>
+    <string name="failure_time_altitude_text">Time: %1$d sec, altitude: %2$d km</string>
+    <string name="failure_reason_text">Reason: %1$s</string>
+    <string name="launch_number_caption">Flight No.</string>
+    <string name="static_fire_date_caption">Static fire date</string>
+    <string name="launch_date_caption">Launch date</string>
+    <string name="landing_attempts_caption">Landing details:</string>
+    <string name="landing_success_string">successful</string>
+    <string name="landing_fail_string">failed</string>
+    <string name="no_landing_attempt_string">no attempt</string>
 </resources>

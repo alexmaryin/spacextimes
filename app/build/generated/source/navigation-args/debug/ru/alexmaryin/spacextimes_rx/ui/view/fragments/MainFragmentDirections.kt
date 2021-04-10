@@ -91,6 +91,18 @@ public class MainFragmentDirections private constructor() {
     }
   }
 
+  private data class ActionShowLaunchDetails(
+    public val launchId: String
+  ) : NavDirections {
+    public override fun getActionId(): Int = R.id.action_showLaunchDetails
+
+    public override fun getArguments(): Bundle {
+      val result = Bundle()
+      result.putString("launchId", this.launchId)
+      return result
+    }
+  }
+
   public companion object {
     public fun actionShowCrewMember(crewId: String): NavDirections = ActionShowCrewMember(crewId)
 
@@ -110,5 +122,8 @@ public class MainFragmentDirections private constructor() {
 
     public fun actionShowCapsuleDetails(capsuleId: String): NavDirections =
         ActionShowCapsuleDetails(capsuleId)
+
+    public fun actionShowLaunchDetails(launchId: String): NavDirections =
+        ActionShowLaunchDetails(launchId)
   }
 }

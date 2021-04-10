@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,36 +20,33 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Dragon
-import ru.alexmaryin.spacextimes_rx.databinding.DragonDetailFragmentBinding
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.databinding.FragmentLaunchDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
-import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters.loadImage
-import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.DragonDetailViewModel
+import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DragonDetailFragment : Fragment() {
+class LaunchDetailFragment : Fragment() {
 
-    private val args: DragonDetailFragmentArgs by navArgs()
-    private val dragonViewModel: DragonDetailViewModel by viewModels()
-    @Inject lateinit var viewHoldersManager: ViewHoldersManager
-    private lateinit var binding: DragonDetailFragmentBinding
+    private val args: LaunchDetailFragmentArgs by navArgs()
+    private val launchViewModel: LaunchDetailViewModel by viewModels()
+    @Inject
+    lateinit var viewHoldersManager: ViewHoldersManager
+    private lateinit var binding: FragmentLaunchDetailBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        activity?.title = getString(R.string.loadingText)
-        binding = DataBindingUtil.inflate(inflater, R.layout.dragon_detail_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_launch_detail, container, false)
         binding.lifecycleOwner = this
 
-        dragonViewModel.state.set("dragonId", args.dragonId)
-        dragonViewModel.state.set("locale", requireContext().currentLocaleLang())
-        dragonViewModel.loadDragon()
+        launchViewModel.state.set("launchId", args.launchId)
+        launchViewModel.state.set("locale", requireContext().currentLocaleLang())
+        launchViewModel.loadLaunch()
 
         return binding.root
     }
@@ -60,7 +58,7 @@ class DragonDetailFragment : Fragment() {
 
     private fun observeState() {
         lifecycleScope.launch {
-            dragonViewModel.getDragonState()
+            launchViewModel.getLaunchState()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect { state ->
                     when (state) {
@@ -80,33 +78,33 @@ class DragonDetailFragment : Fragment() {
                     }
                 }
         }
-
     }
 
-    private fun bindDetails(dragon: Dragon) {
-        activity?.title = dragon.name
-        binding.dragon = dragon
+    private fun bindDetails(launch: Launch) {
+        activity?.title = launch.name
+        binding.launch = launch
         binding.imagesCarousel.apply {
-            setImageListener { position, imageView -> loadImage(imageView, dragon.images[position]) }
-            setOnLongClickListener(saveByLongClickListener(requireContext(), "${dragon.name}.jpg"))  // TODO("Don't work with CarouselView!")
-            pageCount = dragon.images.size
+            setImageListener { position, imageView ->
+                imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                CommonAdapters.loadImage(imageView, launch.images[position])
+            }
+            setImageClickListener(downloadImageFromCarousel(requireContext(), launch.images, "images_${launch.name}"))
+            pageCount = launch.images.size
         }
 
         val detailsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
-            when (itemType) {
-                ItemTypes.LAUNCH -> findNavController().navigate(DragonDetailFragmentDirections.actionShowLaunchDetails(id))
+            when(itemType) {
+                ItemTypes.CORE -> findNavController().navigate(LaunchDetailFragmentDirections.actionShowCoreDetails(id))
+                ItemTypes.CAPSULE -> findNavController().navigate(LaunchDetailFragmentDirections.actionShowCapsuleDetails(id))
+                ItemTypes.CREW -> findNavController().navigate(LaunchDetailFragmentDirections.actionShowCrewDetails(id))
+                ItemTypes.LAUNCH_PAD -> findNavController().navigate(LaunchDetailFragmentDirections.actionShowLaunchPadDetails(id))
             }
         }, viewHoldersManager)
-        detailsAdapter.submitList(dragonViewModel.composeDetails(requireContext(), dragon))
+        detailsAdapter.submitList(launchViewModel.composeDetails(requireContext(), launch))
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
             adapter = detailsAdapter
         }
-    }
-
-    override fun onDestroyView() {
-        binding.unbind()
-        super.onDestroyView()
     }
 }

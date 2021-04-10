@@ -29,6 +29,16 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
         "pagination" to false,
     )
 
+    private val populateLaunchDetails = mapOf(
+        "populate" to JsonArray().apply {
+            add(JsonObject().apply { addProperty("path", "rocket crew capsules payloads launchpad") })
+            add(JsonObject().apply {
+                addProperty("path", "cores")
+                addProperty("populate", "core")
+            })
+        }
+    )
+
     private fun requestById(id: String, options: Map<String, Any> = emptyMap()) = Gson().toJson(
         ApiQuery(query = mapOf("_id" to id), options = options)
     ).toRequestBody("application/json".toMediaTypeOrNull())
@@ -71,7 +81,8 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
         ).toRequestBody("application/json".toMediaTypeOrNull())
         return apiService.getLaunches(body)
     }
-    override suspend fun getLaunchById(id: String): Response<Launch> = apiService.getLaunchById(id)
+    override suspend fun getLaunchById(id: String): Response<ApiResponse<Launch>> =
+        apiService.getLaunchById(requestById(id, populateLaunchDetails))
 
     override suspend fun getPayloads(): Response<List<Payload>> =apiService.getPayloads()
     override suspend fun getPayloadById(id: String): Response<Payload> = apiService.getPayloadById(id)

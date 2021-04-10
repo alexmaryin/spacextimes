@@ -64,6 +64,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/mainFragment"/>
+        <action
+            android:id="@+id/action_showLaunchDetails"
+            app:destination="@id/launchDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/crewDetailFragment"
@@ -71,6 +79,14 @@
         <argument
             android:name="crewId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_showLaunchDetails"
+            app:destination="@id/launchDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/crewDetailFragment"/>
     </fragment>
     <fragment
         android:id="@+id/dragonDetailFragment"
@@ -79,6 +95,14 @@
         <argument
             android:name="dragonId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_showLaunchDetails"
+            app:destination="@id/launchDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/dragonDetailFragment"/>
     </fragment>
     <fragment
         android:id="@+id/coreDetailFragment"
@@ -86,6 +110,14 @@
         <argument
             android:name="coreId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_showLaunchDetails"
+            app:destination="@id/launchDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/coreDetailFragment"/>
     </fragment>
     <fragment
         android:id="@+id/rocketDetailFragment"
@@ -109,6 +141,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/launchPadDetailFragment"/>
+        <action
+            android:id="@+id/action_showLaunchDetails"
+            app:destination="@id/launchDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/launchPadDetailFragment"/>
     </fragment>
     <fragment
         android:id="@+id/landingPadDetailFragment"
@@ -116,6 +156,14 @@
         <argument
             android:name="landingPadId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_showLaunchDetails"
+            app:destination="@id/launchDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/landingPadDetailFragment"/>
     </fragment>
     <fragment
         android:id="@+id/capsuleDetailFragment"
@@ -123,5 +171,52 @@
         <argument
             android:name="capsuleId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_showLaunchDetails"
+            app:destination="@id/launchDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/capsuleDetailFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/launchDetailFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.LaunchDetailFragment" >
+        <argument
+            android:name="launchId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_showCoreDetails"
+            app:destination="@id/coreDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/launchDetailFragment"/>
+        <action
+            android:id="@+id/action_showCrewDetails"
+            app:destination="@id/crewDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/launchDetailFragment"/>
+        <action
+            android:id="@+id/action_showCapsuleDetails"
+            app:destination="@id/capsuleDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/launchDetailFragment"/>
+        <action
+            android:id="@+id/action_showLaunchPadDetails"
+            app:destination="@id/launchPadDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/launchDetailFragment"/>
     </fragment>
 </navigation>

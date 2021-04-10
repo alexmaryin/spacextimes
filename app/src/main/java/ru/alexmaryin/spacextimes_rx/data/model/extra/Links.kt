@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.model.extra
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.extra.FlickrImages
 import ru.alexmaryin.spacextimes_rx.data.model.extra.PatchImages
@@ -13,5 +14,6 @@ data class Links(
     val webcast: String?,
     val article: String?,
     val wikipedia: String?,
+    @Expose var wikiLocale: String?,
     @SerializedName("youtube_id") val youtubeId: String?,
 )

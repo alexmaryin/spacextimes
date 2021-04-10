@@ -14,7 +14,6 @@ class SpacexUrls {
         const val LandingPadQuery = "landpads/query/"
         const val AllLaunchPads = "launchpads/"
         const val LaunchPadQuery = "launchpads/query/"
-        const val AllLaunches = "launches/"
         const val AllLaunchesQuery = "launches/query/"
         const val UpcomingLaunches = "launches/upcoming"
         const val PastLaunches = "launches/past"

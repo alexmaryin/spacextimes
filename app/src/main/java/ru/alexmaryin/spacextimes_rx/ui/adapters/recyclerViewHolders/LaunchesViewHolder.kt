@@ -17,7 +17,7 @@ class LaunchesViewHolder : ViewHolderVisitor {
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
         val launch = item as Launches
         with(binding as LaunchItemBinding) {
-//            this.clickListener = clickListener
+            this.clickListener = clickListener
             this.launch = launch
 
             @Suppress("DEPRECATION")

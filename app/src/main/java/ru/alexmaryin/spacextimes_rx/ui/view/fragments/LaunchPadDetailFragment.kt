@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -35,8 +34,7 @@ class LaunchPadDetailFragment : Fragment() {
 
     private val args: LaunchPadDetailFragmentArgs by navArgs()
     private val padViewModel: LaunchPadDetailViewModel by viewModels()
-    @Inject
-    lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentRecyclerDetailBinding
 
     override fun onCreateView(
@@ -86,7 +84,7 @@ class LaunchPadDetailFragment : Fragment() {
         val detailsAdapter = BaseListAdapter(AdapterClickListenerById { id, listenerType ->
             when(listenerType) {
                 ItemTypes.ROCKET -> findNavController().navigate(LaunchPadDetailFragmentDirections.actionShowRocketDetails(id))
-                ItemTypes.LAUNCH -> Unit
+                ItemTypes.LAUNCH -> findNavController().navigate(LaunchPadDetailFragmentDirections.actionShowLaunchDetails(id))
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(padViewModel.composeDetails(requireContext(), launchPad))

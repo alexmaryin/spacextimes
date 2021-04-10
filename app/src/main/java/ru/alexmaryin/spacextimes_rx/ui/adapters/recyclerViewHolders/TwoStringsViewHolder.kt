@@ -13,6 +13,9 @@ class TwoStringsViewHolder : ViewHolderVisitor {
     override fun acceptBinding(item: Any): Boolean = item is TwoStringsItem
 
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
-        (binding as TwoLineItemBinding).model = item as TwoStringsItem
+        with(binding as TwoLineItemBinding) {
+            model = item as TwoStringsItem
+            this.clickListener = clickListener
+        }
     }
 }

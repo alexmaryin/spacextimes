@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.databinding.CrewDetailFragmentBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.CrewDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
@@ -85,7 +87,11 @@ class CrewDetailFragment : Fragment() {
         binding.crew = crew
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
         if (crew.launches.isNotEmpty()) {
-            val missionsAdapter = BaseListAdapter(AdapterClickListenerById {_, _ -> }, viewHoldersManager)
+            val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
+                when(itemType) {
+                    ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))
+                }
+            }, viewHoldersManager)
             missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
             binding.crewMissions.apply {
                 layoutManager = LinearLayoutManager(requireContext())

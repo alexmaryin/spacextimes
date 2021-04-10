@@ -20,7 +20,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.Success
@@ -30,8 +29,7 @@ import javax.inject.Inject
 class LandingPadDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     val repository: SpacexDataRepository,
-    private val settings: Settings,
-    private val translateApi: TranslatorApi,
+    private val translator: TranslatorApi,
 ) : ViewModel() {
 
     private val padState = MutableStateFlow<Result>(Loading)
@@ -40,14 +38,7 @@ class LandingPadDetailViewModel @Inject constructor(
     fun loadLandingPad() = viewModelScope.launch {
         repository.getLandingPadById(state.get("landingPadId") ?: "")
             .map { state ->
-                if(settings.translateToRu && state is Success<*>) {
-                    translateApi.tryLoadLocalTranslate(
-                        viewModelScope.coroutineContext,
-                        listOf(state.data as LandingPad),
-                        LandingPad::details,
-                        LandingPad::detailsRu
-                    )
-                 }
+                if(state is Success<*>) { translator.translateDetails(listOf(state.data as LandingPad)) }
                 state
             }.collect { result -> padState.value = result }
     }
@@ -87,7 +78,7 @@ class LandingPadDetailViewModel @Inject constructor(
         landingPad.details?.let { details ->
             add(
                 TwoStringsItem(
-                    caption = res.getString(R.string.pad_details_caption),
+                    caption = res.getString(R.string.details_caption),
                     details = landingPad.detailsRu ?: details
                 )
             )

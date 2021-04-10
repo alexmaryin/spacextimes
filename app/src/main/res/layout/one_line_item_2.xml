@@ -24,6 +24,7 @@
             android:textAlignment="textEnd"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/unknown_color"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,11 +43,11 @@
             android:scaleY="0.9"
             android:src="@drawable/ic_outline_waves_24"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/text1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/text2"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/text1"
-            app:layout_constraintTop_toTopOf="@+id/text1"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_outline_waves_24"
             tools:ignore="ContentDescription"
             tools:visibility="visible" />
@@ -58,13 +59,13 @@
             android:paddingEnd="8dp"
             android:text="@{model.right}"
             android:textAppearance="?attr/textAppearanceListItem"
-            app:layout_constraintBottom_toBottomOf="@+id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/divider"
-            app:layout_constraintTop_toTopOf="@+id/divider"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlSymmetry"
-            tools:text="Right text" />
+            tools:text="Right text\ntwo lines\nThree lines" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

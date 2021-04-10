@@ -11,10 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -83,7 +83,7 @@ class LandingPadDetailFragment : Fragment() {
         activity?.title = landingPad.name
         val detailsAdapter = BaseListAdapter(AdapterClickListenerById { id, listenerType ->
             when(listenerType) {
-                ItemTypes.LAUNCH -> Unit
+                ItemTypes.LAUNCH -> findNavController().navigate(LandingPadDetailFragmentDirections.actionShowLaunchDetails(id))
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(padViewModel.composeDetails(requireContext(), landingPad))

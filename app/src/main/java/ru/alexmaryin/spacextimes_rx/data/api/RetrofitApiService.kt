@@ -56,8 +56,8 @@ interface RetrofitApiService {
     @POST(SpacexUrls.AllLaunchesQuery)
     suspend fun getLaunches(@Body body: RequestBody): Response<ApiResponse<Launches>>
 
-    @GET(SpacexUrls.AllLaunches+"{id}")
-    suspend fun getLaunchById(@Path("id") id: String): Response<Launch>
+    @POST(SpacexUrls.AllLaunchesQuery)
+    suspend fun getLaunchById(@Body body: RequestBody): Response<ApiResponse<Launch>>
 
     @GET(SpacexUrls.AllPayloads)
     suspend fun getPayloads(): Response<List<Payload>>

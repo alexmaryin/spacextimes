@@ -15,11 +15,11 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 
-class TranslatorApiImpl @Inject constructor(
+class TranslatorInternalApiImpl @Inject constructor(
     val api: SpaceXApi,
     private val translationsDao: TranslateDao,
     @ApplicationContext val appContext: Context,
-) : TranslatorApi {
+) : TranslatorInternalApi {
 
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun fromString(source: String): String? =

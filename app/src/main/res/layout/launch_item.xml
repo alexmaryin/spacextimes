@@ -6,9 +6,9 @@
     <data>
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DateAdapter" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
-        <variable
-            name="launch"
-            type="ru.alexmaryin.spacextimes_rx.data.model.lists.Launches" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
+        <variable name="launch" type="ru.alexmaryin.spacextimes_rx.data.model.lists.Launches" />
+        <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +20,7 @@
         <TextView
             android:id="@+id/launchName"
             style="@style/boldCaption"
+            android:onClick="@{() -> clickListener.onClick(launch.id, ItemTypes.LAUNCH)}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{launch.name}"
@@ -34,6 +35,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_margin="5dp"
+            android:onClick="@{() -> clickListener.onClick(launch.id, ItemTypes.LAUNCH)}"
             android:contentDescription="@string/patch_preview_description"
             app:imageUrl="@{launch.links.patch.small ?? launch.rocket.images[0]}"
             app:roundedCorners="@{launch.links.patch.small != null ? false : true}"
@@ -46,6 +48,7 @@
         <TextView
             android:id="@+id/launchDate"
             style="@style/descriptionText"
+            android:onClick="@{() -> clickListener.onClick(launch.id, ItemTypes.LAUNCH)}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:launchDateFormat="@{launch}"

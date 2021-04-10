@@ -1,14 +1,13 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
-import kotlin.coroutines.CoroutineContext
-import kotlin.reflect.KMutableProperty1
-import kotlin.reflect.KProperty1
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasTitle
 
 interface TranslatorApi {
-    suspend fun fromString(source: String): String?
-    suspend fun <T> fromList(source: List<T>, readItemToTranslate: (T) -> String,
-                             updateItemWithTranslate: (T, String) -> Unit): List<T>?
-    suspend fun <T> translate(context: CoroutineContext, items: List<T>, from: KProperty1<T, String?>, to: KMutableProperty1<T, String?>)
-    suspend fun <T> tryLoadLocalTranslate(context: CoroutineContext, items: List<T>, from: KProperty1<T, String?>, to: KMutableProperty1<T, String?>)
-    suspend fun <T> saveLocalTranslations(context: CoroutineContext, items: List<T>, from: KProperty1<T, String?>, to: KMutableProperty1<T, String?>)
+    suspend fun translateDetails(items: List<HasDetails>?)
+    suspend fun translateLastUpdate(items: List<HasLastUpdate>?)
+    suspend fun translateDescription(items: List<HasDescription>?)
+    suspend fun translateTitle(items: List<HasTitle>?)
 }
