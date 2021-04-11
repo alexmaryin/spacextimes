@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -75,6 +76,7 @@ class MainFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
+        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.currentScreen == Screen.Launches
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -104,8 +106,15 @@ class MainFragment : Fragment() {
                         .show()
                 }
             }
+            R.id.filterAction -> processFilters()
         }
+        activity?.invalidateOptionsMenu()
+        binding.filterGroup.visibility = View.GONE
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun processFilters() {
+        binding.filterGroup.visibility = View.VISIBLE
     }
 
     private fun collectState() {
@@ -140,6 +149,14 @@ class MainFragment : Fragment() {
                         activity?.title = getString(R.string.error_title)
                     }
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            spaceXViewModel.scrollTrigger.collect { (position, name) ->
+                binding.recyclerView.scrollToPosition(position)
+                val snack = Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, name), Snackbar.LENGTH_LONG)
+                snack.show()
             }
         }
     }

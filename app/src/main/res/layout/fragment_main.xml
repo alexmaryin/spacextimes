@@ -5,9 +5,10 @@
 
     <data>
         <variable name="spaceXViewModel" type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchFilter" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,24 +16,74 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filterGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:animateLayoutChanges="true"
+            android:background="#551F1B24"
+            android:visibility="gone"
+            app:layout_insetEdge="top"
+            tools:visibility="visible">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/successChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="true"
+                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Successfully)}"
+                android:text="@string/success_filter" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/failedChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="true"
+                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Failed)}"
+                android:text="@string/failed_filter" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/pastChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="true"
+                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Past)}"
+                android:text="@string/past_filter" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/upcomingChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="true"
+                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Upcoming)}"
+                android:text="@string/upcoming_filter" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/nextChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="false"
+                android:onClick="@{(view)-> spaceXViewModel.scrollNextLaunch(view)}"
+                android:text="@string/next_launch_chip" />
+        </com.google.android.material.chip.ChipGroup>
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="visible"/>
+            android:visibility="gone" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

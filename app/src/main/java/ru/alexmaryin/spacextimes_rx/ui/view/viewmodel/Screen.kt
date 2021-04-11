@@ -12,3 +12,11 @@ enum class Screen {
     Payloads,
     HistoryEvents,
 }
+
+enum class LaunchFilter {
+    Upcoming,
+    Past,
+    Successfully,
+    Failed
+}
+
