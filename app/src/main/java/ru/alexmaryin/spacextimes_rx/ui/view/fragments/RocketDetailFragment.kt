@@ -22,6 +22,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.Rocket
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentRocketDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
+import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.RocketDetailViewModel
@@ -81,11 +82,18 @@ class RocketDetailFragment : Fragment() {
         binding.rocket = rocket
         binding.imagesCarousel.apply {
             setImageListener { position, imageView -> CommonAdapters.loadImage(imageView, rocket.images[position]) }
-            setOnLongClickListener(saveByLongClickListener(requireContext(), "${rocket.name}.jpg"))  // TODO("Don't work with CarouselView!")
+            setImageClickListener(downloadImageFromCarousel(requireContext(), rocket.images, "images_${rocket.name}.jpg"))
             pageCount = rocket.images.size
         }
 
-        val detailsAdapter = BaseListAdapter(AdapterClickListenerById {_, _ -> }, viewHoldersManager)
+        val detailsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
+            when (itemType) {
+                ItemTypes.LINKS -> {
+                    Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
+                    binding.detailsList.openLink(id)
+                }
+            }
+        }, viewHoldersManager)
         detailsAdapter.submitList(rocketViewModel.composeDetails(requireContext(), rocket))
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())

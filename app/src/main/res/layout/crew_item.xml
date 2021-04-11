@@ -23,12 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:contentDescription="@string/photo_of_crew_member_image"
+            android:onClick="@{() -> clickListener.onClick(crewMember.id, ItemTypes.CREW)}"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{crewMember.image}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:imageUrl="@{crewMember.image}"
-            android:onClick="@{() -> clickListener.onClick(crewMember.id, ItemTypes.CREW)}"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

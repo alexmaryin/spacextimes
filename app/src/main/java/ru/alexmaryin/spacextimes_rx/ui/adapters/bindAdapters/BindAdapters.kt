@@ -30,7 +30,7 @@ object CommonAdapters {
             Picasso.get()
                 .load(url)
                 .transform(transformation)
-                .placeholder(R.drawable.loading_img)
+                .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_broken_image)
                 .into(view)
         } else view.visibility = View.INVISIBLE
@@ -55,5 +55,9 @@ object CommonAdapters {
         if (underlined) view.paintFlags = view.paintFlags or Paint.UNDERLINE_TEXT_FLAG
     }
 
-
+    @JvmStatic
+    @BindingAdapter("checkVisibility")
+    fun setVisibility(view: View, value: Any?) {
+        view.visibility = if(value != null) View.VISIBLE else View.GONE
+    }
 }

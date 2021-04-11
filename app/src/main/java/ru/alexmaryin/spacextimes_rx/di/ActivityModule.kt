@@ -55,6 +55,7 @@ class ActivityModule {
         registerViewHolder(ItemTypes.ROCKET, RocketViewHolder())
         registerViewHolder(ItemTypes.TWO_STRINGS, TwoStringsViewHolder())
         registerViewHolder(ItemTypes.ONE_LINE_STRINGS, OneLine2ViewHolder())
+        registerViewHolder(ItemTypes.LINKS, LinksViewHolder())
     }
 
     @Provides

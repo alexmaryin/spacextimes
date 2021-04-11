@@ -15,6 +15,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
@@ -94,10 +95,10 @@ class LaunchDetailViewModel @Inject constructor(
                             details = buildString {
                                 cores.forEachIndexed { index, core ->
                                     append("${this@cores[index].serial}: ")
-                                    core.landingAttempt?.let {
+                                    if (core.landingAttempt == true) {
                                         appendLine((if(core.landingSuccess) res.getString(R.string.landing_success_string)
                                             else res.getString(R.string.landing_fail_string)) + " (${core.landingType})")
-                                    } ?: run { appendLine(res.getString(R.string.no_landing_attempt_string))}
+                                    } else appendLine(res.getString(R.string.no_landing_attempt_string))
                                 }
                             }
                         ))
@@ -128,6 +129,22 @@ class LaunchDetailViewModel @Inject constructor(
                         caption = res.getString(R.string.failure_time_altitude_text, failure.time, failure.altitude),
                         details = res.getString(R.string.failure_reason_text, failure.reason)
                     ))
+                }
+            }
+
+            LinksItem(
+                wiki = links.wikiLocale ?: links.wikipedia,
+                youtube = links.webcast ?: links.youtubeId?.let { "https://www.youtube.com/watch?v=${it}" },
+                redditCampaign = links.reddit.campaign,
+                redditLaunch = links.reddit.launch,
+                redditMedia = links.reddit.media,
+                redditRecovery = links.reddit.recovery,
+                pressKit = links.presskit,
+                article = links.article
+            ).apply {
+                if (isNotEmpty) {
+                    add(RecyclerHeader(text = res.getString(R.string.links_string)))
+                    add(this)
                 }
             }
         }

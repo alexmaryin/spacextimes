@@ -14,6 +14,7 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
@@ -86,5 +87,8 @@ class DragonDetailViewModel @Inject constructor(
                 details = res.getString(R.string.capsule_thruster_line2, it.HotComponent, it.OxidizerComponent)
             )}
         )
+
+        add(RecyclerHeader(text = res.getString(R.string.links_string)))
+        add(LinksItem(wiki = dragon.wikiLocale ?: dragon.wikipedia))
     }
 }

@@ -90,10 +90,14 @@ class CrewDetailFragment : Fragment() {
             val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
                 when(itemType) {
                     ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))
+                    ItemTypes.LINKS -> {
+                        Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
+                        binding.crewDetails.openLink(id)
+                    }
                 }
             }, viewHoldersManager)
             missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
-            binding.crewMissions.apply {
+            binding.crewDetails.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
                 adapter = missionsAdapter

@@ -42,27 +42,10 @@
                     app:strokeColor="#FF777777"
                     app:strokeWidth="1dp" />
 
-                <ImageButton
-                    android:id="@+id/wikiButton"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    app:url="@{dragon.wikiLocale ?? dragon.wikipedia}"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:contentDescription="@string/wiki_page_open_button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/wikilogo"
-                    android:text="@string/wiki_label"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_700"
-                    app:iconGravity="top"
-                    app:layout_constraintBottom_toBottomOf="@id/imagesCarousel"
-                    app:layout_constraintEnd_toEndOf="@id/imagesCarousel" />
-
                 <TextView
                     android:id="@+id/dragonStatusLine"
                     style="@style/regularText"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     app:dragonShortStatus="@{dragon}"

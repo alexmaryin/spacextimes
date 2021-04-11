@@ -88,7 +88,7 @@ class LaunchDetailFragment : Fragment() {
                 imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 CommonAdapters.loadImage(imageView, launch.images[position])
             }
-            setImageClickListener(downloadImageFromCarousel(requireContext(), launch.images, "images_${launch.name}"))
+            setImageClickListener(downloadImageFromCarousel(requireContext(), launch.images, "images_${launch.name}.jpg"))
             pageCount = launch.images.size
         }
 
@@ -98,6 +98,10 @@ class LaunchDetailFragment : Fragment() {
                 ItemTypes.CAPSULE -> findNavController().navigate(LaunchDetailFragmentDirections.actionShowCapsuleDetails(id))
                 ItemTypes.CREW -> findNavController().navigate(LaunchDetailFragmentDirections.actionShowCrewDetails(id))
                 ItemTypes.LAUNCH_PAD -> findNavController().navigate(LaunchDetailFragmentDirections.actionShowLaunchPadDetails(id))
+                ItemTypes.LINKS -> {
+                    Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
+                    binding.detailsList.openLink(id)
+                }
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(launchViewModel.composeDetails(requireContext(), launch))

@@ -15,6 +15,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.model.Rocket
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.OrbitType
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
@@ -147,5 +148,8 @@ class RocketDetailViewModel @Inject constructor(
                 right = res.getString(R.string.weight_string, it.kg)
             ))
         }
+
+        add(RecyclerHeader(text = res.getString(R.string.links_string)))
+        add(LinksItem(wiki = rocket.wikiLocale ?: rocket.wikipedia))
     }
 }

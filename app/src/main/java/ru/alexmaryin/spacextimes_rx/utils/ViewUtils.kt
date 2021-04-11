@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.utils
 import android.app.*
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -37,6 +38,15 @@ fun View.saveToStorage(context: Context, filename: String): Uri? {
     val imageUri = resolver.insert(images, photo)
     resolver.openOutputStream(imageUri!!)?.let { res = drawToBitmap().compress(Bitmap.CompressFormat.JPEG, 100, it) }
     return if (res) imageUri else null
+}
+
+fun View.openLink(url: String?) {
+    url?.let {
+        Intent().apply {
+            action = Intent.ACTION_VIEW
+            data = Uri.parse(url)
+        }.run { context.startActivity(this) }
+    }
 }
 
 fun downloadDialog(context: Context, url: String?, filename: String) {

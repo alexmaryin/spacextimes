@@ -14,4 +14,5 @@ object ItemTypes {
     const val ROCKET = 9
     const val TWO_STRINGS = 10
     const val ONE_LINE_STRINGS = 11
+    const val LINKS = 12
 }

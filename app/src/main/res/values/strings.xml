@@ -159,4 +159,13 @@
     <string name="landing_success_string">успешно</string>
     <string name="landing_fail_string">неудачно</string>
     <string name="no_landing_attempt_string">не предпринималась</string>
+    <string name="youtube_string" translatable="false">Youtube</string>
+    <string name="r_campaign_string">r/миссия</string>
+    <string name="r_launch_string">r/запуск</string>
+    <string name="r_media_string">r/медиа</string>
+    <string name="r_recovery_string">r/восстановление</string>
+    <string name="press_kit_string">анонс</string>
+    <string name="article_string">статья</string>
+    <string name="links_string">Ссылки на ресурсы:</string>
+    <string name="open_link_announce">Ссылка откроется в системном браузере</string>
 </resources>

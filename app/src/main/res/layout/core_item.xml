@@ -46,6 +46,7 @@
             style="@style/regularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(core.id, ItemTypes.CORE)}"
             app:layout_constraintBottom_toBottomOf="@+id/coreSerial"
             app:layout_constraintEnd_toStartOf="@+id/coreThumbnail"
             app:layout_constraintHorizontal_bias="0.0"
@@ -56,6 +57,7 @@
         <TextView
             android:id="@+id/coreReusing"
             style="@style/regularText"
+            android:onClick="@{() -> clickListener.onClick(core.id, ItemTypes.CORE)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Летала 6 раз\nприземлений 2/2\nприводнений 4/4"
@@ -66,6 +68,7 @@
             android:id="@+id/coreLastUpdate"
             style="@style/descriptionText"
             android:layout_width="0dp"
+            android:onClick="@{() -> clickListener.onClick(core.id, ItemTypes.CORE)}"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@+id/coreThumbnail"
             app:layout_constraintHorizontal_bias="0.0"

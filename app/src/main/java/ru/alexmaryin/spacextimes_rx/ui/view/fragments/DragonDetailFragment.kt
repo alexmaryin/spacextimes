@@ -88,13 +88,17 @@ class DragonDetailFragment : Fragment() {
         binding.dragon = dragon
         binding.imagesCarousel.apply {
             setImageListener { position, imageView -> loadImage(imageView, dragon.images[position]) }
-            setOnLongClickListener(saveByLongClickListener(requireContext(), "${dragon.name}.jpg"))  // TODO("Don't work with CarouselView!")
+            setImageClickListener(downloadImageFromCarousel(requireContext(), dragon.images, "${dragon.name}.jpg"))
             pageCount = dragon.images.size
         }
 
         val detailsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
             when (itemType) {
                 ItemTypes.LAUNCH -> findNavController().navigate(DragonDetailFragmentDirections.actionShowLaunchDetails(id))
+                ItemTypes.LINKS -> {
+                    Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
+                    binding.detailsList.openLink(id)
+                }
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(dragonViewModel.composeDetails(requireContext(), dragon))

@@ -11,6 +11,7 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
 import ru.alexmaryin.spacextimes_rx.data.model.Crew
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
@@ -50,5 +51,8 @@ class CrewDetailViewModel @Inject constructor(
         }
         add(RecyclerHeader(text = res.getString(R.string.missions_list_header)))
         addAll(crew.launches)
+
+        add(RecyclerHeader(text = res.getString(R.string.links_string)))
+        add(LinksItem(wiki = crew.wikiLocale ?: crew.wikipedia))
     }
 }

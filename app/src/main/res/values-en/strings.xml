@@ -138,4 +138,12 @@
     <string name="landing_success_string">successful</string>
     <string name="landing_fail_string">failed</string>
     <string name="no_landing_attempt_string">no attempt</string>
+    <string name="r_campaign_string">r/campaign</string>
+    <string name="r_launch_string">r/launch</string>
+    <string name="r_media_string">r/media</string>
+    <string name="r_recovery_string">r/recovery</string>
+    <string name="press_kit_string">press kit</string>
+    <string name="article_string">article</string>
+    <string name="links_string">Links for media:</string>
+    <string name="open_link_announce">Link shall be open in browser</string>
 </resources>

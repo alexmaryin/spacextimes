@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
-import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentRecyclerDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
@@ -77,7 +76,7 @@ class CapsuleDetailFragment : Fragment() {
                 ItemTypes.LAUNCH -> findNavController().navigate(CapsuleDetailFragmentDirections.actionShowLaunchDetails(id))
             }
         }, viewHoldersManager)
-        missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.missions_list_header))) + capsule.launches)
+        missionsAdapter.submitList(capsuleViewModel.composeList(requireContext(), capsule))
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))

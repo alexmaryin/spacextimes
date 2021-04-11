@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="links" type="ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem"/>
+        <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/linksGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            app:chipSpacing="2dp"
+            app:chipSpacingHorizontal="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:singleLine="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/wikiChip"
+                app:checkVisibility="@{links.wiki}"
+                android:onClick="@{()-> clickListener.onClick(links.wiki, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wiki_label"
+                app:chipIcon="@drawable/wikilogo" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/youtubeChip"
+                app:checkVisibility="@{links.youtube}"
+                android:onClick="@{()-> clickListener.onClick(links.youtube, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/youtube_string"
+                app:chipIcon="@drawable/youtube_social_circle_red" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/rCampaignChip"
+                app:checkVisibility="@{links.redditCampaign}"
+                android:onClick="@{()-> clickListener.onClick(links.redditCampaign, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/r_campaign_string"
+                app:chipIcon="@drawable/reddit" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/rLaunchChip"
+                app:checkVisibility="@{links.redditLaunch}"
+                android:onClick="@{()-> clickListener.onClick(links.redditLaunch, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/r_launch_string"
+                app:chipIcon="@drawable/reddit" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/rMediaChip"
+                app:checkVisibility="@{links.redditMedia}"
+                android:onClick="@{()-> clickListener.onClick(links.redditMedia, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/r_media_string"
+                app:chipIcon="@drawable/reddit" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/rRecoveryChip"
+                app:checkVisibility="@{links.redditRecovery}"
+                android:onClick="@{()-> clickListener.onClick(links.redditRecovery, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/r_recovery_string"
+                app:chipIcon="@drawable/reddit" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/pressKitChip"
+                app:checkVisibility="@{links.pressKit}"
+                android:onClick="@{()-> clickListener.onClick(links.pressKit, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/press_kit_string"
+                app:chipIcon="@drawable/nasa_logo" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/articleChip"
+                app:checkVisibility="@{links.article}"
+                android:onClick="@{()-> clickListener.onClick(links.article, ItemTypes.LINKS)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/article_string"
+                app:chipIcon="@drawable/tolstoy" />
+        </com.google.android.material.chip.ChipGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

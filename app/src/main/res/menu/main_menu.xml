@@ -10,6 +10,7 @@
         android:title="@string/historyEventsTitle" />
     <item
         android:id="@+id/payloadsSelect"
+        android:enabled="false"
         android:title="@string/payloadsTitle" />
     <item
         android:id="@+id/capsulesSelect"
