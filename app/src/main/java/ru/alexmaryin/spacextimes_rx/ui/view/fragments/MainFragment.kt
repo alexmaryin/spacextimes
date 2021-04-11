@@ -109,7 +109,7 @@ class MainFragment : Fragment() {
             R.id.filterAction -> processFilters()
         }
         activity?.invalidateOptionsMenu()
-        binding.filterGroup.visibility = View.GONE
+        if (item.itemId != R.id.filterAction) binding.filterGroup.visibility = View.GONE
         return super.onOptionsItemSelected(item)
     }
 
