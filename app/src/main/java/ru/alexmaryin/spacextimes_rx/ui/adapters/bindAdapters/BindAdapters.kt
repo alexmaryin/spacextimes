@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters
 
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Paint
 import android.net.Uri
@@ -29,6 +30,7 @@ object CommonAdapters {
             view.visibility = View.VISIBLE
             Picasso.get()
                 .load(url)
+                .resize(Resources.getSystem().displayMetrics.widthPixels, 0)
                 .transform(transformation)
                 .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_broken_image)
