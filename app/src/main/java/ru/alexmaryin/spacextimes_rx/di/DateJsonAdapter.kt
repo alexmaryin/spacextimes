@@ -11,7 +11,7 @@ import java.util.*
 val DATE_FORMATS = arrayOf(
     "yyyy-MM-dd",
     "yyyy-MM-dd'T'HH:mm:ss.sss'Z'",
-    "yyyy-MM-dd'T'HH:mm:ssX"
+    "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
 )
 
 object DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
