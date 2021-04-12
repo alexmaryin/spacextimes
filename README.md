@@ -34,10 +34,14 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 
 **UI previews -- ARE STILL SUBJECT TO CHANGE!!!!**
 
+**English**
 ![screen 1](/readme_images/screenshot_1.jpg)
 ![screen 2](/readme_images/screenshot_2.jpg)
 ![screen 3](/readme_images/screenshot_3.jpg)
 ![screen 4](/readme_images/screenshot_4.jpg)
+
+
+**Russian**
 ![screen 5](/readme_images/screenshot_5.jpg)
 ![screen 6](/readme_images/screenshot_6.jpg)
 ![screen 7](/readme_images/screenshot_7.jpg)

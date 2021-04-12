@@ -35,7 +35,7 @@ fun Context.notifyOnSavedPhoto(imageUri: Uri) {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }, 0)
     val notification = NotificationCompat.Builder(this, getString(R.string.notifications_id))
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setSmallIcon(R.mipmap.logo01_beta)
         .setContentTitle(getString(R.string.saved_image_notification))
         .setContentText(getString(R.string.saved_image_text_notification))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)

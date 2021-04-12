@@ -11,4 +11,5 @@
     <color name="success_color">#388E3C</color>
     <color name="fail_color">#D32F2F</color>
     <color name="unknown_color">#8A8888</color>
+    <color name="logo01_beta_background">#55018786</color>
 </resources>
