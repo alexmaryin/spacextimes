@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.chip.Chip
@@ -8,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
@@ -42,7 +44,7 @@ class SpaceXViewModel @Inject constructor(
             currentScreen = screen
             needRefresh = false
             settings.currentListMap[currentScreen.name]?.let { cachedList ->
-                state.tryEmit(Success(cachedList))
+                if (screen == Screen.Launches) filterLaunches() else state.tryEmit(Success(cachedList))
             } ?: run {
                 viewModelScope.launch {
                     when (screen) {
@@ -56,7 +58,11 @@ class SpaceXViewModel @Inject constructor(
                         Screen.LandingPads -> landingPads
                         Screen.Payloads -> payloads
                         Screen.HistoryEvents -> historyEvents
-                    }.collect { result -> state.tryEmit(result) }
+                    }.collect { result ->
+                        state.tryEmit(result)
+                        result.toListOf<HasStringId>()?.let { saveCurrentList(it) }
+                        if (screen == Screen.Launches) result.toListOf<Launches>()?.let { filterLaunches() }
+                    }
                 }
             }
         }
@@ -78,12 +84,7 @@ class SpaceXViewModel @Inject constructor(
 
     private val landingPads = repository.getLandingPads(listOf(translator::translateDetails))
 
-    private val launches = repository.getLaunches(listOf(translator::translateDetails)).map {
-        it.toListOf<Launches>()?.filter { launch ->
-            (launch.upcoming == LaunchFilter.Upcoming in launchFilter || launch.upcoming != LaunchFilter.Past in launchFilter) &&
-                    (launch.success == LaunchFilter.Successfully in launchFilter || launch.success != LaunchFilter.Failed in launchFilter)
-        }?.apply { saveCurrentList(this) }?.toSuccess() ?: it
-    }
+    private val launches = repository.getLaunches(listOf(translator::translateDetails))
 
     private val payloads = repository.getPayloads()
 
@@ -95,7 +96,7 @@ class SpaceXViewModel @Inject constructor(
         changeScreen(currentScreen)
     }
 
-    fun saveCurrentList(items: List<HasStringId>) {
+    private fun saveCurrentList(items: List<HasStringId>) {
         settings.currentListMap.plusAssign(currentScreen.name to items)
     }
 
@@ -106,7 +107,22 @@ class SpaceXViewModel @Inject constructor(
             postDelayed({ visibility = View.GONE }, 1000)
         }
 
-        armRefresh()
+        filterLaunches()?.let { (shown, total) ->
+            Toast.makeText(view.context, view.context.getString(R.string.filtered_launches_toast, shown, total), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun filterLaunches(): Pair<Int, Int>? {
+        settings.currentListMap[Screen.Launches.name]?.let { list ->
+            list.map { item -> item as Launches }.filter { launch ->
+                (launch.upcoming == LaunchFilter.Upcoming in launchFilter || launch.upcoming != LaunchFilter.Past in launchFilter) &&
+                        (launch.success == LaunchFilter.Successfully in launchFilter || launch.success != LaunchFilter.Failed in launchFilter)
+            }.toSuccess().apply {
+                state.tryEmit(this)
+                return Pair(this.data.size, list.size)
+            }
+        }
+        return null
     }
 
     @ExperimentalCoroutinesApi

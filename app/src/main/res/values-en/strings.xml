@@ -152,4 +152,5 @@
     <string name="past_filter">Past</string>
     <string name="upcoming_filter">Upcoming</string>
     <string name="next_launch_chip">Next launch</string>
+    <string name="filtered_launches_toast">Filtered %1$d of %2$d launches</string>
 </resources>

@@ -174,4 +174,5 @@
     <string name="past_filter">Прошедшие</string>
     <string name="upcoming_filter">Запланированные</string>
     <string name="next_launch_chip">Следующий запуск</string>
+    <string name="filtered_launches_toast">показано %1$d из %2$d запусков</string>
 </resources>

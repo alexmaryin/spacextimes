@@ -177,6 +177,5 @@ class MainFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
             adapter = currentAdapter
         }
-        spaceXViewModel.saveCurrentList(items)
     }
 }
