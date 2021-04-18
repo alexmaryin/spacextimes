@@ -56,6 +56,7 @@ class ActivityModule {
         registerViewHolder(ItemTypes.TWO_STRINGS, TwoStringsViewHolder())
         registerViewHolder(ItemTypes.ONE_LINE_STRINGS, OneLine2ViewHolder())
         registerViewHolder(ItemTypes.LINKS, LinksViewHolder())
+        registerViewHolder(ItemTypes.PAYLOAD, PayloadViewHolder())
     }
 
     @Provides

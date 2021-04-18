@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="payload" type="ru.alexmaryin.spacextimes_rx.data.model.Payload" />
+        <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.PayloadAdapter" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detailsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/payloadName"
+            style="@style/boldCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{payload.name}"
+            android:onClick="@{()-> clickListener.onClick(payload.id, ItemTypes.PAYLOAD)}"
+            app:layout_constraintEnd_toStartOf="@id/typeImage"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Starlink - 15" />
+
+        <TextView
+            android:id="@+id/payloadType"
+            style="@style/descriptionText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{payload.type}"
+            android:onClick="@{()-> clickListener.onClick(payload.id, ItemTypes.PAYLOAD)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payloadName"
+            app:layout_constraintEnd_toStartOf="@id/typeImage"
+            tools:text="Satellite" />
+
+        <ImageView
+            android:id="@+id/typeImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:payloadTypeImage="@{payload}"
+            tools:srcCompat="@drawable/dragon_1_0_foreground"
+            tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -30,7 +30,6 @@ interface ApiLocal {
         fun getLaunches(): List<Launches>
         fun getLaunchById(id: String): Launch?
 
-        fun getPayloads(): List<Payload>
         fun getPayloadById(id: String): Payload?
 
         fun getHistoryEvents(): List<History>

@@ -56,7 +56,7 @@ class SpaceXViewModel @Inject constructor(
                         Screen.Launches -> launches
                         Screen.LaunchPads -> launchPads
                         Screen.LandingPads -> landingPads
-                        Screen.Payloads -> payloads
+                        Screen.Payloads -> TODO()
                         Screen.HistoryEvents -> historyEvents
                     }.collect { result ->
                         state.tryEmit(result)
@@ -85,8 +85,6 @@ class SpaceXViewModel @Inject constructor(
     private val landingPads = repository.getLandingPads(listOf(translator::translateDetails))
 
     private val launches = repository.getLaunches(listOf(translator::translateDetails))
-
-    private val payloads = repository.getPayloads()
 
     private val historyEvents = repository.getHistoryEvents(listOf(translator::translateDetails, translator::translateTitle))
 

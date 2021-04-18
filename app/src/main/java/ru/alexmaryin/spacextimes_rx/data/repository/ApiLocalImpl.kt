@@ -83,10 +83,6 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
         return null
     }
 
-    override fun getPayloads(): List<Payload> {
-        TODO("Not yet implemented")
-    }
-
     override fun getPayloadById(id: String): Payload? {
         TODO("Not yet implemented")
     }

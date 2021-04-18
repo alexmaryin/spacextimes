@@ -20,9 +20,12 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.di.Settings
+import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import ru.alexmaryin.spacextimes_rx.utils.Success
+import java.io.IOException
 import java.text.DateFormat
 import javax.inject.Inject
 
@@ -32,6 +35,7 @@ class LaunchDetailViewModel @Inject constructor(
     val repository: SpacexDataRepository,
     private val translator: TranslatorApi,
     private val wikiApi: WikiLoaderApi,
+    private val settings: Settings,
 ) : ViewModel() {
 
     private val launchState = MutableStateFlow<Result>(Loading)
@@ -43,12 +47,31 @@ class LaunchDetailViewModel @Inject constructor(
                 if (state is Success<*>) {
                     with(state.data as Launch) {
                         links.wikiLocale = localeWikiUrl(links.wikipedia)
-                        translator.translateDetails(listOf(this))
+                        try {
+                            translator.translateDetails(listOf(this))
+                        } catch (e: IOException) {
+                            launchState.value = Error(e.localizedMessage ?: e.message!!)
+                        }
                     }
                 }
                 state
             }
             .collect { result -> launchState.value = result }
+    }
+
+
+    fun translateDetails() = viewModelScope.launch {
+        getLaunchState().collect { state ->
+            if (state is Success<*>) {
+                settings.translateToRu = true
+                try {
+                    translator.translateDetails(listOf(state.data as Launch))
+                    launchState.value = state
+                } catch (e: IOException) {
+                    launchState.value = Error(e.localizedMessage ?: e.message!!)
+                }
+            }
+        }
     }
 
     private suspend fun localeWikiUrl(enUrl: String?) = enUrl?.let {
@@ -81,9 +104,15 @@ class LaunchDetailViewModel @Inject constructor(
 
             details?.let {
                 add(TwoStringsItem(
+                    id = "details",
                     caption = res.getString(R.string.details_caption),
                     details = detailsRu ?: details
                 ))
+            }
+
+            if (payloads.isNotEmpty()) {
+                add(RecyclerHeader(text = "Полезная нагрузка"))
+                addAll(payloads)
             }
 
             cores.mapNotNull { it.core }.apply cores@{

@@ -10,7 +10,7 @@ interface TranslateDao {
     @Update
     suspend fun update(item: TranslateItem)
 
-    @Query("select *, rowid from translations where origin=:origin")
+    @Query("select * from translations where origin=:origin")
     suspend fun findString(origin: String): TranslateItem?
 
     @Query("delete from translations")

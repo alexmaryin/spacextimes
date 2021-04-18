@@ -18,7 +18,6 @@ class TranslatorImpl @Inject constructor(
             withContext(Dispatchers.IO) {
                 translatorInternal.tryLoadLocalTranslate(coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
                 translatorInternal.translate(coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
-                translatorInternal.saveLocalTranslations(coroutineContext, items, HasDetails::details, HasDetails::detailsRu)
             }
         }
     }
@@ -28,7 +27,6 @@ class TranslatorImpl @Inject constructor(
             withContext(Dispatchers.IO) {
                 translatorInternal.tryLoadLocalTranslate(coroutineContext, items, HasLastUpdate::lastUpdate, HasLastUpdate::lastUpdateRu)
                 translatorInternal.translate(coroutineContext, items, HasLastUpdate::lastUpdate, HasLastUpdate::lastUpdateRu)
-                translatorInternal.saveLocalTranslations(coroutineContext, items, HasLastUpdate::lastUpdate, HasLastUpdate::lastUpdateRu)
             }
         }
     }
@@ -38,7 +36,6 @@ class TranslatorImpl @Inject constructor(
             withContext(Dispatchers.IO) {
                 translatorInternal.tryLoadLocalTranslate(coroutineContext, items, HasDescription::description, HasDescription::descriptionRu)
                 translatorInternal.translate(coroutineContext, items, HasDescription::description, HasDescription::descriptionRu)
-                translatorInternal.saveLocalTranslations(coroutineContext, items, HasDescription::description, HasDescription::descriptionRu)
             }
         }
     }
@@ -48,7 +45,6 @@ class TranslatorImpl @Inject constructor(
             withContext(Dispatchers.IO) {
                 translatorInternal.tryLoadLocalTranslate(coroutineContext, items, HasTitle::title, HasTitle::titleRu)
                 translatorInternal.translate(coroutineContext, items, HasTitle::title, HasTitle::titleRu)
-                translatorInternal.saveLocalTranslations(coroutineContext, items, HasTitle::title, HasTitle::titleRu)
             }
         }
     }

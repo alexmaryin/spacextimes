@@ -36,6 +36,22 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
                 addProperty("path", "cores")
                 addProperty("populate", "core")
             })
+            add(JsonObject().apply {
+                addProperty("path", "payloads")
+                add("populate", JsonObject().apply {
+                    addProperty("path", "dragon")
+                    addProperty("populate", "capsule")
+                })
+            })
+        }
+    )
+
+    private val populatePayload = mapOf(
+        "populate" to JsonArray().apply {
+            add(JsonObject().apply {
+                addProperty("path", "dragon")
+                add("populate", JsonObject().apply { addProperty("path", "capsule") })
+            })
         }
     )
 
@@ -84,11 +100,10 @@ class SpaceXApiImpl @Inject constructor(private val apiService: RetrofitApiServi
     override suspend fun getLaunchById(id: String): Response<ApiResponse<Launch>> =
         apiService.getLaunchById(requestById(id, populateLaunchDetails))
 
-    override suspend fun getPayloads(): Response<List<Payload>> =apiService.getPayloads()
-    override suspend fun getPayloadById(id: String): Response<Payload> = apiService.getPayloadById(id)
+    override suspend fun getPayloadById(id: String): Response<ApiResponse<Payload>> =
+        apiService.getPayloadById(requestById(id, populatePayload))
 
     override suspend fun getHistoryEvents(): Response<List<History>> = apiService.getHistoryEvents()
-    override suspend fun getEventById(id: String): Response<History> = apiService.getEventById(id)
 
     override suspend fun translate(file: File): Response<PlainTextResponse> {
         val lang = "en-ru".toRequestBody("application/json".toMediaTypeOrNull())

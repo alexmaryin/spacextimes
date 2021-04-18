@@ -114,7 +114,7 @@ class MainFragment : Fragment() {
     }
 
     private fun processFilters() {
-        binding.filterGroup.visibility = View.VISIBLE
+        binding.filterGroup.swapVisibility()
     }
 
     private fun collectState() {

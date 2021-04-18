@@ -1,12 +1,14 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
 import android.content.Context
+import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateDao
 import ru.alexmaryin.spacextimes_rx.data.local.TranslateItem
+import ru.alexmaryin.spacextimes_rx.utils.toChunkedList
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -32,16 +34,29 @@ class TranslatorInternalApiImpl @Inject constructor(
             if (response.isSuccessful) response.body()?.data else throw IOException(response.message())
         }
 
+    @ExperimentalStdlibApi
     override suspend fun <T> fromList(
         source: List<T>,
         readItemToTranslate: (T) -> String,
         updateItemWithTranslate: (T, String) -> Unit
-    ): List<T>? {
-        val response = fromString(source.joinToString("\n") { readItemToTranslate(it) })?.split("\n")
-        return source.takeIf { source.size == response?.size }
-            ?.apply { for ((item, ruString) in (this zip response!!)) updateItemWithTranslate(item, ruString) }
+    ) {
+        var counter = 0
+        source.map(readItemToTranslate).toChunkedList().forEach { part ->
+            fromString(part.joinToString("\n"))?.let {
+                it.split("\n").forEach { translatedString ->
+                    updateItemWithTranslate(source[counter], translatedString)
+                    Log.d("TRANSLATOR", "Выполнен перевод для элемента $counter:\nFROM : ${readItemToTranslate(source[counter])}\nTO : $translatedString}")
+                    translationsDao.insert(TranslateItem(
+                        origin = readItemToTranslate(source[counter]),
+                        translation = translatedString,
+                        insertDate = Date()))
+                    counter++
+                }
+            }
+        }
     }
 
+    @ExperimentalStdlibApi
     override suspend fun <T> translate(
         context: CoroutineContext,
         items: List<T>,
@@ -63,18 +78,6 @@ class TranslatorInternalApiImpl @Inject constructor(
     ) = withContext(context + Dispatchers.IO) {
         items.forEach { from.get(it)?.let { origin -> to.set(it, translationsDao.findString(origin)?.translation) } }
     }
-
-    override suspend fun <T> saveLocalTranslations(
-        context: CoroutineContext,
-        items: List<T>,
-        from: KProperty1<T, String?>,
-        to: KMutableProperty1<T, String?>
-    ) = withContext(context + Dispatchers.IO) {
-        items.filter { from.get(it) != null && to.get(it) != null }.forEach {
-            translationsDao.insert(TranslateItem(
-                    origin = from.get(it)!!,
-                    translation = to.get(it)!!,
-                    insertDate = Date()))
-        }
-    }
 }
+
+

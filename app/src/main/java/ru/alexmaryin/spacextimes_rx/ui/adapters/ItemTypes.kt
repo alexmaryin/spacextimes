@@ -12,7 +12,8 @@ object ItemTypes {
     const val LAUNCH = 7
     const val LAUNCH_PAD = 8
     const val ROCKET = 9
-    const val TWO_STRINGS = 10
-    const val ONE_LINE_STRINGS = 11
-    const val LINKS = 12
+    const val PAYLOAD = 10
+    const val TWO_STRINGS = 11
+    const val ONE_LINE_STRINGS = 12
+    const val LINKS = 13
 }

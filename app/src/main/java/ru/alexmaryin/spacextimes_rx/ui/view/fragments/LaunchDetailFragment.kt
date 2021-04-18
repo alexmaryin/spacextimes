@@ -36,8 +36,7 @@ class LaunchDetailFragment : Fragment() {
 
     private val args: LaunchDetailFragmentArgs by navArgs()
     private val launchViewModel: LaunchDetailViewModel by viewModels()
-    @Inject
-    lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentLaunchDetailBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -101,6 +100,9 @@ class LaunchDetailFragment : Fragment() {
                 ItemTypes.LINKS -> {
                     Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
                     binding.detailsList.openLink(id)
+                }
+                ItemTypes.TWO_STRINGS -> if(id == "details") {
+                    launchViewModel.translateDetails()
                 }
             }
         }, viewHoldersManager)

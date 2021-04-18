@@ -59,17 +59,11 @@ interface RetrofitApiService {
     @POST(SpacexUrls.AllLaunchesQuery)
     suspend fun getLaunchById(@Body body: RequestBody): Response<ApiResponse<Launch>>
 
-    @GET(SpacexUrls.AllPayloads)
-    suspend fun getPayloads(): Response<List<Payload>>
-
-    @GET(SpacexUrls.AllPayloads+"{id}")
-    suspend fun getPayloadById(@Path("id") id: String): Response<Payload>
+    @GET(SpacexUrls.PayloadQuery)
+    suspend fun getPayloadById(@Body body: RequestBody): Response<ApiResponse<Payload>>
 
     @GET(SpacexUrls.AllHistoryEvents)
     suspend fun getHistoryEvents(): Response<List<History>>
-
-    @GET(SpacexUrls.AllHistoryEvents+"{id}")
-    suspend fun getEventById(@Path("id") id: String): Response<History>
 
     @Multipart
     @POST(TranslatorUrls.FileToText)

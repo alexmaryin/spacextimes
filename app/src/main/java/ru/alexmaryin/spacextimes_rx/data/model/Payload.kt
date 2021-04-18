@@ -10,7 +10,7 @@ data class Payload(
     val name: String,
     val type: String,
     val reused: Boolean,
-    val launch: String,     // id of launch
+    //val launch: String,     // id of launch
     val customers: List<String> = emptyList(),
     val nationalities: List<String> = emptyList(),
     val manufacturers: List<String> = emptyList(),
@@ -20,7 +20,7 @@ data class Payload(
     val eccentricity: Float?,
     val epoch: Date?,
     val raan: Float?,
-    private val _dragon: PayloadDragon,
+    val dragon: PayloadDragon,
     @SerializedName("semi_major_axis_km") val semiAxis: Float?,
     @SerializedName("periapsis_km") val periapsis: Float?,
     @SerializedName("apoapsis_km") val apoapsis: Float?,
@@ -34,6 +34,4 @@ data class Payload(
     @SerializedName("mass_lbs") val massInLbs: Float,
     @SerializedName("reference_system") val referenceSystem: String?,
     @SerializedName("norad_ids") val norads: List<Int> = emptyList(),
-) : HasStringId {
-    fun dragon(): PayloadDragon? = _dragon.capsule?.run { _dragon }
-}
+) : HasStringId

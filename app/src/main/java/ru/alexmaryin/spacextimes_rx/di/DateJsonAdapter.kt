@@ -24,7 +24,6 @@ object DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
             dateFormatters.forEach { formatter ->
                 try {
                     parsedDate = formatter.parse(it.asString)
-                    Log.d("DATE", "Successful parsed date: ${parsedDate.toString()}")
                 } catch (ignore: ParseException) {}
             }
         }
