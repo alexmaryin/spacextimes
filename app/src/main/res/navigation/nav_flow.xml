@@ -218,5 +218,28 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/launchDetailFragment"/>
+        <action
+            android:id="@+id/action_showPayloadDetails"
+            app:destination="@id/payloadDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/launchDetailFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/payloadDetailFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.PayloadDetailFragment">
+        <argument
+            android:name="payloadId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_showCapsuleDetails"
+            app:destination="@id/capsuleDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/payloadDetailFragment"/>
     </fragment>
 </navigation>

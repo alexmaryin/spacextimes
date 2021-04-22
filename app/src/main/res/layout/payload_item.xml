@@ -33,12 +33,24 @@
             style="@style/descriptionText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{payload.type}"
+            app:payloadType="@{payload}"
             android:onClick="@{()-> clickListener.onClick(payload.id, ItemTypes.PAYLOAD)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/payloadName"
             app:layout_constraintEnd_toStartOf="@id/typeImage"
             tools:text="Satellite" />
+
+        <TextView
+            android:id="@+id/payloadShort"
+            style="@style/descriptionText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:payloadShortString="@{payload}"
+            android:onClick="@{()-> clickListener.onClick(payload.id, ItemTypes.PAYLOAD)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payloadType"
+            app:layout_constraintEnd_toStartOf="@id/typeImage"
+            tools:text="Customer - NASA, Manufacturer - Boeing" />
 
         <ImageView
             android:id="@+id/typeImage"
@@ -49,6 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:payloadTypeImage="@{payload}"
+            android:onClick="@{()-> clickListener.onClick(payload.id, ItemTypes.PAYLOAD)}"
             tools:srcCompat="@drawable/dragon_1_0_foreground"
             tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>

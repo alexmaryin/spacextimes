@@ -84,7 +84,8 @@ class ApiLocalImpl @Inject constructor(): ApiLocal {
     }
 
     override fun getPayloadById(id: String): Payload? {
-        TODO("Not yet implemented")
+        Log.d("REPO_LOCAL", "Local payload with id $id is requested. Return null for debug.")
+        return null
     }
 
     override fun getHistoryEvents(): List<History> {

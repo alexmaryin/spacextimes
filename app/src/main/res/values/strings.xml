@@ -175,4 +175,68 @@
     <string name="upcoming_filter">Запланированные</string>
     <string name="next_launch_chip">Следующий запуск</string>
     <string name="filtered_launches_toast">показано %1$d из %2$d запусков</string>
+
+    <!--    payload types-->
+    <string name="dragon_boilerplate_text">макет корабля Dragon</string>
+    <string name="dragon_1_0_text">грузовой корабль Dragon</string>
+    <string name="dragon_1_1_text">грузовой корабль Dragon 1.1</string>
+    <string name="dragon_2_0_text">грузовой корабль Dragon 2</string>
+    <string name="crew_dragon_text">пилотируемый корабль Crew Dragon</string>
+    <string name="lander_text">спускаемый на поверхность аппарат</string>
+    <string name="satellite_text">орбитальный спутник</string>
+    <string name="payload_nationalities_caption">Страны-участники</string>
+    <string name="payload_details_caption">Параметры полезной нагрузки</string>
+    <string name="payload_type_caption">Объект запуска</string>
+    <string name="payload_landing_mass_caption">Масса возвращаемого груза</string>
+    <string name="payload_flight_time_caption">Время полета, секунд</string>
+    <string name="on_water_landing">на воду</string>
+    <string name="on_ground_landing">на землю</string>
+    <string name="payload_capsule_landing_caption">Возвращение капсулы</string>
+    <string name="orbit_details_caption">Параметры орбиты</string>
+
+    <!--    customer string-->
+    <plurals name="payload_customer_string">
+        <item quantity="one">Заказчик: %1$s</item>
+        <item quantity="other">Заказчики: %1$s</item>
+    </plurals>
+
+    <!--    customer caption-->
+    <plurals name="payload_customer_caption">
+        <item quantity="one">Заказчик</item>
+        <item quantity="other">Заказчики</item>
+    </plurals>
+
+    <!--    manufacturer string-->
+    <plurals name="payload_manufacturer_string">
+        <item quantity="one">Изготовитель: %1$s</item>
+        <item quantity="other">Изготовители: %1$s</item>
+    </plurals>
+
+    <!--    manufacturer caption-->
+    <plurals name="payload_manufacturer_caption">
+        <item quantity="one">Изготовитель</item>
+        <item quantity="other">Изготовители</item>
+    </plurals>
+
+    <!--    orbit types-->
+    <string name="GTO_string">геостационарная</string>
+    <string name="LEO_string">низкая околоземная</string>
+    <string name="ISS_string">МКС</string>
+    <string name="PO_string">полярная</string>
+    <string name="ES_L1_string">точка Лагранжа L₁</string>
+    <string name="SSO_string">солнечно-синхронная</string>
+    <string name="HCO_string">гелиоцентрическая</string>
+    <string name="HEO_string">высокая околоземная</string>
+    <string name="MEO_string">полусинхронная околоземная</string>
+    <string name="VLEO_string">сверхнизкая околоземная</string>
+    <string name="SO_string">суборбитальный полет</string>
+    <string name="unknown_orbit_string">нет данных</string>
+    <string name="orbit_caption">орбита</string>
+
+    <!--    reference systems-->
+    <string name="geocentric_string">геоцентрическая</string>
+    <string name="heliocentric_string">гелиоцентрическая</string>
+    <string name="highly_elliptical_string">высокоэллиптическая</string>
+    <string name="reference_system_caption">Система</string>
+    <string name="duration_string">%1$d дней, %2$d:%3$d:%4$d</string>
 </resources>

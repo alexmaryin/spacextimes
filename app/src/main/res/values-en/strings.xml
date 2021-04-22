@@ -153,4 +153,66 @@
     <string name="upcoming_filter">Upcoming</string>
     <string name="next_launch_chip">Next launch</string>
     <string name="filtered_launches_toast">Filtered %1$d of %2$d launches</string>
+    <string name="dragon_boilerplate_text">Dragon boilerplate</string>
+    <string name="dragon_1_0_text">Dragon cargo</string>
+    <string name="dragon_1_1_text">Dragon 1.1 cargo</string>
+    <string name="dragon_2_0_text">Dragon 2 cargo</string>
+    <string name="crew_dragon_text">Crew Dragon</string>
+    <string name="lander_text">Space body lander</string>
+    <string name="satellite_text">Orbital satellite</string>
+    <string name="payload_nationalities_caption">Member-States</string>
+    <string name="payload_details_caption">Payload details</string>
+    <string name="payload_type_caption">Payload type</string>
+    <string name="payload_landing_mass_caption">Mass of returned payload</string>
+    <string name="payload_flight_time_caption">Flight time, sec</string>
+    <string name="on_water_landing">on water</string>
+    <string name="on_ground_landing">on ground</string>
+    <string name="payload_capsule_landing_caption">Returned</string>
+    <string name="orbit_details_caption">Orbit details</string>
+
+    <!--    customer string-->
+    <plurals name="payload_customer_string">
+        <item quantity="one">Customer: %1$s</item>
+        <item quantity="other">Customers: %1$s</item>
+    </plurals>
+
+    <!--    customer caption-->
+    <plurals name="payload_customer_caption">
+        <item quantity="one">Customer</item>
+        <item quantity="other">Customers</item>
+    </plurals>
+
+    <!--    manufacturer string-->
+    <plurals name="payload_manufacturer_string">
+        <item quantity="one">Manufacturer: %1$s</item>
+        <item quantity="other">Manufacturers: %1$s</item>
+    </plurals>
+
+    <!--    manufacturer caption-->
+    <plurals name="payload_manufacturer_caption">
+        <item quantity="one">Manufacturer</item>
+        <item quantity="other">Manufacturers</item>
+    </plurals>
+
+    <!--    orbit types-->
+    <string name="GTO_string">geostationary</string>
+    <string name="LEO_string">low Earth</string>
+    <string name="ISS_string">ISS</string>
+    <string name="PO_string">polar</string>
+    <string name="ES_L1_string">Lagrange point L₁</string>
+    <string name="SSO_string">Sun-synchronous</string>
+    <string name="HCO_string">Heliocentric</string>
+    <string name="HEO_string">high Earth</string>
+    <string name="MEO_string">semi-synchronous Earth</string>
+    <string name="VLEO_string">very-low Earth</string>
+    <string name="SO_string">suborbital flight</string>
+    <string name="unknown_orbit_string">not defined</string>
+    <string name="orbit_caption">Orbit type</string>
+
+    <!--    reference systems-->
+    <string name="geocentric_string">geocentric</string>
+    <string name="heliocentric_string">heliocentric</string>
+    <string name="highly_elliptical_string">highly-elliptical</string>
+    <string name="reference_system_caption">System</string>
+    <string name="duration_string">%1$d days, %2$d:%3$d:%4$d</string>
 </resources>
