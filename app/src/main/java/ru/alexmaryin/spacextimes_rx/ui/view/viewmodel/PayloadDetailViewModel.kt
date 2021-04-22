@@ -48,7 +48,7 @@ class PayloadDetailViewModel @Inject constructor(
                     left = res.getString(R.string.payload_nationalities_caption),
                     right = nationalities.joinToString()
                 ))
-            massInKg?.let { add(OneLineItem2(left = "Масса нагрузки, кг", right = it.toString())) }
+            massInKg?.let { add(OneLineItem2(left = res.getString(R.string.payload_mass_caption), right = it.toString())) }
 
             if (dragon.isNotEmpty()) {
                 add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_capsules_caption, 1)))

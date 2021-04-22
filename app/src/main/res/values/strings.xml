@@ -188,7 +188,7 @@
     <string name="payload_details_caption">Параметры полезной нагрузки</string>
     <string name="payload_type_caption">Объект запуска</string>
     <string name="payload_landing_mass_caption">Масса возвращаемого груза</string>
-    <string name="payload_flight_time_caption">Время полета, секунд</string>
+    <string name="payload_flight_time_caption">Время полета</string>
     <string name="on_water_landing">на воду</string>
     <string name="on_ground_landing">на землю</string>
     <string name="payload_capsule_landing_caption">Возвращение капсулы</string>
@@ -239,4 +239,5 @@
     <string name="highly_elliptical_string">высокоэллиптическая</string>
     <string name="reference_system_caption">Система</string>
     <string name="duration_string">%1$d дней, %2$d:%3$d:%4$d</string>
+    <string name="payload_mass_caption">Масса нагрузки, кг</string>
 </resources>

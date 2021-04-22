@@ -164,7 +164,7 @@
     <string name="payload_details_caption">Payload details</string>
     <string name="payload_type_caption">Payload type</string>
     <string name="payload_landing_mass_caption">Mass of returned payload</string>
-    <string name="payload_flight_time_caption">Flight time, sec</string>
+    <string name="payload_flight_time_caption">Flight time</string>
     <string name="on_water_landing">on water</string>
     <string name="on_ground_landing">on ground</string>
     <string name="payload_capsule_landing_caption">Returned</string>
@@ -215,4 +215,5 @@
     <string name="highly_elliptical_string">highly-elliptical</string>
     <string name="reference_system_caption">System</string>
     <string name="duration_string">%1$d days, %2$d:%3$d:%4$d</string>
+    <string name="payload_mass_caption">Payload mass, kg</string>
 </resources>
