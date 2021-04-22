@@ -48,13 +48,13 @@ class PayloadDetailViewModel @Inject constructor(
                     left = res.getString(R.string.payload_nationalities_caption),
                     right = nationalities.joinToString()
                 ))
-            massInKg?.let { add(OneLineItem2(left = res.getString(R.string.payload_mass_caption), right = it.toString())) }
+            massInKg?.let { add(OneLineItem2(left = res.getString(R.string.payload_mass_caption), right = res.getString(R.string.weight_string,it))) }
 
             if (dragon.isNotEmpty()) {
                 add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_capsules_caption, 1)))
                 dragon.capsule?.let { add(it) }
                 dragon.manifest?.let { add(LinksItem(pressKit = it)) }
-                dragon.returnedMassInKg?.let { add(OneLineItem2(left = res.getString(R.string.payload_landing_mass_caption), right = it.toString())) }
+                dragon.returnedMassInKg?.let { add(OneLineItem2(left = res.getString(R.string.payload_landing_mass_caption), right = res.getString(R.string.weight_string, it))) }
                 dragon.flightTime?.let { add(OneLineItem2(left = res.getString(R.string.payload_flight_time_caption), right = it.seconds.toComponents { days, hours, minutes, seconds, _ ->
                     listOfNotNull(
                         if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,

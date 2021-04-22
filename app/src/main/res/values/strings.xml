@@ -121,7 +121,7 @@
     <string name="gso_caption">Геосинхронная орбита</string>
     <string name="mars_caption">к Марсу</string>
     <string name="pluto_caption">к Плутону</string>
-    <string name="weight_string">%1$d кг</string>
+    <string name="weight_string">%1$.2f кг</string>
     <string name="max_payload_caption">Максимальная полезная нагрузка:</string>
     <string name="moon_caption">к Луне</string>
     <string name="status_pad_caption">Статус зоны</string>
@@ -238,7 +238,7 @@
     <string name="heliocentric_string">гелиоцентрическая</string>
     <string name="highly_elliptical_string">высокоэллиптическая</string>
     <string name="reference_system_caption">Система</string>
-    <string name="payload_mass_caption">Масса нагрузки, кг</string>
+    <string name="payload_mass_caption">Масса нагрузки</string>
 
     <!--    days counter-->
     <plurals name="days_count">

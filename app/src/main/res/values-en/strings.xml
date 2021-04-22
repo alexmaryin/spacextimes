@@ -46,14 +46,14 @@
     <string name="saving_title_string">Save</string>
     <string name="save_image_dialog_string">Download to storage?</string>
     <string name="failed_image_save_string">Save failed!</string>
-    <string name="quarter1_string">\"1st quarter \"</string>
-    <string name="quarter2_string">\"2nd quarter \"</string>
-    <string name="quarter3_string">\"3rd quarter \"</string>
-    <string name="quarter4_string">\"4th quarter \"</string>
-    <string name="half1_string">\"First half of \"</string>
-    <string name="half2_string">\"Second half of \"</string>
+    <string name="quarter1_string">1st quarter </string>
+    <string name="quarter2_string">2nd quarter </string>
+    <string name="quarter3_string">3rd quarter </string>
+    <string name="quarter4_string">4th quarter </string>
+    <string name="half1_string">First half of </string>
+    <string name="half2_string">Second half of </string>
     <string name="to_be_determined_string">to be determined</string>
-    <string name="not_early_string">\"not early \"</string>
+    <string name="not_early_string">not early </string>
     <string name="missions_list_header">Joined missions:</string>
     <string name="core_not_fly_text">This core doesn\'t fly yet!</string>
     <string name="historyEventsTitle">History events</string>
@@ -101,7 +101,7 @@
     <string name="mars_caption">to Mars</string>
     <string name="pluto_caption">to Pluto</string>
     <string name="moon_caption">to Moon</string>
-    <string name="weight_string">%1$d kg</string>
+    <string name="weight_string">%1$.2f kg</string>
     <string name="max_payload_caption">Max payload:</string>
     <string name="status_pad_caption">Pad status</string>
     <string name="underConstructionText">under reconstruction</string>
@@ -214,7 +214,7 @@
     <string name="heliocentric_string">heliocentric</string>
     <string name="highly_elliptical_string">highly-elliptical</string>
     <string name="reference_system_caption">System</string>
-    <string name="payload_mass_caption">Payload mass, kg</string>
+    <string name="payload_mass_caption">Payload mass</string>
 
     <!--    days counter-->
     <plurals name="days_count">
