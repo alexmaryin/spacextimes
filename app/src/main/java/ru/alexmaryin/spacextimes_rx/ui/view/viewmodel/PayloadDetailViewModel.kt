@@ -56,7 +56,12 @@ class PayloadDetailViewModel @Inject constructor(
                 dragon.manifest?.let { add(LinksItem(pressKit = it)) }
                 dragon.returnedMassInKg?.let { add(OneLineItem2(left = res.getString(R.string.payload_landing_mass_caption), right = it.toString())) }
                 dragon.flightTime?.let { add(OneLineItem2(left = res.getString(R.string.payload_flight_time_caption), right = it.seconds.toComponents { days, hours, minutes, seconds, _ ->
-                    res.getString(R.string.duration_string, days, hours, minutes, seconds)
+                    listOfNotNull(
+                        if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,
+                        if(hours > 0) res.resources.getQuantityString(R.plurals.hours_count, hours, hours) else null,
+                        if(minutes > 0) res.resources.getQuantityString(R.plurals.minutes_count, minutes, minutes) else null,
+                        if(seconds > 0) res.resources.getQuantityString(R.plurals.seconds_count, seconds, seconds) else null,
+                    ).joinToString(" ")
                 } )) }
                 val landingType = dragon.waterLanding?.let { res.getString(R.string.on_water_landing) } ?: dragon.groundLanding?.let { res.getString(R.string.on_ground_landing) }
                 landingType?.let { add(OneLineItem2(left = res.getString(R.string.payload_capsule_landing_caption), right = it)) }

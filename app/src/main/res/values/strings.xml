@@ -188,7 +188,7 @@
     <string name="payload_details_caption">Параметры полезной нагрузки</string>
     <string name="payload_type_caption">Объект запуска</string>
     <string name="payload_landing_mass_caption">Масса возвращаемого груза</string>
-    <string name="payload_flight_time_caption">Время полета</string>
+    <string name="payload_flight_time_caption">Длительность полета</string>
     <string name="on_water_landing">на воду</string>
     <string name="on_ground_landing">на землю</string>
     <string name="payload_capsule_landing_caption">Возвращение капсулы</string>
@@ -238,6 +238,33 @@
     <string name="heliocentric_string">гелиоцентрическая</string>
     <string name="highly_elliptical_string">высокоэллиптическая</string>
     <string name="reference_system_caption">Система</string>
-    <string name="duration_string">%1$d дней, %2$d:%3$d:%4$d</string>
     <string name="payload_mass_caption">Масса нагрузки, кг</string>
+
+    <!--    days counter-->
+    <plurals name="days_count">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+    </plurals>
+
+    <!--    hours counter-->
+    <plurals name="hours_count">
+        <item quantity="one">%d час</item>
+        <item quantity="few">%d часа</item>
+        <item quantity="many">%d часов</item>
+    </plurals>
+
+    <!--    minutes counter-->
+    <plurals name="minutes_count">
+        <item quantity="one">%d минута</item>
+        <item quantity="few">%d минуты</item>
+        <item quantity="many">%d минут</item>
+    </plurals>
+
+    <!--    seconds counter-->
+    <plurals name="seconds_count">
+        <item quantity="one">%d секунда</item>
+        <item quantity="few">%d секунды</item>
+        <item quantity="many">%d секунд</item>
+    </plurals>
 </resources>

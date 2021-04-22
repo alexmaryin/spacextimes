@@ -28,7 +28,7 @@ data class Payload(
     @SerializedName("apoapsis_km") val apoapsis: Float?,
     @SerializedName("inclination_deg") val inclination: Float?,
     @SerializedName("arg_of_pericenter") val pericenterArg: Float?,
-    @SerializedName("lifespan_years") val lifeSpan: Int?,
+    @SerializedName("lifespan_years") val lifeSpan: Float?,
     @SerializedName("period_min") val period: Float?,
     @SerializedName("mean_motion") val meanMotion: Float?,
     @SerializedName("mean_anomaly") val meanAnomaly: Float?,
