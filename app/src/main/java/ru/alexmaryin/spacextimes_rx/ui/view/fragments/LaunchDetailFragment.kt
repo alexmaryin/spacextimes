@@ -102,9 +102,9 @@ class LaunchDetailFragment : Fragment() {
                     Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
                     binding.detailsList.openLink(id)
                 }
-                ItemTypes.TWO_STRINGS -> if(id == "details") {
-                    launchViewModel.translateDetails()
-                }
+//                ItemTypes.TWO_STRINGS -> if(id == "details") {
+//                    launchViewModel.translateDetails()
+//                }
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(launchViewModel.composeDetails(requireContext(), launch))
