@@ -168,7 +168,7 @@
     <string name="on_water_landing">on water</string>
     <string name="on_ground_landing">on ground</string>
     <string name="payload_capsule_landing_caption">Returned</string>
-    <string name="orbit_details_caption">Orbit details</string>
+    <string name="orbit_details_caption">Orbit regime</string>
 
     <!--    customer string-->
     <plurals name="payload_customer_string">
@@ -216,6 +216,12 @@
     <string name="reference_system_caption">System</string>
     <string name="payload_mass_caption">Payload mass</string>
 
+    <!--    years counter-->
+    <plurals name="years_count">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
+
     <!--    days counter-->
     <plurals name="days_count">
         <item quantity="one">%d day</item>
@@ -239,4 +245,19 @@
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
+    <string name="orbit_elements_caption">Keplerian elements</string>
+    <string name="eccentricity_caption">Eccentricity ε</string>
+    <string name="semimajor_axis_caption">Semimajor axis α</string>
+    <string name="inclination_caption">Inclination ί</string>
+    <string name="longtitude_AN_caption">Longtitude of the ascending node Ω</string>
+    <string name="periapsis_arg_caption">Argument of periapsis ω</string>
+    <string name="mean_anomaly_caption">Mean anomaly M₀</string>
+    <string name="epoch_caption">Epoch t₀</string>
+    <string name="distance_string">%1$.2f km</string>
+    <string name="mean_motion_caption">Mean motion approximation to complete orbit η</string>
+    <string name="right_ascension_caption">Right ascension of the ascending node α</string>
+    <string name="apoapsis_caption">Apoapsis</string>
+    <string name="periapsis_caption">Periapsis</string>
+    <string name="period_caption">Orbital period</string>
+    <string name="life_span_caption">Estimated lifetime</string>
 </resources>

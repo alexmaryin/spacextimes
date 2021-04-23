@@ -109,7 +109,6 @@
     <string name="reusable_stage_str">Возвращаемая ступень</string>
     <string name="expendable_stage_str">Расходуемая ступень</string>
     <string name="thrust_sl_caption">Тяга на уровне моря</string>
-    <string name="thrust_str">%1$.2f кН</string>
     <string name="thrust_vac_caption">Тяга в вакууме</string>
     <string name="stage_fuel_amount_str">Загрузка топлива: %1$.1f т</string>
     <string name="stage_burn_time_str">Время работы: %1$d с</string>
@@ -121,7 +120,6 @@
     <string name="gso_caption">Геосинхронная орбита</string>
     <string name="mars_caption">к Марсу</string>
     <string name="pluto_caption">к Плутону</string>
-    <string name="weight_string">%1$.2f кг</string>
     <string name="max_payload_caption">Максимальная полезная нагрузка:</string>
     <string name="moon_caption">к Луне</string>
     <string name="status_pad_caption">Статус зоны</string>
@@ -132,10 +130,10 @@
     <string name="rockets_launched_caption">Стартовавшие ракеты:</string>
     <string name="pad_launches_caption">Запуски с этой зоны:</string>
     <string name="landing_statistic_caption">Успешных посадок</string>
-    <string name="landing_pad_type_caption">Тип посадачной платформы</string>
+    <string name="landing_pad_type_caption">Тип посадочной платформы</string>
     <string name="site_text">наземная</string>
     <string name="drone_text">плавучая</string>
-    <string name="capsule_not_fly_text">Эта капсула еще не летата</string>
+    <string name="capsule_not_fly_text">Эта капсула еще не летала</string>
     <plurals name="assigned_core_caption">
         <item quantity="one">Назначенная ступень</item>
         <item quantity="other">Назначенные ступени</item>
@@ -184,6 +182,7 @@
     <string name="crew_dragon_text">пилотируемый корабль Crew Dragon</string>
     <string name="lander_text">спускаемый на поверхность аппарат</string>
     <string name="satellite_text">орбитальный спутник</string>
+
     <string name="payload_nationalities_caption">Страны-участники</string>
     <string name="payload_details_caption">Параметры полезной нагрузки</string>
     <string name="payload_type_caption">Объект запуска</string>
@@ -192,7 +191,25 @@
     <string name="on_water_landing">на воду</string>
     <string name="on_ground_landing">на землю</string>
     <string name="payload_capsule_landing_caption">Возвращение капсулы</string>
-    <string name="orbit_details_caption">Параметры орбиты</string>
+
+<!--    orbit regime-->
+    <string name="orbit_details_caption">Режим орбиты</string>
+    <string name="apoapsis_caption">Апоцентр</string>
+    <string name="periapsis_caption">Перицентр</string>
+    <string name="period_caption">Время витка</string>
+    <string name="life_span_caption">Расчетный срок службы</string>
+
+    <!--    Orbit elements-->
+    <string name="orbit_elements_caption">Элементы орбиты по Кеплеру</string>
+    <string name="eccentricity_caption">Эксцентриситет ε</string>
+    <string name="semimajor_axis_caption">Большая полуось α</string>
+    <string name="inclination_caption">Наклонение ί</string>
+    <string name="longtitude_AN_caption">Долгота восходящего узла Ω</string>
+    <string name="periapsis_arg_caption">Аргумент перицентра ω</string>
+    <string name="mean_anomaly_caption">Средняя аномалия M₀</string>
+    <string name="epoch_caption">Начальная эпоха t₀</string>
+    <string name="mean_motion_caption">Коэффициент орбитальной скорости витка η</string>
+    <string name="right_ascension_caption">Прямое восхождение восходящего узла α</string>
 
     <!--    customer string-->
     <plurals name="payload_customer_string">
@@ -240,6 +257,13 @@
     <string name="reference_system_caption">Система</string>
     <string name="payload_mass_caption">Масса нагрузки</string>
 
+    <!--    years counter-->
+    <plurals name="years_count">
+        <item quantity="one">%d год</item>
+        <item quantity="few">%d года</item>
+        <item quantity="many">%d лет</item>
+    </plurals>
+
     <!--    days counter-->
     <plurals name="days_count">
         <item quantity="one">%d день</item>
@@ -267,4 +291,11 @@
         <item quantity="few">%d секунды</item>
         <item quantity="many">%d секунд</item>
     </plurals>
+
+    <!--    sizes, weights, other measured values-->
+    <string name="weight_string">%1$.2f кг</string>
+    <string name="distance_string">%1$.2f км</string>
+    <string name="thrust_str">%1$.2f кН</string>
+    <string name="degrees_string" translatable="false">%1$.2f°</string>
+
 </resources>

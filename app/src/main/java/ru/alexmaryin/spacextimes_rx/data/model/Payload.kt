@@ -21,14 +21,14 @@ data class Payload(
     val longitude: Float?,
     val eccentricity: Float?,
     val epoch: Date?,
-    val raan: Float?,
     val dragon: PayloadDragon,
     @SerializedName("semi_major_axis_km") val semiAxis: Float?,
+    @SerializedName("raan") val rightAscension: Float?,
     @SerializedName("periapsis_km") val periapsis: Float?,
     @SerializedName("apoapsis_km") val apoapsis: Float?,
     @SerializedName("inclination_deg") val inclination: Float?,
     @SerializedName("arg_of_pericenter") val pericenterArg: Float?,
-    @SerializedName("lifespan_years") val lifeSpan: Float?,
+    @SerializedName("lifespan_years") val lifeSpan: Int?,
     @SerializedName("period_min") val period: Float?,
     @SerializedName("mean_motion") val meanMotion: Float?,
     @SerializedName("mean_anomaly") val meanAnomaly: Float?,
@@ -72,4 +72,7 @@ data class Payload(
             else -> R.string.unknown_orbit_string
         })
     }
+
+    val isOrbitDataPresent get() = (eccentricity ?: semiAxis ?: inclination ?: longitude ?: pericenterArg ?: rightAscension ?:
+            meanAnomaly ?: meanMotion ?: epoch) != null
 }
