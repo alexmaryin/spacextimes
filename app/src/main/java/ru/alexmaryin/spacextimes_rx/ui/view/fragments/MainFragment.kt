@@ -91,7 +91,6 @@ class MainFragment : Fragment() {
             R.id.launchPadsSelect -> spaceXViewModel.changeScreen(Screen.LaunchPads)
             R.id.landingPadsSelect -> spaceXViewModel.changeScreen(Screen.LandingPads)
             R.id.historySelect -> spaceXViewModel.changeScreen(Screen.HistoryEvents)
-            R.id.payloadsSelect -> spaceXViewModel.changeScreen(Screen.Payloads)
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -137,7 +136,6 @@ class MainFragment : Fragment() {
                             Screen.LaunchPads -> { renderItems(state.toListOf()!!, R.string.launchPadsTitle, launchPadClickListener) }
                             Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle, landingPadClickListener) }
                             Screen.HistoryEvents -> { renderItems(state.toListOf()!!, R.string.historyEventsTitle) }
-                            Screen.Payloads -> TODO()
                         }
                         binding.progressBar replaceBy binding.recyclerView
                     }

@@ -111,7 +111,7 @@ class LaunchDetailViewModel @Inject constructor(
             }
 
             if (payloads.isNotEmpty()) {
-                add(RecyclerHeader(text = "Полезная нагрузка"))
+                add(RecyclerHeader(text = res.getString(R.string.payload_caption)))
                 addAll(payloads)
             }
 

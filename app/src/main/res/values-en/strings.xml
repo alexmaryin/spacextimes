@@ -260,4 +260,5 @@
     <string name="periapsis_caption">Periapsis</string>
     <string name="period_caption">Orbital period</string>
     <string name="life_span_caption">Estimated lifetime</string>
+    <string name="payload_caption">Payload</string>
 </resources>

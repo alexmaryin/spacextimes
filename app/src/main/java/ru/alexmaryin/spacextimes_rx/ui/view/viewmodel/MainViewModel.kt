@@ -56,7 +56,6 @@ class SpaceXViewModel @Inject constructor(
                         Screen.Launches -> launches
                         Screen.LaunchPads -> launchPads
                         Screen.LandingPads -> landingPads
-                        Screen.Payloads -> TODO()
                         Screen.HistoryEvents -> historyEvents
                     }.collect { result ->
                         state.tryEmit(result)

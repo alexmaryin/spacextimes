@@ -185,6 +185,7 @@
 
     <string name="payload_nationalities_caption">Страны-участники</string>
     <string name="payload_details_caption">Параметры полезной нагрузки</string>
+    <string name="payload_caption">Полезная нагрузка</string>
     <string name="payload_type_caption">Объект запуска</string>
     <string name="payload_landing_mass_caption">Масса возвращаемого груза</string>
     <string name="payload_flight_time_caption">Длительность полета</string>
