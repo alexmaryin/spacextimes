@@ -1,10 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
+import android.animation.TimeInterpolator
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
-import android.view.animation.AnimationUtils
-import android.widget.AbsListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -34,41 +33,28 @@ import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.exp
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private val coreClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id))
-    }
-    private val dragonClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id))
-    }
-    private val crewClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id))
-    }
-    private val rocketClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowRocketDetails(id))
-    }
-    private val launchPadClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowLaunchPadDetails(id))
-    }
-    private val landingPadClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowLandingPadDetails(id))
-    }
-    private val capsuleClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowCapsuleDetails(id))
-    }
-    private val launchClickListener = AdapterClickListenerById { id, _ ->
-        findNavController().navigate(MainFragmentDirections.actionShowLaunchDetails(id))
-    }
+    private val coreClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowCoreDetails(id)) }
+    private val dragonClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowDragonDetails(id)) }
+    private val crewClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowCrewMember(id)) }
+    private val rocketClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowRocketDetails(id)) }
+    private val launchPadClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowLaunchPadDetails(id)) }
+    private val landingPadClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowLandingPadDetails(id)) }
+    private val capsuleClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowCapsuleDetails(id)) }
+    private val launchClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowLaunchDetails(id)) }
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
+
     @Inject
     lateinit var settings: Settings
+
     @Inject
     lateinit var viewHoldersManager: ViewHoldersManager
 
@@ -191,12 +177,23 @@ class MainFragment : Fragment() {
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect { (position, launch) ->
 
+                    val shakeInterpolator = TimeInterpolator { input ->
+                        val freq = 3f
+                        val decay = 2f
+                        val raw = kotlin.math.sin(freq * input * 2 * Math.PI)
+                        (raw * exp((-input * decay).toDouble())).toFloat()
+                    }
+
                     val shaker = object : RecyclerView.OnScrollListener() {
                         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                             super.onScrollStateChanged(recyclerView, newState)
                             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                recyclerView.layoutManager?.findViewByPosition(position)?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.shake))
-                                recyclerView.removeOnScrollListener(this)
+                                recyclerView.layoutManager?.findViewByPosition(position)?.animate()!!
+                                    .withEndAction { recyclerView.removeOnScrollListener(this) }
+                                    .xBy(-100f)
+                                    .setInterpolator(shakeInterpolator)
+                                    .setDuration(500)
+                                    .start()
                             }
                         }
                     }
@@ -207,6 +204,8 @@ class MainFragment : Fragment() {
                     scroller.targetPosition = position
 
                     with(binding.recyclerView) {
+                        // first, scroll a little down to trigger shake if item already on top
+                        scrollBy(0, 10)
                         // add shake animation after scrolling
                         addOnScrollListener(shaker)
                         // scroll to next launch
