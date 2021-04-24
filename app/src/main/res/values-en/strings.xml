@@ -261,4 +261,5 @@
     <string name="period_caption">Orbital period</string>
     <string name="life_span_caption">Estimated lifetime</string>
     <string name="payload_caption">Payload</string>
+    <string name="upcoming_launches_deselected_string">Upcoming launches are deselected</string>
 </resources>

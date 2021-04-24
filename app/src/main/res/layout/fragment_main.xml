@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="false"
-                android:onClick="@{(view)-> spaceXViewModel.scrollNextLaunch(view)}"
+                android:onClick="@{()-> spaceXViewModel.scrollNextLaunch()}"
                 android:text="@string/next_launch_chip" />
         </com.google.android.material.chip.ChipGroup>
 

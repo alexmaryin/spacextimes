@@ -299,4 +299,6 @@
     <string name="thrust_str">%1$.2f кН</string>
     <string name="degrees_string" translatable="false">%1$.2f°</string>
 
+    <string name="upcoming_launches_deselected_string">Предстоящие запуски отключены</string>
+
 </resources>

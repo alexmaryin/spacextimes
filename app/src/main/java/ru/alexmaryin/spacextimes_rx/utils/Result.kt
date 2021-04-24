@@ -4,6 +4,7 @@ enum class ErrorType {
     REMOTE_API_ERROR,
     REMOTE_TRANSLATOR_ERROR,
     NO_INTERNET_CONNECTION,
+    UPCOMING_LAUNCHES_DESELECTED,
     OTHER_ERROR
 }
 sealed class Result

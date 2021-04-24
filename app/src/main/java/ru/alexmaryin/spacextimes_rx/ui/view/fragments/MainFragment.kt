@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
-import android.animation.TimeInterpolator
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
@@ -15,25 +14,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
+import ru.alexmaryin.spacextimes_rx.ui.adapters.emptyClickListener
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.Screen
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.util.*
 import javax.inject.Inject
-import kotlin.math.exp
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
@@ -48,15 +46,10 @@ class MainFragment : Fragment() {
     private val landingPadClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowLandingPadDetails(id)) }
     private val capsuleClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowCapsuleDetails(id)) }
     private val launchClickListener = AdapterClickListenerById { id, _ -> findNavController().navigate(MainFragmentDirections.actionShowLaunchDetails(id)) }
-
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject lateinit var settings: Settings
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
@@ -115,6 +108,11 @@ class MainFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun processTranslate(switch: Boolean) {
+        settings.translateToRu = switch
+        spaceXViewModel.armRefresh()
+    }
+
     private fun processFilters() {
         binding.filterGroup.swapVisibility()
     }
@@ -131,33 +129,15 @@ class MainFragment : Fragment() {
                         }
                         is Success<*> -> {
                             when (spaceXViewModel.currentScreen) {
-                                Screen.Capsules -> {
-                                    renderItems(state.toListOf()!!, R.string.capsulesTitle, capsuleClickListener)
-                                }
-                                Screen.Cores -> {
-                                    renderItems(state.toListOf()!!, R.string.coresTitle, coreClickListener)
-                                }
-                                Screen.Crew -> {
-                                    renderItems(state.toListOf()!!, R.string.crewTitle, crewClickListener)
-                                }
-                                Screen.Dragons -> {
-                                    renderItems(state.toListOf()!!, R.string.dragonsTitle, dragonClickListener)
-                                }
-                                Screen.Rockets -> {
-                                    renderItems(state.toListOf()!!, R.string.rocketsTitle, rocketClickListener)
-                                }
-                                Screen.Launches -> {
-                                    renderItems(state.toListOf()!!, R.string.launchesTitle, launchClickListener)
-                                }
-                                Screen.LaunchPads -> {
-                                    renderItems(state.toListOf()!!, R.string.launchPadsTitle, launchPadClickListener)
-                                }
-                                Screen.LandingPads -> {
-                                    renderItems(state.toListOf()!!, R.string.landingPadsTitle, landingPadClickListener)
-                                }
-                                Screen.HistoryEvents -> {
-                                    renderItems(state.toListOf()!!, R.string.historyEventsTitle)
-                                }
+                                Screen.Capsules -> { renderItems(state.toListOf()!!, R.string.capsulesTitle, capsuleClickListener) }
+                                Screen.Cores -> { renderItems(state.toListOf()!!, R.string.coresTitle, coreClickListener) }
+                                Screen.Crew -> { renderItems(state.toListOf()!!, R.string.crewTitle, crewClickListener) }
+                                Screen.Dragons -> { renderItems(state.toListOf()!!, R.string.dragonsTitle, dragonClickListener) }
+                                Screen.Rockets -> { renderItems(state.toListOf()!!, R.string.rocketsTitle, rocketClickListener) }
+                                Screen.Launches -> { renderItems(state.toListOf()!!, R.string.launchesTitle, launchClickListener) }
+                                Screen.LaunchPads -> { renderItems(state.toListOf()!!, R.string.launchPadsTitle, launchPadClickListener) }
+                                Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle, landingPadClickListener) }
+                                Screen.HistoryEvents -> { renderItems(state.toListOf()!!, R.string.historyEventsTitle) }
                             }
                             binding.progressBar replaceBy binding.recyclerView
                         }
@@ -173,61 +153,34 @@ class MainFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            spaceXViewModel.scrollTrigger
+            spaceXViewModel.getScrollTrigger()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect { (position, launch) ->
-
-                    val shakeInterpolator = TimeInterpolator { input ->
-                        val freq = 3f
-                        val decay = 2f
-                        val raw = kotlin.math.sin(freq * input * 2 * Math.PI)
-                        (raw * exp((-input * decay).toDouble())).toFloat()
-                    }
-
-                    val shaker = object : RecyclerView.OnScrollListener() {
-                        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                            super.onScrollStateChanged(recyclerView, newState)
-                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                recyclerView.layoutManager?.findViewByPosition(position)?.animate()!!
-                                    .withEndAction { recyclerView.removeOnScrollListener(this) }
-                                    .xBy(-100f)
-                                    .setInterpolator(shakeInterpolator)
-                                    .setDuration(500)
-                                    .start()
-                            }
+                .collect { state ->
+                    when (state) {
+                        is Error -> Toast.makeText(requireContext(),
+                            if (state.error == ErrorType.UPCOMING_LAUNCHES_DESELECTED) getString(R.string.upcoming_launches_deselected_string) else state.msg,
+                            Toast.LENGTH_SHORT).show()
+                        is Success<*> -> {
+                            val (position, launch) = state.toDetails<Pair<Int, Launches>>()
+                            // add shake animation to scrolled item
+                            binding.recyclerView.addItemShaker(position)
+                            // show snack with name of the next launch and remaining time
+                            val timeTo = (launch.dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
+                            Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, launch.name, timeTo), Snackbar.LENGTH_LONG).show()
                         }
+                        else -> {} // behavior for avoid triggering scroll by flow after fragment resumed
                     }
-
-                    val scroller = object : LinearSmoothScroller(requireContext()) {
-                        override fun getVerticalSnapPreference() = SNAP_TO_START
-                    }
-                    scroller.targetPosition = position
-
-                    with(binding.recyclerView) {
-                        // first, scroll a little down to trigger shake if item already on top
-                        scrollBy(0, 10)
-                        // add shake animation after scrolling
-                        addOnScrollListener(shaker)
-                        // scroll to next launch
-                        layoutManager?.startSmoothScroll(scroller)
-                        // show snack with name of the next launch and remaining time
-                        val timeTo = (launch.dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
-                        val snack = Snackbar.make(this, getString(R.string.next_flight_announce, launch.name, timeTo), Snackbar.LENGTH_LONG)
-                        snack.show()
+                    with (binding.filterGroup) {
+                        postDelayed({ visibility = View.GONE }, 1000)
                     }
                 }
         }
     }
 
-    private fun processTranslate(switch: Boolean) {
-        settings.translateToRu = switch
-        spaceXViewModel.armRefresh()
-    }
-
     private fun <T : HasStringId> renderItems(
         items: List<T>,
         titleResource: Int,
-        clickListener: AdapterClickListenerById = AdapterClickListenerById { _, _ -> }
+        clickListener: AdapterClickListenerById = emptyClickListener
     ) {
         activity?.title = getString(titleResource)
         val currentAdapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }

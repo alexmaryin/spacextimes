@@ -6,11 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
@@ -19,10 +15,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
-import ru.alexmaryin.spacextimes_rx.utils.Result
-import ru.alexmaryin.spacextimes_rx.utils.Success
-import ru.alexmaryin.spacextimes_rx.utils.toListOf
-import ru.alexmaryin.spacextimes_rx.utils.toSuccess
+import ru.alexmaryin.spacextimes_rx.utils.*
 import java.util.*
 import javax.inject.Inject
 
@@ -40,7 +33,8 @@ class SpaceXViewModel @Inject constructor(
     private val state = MutableSharedFlow<Result>(1)
     fun getState() = state.asSharedFlow()
 
-    val scrollTrigger = MutableSharedFlow<Pair<Int, Launches>>(1)
+    private val scrollTrigger = MutableSharedFlow<Result>(0)
+    fun getScrollTrigger() = scrollTrigger.asSharedFlow()
 
     fun changeScreen(screen: Screen) {
         if (screen != currentScreen || needRefresh) {
@@ -125,18 +119,14 @@ class SpaceXViewModel @Inject constructor(
         return null
     }
 
-    @ExperimentalCoroutinesApi
-    fun scrollNextLaunch(view: View) {
-        settings.currentListMap[Screen.Launches.name]?.let { launches ->
-            val position = launches.indexOfLast { (it as Launches).dateLocal > Calendar.getInstance().time }
-            if (position >= 0) {
-                scrollTrigger.tryEmit(Pair(position, launches[position] as Launches))
-                scrollTrigger.resetReplayCache()
+    fun scrollNextLaunch() = viewModelScope.launch {
+        if (LaunchFilter.Upcoming in launchFilter) {
+            settings.currentListMap[Screen.Launches.name]?.let { launches ->
+                val position = launches.indexOfLast { (it as Launches).dateLocal > Calendar.getInstance().time }
+                if (position >= 0) {
+                    scrollTrigger.emit(Success(Pair(position, launches[position] as Launches)))
+                }
             }
-        }
-
-        with(view.parent as View) {
-            postDelayed({ visibility = View.GONE }, 1000)
-        }
+        } else scrollTrigger.emit(Error("", ErrorType.UPCOMING_LAUNCHES_DESELECTED))
     }
 }
