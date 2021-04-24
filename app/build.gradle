@@ -14,7 +14,7 @@ android {
         applicationId "ru.alexmaryin.spacextimes_rx"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode = 7
+        versionCode = 8
         versionName = "0.2"
 
         testInstrumentationRunner "ru.alexmaryin.spacextimes_rx.HiltTestRunner"

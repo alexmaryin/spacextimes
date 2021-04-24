@@ -8,6 +8,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
 
 class OneLine2ViewHolder : ViewHolderVisitor {
+
     override val layout: Int = R.layout.one_line_item_2
 
     override fun acceptBinding(item: Any): Boolean = item is OneLineItem2

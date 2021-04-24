@@ -17,8 +17,8 @@ class BaseListAdapter(
     inner class DataViewHolder(
         val binding: ViewDataBinding,
         private val holder: ViewHolderVisitor) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) =
-            holder.bind(binding, item, clickListener)
+
+        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) = holder.bind(binding, item, clickListener)
     }
 
     init {

@@ -166,7 +166,7 @@
     <string name="article_string">статья</string>
     <string name="links_string">Ссылки на ресурсы:</string>
     <string name="open_link_announce">Ссылка откроется в системном браузере</string>
-    <string name="next_flight_announce">Следующий запуск - %1$s</string>
+    <string name="next_flight_announce">Следующий запуск - %1$s (осталось %2$s)</string>
     <string name="success_filter">Успешные</string>
     <string name="failed_filter">Аварийные</string>
     <string name="past_filter">Прошедшие</string>

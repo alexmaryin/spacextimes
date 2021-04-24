@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
@@ -37,7 +40,7 @@ class SpaceXViewModel @Inject constructor(
     private val state = MutableSharedFlow<Result>(1)
     fun getState() = state.asSharedFlow()
 
-    val scrollTrigger = MutableSharedFlow<Pair<Int, String>>(1)
+    val scrollTrigger = MutableSharedFlow<Pair<Int, Launches>>(1)
 
     fun changeScreen(screen: Screen) {
         if (screen != currentScreen || needRefresh) {
@@ -127,7 +130,7 @@ class SpaceXViewModel @Inject constructor(
         settings.currentListMap[Screen.Launches.name]?.let { launches ->
             val position = launches.indexOfLast { (it as Launches).dateLocal > Calendar.getInstance().time }
             if (position >= 0) {
-                scrollTrigger.tryEmit(Pair(position, (launches[position] as Launches).name))
+                scrollTrigger.tryEmit(Pair(position, launches[position] as Launches))
                 scrollTrigger.resetReplayCache()
             }
         }

@@ -8,6 +8,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
 
 class PayloadViewHolder : ViewHolderVisitor {
+
     override val layout: Int = R.layout.payload_item
 
     override fun acceptBinding(item: Any): Boolean = item is Payload
