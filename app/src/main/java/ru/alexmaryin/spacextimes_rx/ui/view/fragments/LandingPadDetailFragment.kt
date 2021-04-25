@@ -57,16 +57,18 @@ class LandingPadDetailFragment : Fragment() {
                 .collect { state ->
                     when (state) {
                         is Loading -> {
-                            binding.detailsView replaceBy binding.progress
+                            binding.detailsView replaceBy binding.shimmerLayout.shimmer
+                            binding.shimmerLayout.shimmer.startShimmer()
                             activity?.title = getString(R.string.loadingText)
                         }
                         is Error -> {
-                            binding.progress.visibility = View.GONE
+                            binding.shimmerLayout.shimmer.stopShimmer()
                             Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
                             activity?.title = getString(R.string.error_title)
                         }
                         is Success<*> -> {
-                            binding.progress replaceBy binding.detailsView
+                            binding.shimmerLayout.shimmer.stopShimmer()
+                            binding.shimmerLayout.shimmer replaceBy binding.detailsView
                             bindDetails(state.toDetails())
                         }
                     }

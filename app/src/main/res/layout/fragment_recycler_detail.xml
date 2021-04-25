@@ -29,11 +29,10 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <ProgressBar
-            android:id="@+id/progress"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <include
+            android:id="@+id/shimmerLayout"
+            layout="@layout/main_recycler_shimmer"
+            tools:visibility="gone" />
 
     </FrameLayout>
 </layout>

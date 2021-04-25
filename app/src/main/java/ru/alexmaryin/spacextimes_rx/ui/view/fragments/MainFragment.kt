@@ -124,7 +124,8 @@ class MainFragment : Fragment() {
                 .collect { state ->
                     when (state) {
                         Loading -> {
-                            binding.recyclerView replaceBy binding.progressBar
+                            binding.recyclerView replaceBy binding.shimmerLayout.shimmer
+                            binding.shimmerLayout.shimmer.startShimmer()
                             activity?.title = getString(R.string.loadingText)
                         }
                         is Success<*> -> {
@@ -139,10 +140,11 @@ class MainFragment : Fragment() {
                                 Screen.LandingPads -> { renderItems(state.toListOf()!!, R.string.landingPadsTitle, landingPadClickListener) }
                                 Screen.HistoryEvents -> { renderItems(state.toListOf()!!, R.string.historyEventsTitle) }
                             }
-                            binding.progressBar replaceBy binding.recyclerView
+                            binding.shimmerLayout.shimmer replaceBy binding.recyclerView
+                            binding.shimmerLayout.shimmer.stopShimmer()
                         }
                         is Error -> {
-                            binding.progressBar.visibility = View.GONE
+                            binding.shimmerLayout.shimmer.stopShimmer()
                             if (state.error == ErrorType.REMOTE_TRANSLATOR_ERROR)
                                 processTranslate(false)
                             Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()

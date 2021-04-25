@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:alpha="0.7"
+    android:padding="5dp">
+
+    <View
+        android:id="@+id/imagePlaceholder"
+        android:layout_width="150dp"
+        android:layout_height="155dp"
+        android:background="@color/unknown_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/headerPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/unknown_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imagePlaceholder"/>
+
+    <View
+        android:id="@+id/subHeaderPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/unknown_color"
+        app:layout_constraintEnd_toStartOf="@id/imagePlaceholder"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerPlaceholder" />
+
+    <View
+        android:id="@+id/detailsPlaceholder1"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/unknown_color"
+        app:layout_constraintEnd_toStartOf="@id/imagePlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subHeaderPlaceholder" />
+
+    <View
+        android:id="@+id/detailsPlaceholder2"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="45dp"
+        android:background="@color/unknown_color"
+        app:layout_constraintEnd_toStartOf="@id/imagePlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detailsPlaceholder1" />
+
+    <View
+        android:id="@+id/detailsPlaceholder3"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="45dp"
+        android:background="@color/unknown_color"
+        app:layout_constraintEnd_toStartOf="@id/imagePlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detailsPlaceholder2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
