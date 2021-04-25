@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
@@ -21,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SpaceXViewModel @Inject constructor(
-    repository: SpacexDataRepository,
+    private val repository: SpacexDataRepository,
     private val settings: Settings,
     private val translator: TranslatorApi,
 ) : ViewModel() {
@@ -45,15 +46,15 @@ class SpaceXViewModel @Inject constructor(
             } ?: run {
                 viewModelScope.launch {
                     when (screen) {
-                        Screen.Capsules -> capsules
-                        Screen.Cores -> cores
-                        Screen.Crew -> crew
-                        Screen.Dragons -> dragons
-                        Screen.Rockets -> rockets
-                        Screen.Launches -> launches
-                        Screen.LaunchPads -> launchPads
-                        Screen.LandingPads -> landingPads
-                        Screen.HistoryEvents -> historyEvents
+                        Screen.Capsules -> repository.getCapsules(listOf(translator::translateLastUpdate))
+                        Screen.Cores -> repository.getCores(listOf(translator::translateLastUpdate))
+                        Screen.Crew -> repository.getCrew()
+                        Screen.Dragons -> repository.getDragons(listOf(translator::translateDescription))
+                        Screen.Rockets -> repository.getRockets(listOf(translator::translateDescription))
+                        Screen.Launches -> repository.getLaunches(listOf(translator::translateDetails))
+                        Screen.LaunchPads -> repository.getLaunchPads(listOf(translator::translateDetails))
+                        Screen.LandingPads -> repository.getLandingPads(listOf(translator::translateDetails))
+                        Screen.HistoryEvents -> repository.getHistoryEvents(listOf(translator::translateDetails, translator::translateTitle))
                     }.collect { result ->
                         state.tryEmit(result)
                         result.toListOf<HasStringId>()?.let { saveCurrentList(it) }
@@ -63,26 +64,6 @@ class SpaceXViewModel @Inject constructor(
             }
         }
     }
-
-    private val capsules = repository.getCapsules(listOf(translator::translateLastUpdate))
-
-    private val cores = repository.getCores(listOf(translator::translateLastUpdate)).map {
-        it.toListOf<Cores>()?.sortedWith(compareBy(Cores::block, Cores::serial))?.reversed()?.toSuccess() ?: it
-    }
-
-    private val crew = repository.getCrew()
-
-    private val dragons = repository.getDragons(listOf(translator::translateDescription))
-
-    private val rockets = repository.getRockets(listOf(translator::translateDescription))
-
-    private val launchPads = repository.getLaunchPads(listOf(translator::translateDetails))
-
-    private val landingPads = repository.getLandingPads(listOf(translator::translateDetails))
-
-    private val launches = repository.getLaunches(listOf(translator::translateDetails))
-
-    private val historyEvents = repository.getHistoryEvents(listOf(translator::translateDetails, translator::translateTitle))
 
     fun armRefresh() {
         needRefresh = true

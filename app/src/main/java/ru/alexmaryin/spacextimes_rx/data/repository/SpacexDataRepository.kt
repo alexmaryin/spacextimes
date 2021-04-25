@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data.repository
 
 import android.util.Log
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
@@ -71,6 +72,7 @@ class SpacexDataRepository @Inject constructor(
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById)
 
     fun getCores(processCallbacks: List<suspend (List<Cores>?) -> Unit>) = fetchItems(remoteApi::getCores, processCallbacks)
+        .map { it.toListOf<Cores>()?.sortedWith(compareBy(Cores::block, Cores::serial))?.reversed()?.toSuccess() ?: it }
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
 
     fun getCrew() = fetchItems<Crews, List<Crews>>(remoteApi::getCrew)
