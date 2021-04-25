@@ -31,6 +31,6 @@ data class Isp(
 data class PayloadWeight(
     val id: OrbitType,
     val name: String,
-    val kg: Int,
-    val lb: Int,
+    val kg: Float,
+    val lb: Float,
 )

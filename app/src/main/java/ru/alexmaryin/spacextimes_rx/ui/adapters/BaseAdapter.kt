@@ -2,11 +2,13 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 
 class BaseListAdapter(
@@ -18,7 +20,10 @@ class BaseListAdapter(
         val binding: ViewDataBinding,
         private val holder: ViewHolderVisitor) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) = holder.bind(binding, item, clickListener)
+        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) {
+            holder.bind(binding, item, clickListener)
+            binding.root.animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.recycler_item_arrive)
+        }
     }
 
     init {
