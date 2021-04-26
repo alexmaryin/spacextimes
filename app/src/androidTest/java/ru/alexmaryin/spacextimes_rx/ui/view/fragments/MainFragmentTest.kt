@@ -12,15 +12,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.internal.util.collections.Iterables.firstOf
 import ru.alexmaryin.spacextimes_rx.*
+import ru.alexmaryin.spacextimes_rx.databinding.HistoryEventItemBinding
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.view.activities.MainActivity
@@ -55,12 +54,9 @@ class MainFragmentTest {
 
     @Test
     fun launches_screen_should_be_first_opened() {
-        Thread.sleep(2000)
+        Thread.sleep(3000)
         onView(withText(R.string.launchesTitle)).check(matches(isDisplayed()))
-        onView(
-            withBindingAdapter(LaunchItemBinding::class)
-            .perform(RecyclerViewActions.scrollToPosition<BaseListAdapter.DataViewHolder>(0))
-        onView(allOf(withId(R.id.launchName), withEffectiveVisibility(Visibility.VISIBLE))).check(matches(isDisplayed()))
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollToHolder(withBindingAdapter(LaunchItemBinding::class)).atPosition(0))
     }
 
     @Test
@@ -117,11 +113,8 @@ class MainFragmentTest {
     @Test
     fun history_from_menu_should_populate_recycler_by_events() {
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.historyEventsTitle)).perform(click())
-        Thread.sleep(2000)
-        onView(withText(R.string.historyEventsTitle)).check(matches(isDisplayed()))
-        onView(withId(R.id.recyclerView)).perform(
-            RecyclerViewActions.scrollToPosition<BaseListAdapter.DataViewHolder>(0))
-        withId(R.id.eventDescription).matches(isDisplayed())
+        ConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.historyEventsTitle)), 4000).perform(click())
+        ConditionWatchers.waitForElement(onView(withText(R.string.historyEventsTitle)), 4000).check(matches(isDisplayed()))
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollToHolder(withBindingAdapter(HistoryEventItemBinding::class)).atPosition(0))
     }
 }
