@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx;
+package ru.alexmaryin.spacextimes_rx.ui.espresso_utils;
 
 /**
  * Created by F1sherKK on 08/10/15.

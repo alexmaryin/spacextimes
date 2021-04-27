@@ -82,7 +82,7 @@
         <include
             android:id="@+id/shimmerLayout"
             layout="@layout/main_recycler_shimmer"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

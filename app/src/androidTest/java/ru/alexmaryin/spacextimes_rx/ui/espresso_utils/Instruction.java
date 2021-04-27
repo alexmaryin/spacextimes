@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx;
+package ru.alexmaryin.spacextimes_rx.ui.espresso_utils;
 
 import android.os.Bundle;
 
