@@ -37,11 +37,9 @@ class TranslateDatabaseTest {
                 .build()
     }
 
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
+    @get:Rule var hiltRule = HiltAndroidRule(this)
 
-    @get:Rule
-    var taskExecutor = InstantTaskExecutorRule()
+    @get:Rule var taskExecutor = InstantTaskExecutorRule()
 
     @Inject @Named("testDb") lateinit var db: TranslateDatabase
     private lateinit var dao: TranslateDao

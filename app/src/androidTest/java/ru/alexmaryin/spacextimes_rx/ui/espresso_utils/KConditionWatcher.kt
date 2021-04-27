@@ -8,8 +8,8 @@ const val DEFAULT_TIMEOUT_LIMIT = 1000 * 60
 const val DEFAULT_INTERVAL = 250
 
 class KConditionWatcher(
-    private val timeoutLimit: Int = DEFAULT_TIMEOUT_LIMIT,
-    private val watchInterval: Int = DEFAULT_INTERVAL
+    var timeoutLimit: Int = DEFAULT_TIMEOUT_LIMIT,
+    var watchInterval: Int = DEFAULT_INTERVAL
 ) {
 
     companion object {

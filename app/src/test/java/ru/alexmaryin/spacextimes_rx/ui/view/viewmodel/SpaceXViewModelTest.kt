@@ -57,7 +57,7 @@ class SpaceXViewModelTest {
     }
 
     @Test
-    fun viewModel_should_return_loading_first() = testCoroutineScope.runBlockingTest {
+    fun `viewModel should return loading first`() = testCoroutineScope.runBlockingTest {
         `when`(repository.getLaunches(listOf(translatorApi::translateDetails))).thenReturn(flowOf(Loading).stateIn(this))
 
         viewModel.changeScreen(Screen.Launches)
@@ -67,7 +67,7 @@ class SpaceXViewModelTest {
     }
 
     @Test
-    fun viewModel_should_return_error_after_loading() = testCoroutineScope.runBlockingTest {
+    fun` viewModel should return error after loading`() = testCoroutineScope.runBlockingTest {
 
         val list = emptyList<Result>().toMutableList()
 
