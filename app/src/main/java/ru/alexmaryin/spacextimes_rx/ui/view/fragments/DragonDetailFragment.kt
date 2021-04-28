@@ -46,7 +46,6 @@ class DragonDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.dragon_detail_fragment, container, false)
         binding.lifecycleOwner = this
 
-        dragonViewModel.state.set("dragonId", args.dragonId)
         dragonViewModel.state.set("locale", requireContext().currentLocaleLang())
         dragonViewModel.loadDragon()
 

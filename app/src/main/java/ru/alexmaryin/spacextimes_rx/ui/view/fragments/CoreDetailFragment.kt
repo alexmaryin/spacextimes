@@ -44,7 +44,6 @@ class CoreDetailFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
         binding.lifecycleOwner = this
-        coreViewModel.state.set("coreId", args.coreId)
 
         lifecycleScope.launch {
             coreViewModel.getState()
@@ -52,7 +51,7 @@ class CoreDetailFragment : Fragment() {
                 .collect { state ->
                     when (state) {
                         is Loading -> {
-                            binding.detailsView replaceBy binding.shimmerLayout.shimmer
+                            binding.detailsList replaceBy binding.shimmerLayout.shimmer
                             binding.shimmerLayout.shimmer.startShimmer()
                             activity?.title = getString(R.string.loadingText)
                         }
@@ -62,7 +61,7 @@ class CoreDetailFragment : Fragment() {
                         }
                         is Success<*> -> {
                             binding.shimmerLayout.shimmer.stopShimmer()
-                            binding.shimmerLayout.shimmer replaceBy binding.detailsView
+                            binding.shimmerLayout.shimmer replaceBy binding.detailsList
                             bindDetails(state.toDetails())
                         }
                     }

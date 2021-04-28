@@ -41,7 +41,6 @@ class RocketDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rocket_detail, container, false)
         binding.lifecycleOwner = this
 
-        rocketViewModel.state.set("rocketId", args.rocketId)
         rocketViewModel.state.set("locale", requireContext().currentLocaleLang())
         rocketViewModel.loadRocket()
 

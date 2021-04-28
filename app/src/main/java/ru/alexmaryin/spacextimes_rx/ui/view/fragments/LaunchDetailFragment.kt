@@ -45,7 +45,6 @@ class LaunchDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_launch_detail, container, false)
         binding.lifecycleOwner = this
 
-        launchViewModel.state.set("launchId", args.launchId)
         launchViewModel.state.set("locale", requireContext().currentLocaleLang())
         launchViewModel.loadLaunch()
 

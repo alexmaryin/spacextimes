@@ -46,7 +46,6 @@ class CrewDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.crew_detail_fragment, container, false)
         binding.lifecycleOwner = this
 
-        crewViewModel.state.set("crewId", args.crewId)
         crewViewModel.state.set("locale", requireContext().currentLocaleLang())
         crewViewModel.loadCrew()
 

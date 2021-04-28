@@ -42,7 +42,6 @@ class PayloadDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
         binding.lifecycleOwner = this
-        payloadViewModel.state.set("payloadId", args.payloadId)
 
         lifecycleScope.launch {
             payloadViewModel.getState()
@@ -50,7 +49,7 @@ class PayloadDetailFragment : Fragment() {
                 .collect { state ->
                     when (state) {
                         is Loading -> {
-                            binding.detailsView replaceBy binding.shimmerLayout.shimmer
+                            binding.detailsList replaceBy binding.shimmerLayout.shimmer
                             binding.shimmerLayout.shimmer.startShimmer()
                             activity?.title = getString(R.string.loadingText)
                         }
@@ -60,7 +59,7 @@ class PayloadDetailFragment : Fragment() {
                         }
                         is Success<*> -> {
                             binding.shimmerLayout.shimmer.stopShimmer()
-                            binding.shimmerLayout.shimmer replaceBy binding.detailsView
+                            binding.shimmerLayout.shimmer replaceBy binding.detailsList
                             bindDetails(state.toDetails())
                         }
                     }

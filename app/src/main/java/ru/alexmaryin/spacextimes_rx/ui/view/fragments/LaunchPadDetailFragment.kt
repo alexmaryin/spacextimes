@@ -44,7 +44,6 @@ class LaunchPadDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
         binding.lifecycleOwner = this
 
-        padViewModel.state.set("launchPadId", args.launchPadId)
         padViewModel.loadLaunchPad()
 
         return binding.root
@@ -57,7 +56,7 @@ class LaunchPadDetailFragment : Fragment() {
                 .collect { state ->
                     when (state) {
                         is Loading -> {
-                            binding.detailsView replaceBy binding.shimmerLayout.shimmer
+                            binding.detailsList replaceBy binding.shimmerLayout.shimmer
                             binding.shimmerLayout.shimmer.startShimmer()
                             activity?.title = getString(R.string.loadingText)
                         }
@@ -68,7 +67,7 @@ class LaunchPadDetailFragment : Fragment() {
                         }
                         is Success<*> -> {
                             binding.shimmerLayout.shimmer.stopShimmer()
-                            binding.shimmerLayout.shimmer replaceBy binding.detailsView
+                            binding.shimmerLayout.shimmer replaceBy binding.detailsList
                             bindDetails(state.toDetails())
                         }
                     }
