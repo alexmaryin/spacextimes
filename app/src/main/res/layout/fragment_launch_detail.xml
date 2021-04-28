@@ -11,55 +11,69 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
+            android:id="@+id/detailsView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/detailsView"
+            <Chronometer
+                android:id="@+id/countdownTimer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0">
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="#8042E3FF"
+                android:contentDescription="@string/countdown_timer_to_launch_description"
+                android:format="@string/countdown_to_launch_string"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:shadowColor="#6D000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="6"
+                android:textAlignment="center"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textAppearance="@style/boldCaption"/>
 
-                <com.synnapps.carouselview.CarouselView
-                    android:id="@+id/imagesCarousel"
-                    android:layout_width="0dp"
-                    android:layout_height="300dp"
-                    android:clickable="true"
-                    app:disableAutoPlayOnUserInteraction="true"
-                    app:fillColor="#FFFFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:pageColor="#00000000"
-                    app:radius="6dp"
-                    app:strokeColor="#FF777777"
-                    app:strokeWidth="1dp"
-                    tools:ignore="SpeakableTextPresentCheck"
-                    android:focusable="true" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/detailsList"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imagesCarousel" />
+                    android:orientation="vertical">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.synnapps.carouselview.CarouselView
+                        android:id="@+id/imagesCarousel"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:disableAutoPlayOnUserInteraction="true"
+                        app:fillColor="#FFFFFFFF"
+                        app:pageColor="#00000000"
+                        app:radius="6dp"
+                        app:strokeColor="#FF777777"
+                        app:strokeWidth="1dp"
+                        tools:ignore="SpeakableTextPresentCheck"/>
 
-        </androidx.core.widget.NestedScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/detailsList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
 
         <include
             android:id="@+id/shimmerLayout"
             layout="@layout/main_recycler_shimmer"
-            tools:visibility="gone" />
+            tools:visibility="gone"/>
 
     </FrameLayout>
 </layout>

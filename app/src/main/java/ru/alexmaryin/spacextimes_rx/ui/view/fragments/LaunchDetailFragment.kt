@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -85,12 +87,30 @@ class LaunchDetailFragment : Fragment() {
         activity?.title = launch.name
         binding.launch = launch
         binding.imagesCarousel.apply {
-            setImageListener { position, imageView ->
-                imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                CommonAdapters.loadImage(imageView, launch.images[position])
+            if (launch.images.isNotEmpty()) {
+                visibility = View.VISIBLE
+                setImageListener { position, imageView ->
+                    imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                    CommonAdapters.loadImage(imageView, launch.images[position])
+                }
+                setImageClickListener(downloadImageFromCarousel(requireContext(), launch.images, "images_${launch.name}.jpg"))
+                pageCount = launch.images.size
+            } else {
+                visibility = View.GONE
             }
-            setImageClickListener(downloadImageFromCarousel(requireContext(), launch.images, "images_${launch.name}.jpg"))
-            pageCount = launch.images.size
+        }
+
+        // countdown timer if launch scheduled in next 24 hour
+        val time = (launch.dateLocal.time - Calendar.getInstance().time.time)
+        if (time.scheduledToNextDay()) {
+            with (binding.countdownTimer) {
+                visibility = View.VISIBLE
+                isCountDown = true
+                base = SystemClock.elapsedRealtime() + time
+                start()
+            }
+        } else {
+            binding.countdownTimer.visibility = View.GONE
         }
 
         val detailsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
@@ -104,9 +124,6 @@ class LaunchDetailFragment : Fragment() {
                     Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
                     binding.detailsList.openLink(id)
                 }
-//                ItemTypes.TWO_STRINGS -> if(id == "details") {
-//                    launchViewModel.translateDetails()
-//                }
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(launchViewModel.composeDetails(requireContext(), launch))

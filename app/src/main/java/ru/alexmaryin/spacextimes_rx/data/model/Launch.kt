@@ -50,10 +50,7 @@ data class Launch(
     @SerializedName("net") val notEarlyThan: Boolean = false,
 ) : HasStringId, HasDetails {
 
-    val images get() = with(links) {
-        val list = if (flickr.original.isNotEmpty()) flickr.original else flickr.small
-        if (list.isNotEmpty()) list else listOf("no image")
-    }
+    val images get() = with(links) { flickr.original.ifEmpty { flickr.small } }
 
     fun dateTrimmed(context: Context): String = when(datePrecision) {
         DatePrecision.YEAR_HALF -> halfYearString(context, dateLocal)

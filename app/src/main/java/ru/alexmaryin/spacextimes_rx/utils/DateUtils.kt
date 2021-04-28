@@ -1,12 +1,15 @@
 package ru.alexmaryin.spacextimes_rx.utils
 
 import android.content.Context
+import android.os.Build
 import ru.alexmaryin.spacextimes_rx.R
 import java.util.*
 import kotlin.time.ExperimentalTime
 import kotlin.time.milliseconds
 import kotlin.time.minutes
 import kotlin.time.seconds
+
+const val MILLIS_IN_DAY = 86400000L
 
 fun Date.toCalendar(): Calendar = Calendar.getInstance().apply { time = this@toCalendar }
 
@@ -51,3 +54,5 @@ fun Long.prettifyMillisecondsPeriod(res: Context): String = milliseconds.toCompo
         if(seconds > 0) res.resources.getQuantityString(R.plurals.seconds_count, seconds, seconds) else null,
     ).joinToString(" ")
 }
+
+fun Long.scheduledToNextDay() = this in (0..MILLIS_IN_DAY) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N

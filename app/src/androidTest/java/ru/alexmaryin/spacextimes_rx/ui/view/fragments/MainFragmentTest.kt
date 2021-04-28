@@ -12,7 +12,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.`is`
@@ -94,6 +93,7 @@ class MainFragmentTest {
 
     @Test
     fun history_from_menu_should_populate_recycler_by_events() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.historyEventsTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.historyEventsTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -102,6 +102,7 @@ class MainFragmentTest {
 
     @Test
     fun capsules_from_menu_should_populate_recycler_by_its() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.capsulesTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.capsulesTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -110,6 +111,7 @@ class MainFragmentTest {
 
     @Test
     fun crew_from_menu_should_populate_recycler_by_them() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.crewTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.crewTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -118,6 +120,7 @@ class MainFragmentTest {
 
     @Test
     fun cores_from_menu_should_populate_recycler_by_its() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.coresTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.coresTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -126,6 +129,7 @@ class MainFragmentTest {
 
     @Test
     fun dragons_from_menu_should_populate_recycler_by_its() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.dragonsTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.dragonsTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -134,6 +138,7 @@ class MainFragmentTest {
 
     @Test
     fun rockets_from_menu_should_populate_recycler_by_its() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.rocketsTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.rocketsTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -142,6 +147,7 @@ class MainFragmentTest {
 
     @Test
     fun launch_pads_from_menu_should_populate_recycler_by_its() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.launchPadsTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.launchPadsTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -150,6 +156,7 @@ class MainFragmentTest {
 
     @Test
     fun landing_pads_from_menu_should_populate_recycler_by_its() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.landingPadsTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         KConditionWatchers.waitForElement(onView(withText(R.string.landingPadsTitle)), DEFAULT_TIMEOUT_LIMIT).check(matches(isDisplayed()))
@@ -158,6 +165,7 @@ class MainFragmentTest {
 
     @Test
     fun translate_from_menu_should_create_dialog_and_then_toggle_off_with_toast() {
+        KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.aiTranslateTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
         onView(withText(R.string.aiTranslateAlertText)).check(matches(isDisplayed()))

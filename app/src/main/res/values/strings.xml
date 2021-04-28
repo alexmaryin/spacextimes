@@ -301,4 +301,6 @@
 
     <string name="upcoming_launches_deselected_string">Предстоящие запуски отключены</string>
 
+    <string name="countdown_to_launch_string">До запуска %s</string>
+    <string name="countdown_timer_to_launch_description" translatable="false">countdown timer to launch</string>
 </resources>
