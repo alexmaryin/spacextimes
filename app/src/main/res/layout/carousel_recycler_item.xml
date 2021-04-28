@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="item" type="ru.alexmaryin.spacextimes_rx.data.model.ui_items.CarouselItem"/>
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
+    </data>
+
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/imagesCarousel"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:carouselSource="@{item.images}"
+        app:launchName="@{item.launchName}"
+        android:clickable="true"
+        android:focusable="true"
+        app:disableAutoPlayOnUserInteraction="true"
+        app:fillColor="#FFFFFFFF"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp"
+        tools:ignore="SpeakableTextPresentCheck"/>
+
+</layout>

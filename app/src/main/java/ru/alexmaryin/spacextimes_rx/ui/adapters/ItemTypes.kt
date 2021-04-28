@@ -16,4 +16,5 @@ object ItemTypes {
     const val TWO_STRINGS = 11
     const val ONE_LINE_STRINGS = 12
     const val LINKS = 13
+    const val CAROUSEL = 14
 }

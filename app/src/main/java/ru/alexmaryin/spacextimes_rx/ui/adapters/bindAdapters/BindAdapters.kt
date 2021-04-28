@@ -11,8 +11,10 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
+import com.synnapps.carouselview.CarouselView
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.utils.CircleTransformation
+import ru.alexmaryin.spacextimes_rx.utils.downloadImageFromCarousel
 
 object CommonAdapters {
     @JvmStatic
@@ -61,5 +63,21 @@ object CommonAdapters {
     @BindingAdapter("checkVisibility")
     fun setVisibility(view: View, value: Any?) {
         view.visibility = if(value != null) View.VISIBLE else View.GONE
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["carouselSource", "launchName"], requireAll = true)
+    fun populateCarousel(view: View, images: List<String>?, launchName: String = "") {
+        images?.let {
+            with(view as CarouselView) {
+                visibility = View.VISIBLE
+                setImageListener { position, imageView ->
+                    imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                    loadImage(imageView, images[position])
+                }
+                setImageClickListener(downloadImageFromCarousel(context, images, "images_$launchName.jpg"))
+                pageCount = images.size
+            }
+        }
     }
 }

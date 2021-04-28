@@ -57,6 +57,7 @@ class ActivityModule {
         registerViewHolder(ItemTypes.ONE_LINE_STRINGS, OneLine2ViewHolder())
         registerViewHolder(ItemTypes.LINKS, LinksViewHolder())
         registerViewHolder(ItemTypes.PAYLOAD, PayloadViewHolder())
+        registerViewHolder(ItemTypes.CAROUSEL, CarouselViewHolder())
     }
 
     @Provides

@@ -5,7 +5,6 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -27,7 +26,6 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
-import ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.util.*
@@ -85,19 +83,6 @@ class LaunchDetailFragment : Fragment() {
     private fun bindDetails(launch: Launch) {
         activity?.title = launch.name
         binding.launch = launch
-        binding.imagesCarousel.apply {
-            if (launch.images.isNotEmpty()) {
-                visibility = View.VISIBLE
-                setImageListener { position, imageView ->
-                    imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                    CommonAdapters.loadImage(imageView, launch.images[position])
-                }
-                setImageClickListener(downloadImageFromCarousel(requireContext(), launch.images, "images_${launch.name}.jpg"))
-                pageCount = launch.images.size
-            } else {
-                visibility = View.GONE
-            }
-        }
 
         // countdown timer if launch scheduled in next 24 hour
         val time = (launch.dateLocal.time - Calendar.getInstance().time.time)
