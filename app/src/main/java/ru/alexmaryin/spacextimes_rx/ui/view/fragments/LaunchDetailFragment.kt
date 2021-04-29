@@ -5,6 +5,7 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Chronometer
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -89,6 +90,9 @@ class LaunchDetailFragment : Fragment() {
         val time = (launch.dateLocal.time - Calendar.getInstance().time.time)
         if (launch.datePrecision >= DatePrecision.DAY && time.scheduledToNextDay()) {
             with (binding.countdownTimer) {
+                onChronometerTickListener = Chronometer.OnChronometerTickListener {
+                    if (it.base <= SystemClock.elapsedRealtime()) it.stop()
+                }
                 visibility = View.VISIBLE
                 isCountDown = true
                 base = SystemClock.elapsedRealtime() + time
