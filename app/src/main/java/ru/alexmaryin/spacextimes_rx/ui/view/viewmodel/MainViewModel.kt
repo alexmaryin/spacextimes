@@ -1,18 +1,15 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
-import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.material.chip.Chip
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
@@ -36,6 +33,9 @@ class SpaceXViewModel @Inject constructor(
 
     private val scrollTrigger = MutableSharedFlow<Result>(0)
     fun getScrollTrigger() = scrollTrigger.asSharedFlow()
+
+    private val filterChange = MutableSharedFlow<Pair<Int, Int>>(0)
+    fun observeFilterChange() = filterChange.asSharedFlow()
 
     fun changeScreen(screen: Screen) {
         if (screen != currentScreen || needRefresh) {
@@ -72,20 +72,15 @@ class SpaceXViewModel @Inject constructor(
     }
 
     private fun saveCurrentList(items: List<HasStringId>) {
-        settings.currentListMap.plusAssign(currentScreen.name to items)
+        settings.currentListMap += currentScreen.name to items
     }
 
-    fun toggleLaunchFilter(view: View, filter: LaunchFilter) {
-        if ((view as Chip).isChecked) launchFilter += filter else launchFilter -= filter
-
-        with(view.parent as View) {
-            postDelayed({ visibility = View.GONE }, 1000)
-        }
-
-        filterLaunches()?.let { (shown, total) ->
-            Toast.makeText(view.context, view.context.getString(R.string.filtered_launches_toast, shown, total), Toast.LENGTH_LONG).show()
-        }
+    fun toggleLaunchFilter(filter: LaunchFilter) {
+        if(filter in launchFilter) launchFilter -= filter else launchFilter += filter
+        filterLaunches()?.let { filterChange.tryEmit(it) }
     }
+
+    fun isFilterOn(filter: LaunchFilter) = filter in launchFilter
 
     private fun filterLaunches(): Pair<Int, Int>? {
         settings.currentListMap[Screen.Launches.name]?.let { list ->
@@ -103,7 +98,11 @@ class SpaceXViewModel @Inject constructor(
     fun scrollNextLaunch() = viewModelScope.launch {
         if (LaunchFilter.Upcoming in launchFilter) {
             settings.currentListMap[Screen.Launches.name]?.let { launches ->
-                val position = launches.indexOfLast { (it as Launches).dateLocal > Calendar.getInstance().time }
+                val position = launches.indexOfLast {
+                    with (it as Launches) {
+                        datePrecision >= DatePrecision.DAY && dateLocal > Calendar.getInstance().time
+                    }
+                }
                 if (position >= 0) {
                     scrollTrigger.emit(Success(Pair(position, launches[position] as Launches)))
                 }

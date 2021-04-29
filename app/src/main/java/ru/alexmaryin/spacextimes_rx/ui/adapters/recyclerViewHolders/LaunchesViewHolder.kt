@@ -25,7 +25,7 @@ class LaunchesViewHolder : ViewHolderVisitor {
                 box.setBackgroundColor(
                     root.resources.getColor(
                         when {
-                            launch.upcoming -> root.context.getColorIdFromAttr(R.attr.colorOnPrimary)
+                            launch.upcoming || launch.success == null -> root.context.getColorIdFromAttr(R.attr.colorOnPrimary)
                             launch.success -> R.color.success_color
                             else -> R.color.fail_color
                         }, root.context.theme
@@ -34,7 +34,7 @@ class LaunchesViewHolder : ViewHolderVisitor {
             } else box.setBackgroundColor(
                 root.resources.getColor(
                     when {
-                        launch.upcoming -> root.context.getColorIdFromAttr(R.attr.colorOnPrimary)
+                        launch.upcoming || launch.success == null -> root.context.getColorIdFromAttr(R.attr.colorOnPrimary)
                         launch.success -> R.color.success_color
                         else -> R.color.fail_color
                     }

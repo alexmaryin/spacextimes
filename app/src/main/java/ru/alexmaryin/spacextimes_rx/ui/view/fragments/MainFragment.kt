@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -161,7 +162,7 @@ class MainFragment : Fragment() {
                     when (state) {
                         is Error -> Toast.makeText(requireContext(),
                             if (state.error == ErrorType.UPCOMING_LAUNCHES_DESELECTED) getString(R.string.upcoming_launches_deselected_string) else state.msg,
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT).show().also { Log.d("FILTER_LAUNCH", "Upcoming launches off") }
                         is Success<*> -> {
                             val (position, launch) = state.toDetails<Pair<Int, Launches>>()
                             // add shake animation to scrolled item
@@ -175,6 +176,16 @@ class MainFragment : Fragment() {
                     with (binding.filterGroup) {
                         postDelayed({ visibility = View.GONE }, 1000)
                     }
+                }
+        }
+
+        lifecycleScope.launch {
+            spaceXViewModel.observeFilterChange()
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collect { (shown, total) ->
+                    binding.filterGroup.visibility = View.GONE
+                    Toast.makeText(requireContext(), getString(R.string.filtered_launches_toast, shown, total), Toast.LENGTH_SHORT).show()
+                    Log.d("FILTER_LAUNCH", "Filter toast shown")
                 }
         }
     }

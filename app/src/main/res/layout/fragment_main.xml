@@ -39,8 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="true"
-                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Successfully)}"
+                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Successfully)}"
+                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Successfully)}"
                 android:text="@string/success_filter" />
 
             <com.google.android.material.chip.Chip
@@ -48,8 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="true"
-                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Failed)}"
+                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Failed)}"
+                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Failed)}"
                 android:text="@string/failed_filter" />
 
             <com.google.android.material.chip.Chip
@@ -57,8 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="true"
-                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Past)}"
+                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Past)}"
+                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Past)}"
                 android:text="@string/past_filter" />
 
             <com.google.android.material.chip.Chip
@@ -66,8 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="true"
-                android:onClick="@{(view)-> spaceXViewModel.toggleLaunchFilter(view, LaunchFilter.Upcoming)}"
+                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Upcoming)}"
+                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Upcoming)}"
                 android:text="@string/upcoming_filter" />
 
             <com.google.android.material.chip.Chip

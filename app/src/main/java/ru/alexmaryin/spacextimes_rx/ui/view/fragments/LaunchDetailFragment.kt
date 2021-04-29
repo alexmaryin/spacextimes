@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentLaunchDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
@@ -86,7 +87,7 @@ class LaunchDetailFragment : Fragment() {
 
         // countdown timer if launch scheduled in next 24 hour
         val time = (launch.dateLocal.time - Calendar.getInstance().time.time)
-        if (time.scheduledToNextDay()) {
+        if (launch.datePrecision >= DatePrecision.DAY && time.scheduledToNextDay()) {
             with (binding.countdownTimer) {
                 visibility = View.VISIBLE
                 isCountDown = true

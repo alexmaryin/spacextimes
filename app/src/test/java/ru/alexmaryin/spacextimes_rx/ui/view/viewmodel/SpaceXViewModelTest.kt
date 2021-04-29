@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.*
@@ -12,41 +13,37 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
+import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
+import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
-import ru.alexmaryin.spacextimes_rx.utils.Error
-import ru.alexmaryin.spacextimes_rx.utils.ErrorType
-import ru.alexmaryin.spacextimes_rx.utils.Loading
-import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.*
+import java.util.*
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class SpaceXViewModelTest {
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @Mock
-    private lateinit var translatorApi: TranslatorApi
-
-    @Mock
-    private lateinit var repository: SpacexDataRepository
+    @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
+    @Mock private lateinit var translatorApi: TranslatorApi
+    @Mock private lateinit var repository: SpacexDataRepository
     private lateinit var viewModel: SpaceXViewModel
-
     private lateinit var closable: AutoCloseable
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
     private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
+    private val settings = Settings()
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testCoroutineDispatcher)
         closable = MockitoAnnotations.openMocks(this)
-        viewModel = SpaceXViewModel(repository, Settings(), translatorApi)
+        viewModel = SpaceXViewModel(repository, settings, translatorApi)
     }
 
     @After
@@ -68,9 +65,7 @@ class SpaceXViewModelTest {
 
     @Test
     fun` viewModel should return error after loading`() = testCoroutineScope.runBlockingTest {
-
         val list = emptyList<Result>().toMutableList()
-
         val flow = flow {
             emit(Loading)
             delay(100)
@@ -78,7 +73,6 @@ class SpaceXViewModelTest {
         }.stateIn(this)
 
         `when`(repository.getLaunches(listOf(translatorApi::translateDetails))).thenReturn(flow)
-
 
         var loadingFlag = false
 
@@ -96,5 +90,64 @@ class SpaceXViewModelTest {
         }
         verify(repository).getLaunches(listOf(translatorApi::translateDetails))
         assertEquals(listOf(Loading, Error("", ErrorType.REMOTE_API_ERROR)), list)
+    }
+
+    @Test
+    fun `scroll next launch should return next upcoming launch`() = testCoroutineScope.runBlockingTest {
+        val mockLaunch = prepareMockLaunch(DatePrecision.DAY)
+        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch)
+
+        viewModel.getScrollTrigger().test {
+            viewModel.scrollNextLaunch()
+            assertTrue(expectItem() is Success<*>)
+        }
+    }
+
+    @Test
+    fun `scroll next launch should not return next launch without day date precision`() = testCoroutineScope.runBlockingTest {
+        val mockLaunch = prepareMockLaunch(DatePrecision.MONTH)
+        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch)
+
+        viewModel.getScrollTrigger().test {
+            viewModel.scrollNextLaunch()
+            expectNoEvents()
+        }
+    }
+
+    @Test
+    fun `scroll next launch should select only one with day precision`() = testCoroutineScope.runBlockingTest {
+        val mockLaunch1 = prepareMockLaunch(DatePrecision.MONTH, 12)
+        val mockLaunch2 = prepareMockLaunch(DatePrecision.DAY, 16)
+        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch1, mockLaunch2)
+
+        viewModel.getScrollTrigger().test {
+            viewModel.scrollNextLaunch()
+            expectItem().apply {
+                assertTrue(this is Success<*>)
+                assertTrue(toDetails<Pair<Int, Launches>>().first == 1)
+            }
+        }
+    }
+
+    @Test
+    fun `scroll next launch should emit error if upcoming is turned off`() = testCoroutineScope.runBlockingTest {
+        val mockLaunch = prepareMockLaunch(DatePrecision.DAY)
+        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch)
+        viewModel.toggleLaunchFilter(LaunchFilter.Upcoming)
+
+        viewModel.getScrollTrigger().test {
+            viewModel.scrollNextLaunch()
+            assertTrue(expectItem() == Error("", ErrorType.UPCOMING_LAUNCHES_DESELECTED))
+        }
+    }
+
+    // mock objects
+
+    private fun prepareMockLaunch(
+        precision: DatePrecision = DatePrecision.HOUR,
+        addHours: Int = 12) = mock(Launches::class.java).apply {
+        `when`(datePrecision).thenReturn(precision)
+        `when`(upcoming).thenReturn(false)
+        `when`(dateLocal).thenReturn(Calendar.getInstance().apply { add(Calendar.HOUR, addHours) }.time)
     }
 }

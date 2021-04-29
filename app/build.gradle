@@ -14,8 +14,8 @@ android {
         applicationId "ru.alexmaryin.spacextimes_rx"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode = 10
-        versionName = "0.3"
+        versionCode = 11
+        versionName = "0.4"
 
         testInstrumentationRunner "ru.alexmaryin.spacextimes_rx.HiltTestRunner"
 
@@ -82,6 +82,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.9.0'
     testImplementation 'org.mockito:mockito-inline:3.9.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
+    testImplementation 'app.cash.turbine:turbine:0.4.1'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
