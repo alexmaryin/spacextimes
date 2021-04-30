@@ -57,7 +57,7 @@ class SpaceXViewModelTest {
     fun `viewModel should return loading first`() = testCoroutineScope.runBlockingTest {
         `when`(repository.getLaunches(listOf(translatorApi::translateDetails))).thenReturn(flowOf(Loading).stateIn(this))
 
-        viewModel.changeScreen(Screen.Launches)
+        viewModel.changeScreen(LaunchesScr)
         val result = viewModel.getState().first()
         assertTrue(result == Loading)
         verify(repository).getLaunches(listOf(translatorApi::translateDetails))
@@ -76,7 +76,7 @@ class SpaceXViewModelTest {
 
         var loadingFlag = false
 
-        viewModel.changeScreen(Screen.Launches)
+        viewModel.changeScreen(LaunchesScr)
         viewModel.getState().take(2).collect { state ->
             list.add(state)
             when (state) {
@@ -95,7 +95,7 @@ class SpaceXViewModelTest {
     @Test
     fun `scroll next launch should return next upcoming launch`() = testCoroutineScope.runBlockingTest {
         val mockLaunch = prepareMockLaunch(DatePrecision.DAY)
-        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch)
+        settings.currentListMap += LaunchesScr.name to listOf(mockLaunch)
 
         viewModel.getScrollTrigger().test {
             viewModel.scrollNextLaunch()
@@ -106,7 +106,7 @@ class SpaceXViewModelTest {
     @Test
     fun `scroll next launch should not return next launch without day date precision`() = testCoroutineScope.runBlockingTest {
         val mockLaunch = prepareMockLaunch(DatePrecision.MONTH)
-        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch)
+        settings.currentListMap += LaunchesScr.name to listOf(mockLaunch)
 
         viewModel.getScrollTrigger().test {
             viewModel.scrollNextLaunch()
@@ -118,7 +118,7 @@ class SpaceXViewModelTest {
     fun `scroll next launch should select only one with day precision`() = testCoroutineScope.runBlockingTest {
         val mockLaunch1 = prepareMockLaunch(DatePrecision.MONTH, 12)
         val mockLaunch2 = prepareMockLaunch(DatePrecision.DAY, 16)
-        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch1, mockLaunch2)
+        settings.currentListMap += LaunchesScr.name to listOf(mockLaunch1, mockLaunch2)
 
         viewModel.getScrollTrigger().test {
             viewModel.scrollNextLaunch()
@@ -132,7 +132,7 @@ class SpaceXViewModelTest {
     @Test
     fun `scroll next launch should emit error if upcoming is turned off`() = testCoroutineScope.runBlockingTest {
         val mockLaunch = prepareMockLaunch(DatePrecision.DAY)
-        settings.currentListMap += Screen.Launches.name to listOf(mockLaunch)
+        settings.currentListMap += LaunchesScr.name to listOf(mockLaunch)
         viewModel.toggleLaunchFilter(LaunchFilter.Upcoming)
 
         viewModel.getScrollTrigger().test {

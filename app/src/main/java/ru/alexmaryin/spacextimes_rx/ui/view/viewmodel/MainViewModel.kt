@@ -24,7 +24,7 @@ class SpaceXViewModel @Inject constructor(
     private val translator: TranslatorApi,
 ) : ViewModel() {
 
-    var currentScreen = Screen.Launches
+    var currentScreen: MainScreen = LaunchesScr
     private var needRefresh = true
     private val launchFilter = mutableSetOf(LaunchFilter.Successfully, LaunchFilter.Failed, LaunchFilter.Past, LaunchFilter.Upcoming)
 
@@ -37,28 +37,18 @@ class SpaceXViewModel @Inject constructor(
     private val filterChange = MutableSharedFlow<Pair<Int, Int>>(0)
     fun observeFilterChange() = filterChange.asSharedFlow()
 
-    fun changeScreen(screen: Screen) {
+    fun changeScreen(screen: MainScreen) {
         if (screen != currentScreen || needRefresh) {
             currentScreen = screen
             needRefresh = false
             settings.currentListMap[currentScreen.name]?.let { cachedList ->
-                if (screen == Screen.Launches) filterLaunches() else state.tryEmit(Success(cachedList))
+                if (screen is LaunchesScr) filterLaunches() else state.tryEmit(Success(cachedList))
             } ?: run {
                 viewModelScope.launch {
-                    when (screen) {
-                        Screen.Capsules -> repository.getCapsules(listOf(translator::translateLastUpdate))
-                        Screen.Cores -> repository.getCores(listOf(translator::translateLastUpdate))
-                        Screen.Crew -> repository.getCrew()
-                        Screen.Dragons -> repository.getDragons(listOf(translator::translateDescription))
-                        Screen.Rockets -> repository.getRockets(listOf(translator::translateDescription))
-                        Screen.Launches -> repository.getLaunches(listOf(translator::translateDetails))
-                        Screen.LaunchPads -> repository.getLaunchPads(listOf(translator::translateDetails))
-                        Screen.LandingPads -> repository.getLandingPads(listOf(translator::translateDetails))
-                        Screen.HistoryEvents -> repository.getHistoryEvents(listOf(translator::translateDetails, translator::translateTitle))
-                    }.collect { result ->
-                        state.tryEmit(result)
+                    screen.readRepository(repository, translator).collect { result ->
+                        state.emit(result)
                         result.toListOf<HasStringId>()?.let { saveCurrentList(it) }
-                        if (screen == Screen.Launches) result.toListOf<Launches>()?.let { filterLaunches() }
+                        if (screen == LaunchesScr) result.toListOf<Launches>()?.let { filterLaunches() }
                     }
                 }
             }
@@ -77,13 +67,17 @@ class SpaceXViewModel @Inject constructor(
 
     fun toggleLaunchFilter(filter: LaunchFilter) {
         if(filter in launchFilter) launchFilter -= filter else launchFilter += filter
-        filterLaunches()?.let { filterChange.tryEmit(it) }
+        filterLaunches()?.let {
+            viewModelScope.launch {
+                filterChange.emit(it)
+            }
+        }
     }
 
     fun isFilterOn(filter: LaunchFilter) = filter in launchFilter
 
     private fun filterLaunches(): Pair<Int, Int>? {
-        settings.currentListMap[Screen.Launches.name]?.let { list ->
+        settings.currentListMap[LaunchesScr.name]?.let { list ->
             list.map { item -> item as Launches }.filter { launch ->
                 (launch.upcoming == LaunchFilter.Upcoming in launchFilter || launch.upcoming != LaunchFilter.Past in launchFilter) &&
                         (launch.success == LaunchFilter.Successfully in launchFilter || launch.success != LaunchFilter.Failed in launchFilter)
@@ -97,7 +91,7 @@ class SpaceXViewModel @Inject constructor(
 
     fun scrollNextLaunch() = viewModelScope.launch {
         if (LaunchFilter.Upcoming in launchFilter) {
-            settings.currentListMap[Screen.Launches.name]?.let { launches ->
+            settings.currentListMap[LaunchesScr.name]?.let { launches ->
                 val position = launches.indexOfLast {
                     with (it as Launches) {
                         datePrecision >= DatePrecision.DAY && dateLocal > Calendar.getInstance().time
