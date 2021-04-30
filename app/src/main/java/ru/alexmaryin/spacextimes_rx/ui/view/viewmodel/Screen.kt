@@ -10,13 +10,6 @@ import ru.alexmaryin.spacextimes_rx.ui.adapters.emptyClickListener
 import ru.alexmaryin.spacextimes_rx.ui.view.fragments.MainFragmentDirections
 import ru.alexmaryin.spacextimes_rx.utils.Result
 
-enum class LaunchFilter {
-    Upcoming,
-    Past,
-    Successfully,
-    Failed
-}
-
 sealed class MainScreen {
     abstract val name: String
     abstract val titleRes: Int

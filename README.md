@@ -15,11 +15,12 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Launch pads list with google-map location, pad details
 - [x] Landing pads list with google-map location, pad details
 - [x] Launches list, launches details
+- [x] Payloads details with satellite data
 - [x] Company milestone events 
 - [x] Navigation between elements
 
 **To do:**
-- [ ] payloads list, details
+- [ ] NORADs integration, Starlink screen
 
 **Interface languages:**
 - [x] Russian
@@ -30,9 +31,8 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 * Wiki-pages interlanguage auto-selecting with [Jsoup](https://jsoup.org/)
 * Cache for translations on Room (sqlite)
 * Cache for network responses and pictures download by okHttp and Picasso
-* Memory cache for fetched data in application life
-
-**UI previews -- ARE STILL SUBJECT TO CHANGE!!!!**
+* Memory-cache for fetched data in application life
+* Downloading full-format photo of launch, vehicle or crew member to device
 
 **English**
 
