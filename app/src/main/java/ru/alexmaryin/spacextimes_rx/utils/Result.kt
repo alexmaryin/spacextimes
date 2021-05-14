@@ -12,7 +12,11 @@ sealed class Result
     data class Error(val msg: String, val error: ErrorType = ErrorType.OTHER_ERROR): Result()
     object Loading : Result()
 
-inline fun <reified T> Result.toListOf(): List<T>? = if (this is Success<*>) (data as List<*>).map {  it as T } else null
+inline fun <reified T> Result.toListOf(): List<T>? = if (this is Success<*>) when (data) {
+    is List<*> -> data.map { it as T }
+    is T -> listOf(data)
+    else -> null
+} else null
 
 fun <T> List<T>.toSuccess() = Success(this)
 

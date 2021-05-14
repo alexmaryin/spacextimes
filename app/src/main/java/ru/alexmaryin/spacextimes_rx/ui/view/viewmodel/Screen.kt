@@ -26,7 +26,7 @@ object Capsules : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getCapsules(listOf(translator::translateLastUpdate))
+        translator.run { repository.getCapsules().translateLastUpdate() }
 }
 
 object Cores : MainScreen() {
@@ -38,7 +38,7 @@ object Cores : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getCores(listOf(translator::translateLastUpdate))
+        translator.run { repository.getCores().translateLastUpdate() }
 }
 
 object Crew : MainScreen() {
@@ -62,7 +62,7 @@ object Dragons : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getDragons(listOf(translator::translateDescription))
+        translator.run { repository.getDragons().translateDescription() }
 }
 
 object Rockets : MainScreen() {
@@ -74,7 +74,7 @@ object Rockets : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getRockets(listOf(translator::translateDescription))
+        translator.run { repository.getRockets().translateDescription() }
 }
 
 object LaunchesScr : MainScreen() {
@@ -86,7 +86,7 @@ object LaunchesScr : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getLaunches(listOf(translator::translateDetails))
+        translator.run { repository.getLaunches().translateDetails() }
 }
 
 object LaunchPads : MainScreen() {
@@ -98,7 +98,7 @@ object LaunchPads : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getLaunchPads(listOf(translator::translateDetails))
+        translator.run { repository.getLaunchPads().translateDetails() }
 }
 
 object LandingPads : MainScreen() {
@@ -110,7 +110,7 @@ object LandingPads : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getLandingPads(listOf(translator::translateDetails))
+        translator.run { repository.getLandingPads().translateDetails() }
 }
 
 object HistoryEvents : MainScreen() {
@@ -120,6 +120,6 @@ object HistoryEvents : MainScreen() {
     override fun setClickListener(navController: NavController) = emptyClickListener
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getHistoryEvents(listOf(translator::translateDetails, translator::translateTitle))
+        translator.run { repository.getHistoryEvents().translateDetails().translateTitle() }
 }
 
