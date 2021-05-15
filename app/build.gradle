@@ -19,12 +19,11 @@ android {
 
         testInstrumentationRunner "ru.alexmaryin.spacextimes_rx.HiltTestRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true"]
+        kapt {
+            arguments {
+                arg("room.schemaLocation":"$projectDir/schemas".toString())
+                arg("room.incremental":"true")
+                arg("room.expandProjection":"true")
             }
         }
     }
@@ -85,6 +84,7 @@ dependencies {
     testImplementation 'app.cash.turbine:turbine:0.4.1'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kaptTest "androidx.room:room-compiler:$room_version"
 
     // UI Test framework
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

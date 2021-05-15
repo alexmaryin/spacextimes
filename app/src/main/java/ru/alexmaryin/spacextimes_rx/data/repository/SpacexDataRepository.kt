@@ -18,23 +18,31 @@ class SpacexDataRepository @Inject constructor(
     private val networkHelper: NetworkHelper,
     ) {
 
+    private fun Response<*>.successList(): List<*> = when (body()) {
+        is List<*> -> body() as List<*>
+        is ApiResponse<*> -> (body() as ApiResponse<*>).docs
+        else -> throw TypeCastException("Unexpected response type")
+    }
+
+    private inline fun <reified T> Response<*>.successItem(): T = when (body()) {
+        is T -> body() as T
+        is ApiResponse<*> -> (body() as ApiResponse<*>).docs.first() as T
+        else -> throw TypeCastException("Unexpected response type")
+    }
+
     private fun <R> fetchItems(
         apiCallback: suspend () -> Response<R>,
     ) = flow {
         emit(Loading)
         if (networkHelper.isNetworkConnected()) {
             apiCallback().apply {
-                if (isSuccessful) {
-                    emit(Success(when (body()) {
-                        is List<*> -> body() as List<*>
-                        is ApiResponse<*> -> (body() as ApiResponse<*>).docs
-                        else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
-                    }))
-                } else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
+                if (isSuccessful) emit(Success(successList()))
+                    else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
     }.catch { e ->
         when (e) {
+            is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
             is SocketTimeoutException -> emit(Error("Server timeout", ErrorType.REMOTE_API_ERROR))
             else -> emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.OTHER_ERROR))
         }
@@ -51,15 +59,15 @@ class SpacexDataRepository @Inject constructor(
             Log.d("REPOSITORY", "fetchItemById loaded local $it")
         } ?: if (networkHelper.isNetworkConnected()) {
             apiCallback(id).apply {
-                if (isSuccessful) emit(Success(when (body()) {
-                    is T -> body()
-                    is ApiResponse<*> -> (body() as ApiResponse<*>).docs.first() as T
-                    else -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
-                })) else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
-
-                Log.d("REPOSITORY", "fetchItemById loaded remote ${this.body()}")
+                if (isSuccessful) emit(Success(successItem<T>()))
+                    else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
+    }.catch { e ->
+        when (e) {
+            is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
+            else -> emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.OTHER_ERROR))
+        }
     }
 
     fun getCapsules() = fetchItems(remoteApi::getCapsules)
