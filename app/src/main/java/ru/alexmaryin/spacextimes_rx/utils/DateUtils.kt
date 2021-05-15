@@ -4,10 +4,7 @@ import android.content.Context
 import android.os.Build
 import ru.alexmaryin.spacextimes_rx.R
 import java.util.*
-import kotlin.time.ExperimentalTime
-import kotlin.time.milliseconds
-import kotlin.time.minutes
-import kotlin.time.seconds
+import kotlin.time.*
 
 const val MILLIS_IN_DAY = 86400000L
 
@@ -26,7 +23,7 @@ fun quarterYearString(context: Context, date: Date) = when(date.toCalendar().get
 } + date.toCalendar().get(Calendar.YEAR).toString()
 
 @ExperimentalTime
-fun Int.prettifySecondsPeriod(res: Context): String = seconds.toComponents { days, hours, minutes, seconds, _ ->
+fun Int.prettifySecondsPeriod(res: Context): String = Duration.seconds(this).toComponents { days, hours, minutes, seconds, _ ->
     listOfNotNull(
         if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,
         if(hours > 0) res.resources.getQuantityString(R.plurals.hours_count, hours, hours) else null,
@@ -36,7 +33,7 @@ fun Int.prettifySecondsPeriod(res: Context): String = seconds.toComponents { day
 }
 
 @ExperimentalTime
-fun Double.prettifyMinutesPeriod(res: Context): String = minutes.toComponents { days, hours, minutes, seconds, _ ->
+fun Double.prettifyMinutesPeriod(res: Context): String = Duration.minutes(this).toComponents { days, hours, minutes, seconds, _ ->
     listOfNotNull(
         if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,
         if(hours > 0) res.resources.getQuantityString(R.plurals.hours_count, hours, hours) else null,
@@ -46,7 +43,7 @@ fun Double.prettifyMinutesPeriod(res: Context): String = minutes.toComponents { 
 }
 
 @ExperimentalTime
-fun Long.prettifyMillisecondsPeriod(res: Context): String = milliseconds.toComponents { days, hours, minutes, seconds, _ ->
+fun Long.prettifyMillisecondsPeriod(res: Context): String = Duration.milliseconds(this).toComponents { days, hours, minutes, seconds, _ ->
     listOfNotNull(
         if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,
         if(hours > 0) res.resources.getQuantityString(R.plurals.hours_count, hours, hours) else null,
