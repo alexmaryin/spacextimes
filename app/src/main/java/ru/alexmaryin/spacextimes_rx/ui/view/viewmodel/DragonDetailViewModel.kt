@@ -8,10 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
+import ru.alexmaryin.spacextimes_rx.data.api.wiki.localizeWiki
 import ru.alexmaryin.spacextimes_rx.data.model.Dragon
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
@@ -21,14 +20,12 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
-import ru.alexmaryin.spacextimes_rx.utils.Success
 import javax.inject.Inject
 
 @HiltViewModel
 class DragonDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     private val repository: SpacexDataRepository,
-    private val wikiApi: WikiLoaderApi,
 ) : ViewModel() {
 
     private val dragonState = MutableStateFlow<Result>(Loading)
@@ -36,12 +33,8 @@ class DragonDetailViewModel @Inject constructor(
 
     fun loadDragon() = viewModelScope.launch {
         repository.getDragonById(state.get("dragonId") ?: "")
-            .map { if (it is Success<*>) (it.data as Dragon).wikiLocale = localeWikiUrl(it.data.wikipedia); it }
+            .localizeWiki<Dragon>(state.get("locale") ?: "en")
             .collect { result -> dragonState.value = result }
-    }
-
-    private suspend fun localeWikiUrl(enUrl: String?) = enUrl?.let {
-        wikiApi.getLocaleLink(enUrl, state.get("locale") ?: "en")
     }
 
     fun composeDetails(res: Context, dragon: Dragon) = mutableListOf<HasStringId>().apply {

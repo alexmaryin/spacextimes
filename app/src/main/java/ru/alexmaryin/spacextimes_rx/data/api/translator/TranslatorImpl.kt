@@ -23,7 +23,7 @@ class TranslatorImpl @Inject constructor(
 
     private inline fun <reified T> Flow<Result>.doTranslate(
         from: KProperty1<T, String?>,
-        to: KMutableProperty1<T, String?>
+        to: KMutableProperty1<T, String?>,
     ) = map { result ->
         if (result is Success<*> && settings.translateToRu) {
             result.toListOf<T>()?.let { items ->
@@ -31,7 +31,7 @@ class TranslatorImpl @Inject constructor(
                     translatorInternal.tryLoadLocalTranslate(coroutineContext, items, from, to)
                     translatorInternal.translate(coroutineContext, items, from, to)
                 }
-                items.toSuccess()
+                if (result.isSingleData<T>()) items.toSingleSuccess() else items.toSuccess()
             } ?: throw TypeCastException("List have not implement HasDetails interface")
         } else {
             result

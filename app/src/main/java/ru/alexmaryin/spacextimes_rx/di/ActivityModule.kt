@@ -11,8 +11,6 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorImpl
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorInternalApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorInternalApiImpl
-import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
-import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderImpl
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.repository.ApiLocalImpl
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
@@ -59,8 +57,4 @@ class ActivityModule {
         registerViewHolder(ItemTypes.PAYLOAD, PayloadViewHolder())
         registerViewHolder(ItemTypes.CAROUSEL, CarouselViewHolder())
     }
-
-    @Provides
-    @ActivityRetainedScoped
-    fun provideWikiApi(wikiApi: WikiLoaderImpl): WikiLoaderApi = wikiApi
 }

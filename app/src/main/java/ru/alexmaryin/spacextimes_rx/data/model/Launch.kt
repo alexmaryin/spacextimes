@@ -5,6 +5,7 @@ import com.google.android.material.timepicker.TimeFormat
 import com.google.gson.annotations.SerializedName
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
@@ -48,7 +49,12 @@ data class Launch(
     @SerializedName("static_fire_date_unix") val staticFireDateUnix: Long?,
     @SerializedName("tbd") val toBeDetermined: Boolean = false,
     @SerializedName("net") val notEarlyThan: Boolean = false,
-) : HasStringId, HasDetails {
+) : HasStringId, HasDetails, HasWiki {
+
+    override val wikipedia get() = links.wikipedia
+    override var wikiLocale
+        get() = links.wikiLocale
+        set(value) { links.wikiLocale = value }
 
     val images get() = with(links) { flickr.original.ifEmpty { flickr.small } }
 

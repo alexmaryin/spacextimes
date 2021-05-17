@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.data.local
+package ru.alexmaryin.spacextimes_rx.data.local.translations
 
 import androidx.room.*
 

@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.alexmaryin.spacextimes_rx.BuildConfig
 import ru.alexmaryin.spacextimes_rx.data.api.RetrofitApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
-import ru.alexmaryin.spacextimes_rx.data.local.TranslateDatabase
+import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateDatabase
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton

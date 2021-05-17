@@ -18,6 +18,10 @@ inline fun <reified T> Result.toListOf(): List<T>? = if (this is Success<*>) whe
     else -> null
 } else null
 
+inline fun <reified T> Result.isSingleData() = (this as Success<*>).data is T
+
 fun <T> List<T>.toSuccess() = Success(this)
+
+fun <T> List<T>.toSingleSuccess() = Success(first())
 
 inline fun <reified T> Result.toDetails(): T = (this as Success<*>).data as T

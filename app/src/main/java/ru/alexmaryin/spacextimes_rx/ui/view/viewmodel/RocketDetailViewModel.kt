@@ -8,10 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
+import ru.alexmaryin.spacextimes_rx.data.api.wiki.localizeWiki
 import ru.alexmaryin.spacextimes_rx.data.model.Rocket
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.OrbitType
@@ -22,7 +21,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
-import ru.alexmaryin.spacextimes_rx.utils.Success
 import java.text.NumberFormat
 import java.util.*
 import javax.inject.Inject
@@ -32,7 +30,6 @@ import kotlin.math.roundToInt
 class RocketDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     val repository: SpacexDataRepository,
-    private val wikiApi: WikiLoaderApi,
         ) : ViewModel() {
 
     private val rocketState = MutableStateFlow<Result>(Loading)
@@ -40,12 +37,8 @@ class RocketDetailViewModel @Inject constructor(
 
     fun loadRocket() = viewModelScope.launch {
         repository.getRocketById(state.get("rocketId") ?: "")
-            .map { if (it is Success<*>) (it.data as Rocket).wikiLocale = localeWikiUrl(it.data.wikipedia); it }
+            .localizeWiki<Rocket>(state.get("locale") ?: "en")
             .collect { result -> rocketState.value = result }
-    }
-
-    private suspend fun localeWikiUrl(enUrl: String?) = enUrl?.let {
-        wikiApi.getLocaleLink(enUrl, state.get("locale") ?: "en")
     }
 
     fun composeDetails(res: Context, rocket: Rocket) = mutableListOf<HasStringId>().apply {
@@ -74,7 +67,7 @@ class RocketDetailViewModel @Inject constructor(
         with(rocket.engines) {
             add(TwoStringsItem(
                 caption = res.resources.getQuantityString(R.plurals.rocket_engines_string, number, number, type,
-                    if(version.isNotBlank()) version else "beta"),
+                    version.ifBlank { "beta" }),
                 details = res.getString(R.string.capsule_thruster_line2, hotComponent, oxidizerComponent)
             ))
             add(TwoStringsItem(
