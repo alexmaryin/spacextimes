@@ -19,9 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SpaceXViewModel @Inject constructor(
-    private val repository: SpacexDataRepository,
     private val settings: Settings,
-    private val translator: TranslatorApi,
+    private val repository: SpacexDataRepository,
+    private val translator: TranslatorApi
 ) : ViewModel() {
 
     var currentScreen: MainScreen = LaunchesScr

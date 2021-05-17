@@ -17,6 +17,8 @@ import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorImpl
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorInternalApiImpl
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
@@ -31,8 +33,8 @@ import kotlin.time.ExperimentalTime
 class SpaceXViewModelTest {
 
     @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
-    @Mock private lateinit var translatorApi: TranslatorApi
     @Mock private lateinit var repository: SpacexDataRepository
+    private lateinit var translator: TranslatorApi
     private lateinit var viewModel: SpaceXViewModel
     private lateinit var closable: AutoCloseable
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
@@ -43,7 +45,13 @@ class SpaceXViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testCoroutineDispatcher)
         closable = MockitoAnnotations.openMocks(this)
-        viewModel = SpaceXViewModel(repository, settings, translatorApi)
+        translator = object : TranslatorApi {
+            override fun Flow<Result>.translateDetails() = this
+            override fun Flow<Result>.translateLastUpdate() = this
+            override fun Flow<Result>.translateDescription() = this
+            override fun Flow<Result>.translateTitle() = this
+        }
+        viewModel = SpaceXViewModel(settings, repository, translator)
     }
 
     @After
@@ -55,12 +63,12 @@ class SpaceXViewModelTest {
 
     @Test
     fun `viewModel should return loading first`() = testCoroutineScope.runBlockingTest {
-        `when`(repository.getLaunches(listOf(translatorApi::translateDetails))).thenReturn(flowOf(Loading).stateIn(this))
+        `when`(repository.getLaunches()).thenReturn(flowOf(Loading).stateIn(this))
 
         viewModel.changeScreen(LaunchesScr)
         val result = viewModel.getState().first()
         assertTrue(result == Loading)
-        verify(repository).getLaunches(listOf(translatorApi::translateDetails))
+        verify(repository).getLaunches()
     }
 
     @Test
@@ -72,7 +80,7 @@ class SpaceXViewModelTest {
             emit(Error("", ErrorType.REMOTE_API_ERROR))
         }.stateIn(this)
 
-        `when`(repository.getLaunches(listOf(translatorApi::translateDetails))).thenReturn(flow)
+        `when`(repository.getLaunches()).thenReturn(flow)
 
         var loadingFlag = false
 
@@ -88,7 +96,7 @@ class SpaceXViewModelTest {
                 else -> throw TypeCastException("Unknown state")
             }
         }
-        verify(repository).getLaunches(listOf(translatorApi::translateDetails))
+        verify(repository).getLaunches()
         assertEquals(listOf(Loading, Error("", ErrorType.REMOTE_API_ERROR)), list)
     }
 

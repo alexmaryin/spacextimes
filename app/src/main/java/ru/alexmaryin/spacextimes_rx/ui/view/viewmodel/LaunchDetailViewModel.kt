@@ -8,20 +8,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.api.wiki.WikiLoaderApi
+import ru.alexmaryin.spacextimes_rx.data.api.wiki.localizeWiki
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.*
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
-import ru.alexmaryin.spacextimes_rx.utils.Success
-import java.io.IOException
 import java.text.DateFormat
 import javax.inject.Inject
 
@@ -30,33 +26,18 @@ class LaunchDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     val repository: SpacexDataRepository,
     private val translator: TranslatorApi,
-    private val wikiApi: WikiLoaderApi,
-//    private val settings: Settings,
 ) : ViewModel() {
 
     private val launchState = MutableStateFlow<Result>(Loading)
     fun getLaunchState() = launchState.asStateFlow()
 
     fun loadLaunch() = viewModelScope.launch {
-        repository.getLaunchById(state.get("launchId") ?: "")
-            .map { state ->
-                if (state is Success<*>) {
-                    with(state.data as Launch) {
-                        links.wikiLocale = localeWikiUrl(links.wikipedia)
-                        try {
-                            translator.translateDetails(listOf(this))
-                        } catch (e: IOException) {
-                            launchState.value = Error(e.localizedMessage ?: e.message!!)
-                        }
-                    }
-                }
-                state
-            }
-            .collect { result -> launchState.value = result }
-    }
-
-    private suspend fun localeWikiUrl(enUrl: String?) = enUrl?.let {
-        wikiApi.getLocaleLink(enUrl, state.get("locale") ?: "en")
+        translator.run {
+            repository.getLaunchById(state.get("launchId") ?: "")
+                .translateDetails()
+                .localizeWiki<Launch>(state.get("locale") ?: "en")
+                .collect { result -> launchState.value = result }
+        }
     }
 
     fun composeDetails(res: Context, launch: Launch) = mutableListOf<HasStringId>().apply {
@@ -147,7 +128,7 @@ class LaunchDetailViewModel @Inject constructor(
             }
 
             LinksItem(
-                wiki = links.wikiLocale ?: links.wikipedia,
+                wiki = wikiLocale ?: wikipedia,
                 youtube = links.webcast ?: links.youtubeId?.let { "https://www.youtube.com/watch?v=${it}" },
                 redditCampaign = links.reddit.campaign,
                 redditLaunch = links.reddit.launch,

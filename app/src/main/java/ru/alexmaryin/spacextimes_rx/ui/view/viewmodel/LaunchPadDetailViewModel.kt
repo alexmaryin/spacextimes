@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
@@ -21,7 +20,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
-import ru.alexmaryin.spacextimes_rx.utils.Success
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,11 +33,11 @@ class LaunchPadDetailViewModel @Inject constructor(
     fun getPadState() = padState.asStateFlow()
 
     fun loadLaunchPad() = viewModelScope.launch {
-        repository.getLaunchPadById(state.get("launchPadId") ?: "")
-            .map { state ->
-                if(state is Success<*>) { translator.translateDetails(listOf(state.data as LaunchPad)) }
-                state
-            }.collect { result -> padState.value = result }
+        translator.run {
+            repository.getLaunchPadById(state.get("launchPadId") ?: "")
+                .translateDetails()
+                .collect { result -> padState.value = result }
+        }
     }
 
     fun composeDetails(res: Context, launchPad: LaunchPad) = mutableListOf<HasStringId>().apply {

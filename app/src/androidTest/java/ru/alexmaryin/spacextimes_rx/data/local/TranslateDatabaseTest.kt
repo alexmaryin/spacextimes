@@ -17,6 +17,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateDao
+import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateDatabase
+import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateItem
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject

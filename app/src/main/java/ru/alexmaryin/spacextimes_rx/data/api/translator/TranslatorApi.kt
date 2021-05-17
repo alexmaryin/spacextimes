@@ -1,13 +1,11 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasTitle
+import kotlinx.coroutines.flow.Flow
+import ru.alexmaryin.spacextimes_rx.utils.Result
 
 interface TranslatorApi {
-    suspend fun translateDetails(items: List<HasDetails>?)
-    suspend fun translateLastUpdate(items: List<HasLastUpdate>?)
-    suspend fun translateDescription(items: List<HasDescription>?)
-    suspend fun translateTitle(items: List<HasTitle>?)
+    fun Flow<Result>.translateDetails(): Flow<Result>
+    fun Flow<Result>.translateLastUpdate(): Flow<Result>
+    fun Flow<Result>.translateDescription(): Flow<Result>
+    fun Flow<Result>.translateTitle(): Flow<Result>
 }

@@ -6,8 +6,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
-import ru.alexmaryin.spacextimes_rx.data.local.TranslateDao
-import ru.alexmaryin.spacextimes_rx.data.local.TranslateItem
+import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateDao
+import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateItem
 import ru.alexmaryin.spacextimes_rx.utils.toChunkedList
 import java.io.File
 import java.io.IOException
@@ -46,10 +46,12 @@ class TranslatorInternalApiImpl @Inject constructor(
                 it.split("\n").forEach { translatedString ->
                     updateItemWithTranslate(source[counter], translatedString)
                     Log.d("TRANSLATOR", "Выполнен перевод для элемента $counter:\nFROM : ${readItemToTranslate(source[counter])}\nTO : $translatedString}")
-                    translationsDao.insert(TranslateItem(
+                    translationsDao.insert(
+                        TranslateItem(
                         origin = readItemToTranslate(source[counter]),
                         translation = translatedString,
-                        insertDate = Date()))
+                        insertDate = Date())
+                    )
                     counter++
                 }
             }
