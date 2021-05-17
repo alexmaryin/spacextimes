@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorImpl
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorInternalApiImpl
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
@@ -44,6 +45,12 @@ class SpaceXViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testCoroutineDispatcher)
         closable = MockitoAnnotations.openMocks(this)
+        translator = object : TranslatorApi {
+            override fun Flow<Result>.translateDetails() = this
+            override fun Flow<Result>.translateLastUpdate() = this
+            override fun Flow<Result>.translateDescription() = this
+            override fun Flow<Result>.translateTitle() = this
+        }
         viewModel = SpaceXViewModel(settings, repository, translator)
     }
 
