@@ -1,8 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.di
 
-import android.util.Log
-import com.google.gson.*
-import java.lang.reflect.Type
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,24 +13,24 @@ val DATE_FORMATS = arrayOf(
     "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
 )
 
-object DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
+class DateJsonAdapter {
 
     private val dateFormatters = DATE_FORMATS.map { SimpleDateFormat(it, Locale.US) }
 
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Date? {
+    @FromJson
+    fun deserialize(json: String?): Date? {
         var parsedDate: Date? = null
         json?.let {
             dateFormatters.forEach { formatter ->
                 try {
-                    parsedDate = formatter.parse(it.asString)
+                    parsedDate = formatter.parse(it)
                 } catch (ignore: ParseException) {}
             }
+            return parsedDate
         }
-        return parsedDate
+        return null
     }
 
-    override fun serialize(src: Date?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
-        val dateFormatAsString = dateFormatters.last().format(src ?: Calendar.getInstance())
-        return JsonPrimitive(dateFormatAsString)
-    }
+    @ToJson
+    fun serialize(src: Date?) = dateFormatters.last().format(src ?: Calendar.getInstance())
 }

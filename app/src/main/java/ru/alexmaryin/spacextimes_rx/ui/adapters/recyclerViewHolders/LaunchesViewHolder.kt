@@ -43,7 +43,7 @@ class LaunchesViewHolder : ViewHolderVisitor {
 
             patchImage.setOnLongClickListener(
                 downloadByLongClickListener(
-                    launch.links.patch.large ?: launch.rocket.images[0],
+                    launch.links.patch.large ?: launch.rocket?.images?.get(0),
                     "${launch.name}_patch.jpg"
                 )
             )

@@ -1,20 +1,22 @@
 package ru.alexmaryin.spacextimes_rx.data.model.lists
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 
+@JsonClass(generateAdapter = true)
 data class Capsules(
     override val id: String,
     val serial: String,
     val status: CapsuleStatus,
     val type: CapsuleType,
-    @SerializedName("reuse_count") val reuseCount: Int,
-    @SerializedName("water_landings") val waterLandings: Int,
-    @SerializedName("land_landings") val landLandings: Int,
-    @SerializedName("last_update") override val lastUpdate: String?,
-    override var lastUpdateRu: String?,
+    @Json(name = "reuse_count") val reuseCount: Int,
+    @Json(name = "water_landings") val waterLandings: Int,
+    @Json(name = "land_landings") val landLandings: Int,
+    @Json(name = "last_update") override val lastUpdate: String?,
+    @Transient override var lastUpdateRu: String? = null,
     val launches: List<String> = emptyList()
 ) : HasStringId, HasLastUpdate

@@ -1,10 +1,12 @@
 package ru.alexmaryin.spacextimes_rx.data.model.parts
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Fairings(
-    val reused: Boolean = false,
-    val recovered: Boolean = false,
+    val reused: Boolean?,
+    val recovered: Boolean?,
     val ships: List<String> = emptyList(),
-    @SerializedName("recovery_attempt") val recoveryAttempt: Boolean = false,
+    @Json(name = "recovery_attempt") val recoveryAttempt: Boolean?,
 )

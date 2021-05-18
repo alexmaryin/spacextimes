@@ -1,8 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.data.model.extra
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Links(
     val patch: PatchImages,
     val reddit: Reddit,
@@ -11,6 +12,6 @@ data class Links(
     val webcast: String?,
     val article: String?,
     val wikipedia: String?,
-    @Expose var wikiLocale: String?,
-    @SerializedName("youtube_id") val youtubeId: String?,
+    @Transient var wikiLocale: String? = null,
+    @Json(name = "youtube_id") val youtubeId: String?,
 )

@@ -1,10 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.data.model.enums
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 enum class CrewStatus {
-    @SerializedName("active") ACTIVE,
-    @SerializedName("inactive") INACTIVE,
-    @SerializedName("retired") RETIRED,
-    @SerializedName("unknown") UNKNOWN
+    @Json(name = "active") ACTIVE,
+    @Json(name = "inactive") INACTIVE,
+    @Json(name = "retired") RETIRED,
+    @Json(name = "unknown") UNKNOWN
 }

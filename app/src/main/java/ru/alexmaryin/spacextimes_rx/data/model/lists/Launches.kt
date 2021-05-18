@@ -2,7 +2,8 @@ package ru.alexmaryin.spacextimes_rx.data.model.lists
 
 import android.content.Context
 import com.google.android.material.timepicker.TimeFormat
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.Rocket
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
@@ -15,19 +16,20 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@JsonClass(generateAdapter = true)
 data class Launches(
     override val id: String,
     val name: String,
     val success: Boolean? = null,
     val upcoming: Boolean = true,
     val links: Links,
-    val rocket: Rocket,
+    val rocket: Rocket?,
     override val details: String? = null,
-    override var detailsRu: String? = null,
-    @SerializedName("tbd") val toBeDetermined: Boolean = false,
-    @SerializedName("net") val notEarlyThan: Boolean = false,
-    @SerializedName("date_local") val dateLocal: Date,
-    @SerializedName("date_precision") val datePrecision: DatePrecision,
+    @Transient override var detailsRu: String? = null,
+    @Json(name = "tbd") val toBeDetermined: Boolean = false,
+    @Json(name = "net") val notEarlyThan: Boolean = false,
+    @Json(name = "date_local") val dateLocal: Date,
+    @Json(name = "date_precision") val datePrecision: DatePrecision,
     ) : HasStringId, HasDetails {
     fun dateTrimmed(context: Context): String = when(datePrecision) {
         DatePrecision.YEAR_HALF -> halfYearString(context, dateLocal)

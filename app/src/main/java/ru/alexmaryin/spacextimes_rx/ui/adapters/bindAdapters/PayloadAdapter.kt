@@ -23,7 +23,8 @@ object PayloadAdapter {
             PayloadType.DRAGON_2_0 -> R.drawable.dragon_2_0_foreground
             PayloadType.CREW_DRAGON -> R.drawable.dragon_crew
             PayloadType.LANDER -> R.drawable.payload_lander
-        })
+                else -> R.drawable.satellite
+            })
             .transform(CircleTransformation())
             .placeholder(R.drawable.loading_animation)
             .error(R.drawable.ic_broken_image)

@@ -1,8 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.model.enums
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 enum class RocketType {
-    @SerializedName("rocket") ROCKET,
-
+    @Json(name = "rocket") ROCKET,
 }

@@ -53,6 +53,7 @@ class LandingPadDetailViewModel @Inject constructor(
                         PadStatus.RETIRED -> R.string.retiredText
                         PadStatus.LOST -> R.string.destroyedText
                         PadStatus.UNDER_CONSTRUCTION -> R.string.underConstructionText
+                        else -> R.string.unknownText
                     }
                 )
             )

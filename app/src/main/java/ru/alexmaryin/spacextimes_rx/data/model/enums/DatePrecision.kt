@@ -1,12 +1,12 @@
 package ru.alexmaryin.spacextimes_rx.data.model.enums
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 enum class DatePrecision {
-    @SerializedName("half") YEAR_HALF,
-    @SerializedName("quarter") YEAR_QUARTER,
-    @SerializedName("year") YEAR,
-    @SerializedName("month") MONTH,
-    @SerializedName("day") DAY,
-    @SerializedName("hour") HOUR,
+    @Json(name = "half") YEAR_HALF,
+    @Json(name = "quarter") YEAR_QUARTER,
+    @Json(name = "year") YEAR,
+    @Json(name = "month") MONTH,
+    @Json(name = "day") DAY,
+    @Json(name = "hour") HOUR,
 }

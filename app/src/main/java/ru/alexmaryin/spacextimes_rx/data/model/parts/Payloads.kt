@@ -1,8 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.data.model.parts
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Payloads(
-    @SerializedName("option_1") val option: String,
-    @SerializedName("composite_fairing") val compositeFairing: CompositeFairing,
+    @Json(name = "option_1") val option: String,
+    @Json(name = "composite_fairing") val compositeFairing: CompositeFairing,
 )

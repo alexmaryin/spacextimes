@@ -1,16 +1,18 @@
 package ru.alexmaryin.spacextimes_rx.data.model.parts
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 
+@JsonClass(generateAdapter = true)
 data class CoreFlight(
     val core: Cores?,
-    val flight: Int,
-    val gridfins: Boolean,
-    val legs: Boolean,
-    val reused: Boolean,
-    val landpad: String,
-    @SerializedName("landing_attempt") val landingAttempt: Boolean?,
-    @SerializedName("landing_success") val landingSuccess: Boolean,
-    @SerializedName("landing_type") val landingType: String?,
+    val flight: Int?,
+    val gridfins: Boolean?,
+    val legs: Boolean?,
+    val reused: Boolean?,
+    val landpad: String?,
+    @Json(name = "landing_attempt") val landingAttempt: Boolean?,
+    @Json(name = "landing_success") val landingSuccess: Boolean?,
+    @Json(name = "landing_type") val landingType: String?,
 )

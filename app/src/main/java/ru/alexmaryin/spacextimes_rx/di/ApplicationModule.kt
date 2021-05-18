@@ -2,7 +2,7 @@ package ru.alexmaryin.spacextimes_rx.di
 
 import android.content.Context
 import androidx.room.Room
-import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,12 +12,11 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.alexmaryin.spacextimes_rx.BuildConfig
 import ru.alexmaryin.spacextimes_rx.data.api.RetrofitApiService
 import ru.alexmaryin.spacextimes_rx.data.api.SpacexUrls
 import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateDatabase
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -45,15 +44,15 @@ class ApplicationModule {
             .cache(Cache(context.cacheDir, cacheSize.toLong()))
             .build()
 
-    private val gsonBuilder = GsonBuilder()
-        .registerTypeAdapter(Date::class.java, DateJsonAdapter)
-        .create()
+    private val moshi = Moshi.Builder()
+        .add(DateJsonAdapter())
+        .build()
 
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit =
         Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(gsonBuilder))
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .build()
