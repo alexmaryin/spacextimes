@@ -14,8 +14,8 @@ android {
         applicationId "ru.alexmaryin.spacextimes_rx"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode = 11
-        versionName = "0.4"
+        versionCode = 12
+        versionName = "0.5"
 
         testInstrumentationRunner "ru.alexmaryin.spacextimes_rx.HiltTestRunner"
 
@@ -122,12 +122,13 @@ dependencies {
     // images download from internet
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //Retrofit
+    //Retrofit and deserialization
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
 
     // Html parsing
     implementation 'org.jsoup:jsoup:1.13.1'

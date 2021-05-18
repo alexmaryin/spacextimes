@@ -15,19 +15,19 @@ interface RetrofitApiService {
     suspend fun getCapsules(): Response<List<Capsules>>
 
     @POST(SpacexUrls.CapsuleQuery)
-    suspend fun getCapsuleById(@Body body: RequestBody): Response<ApiResponse<Capsule>>
+    suspend fun getCapsuleById(@Body body: ApiRequest): Response<ApiResponse<Capsule>>
 
     @GET(SpacexUrls.AllCores)
     suspend fun getCores(): Response<List<Cores>>
 
     @POST(SpacexUrls.CoreQuery)
-    suspend fun getCoreById(@Body body: RequestBody): Response<ApiResponse<Core>>
+    suspend fun getCoreById(@Body body: ApiRequest): Response<ApiResponse<Core>>
 
     @GET(SpacexUrls.AllCrew)
     suspend fun getCrew(): Response<List<Crews>>
 
     @POST(SpacexUrls.CrewQuery)
-    suspend fun getCrewById(@Body body: RequestBody): Response<ApiResponse<Crew>>
+    suspend fun getCrewById(@Body body: ApiRequest): Response<ApiResponse<Crew>>
 
     @GET(SpacexUrls.AllDragons)
     suspend fun getDragons(): Response<List<Dragon>>
@@ -39,13 +39,13 @@ interface RetrofitApiService {
     suspend fun getLaunchPads(): Response<List<LaunchPads>>
 
     @POST(SpacexUrls.LaunchPadQuery)
-    suspend fun getLaunchPadById(@Body body: RequestBody): Response<ApiResponse<LaunchPad>>
+    suspend fun getLaunchPadById(@Body body: ApiRequest): Response<ApiResponse<LaunchPad>>
 
     @GET(SpacexUrls.AllLandingPads)
     suspend fun getLandingPads(): Response<List<LandingPads>>
 
     @POST(SpacexUrls.LandingPadQuery)
-    suspend fun getLandingPadById(@Body body: RequestBody): Response<ApiResponse<LandingPad>>
+    suspend fun getLandingPadById(@Body body: ApiRequest): Response<ApiResponse<LandingPad>>
 
     @GET(SpacexUrls.AllRockets)
     suspend fun getRockets(): Response<List<Rocket>>
@@ -54,13 +54,13 @@ interface RetrofitApiService {
     suspend fun getRocketById(@Path("id") id: String): Response<Rocket>
 
     @POST(SpacexUrls.AllLaunchesQuery)
-    suspend fun getLaunches(@Body body: RequestBody): Response<ApiResponse<Launches>>
+    suspend fun getLaunches(@Body body: ApiRequest): Response<ApiResponse<Launches>>
 
     @POST(SpacexUrls.AllLaunchesQuery)
-    suspend fun getLaunchById(@Body body: RequestBody): Response<ApiResponse<Launch>>
+    suspend fun getLaunchById(@Body body: ApiRequest): Response<ApiResponse<Launch>>
 
     @POST(SpacexUrls.PayloadQuery)
-    suspend fun getPayloadById(@Body body: RequestBody): Response<ApiResponse<Payload>>
+    suspend fun getPayloadById(@Body body: ApiRequest): Response<ApiResponse<Payload>>
 
     @GET(SpacexUrls.AllHistoryEvents)
     suspend fun getHistoryEvents(): Response<List<History>>

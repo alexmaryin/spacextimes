@@ -1,10 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.data.model.enums
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 enum class CapsuleStatus {
-    @SerializedName("unknown") UNKNOWN,
-    @SerializedName("active") ACTIVE,
-    @SerializedName("retired") RETIRED,
-    @SerializedName("destroyed") DESTROYED
+    @Json(name = "unknown") UNKNOWN,
+    @Json(name = "active") ACTIVE,
+    @Json(name = "retired") RETIRED,
+    @Json(name = "destroyed") DESTROYED
 }

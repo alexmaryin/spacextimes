@@ -1,12 +1,12 @@
 package ru.alexmaryin.spacextimes_rx.data.model.enums
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 enum class PadStatus {
-    @SerializedName("unknown") UNKNOWN,
-    @SerializedName("active") ACTIVE,
-    @SerializedName("inactive") INACTIVE,
-    @SerializedName("retired") RETIRED,
-    @SerializedName("lost") LOST,
-    @SerializedName("under construction") UNDER_CONSTRUCTION,
+    @Json(name = "unknown") UNKNOWN,
+    @Json(name = "active") ACTIVE,
+    @Json(name = "inactive") INACTIVE,
+    @Json(name = "retired") RETIRED,
+    @Json(name = "lost") LOST,
+    @Json(name = "under construction") UNDER_CONSTRUCTION,
 }

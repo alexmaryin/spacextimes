@@ -90,7 +90,7 @@ class LaunchDetailViewModel @Inject constructor(
                             details = buildString {
                                 cores.forEachIndexed { index, core ->
                                     append("${this@cores[index].serial}: ")
-                                    if (core.landingAttempt == true) {
+                                    if (core.landingAttempt == true && core.landingSuccess != null) {
                                         appendLine((if(core.landingSuccess) res.getString(R.string.landing_success_string)
                                             else res.getString(R.string.landing_fail_string)) + " (${core.landingType})")
                                     } else appendLine(res.getString(R.string.no_landing_attempt_string))
@@ -121,7 +121,7 @@ class LaunchDetailViewModel @Inject constructor(
                 add(RecyclerHeader(text = res.getString(R.string.failures_list_caption)))
                 failures.forEach { failure ->
                     add(TwoStringsItem(
-                        caption = res.getString(R.string.failure_time_altitude_text, failure.time, failure.altitude),
+                        caption = res.getString(R.string.failure_time_altitude_text, failure.time ?: 0, failure.altitude ?: 0),
                         details = res.getString(R.string.failure_reason_text, failure.reason)
                     ))
                 }

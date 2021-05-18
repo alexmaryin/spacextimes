@@ -1,7 +1,8 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import android.content.Context
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
@@ -17,6 +18,7 @@ import ru.alexmaryin.spacextimes_rx.utils.currentLocale
 import java.text.DateFormat
 import java.util.*
 
+@JsonClass(generateAdapter = true)
 data class Rocket(
     override val id: String,
     val name: String,
@@ -27,21 +29,21 @@ data class Rocket(
     val country: String,
     val company: String,
     override val wikipedia: String?,
-    override var wikiLocale: String?,
+    @Transient override var wikiLocale: String? = null,
     override val description: String?,
-    override var descriptionRu: String?,
+    @Transient override var descriptionRu: String? = null,
     val height: LineSize,
     val diameter: LineSize,
     val mass: Mass,
     val engines: Engine,
-    @SerializedName("success_rate_pct") val successRate: Float,
-    @SerializedName("cost_per_launch") val costPerLaunch: Float,
-    @SerializedName("first_flight") val firstFlight: Date,
-    @SerializedName("first_stage") val firstStage: FirstStage,
-    @SerializedName("second_stage") val secondStage: SecondStage,
-    @SerializedName("landing_legs") val landingLegs: LandingLegs,
-    @SerializedName("payload_weights") val payloadWeights: List<PayloadWeight> = emptyList(),
-    @SerializedName("flickr_images") val images: List<String> = emptyList(),
+    @Json(name = "success_rate_pct") val successRate: Float,
+    @Json(name = "cost_per_launch") val costPerLaunch: Float,
+    @Json(name = "first_flight") val firstFlight: Date,
+    @Json(name = "first_stage") val firstStage: FirstStage,
+    @Json(name = "second_stage") val secondStage: SecondStage,
+    @Json(name = "landing_legs") val landingLegs: LandingLegs,
+    @Json(name = "payload_weights") val payloadWeights: List<PayloadWeight> = emptyList(),
+    @Json(name = "flickr_images") val images: List<String> = emptyList(),
 ) : HasStringId, HasDescription, HasWiki {
     fun firstFlightStr(context: Context): String =
         DateFormat.getDateInstance(DateFormat.LONG, context.currentLocale()).format(firstFlight)

@@ -1,17 +1,19 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
 import android.content.Context
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PayloadType
 import ru.alexmaryin.spacextimes_rx.data.model.extra.PayloadDragon
 import java.util.*
 
+@JsonClass(generateAdapter = true)
 data class Payload(
     override val id: String,
-    val name: String,
-    val type: PayloadType,
+    val name: String?,
+    val type: PayloadType?,
     val reused: Boolean,
     val customers: List<String> = emptyList(),
     val nationalities: List<String> = emptyList(),
@@ -22,30 +24,34 @@ data class Payload(
     val eccentricity: Float?,
     val epoch: Date?,
     val dragon: PayloadDragon,
-    @SerializedName("semi_major_axis_km") val semiAxis: Float?,
-    @SerializedName("raan") val rightAscension: Float?,
-    @SerializedName("periapsis_km") val periapsis: Float?,
-    @SerializedName("apoapsis_km") val apoapsis: Float?,
-    @SerializedName("inclination_deg") val inclination: Float?,
-    @SerializedName("arg_of_pericenter") val pericenterArg: Float?,
-    @SerializedName("lifespan_years") val lifeSpan: Int?,
-    @SerializedName("period_min") val period: Float?,
-    @SerializedName("mean_motion") val meanMotion: Float?,
-    @SerializedName("mean_anomaly") val meanAnomaly: Float?,
-    @SerializedName("mass_kg") val massInKg: Float?,
-    @SerializedName("mass_lbs") val massInLbs: Float?,
-    @SerializedName("reference_system") val referenceSystem: String?,
-    @SerializedName("norad_ids") val norads: List<Int> = emptyList(),
+    @Json(name = "semi_major_axis_km") val semiAxis: Float?,
+    @Json(name = "raan") val rightAscension: Float?,
+    @Json(name = "periapsis_km") val periapsis: Float?,
+    @Json(name = "apoapsis_km") val apoapsis: Float?,
+    @Json(name = "inclination_deg") val inclination: Float?,
+    @Json(name = "arg_of_pericenter") val pericenterArg: Float?,
+    @Json(name = "lifespan_years") val lifeSpan: Int?,
+    @Json(name = "period_min") val period: Float?,
+    @Json(name = "mean_motion") val meanMotion: Float?,
+    @Json(name = "mean_anomaly") val meanAnomaly: Float?,
+    @Json(name = "mass_kg") val massInKg: Float?,
+    @Json(name = "mass_lbs") val massInLbs: Float?,
+    @Json(name = "reference_system") val referenceSystem: String?,
+    @Json(name = "norad_ids") val norads: List<Int> = emptyList(),
 ) : HasStringId {
-    fun typeAsString(res: Context) = res.getString(when(type) {
-        PayloadType.SATELLITE -> R.string.satellite_text
-        PayloadType.DRAGON_BOILERPLATE -> R.string.dragon_boilerplate_text
-        PayloadType.DRAGON_1_0 -> R.string.dragon_1_0_text
-        PayloadType.DRAGON_1_1 -> R.string.dragon_1_1_text
-        PayloadType.DRAGON_2_0 -> R.string.dragon_2_0_text
-        PayloadType.CREW_DRAGON -> R.string.crew_dragon_text
-        PayloadType.LANDER -> R.string.lander_text
-    })
+    fun typeAsString(res: Context) = type?.let {
+        res.getString(
+            when (it) {
+                PayloadType.SATELLITE -> R.string.satellite_text
+                PayloadType.DRAGON_BOILERPLATE -> R.string.dragon_boilerplate_text
+                PayloadType.DRAGON_1_0 -> R.string.dragon_1_0_text
+                PayloadType.DRAGON_1_1 -> R.string.dragon_1_1_text
+                PayloadType.DRAGON_2_0 -> R.string.dragon_2_0_text
+                PayloadType.CREW_DRAGON -> R.string.crew_dragon_text
+                PayloadType.LANDER -> R.string.lander_text
+            }
+        )
+    }
 
     fun orbitAsString(res: Context) = orbit?.let {
         res.getString(when(it) {

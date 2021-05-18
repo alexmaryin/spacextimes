@@ -1,17 +1,19 @@
 package ru.alexmaryin.spacextimes_rx.data.model
 
+import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 
+@JsonClass(generateAdapter = true)
 data class Crew(
     override val id: String,
-    val name: String,
+    val name: String?,
     val status: CrewStatus,
     val agency: String?,
-    val image: String,
+    val image: String?,
     override val wikipedia: String?,
-    override var wikiLocale: String?,
+    @Transient override var wikiLocale: String? = null,
     val launches: List<Launches> = emptyList()
 ) : HasStringId, HasWiki

@@ -35,7 +35,7 @@ class PayloadDetailViewModel @Inject constructor(
     fun populateDetails(res: Context, payload: Payload) = mutableListOf<HasStringId>().apply {
         with(payload) {
             add(RecyclerHeader(text = res.getString(R.string.payload_details_caption)))
-            add(OneLineItem2(left = res.getString(R.string.payload_type_caption), right = typeAsString(res)))
+            typeAsString(res)?.let { add(OneLineItem2(left = res.getString(R.string.payload_type_caption), right = it)) }
             if (customers.isNotEmpty())
                 add(
                     OneLineItem2(

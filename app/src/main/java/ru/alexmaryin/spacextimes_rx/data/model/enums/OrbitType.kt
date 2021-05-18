@@ -1,11 +1,11 @@
 package ru.alexmaryin.spacextimes_rx.data.model.enums
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 enum class OrbitType{
-    @SerializedName("leo") LOW_EARTH,
-    @SerializedName("gto") GEOSYNCHRONOUS,
-    @SerializedName("mars") MARS,
-    @SerializedName("pluto") PLUTO,
-    @SerializedName("moon") MOON
+    @Json(name = "leo") LOW_EARTH,
+    @Json(name = "gto") GEOSYNCHRONOUS,
+    @Json(name = "mars") MARS,
+    @Json(name = "pluto") PLUTO,
+    @Json(name = "moon") MOON
 }

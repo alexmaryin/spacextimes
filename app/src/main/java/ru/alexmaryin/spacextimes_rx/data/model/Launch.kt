@@ -2,7 +2,8 @@ package ru.alexmaryin.spacextimes_rx.data.model
 
 import android.content.Context
 import com.google.android.material.timepicker.TimeFormat
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
@@ -21,16 +22,17 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@JsonClass(generateAdapter = true)
 data class Launch(
     override val id: String,
     val name: String,
     val window: Int?,
-    val rocket: Rocket,
-    val success: Boolean,
+    val rocket: Rocket?,
+    val success: Boolean? = null,
     val upcoming: Boolean,
     override val details: String?,
-    override var detailsRu: String?,
-    val fairings: Fairings,
+    @Transient override var detailsRu: String? = null,
+    val fairings: Fairings?,
     val links: Links,
     val crew: List<Crews> = emptyList(),
     val ships: List<String> = emptyList(),
@@ -38,17 +40,17 @@ data class Launch(
     val payloads: List<Payload> = emptyList(),
     val cores: List<CoreFlight> = emptyList(),
     val failures: List<Failure> = emptyList(),
-    @SerializedName("launchpad") val launchPad: LaunchPads?,
-    @SerializedName("auto_update") val autoUpdate: Boolean,
-    @SerializedName("flight_number") val flightNumber: Int,
-    @SerializedName("date_utc") val dateUtc: Date,
-    @SerializedName("dater_unix") val dateUnix: Long,
-    @SerializedName("date_local") val dateLocal: Date,
-    @SerializedName("date_precision") val datePrecision: DatePrecision,
-    @SerializedName("static_fire_date_utc") val staticFireDateUtc: Date?,
-    @SerializedName("static_fire_date_unix") val staticFireDateUnix: Long?,
-    @SerializedName("tbd") val toBeDetermined: Boolean = false,
-    @SerializedName("net") val notEarlyThan: Boolean = false,
+    @Json(name = "launchpad") val launchPad: LaunchPads?,
+    @Json(name = "auto_update") val autoUpdate: Boolean,
+    @Json(name = "flight_number") val flightNumber: Int,
+    @Json(name = "date_utc") val dateUtc: Date,
+    @Json(name = "dater_unix") val dateUnix: Long?,
+    @Json(name = "date_local") val dateLocal: Date,
+    @Json(name = "date_precision") val datePrecision: DatePrecision,
+    @Json(name = "static_fire_date_utc") val staticFireDateUtc: Date?,
+    @Json(name = "static_fire_date_unix") val staticFireDateUnix: Long?,
+    @Json(name = "tbd") val toBeDetermined: Boolean = false,
+    @Json(name = "net") val notEarlyThan: Boolean = false,
 ) : HasStringId, HasDetails, HasWiki {
 
     override val wikipedia get() = links.wikipedia

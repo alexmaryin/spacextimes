@@ -99,8 +99,8 @@ class RocketDetailViewModel @Inject constructor(
                 right = res.getString(R.string.thrust_str, thrustVacuum.kN)
             ))
             add(OneLineItem2(
-                left = res.getString(R.string.stage_fuel_amount_str, fuelAmount),
-                right = res.getString(R.string.stage_burn_time_str, burnTime)
+                left = res.getString(R.string.stage_fuel_amount_str, fuelAmount ?: 0f),
+                right = res.getString(R.string.stage_burn_time_str, burnTime ?: 0)
             ))
         }
 
@@ -115,8 +115,8 @@ class RocketDetailViewModel @Inject constructor(
                 right = res.getString(R.string.thrust_str, thrust.kN)
             ))
             add(OneLineItem2(
-                left = res.getString(R.string.stage_fuel_amount_str, fuelAmount),
-                right = res.getString(R.string.stage_burn_time_str, burnTime)
+                left = res.getString(R.string.stage_fuel_amount_str, fuelAmount ?: 0f),
+                right = res.getString(R.string.stage_burn_time_str, burnTime ?: 0)
             ))
             if (payloads.compositeFairing.height.meters != null) {
                 add(TwoStringsItem(
