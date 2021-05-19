@@ -14,7 +14,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
-import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.prettifyMinutesPeriod
 import ru.alexmaryin.spacextimes_rx.utils.prettifySecondsPeriod

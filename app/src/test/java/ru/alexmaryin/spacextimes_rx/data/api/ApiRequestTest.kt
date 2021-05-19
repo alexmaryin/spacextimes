@@ -1,6 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.data.api
 
 import org.junit.Test
+import ru.alexmaryin.spacextimes_rx.data.model.api.ApiOptions
+import ru.alexmaryin.spacextimes_rx.data.model.api.ApiRequest
+import ru.alexmaryin.spacextimes_rx.data.model.api.PopulatedObject
 
 class ApiRequestTest {
 

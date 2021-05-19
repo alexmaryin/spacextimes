@@ -17,11 +17,9 @@ import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorImpl
-import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorInternalApiImpl
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
-import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.util.*

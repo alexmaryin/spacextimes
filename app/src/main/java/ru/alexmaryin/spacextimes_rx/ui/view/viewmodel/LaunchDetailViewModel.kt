@@ -15,7 +15,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.wiki.localizeWiki
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.*
-import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import java.text.DateFormat

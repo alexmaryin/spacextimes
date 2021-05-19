@@ -5,9 +5,9 @@ import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.alexmaryin.spacextimes_rx.data.api.SpaceXApi
-import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateDao
-import ru.alexmaryin.spacextimes_rx.data.local.translations.TranslateItem
+import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApi
+import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDao
+import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateItem
 import ru.alexmaryin.spacextimes_rx.utils.toChunkedList
 import java.io.File
 import java.io.IOException

@@ -7,6 +7,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
+import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleLocal
 
 @JsonClass(generateAdapter = true)
 data class Capsule(
@@ -20,4 +21,6 @@ data class Capsule(
     @Json(name = "last_update") override val lastUpdate: String?,
     @Transient override var lastUpdateRu: String? = null,
     val launches: List<Launches> = emptyList()
-) : HasStringId, HasLastUpdate
+) : HasStringId, HasLastUpdate {
+    fun toRoom() = CapsuleLocal(id, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu)
+}
