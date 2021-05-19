@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ru.alexmaryin.spacextimes_rx.data.api.local.RoomConverters
 import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXDatabase
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDatabase
 import javax.inject.Singleton
@@ -22,7 +23,9 @@ class LocalApiModule {
             context,
             TranslateDatabase::class.java,
             "translationsDb"
-        ).fallbackToDestructiveMigration()
+        )
+            .addTypeConverter(RoomConverters())
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides
@@ -36,7 +39,9 @@ class LocalApiModule {
             context,
             SpaceXDatabase::class.java,
             "spacexDb"
-        ).fallbackToDestructiveMigration()
+        )
+            .addTypeConverter(RoomConverters())
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides
