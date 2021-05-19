@@ -78,7 +78,7 @@ class SpacexDataRepository @Inject constructor(
     fun getCapsules() = fetchItems(remoteApi::getCapsules, localApi::getCapsules, localApi::saveCapsules)
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById)
 
-    fun getCores() = fetchItems(remoteApi::getCores, localApi::getCores)
+    fun getCores() = fetchItems(remoteApi::getCores, localApi::getCores, localApi::saveCores)
         .map { it.toListOf<Cores>()?.sortedWith(compareBy(Cores::block, Cores::serial))?.reversed()?.toSuccess() ?: it }
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
 

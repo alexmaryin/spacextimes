@@ -9,7 +9,8 @@ interface ApiLocal {
     suspend fun saveCapsules(capsules: List<Capsules>)
     suspend fun getCapsuleById(id: String): Capsule?
 
-    suspend fun getCores(): List<Core>
+    suspend fun getCores(): List<Cores>
+    suspend fun saveCores(cores: List<Cores>)
     suspend fun getCoreById(id: String): Core?
 
     suspend fun getCrew(): List<Crews>

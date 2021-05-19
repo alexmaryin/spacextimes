@@ -5,6 +5,7 @@ import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
+import ru.alexmaryin.spacextimes_rx.data.room_model.CoreLocal
 
 @JsonClass(generateAdapter = true)
 data class Cores(
@@ -20,4 +21,9 @@ data class Cores(
     @Json(name = "last_update") override val lastUpdate: String?,
     @Transient override var lastUpdateRu: String? = null,
     val launches: List<String> = emptyList(),
-) : HasStringId, HasLastUpdate { fun totalFlights() = launches.size }
+) : HasStringId, HasLastUpdate {
+    fun totalFlights() = launches.size
+
+    fun toRoom() = CoreLocal(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
+        waterLandAttempts, waterLandings, lastUpdate, lastUpdateRu)
+}

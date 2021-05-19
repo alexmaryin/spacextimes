@@ -12,12 +12,12 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun getCapsules(): List<Capsules> = spaceXDao.selectAllCapsules().map { it.toResponseList() }
         .also {
-            Log.d("REPO", "Selected all capsules from Room: ${it.size} items")
+            Log.d("REPO_LOCAL", "Selected all capsules from Room: ${it.size} items")
         }
 
     override suspend fun saveCapsules(capsules: List<Capsules>) {
         capsules.forEach { spaceXDao.insertCapsule(it.toRoom()) }
-        Log.d("REPO", "Saving capsules to Room: ${capsules.size} items")
+        Log.d("REPO_LOCAL", "Saving capsules to Room: ${capsules.size} items")
     }
 
     override suspend fun getCapsuleById(id: String): Capsule? =
@@ -25,16 +25,24 @@ class ApiLocalImpl @Inject constructor(
             // TODO launches = spaceXDao.selectLaunchesForCapsule(id) <- this is Capsule id for query
         }
             .also {
-                it?.let { Log.d("REPO", "Selected capsule from Room with id: ${it.id}") }
+                it?.let { Log.d("REPO_LOCAL", "Selected capsule from Room with id: ${it.id}") }
             }
 
-    override suspend fun getCores(): List<Core> {
-        return emptyList()
-    }
+    override suspend fun getCores(): List<Cores> = spaceXDao.selectAllCores().map { it.toResponseList() }
+        .also {
+            Log.d("REPO_LOCAL", "Selected all cores from Room: ${it.size} items")
+        }
 
-    override suspend fun getCoreById(id: String): Core? {
-        Log.d("REPO_LOCAL", "Local core with id $id is requested. Return null for debug.")
-        return null
+    override suspend fun getCoreById(id: String): Core? = spaceXDao.selectCore(id)?.toResponseDetails().apply {
+        // TODO launches = spaceXDao.selectLaunchesForCore(id) <- this is Core id for query
+    }
+        .also {
+            it?.let { Log.d("REPO_LOCAL", "Selected core from Room with id: ${it.id}") }
+        }
+
+    override suspend fun saveCores(cores: List<Cores>) {
+        cores.forEach { spaceXDao.insertCore(it.toRoom()) }
+        Log.d("REPO_LOCAL", "Saving cores to Room: ${cores.size} items")
     }
 
     override suspend fun getCrew(): List<Crews> {
