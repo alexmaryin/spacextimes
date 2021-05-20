@@ -10,7 +10,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
-import ru.alexmaryin.spacextimes_rx.data.model.lists.LaunchPads
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
@@ -37,7 +36,7 @@ data class Launch(
     val payloads: List<Payload> = emptyList(),
     val cores: List<CoreFlight> = emptyList(),
     val failures: List<Failure> = emptyList(),
-    @Json(name = "launchpad") val launchPad: LaunchPads?,
+    @Json(name = "launchpad") val launchPad: LaunchPad?,
     @Json(name = "auto_update") val autoUpdate: Boolean,
     @Json(name = "flight_number") val flightNumber: Int,
     @Json(name = "date_utc") val dateUtc: Date,

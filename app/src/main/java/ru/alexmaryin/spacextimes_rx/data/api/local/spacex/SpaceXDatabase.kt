@@ -5,17 +5,14 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ru.alexmaryin.spacextimes_rx.data.api.local.RoomConverters
-import ru.alexmaryin.spacextimes_rx.data.model.LandingPad
-import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleLocal
-import ru.alexmaryin.spacextimes_rx.data.room_model.CoreLocal
-import ru.alexmaryin.spacextimes_rx.data.room_model.CrewLocal
-import ru.alexmaryin.spacextimes_rx.data.room_model.LandingPadLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.*
 
 @Database(entities = [
         CapsuleLocal::class,
         CoreLocal::class,
         CrewLocal::class,
         LandingPadLocal::class,
+        LaunchPadLocal::class,
     ],
     autoMigrations = [
         AutoMigration(from = 2, to = 3)

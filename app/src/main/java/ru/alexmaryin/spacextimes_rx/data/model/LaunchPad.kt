@@ -6,16 +6,26 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchPadLocal
 
 @JsonClass(generateAdapter = true)
 data class LaunchPad(
     override val id: String,
     val name: String?,
-    val rockets: List<Rocket> = emptyList(),
-    val launches: List<Launches> = emptyList(),
+    val locality: String?,
+    val region: String,
+    val latitude: Float,
+    val longitude: Float,
+    val status: PadStatus,
     override val details: String?,
     @Transient override var detailsRu: String? = null,
-    val status: PadStatus,
+    @Json(name = "timezone") val timeZone: String,
+    @Json(name = "full_name") val fullName: String?,
     @Json(name = "launch_attempts") val launchAttempts: Int = 0,
     @Json(name = "launch_successes") val launchSuccesses: Int = 0,
-) : HasStringId, HasDetails
+    val rockets: List<Rocket> = emptyList(),
+    val launches: List<Launches> = emptyList(),
+) : HasStringId, HasDetails {
+
+    fun toRoom() = LaunchPadLocal(id, name, locality, region, latitude, longitude, status, details, detailsRu, timeZone, fullName)
+}

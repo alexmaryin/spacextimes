@@ -21,7 +21,7 @@ interface SpaceXApi {
     suspend fun getDragons(): Response<List<Dragon>>
     suspend fun getDragonById(id: String): Response<Dragon>
 
-    suspend fun getLaunchPads(): Response<List<LaunchPads>>
+    suspend fun getLaunchPads(): Response<ApiResponse<List<LaunchPad>>>
     suspend fun getLaunchPadById(id: String): Response<ApiResponse<LaunchPad>>
 
     suspend fun getLandingPads(): Response<ApiResponse<List<LandingPad>>>

@@ -17,6 +17,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     private val populateNestedLaunches = ApiOptions(
         populate = listOf(
             PopulatedObject(path = "launches", populate = PopulatedObject(path = "rocket")),
+            PopulatedObject(path = "rockets")
         )
     )
 
@@ -63,7 +64,9 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     override suspend fun getDragons(): Response<List<Dragon>> = apiRemote.getDragons()
     override suspend fun getDragonById(id: String): Response<Dragon> = apiRemote.getDragonById(id)
 
-    override suspend fun getLaunchPads(): Response<List<LaunchPads>> = apiRemote.getLaunchPads()
+    override suspend fun getLaunchPads(): Response<ApiResponse<List<LaunchPad>>> =
+        apiRemote.getLaunchPads(ApiRequest(options = populateNestedLaunches))
+
     override suspend fun getLaunchPadById(id: String): Response<ApiResponse<LaunchPad>> =
         apiRemote.getLaunchPadById(requestById(id, populateNestedLaunches))
 

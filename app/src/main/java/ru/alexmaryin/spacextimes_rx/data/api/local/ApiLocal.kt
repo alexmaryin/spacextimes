@@ -20,7 +20,8 @@ interface ApiLocal {
     suspend fun getDragons(): List<Dragon>
     suspend fun getDragonById(id: String): Dragon?
 
-    suspend fun getLaunchPads(): List<LaunchPads>
+    suspend fun getLaunchPads(): List<LaunchPad>
+    suspend fun saveLaunchPads(pads: List<LaunchPad>)
     suspend fun getLaunchPadById(id: String): LaunchPad?
 
     suspend fun getLandingPads(): List<LandingPad>

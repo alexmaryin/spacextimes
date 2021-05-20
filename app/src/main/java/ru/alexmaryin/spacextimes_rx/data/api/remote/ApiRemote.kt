@@ -37,8 +37,8 @@ interface ApiRemote {
     @GET(SpacexUrls.AllDragons +"{id}")
     suspend fun getDragonById(@Path("id") id: String): Response<Dragon>
 
-    @GET(SpacexUrls.AllLaunchPads)
-    suspend fun getLaunchPads(): Response<List<LaunchPads>>
+    @POST(SpacexUrls.LaunchPadQuery)
+    suspend fun getLaunchPads(@Body body: ApiRequest): Response<ApiResponse<List<LaunchPad>>>
 
     @POST(SpacexUrls.LaunchPadQuery)
     suspend fun getLaunchPadById(@Body body: ApiRequest): Response<ApiResponse<LaunchPad>>

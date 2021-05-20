@@ -8,7 +8,6 @@ class SpacexUrls {
         const val CrewQuery = "crew/query/"
         const val AllDragons = "dragons/"
         const val LandingPadQuery = "landpads/query/"
-        const val AllLaunchPads = "launchpads/"
         const val LaunchPadQuery = "launchpads/query/"
         const val AllLaunchesQuery = "launches/query/"
         const val AllRockets = "rockets/"
