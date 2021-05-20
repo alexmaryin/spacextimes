@@ -7,7 +7,7 @@
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.DateAdapter" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
-        <variable name="launch" type="ru.alexmaryin.spacextimes_rx.data.model.lists.Launches" />
+        <variable name="launch" type="ru.alexmaryin.spacextimes_rx.data.model.Launch" />
         <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
     </data>
 

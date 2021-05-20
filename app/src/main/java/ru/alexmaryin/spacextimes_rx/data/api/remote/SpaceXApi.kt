@@ -1,10 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.data.api.remote
 
 import retrofit2.Response
-import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
-import ru.alexmaryin.spacextimes_rx.data.model.lists.*
+import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 import java.io.File
 
 interface SpaceXApi {
@@ -30,7 +29,7 @@ interface SpaceXApi {
     suspend fun getRockets(): Response<List<Rocket>>
     suspend fun getRocketById(id: String): Response<Rocket>
 
-    suspend fun getLaunches(): Response<ApiResponse<Launches>>
+    suspend fun getLaunches(): Response<ApiResponse<List<Launch>>>
     suspend fun getLaunchById(id: String): Response<ApiResponse<Launch>>
 
     suspend fun getPayloadById(id: String): Response<ApiResponse<Payload>>

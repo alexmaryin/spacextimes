@@ -3,7 +3,6 @@ package ru.alexmaryin.spacextimes_rx.data.api.local
 import android.util.Log
 import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXDao
 import ru.alexmaryin.spacextimes_rx.data.model.*
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import javax.inject.Inject
 
 class ApiLocalImpl @Inject constructor(
@@ -70,7 +69,6 @@ class ApiLocalImpl @Inject constructor(
     }
 
     override suspend fun getDragonById(id: String): Dragon? {
-        Log.d("REPO_LOCAL", "Local dragon with id $id is requested. Return null for debug.")
         return null
     }
 
@@ -115,21 +113,28 @@ class ApiLocalImpl @Inject constructor(
     }
 
     override suspend fun getRocketById(id: String): Rocket? {
-        Log.d("REPO_LOCAL", "Local rocket with id $id is requested. Return null for debug.")
         return null
     }
 
-    override suspend fun getLaunches(): List<Launches> {
-        return emptyList()
-    }
+    override suspend fun getLaunches(): List<Launch> = spaceXDao.selectAllLaunches().map { it.toResponse() }
+        .also {
+            Log.d("REPO_LOCAL", "Selected all launches from Room: ${it.size} items")
+        }
 
-    override suspend fun getLaunchById(id: String): Launch? {
-        Log.d("REPO_LOCAL", "Local launch with id $id is requested. Return null for debug.")
-        return null
+    override suspend fun getLaunchById(id: String): Launch? = spaceXDao.selectLaunch(id)?.toResponse().apply {
+        // TODO populate lists and objects
+    }
+        .also {
+            it?.let { Log.d("REPO_LOCAL", "Selected launch from Room with id: ${it.id}") }
+        }
+
+    override suspend fun saveLaunches(launches: List<Launch>) {
+        launches.forEach { spaceXDao.insertLaunch(it.toRoom()) }
+        // TODO maybe save details of lists?
+        Log.d("REPO_LOCAL", "Saving launches to Room: ${launches.size} items")
     }
 
     override suspend fun getPayloadById(id: String): Payload? {
-        Log.d("REPO_LOCAL", "Local payload with id $id is requested. Return null for debug.")
         return null
     }
 

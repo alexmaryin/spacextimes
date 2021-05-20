@@ -1,7 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import app.cash.turbine.test
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.*
@@ -18,8 +17,8 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.util.*
@@ -151,7 +150,7 @@ class SpaceXViewModelTest {
 
     private fun prepareMockLaunch(
         precision: DatePrecision = DatePrecision.HOUR,
-        addHours: Int = 12) = mock(Launches::class.java).apply {
+        addHours: Int = 12) = mock(Launch::class.java).apply {
         `when`(datePrecision).thenReturn(precision)
         `when`(upcoming).thenReturn(false)
         `when`(dateLocal).thenReturn(Calendar.getInstance().apply { add(Calendar.HOUR, addHours) }.time)

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
 
@@ -39,7 +39,7 @@ class SpaceXViewModel @Inject constructor(
             viewModelScope.launch {
                 screen.readRepository(repository, translator).collect { result ->
                     state.emit(result)
-                    if (screen == LaunchesScr) result.toListOf<Launches>()?.let { filterLaunches() }
+                    if (screen == LaunchesScr) result.toListOf<Launch>()?.let { filterLaunches() }
                 }
             }
         }

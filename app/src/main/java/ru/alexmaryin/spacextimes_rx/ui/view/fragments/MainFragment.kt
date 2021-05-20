@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
@@ -137,7 +137,7 @@ class MainFragment : Fragment() {
                     if (state.error == ErrorType.UPCOMING_LAUNCHES_DESELECTED) getString(R.string.upcoming_launches_deselected_string) else state.msg,
                     Toast.LENGTH_SHORT).show()
                 is Success<*> -> {
-                    val (position, launch) = state.toDetails<Pair<Int, Launches>>()
+                    val (position, launch) = state.toDetails<Pair<Int, Launch>>()
                     binding.recyclerView.addItemShaker(position)
                     val timeTo = (launch.dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
                     Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, launch.name, timeTo), Snackbar.LENGTH_LONG).show()

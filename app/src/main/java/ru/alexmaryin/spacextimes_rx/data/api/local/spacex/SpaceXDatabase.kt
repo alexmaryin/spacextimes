@@ -13,6 +13,7 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.*
         CrewLocal::class,
         LandingPadLocal::class,
         LaunchPadLocal::class,
+        LaunchLocal::class,
     ],
     autoMigrations = [
         AutoMigration(from = 2, to = 3)

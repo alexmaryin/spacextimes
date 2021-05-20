@@ -5,10 +5,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
-import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import ru.alexmaryin.spacextimes_rx.data.model.api.*
-import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 import java.io.File
 import javax.inject.Inject
 
@@ -25,7 +23,8 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
 
     private val populateLaunchDetails = ApiOptions(
         populate = listOf(
-            PopulatedObject(path = "rocket launchpad"),
+            PopulatedObject(path = "rocket"),
+            PopulatedObject(path = "launchpad", select = "-launches -rockets"),
             PopulatedObject(path = "crew", select = "-launches"),
             PopulatedObject(path = "capsules", select = "-launches"),
             PopulatedObject(path = "cores", populate = PopulatedObject(path = "core", select = "-launches")),
@@ -36,7 +35,10 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     private val populatePayload = ApiOptions(populate = listOf(dragonWithCapsule))
 
     private val populateLaunches = ApiOptions(
-        populate = listOf(PopulatedObject(path = "rocket")),
+        populate = listOf(
+            PopulatedObject(path = "rocket"),
+            PopulatedObject(path = "launchpad", select = "-launches -rockets"),
+        ),
         sort = "field  -upcoming -date_local -name",
         pagination = false,
     )
@@ -79,7 +81,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     override suspend fun getRockets(): Response<List<Rocket>> = apiRemote.getRockets()
     override suspend fun getRocketById(id: String): Response<Rocket> = apiRemote.getRocketById(id)
 
-    override suspend fun getLaunches(): Response<ApiResponse<Launches>> =
+    override suspend fun getLaunches(): Response<ApiResponse<List<Launch>>> =
         apiRemote.getLaunches(ApiRequest(options = populateLaunches))
 
     override suspend fun getLaunchById(id: String): Response<ApiResponse<Launch>> =

@@ -12,6 +12,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
 import ru.alexmaryin.spacextimes_rx.utils.halfYearString
 import ru.alexmaryin.spacextimes_rx.utils.quarterYearString
@@ -31,12 +32,6 @@ data class Launch(
     @Transient override var detailsRu: String? = null,
     val fairings: Fairings?,
     val links: Links,
-    val crew: List<Crew> = emptyList(),
-    val capsules: List<Capsule> = emptyList(),
-    val payloads: List<Payload> = emptyList(),
-    val cores: List<CoreFlight> = emptyList(),
-    val failures: List<Failure> = emptyList(),
-    @Json(name = "launchpad") val launchPad: LaunchPad?,
     @Json(name = "auto_update") val autoUpdate: Boolean,
     @Json(name = "flight_number") val flightNumber: Int,
     @Json(name = "date_utc") val dateUtc: Date,
@@ -47,6 +42,12 @@ data class Launch(
     @Json(name = "static_fire_date_unix") val staticFireDateUnix: Long?,
     @Json(name = "tbd") val toBeDetermined: Boolean = false,
     @Json(name = "net") val notEarlyThan: Boolean = false,
+    @Json(name = "launchpad") val launchPad: LaunchPad? = null,
+    val crew: List<Crew> = emptyList(),
+    val capsules: List<Capsule> = emptyList(),
+    val payloads: List<Payload> = emptyList(),
+    val cores: List<CoreFlight> = emptyList(),
+    val failures: List<Failure> = emptyList(),
 ) : HasStringId, HasDetails, HasWiki {
 
     override val wikipedia get() = links.wikipedia
@@ -64,4 +65,8 @@ data class Launch(
         DatePrecision.DAY -> DateFormat.getDateInstance(DateFormat.LONG).format(dateLocal)
         DatePrecision.HOUR -> DateFormat.getDateTimeInstance(DateFormat.LONG, TimeFormat.CLOCK_24H).format(dateLocal)
     }
+
+    fun toRoom() = LaunchLocal(id, name, window, rocket, success, upcoming, details, detailsRu, fairings, links,
+        autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
+        toBeDetermined, notEarlyThan)
 }

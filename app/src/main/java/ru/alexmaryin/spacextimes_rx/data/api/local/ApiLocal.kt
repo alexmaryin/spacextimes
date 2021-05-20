@@ -31,7 +31,8 @@ interface ApiLocal {
     suspend fun getRockets(): List<Rocket>
     suspend fun getRocketById(id: String): Rocket?
 
-    suspend fun getLaunches(): List<Launches>
+    suspend fun getLaunches(): List<Launch>
+    suspend fun saveLaunches(launches: List<Launch>)
     suspend fun getLaunchById(id: String): Launch?
 
     suspend fun getPayloadById(id: String): Payload?

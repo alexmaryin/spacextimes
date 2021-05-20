@@ -4,12 +4,11 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
-import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorUrls
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiRequest
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
-import ru.alexmaryin.spacextimes_rx.data.model.lists.*
+import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 
 interface ApiRemote {
 
@@ -56,7 +55,7 @@ interface ApiRemote {
     suspend fun getRocketById(@Path("id") id: String): Response<Rocket>
 
     @POST(SpacexUrls.AllLaunchesQuery)
-    suspend fun getLaunches(@Body body: ApiRequest): Response<ApiResponse<Launches>>
+    suspend fun getLaunches(@Body body: ApiRequest): Response<ApiResponse<List<Launch>>>
 
     @POST(SpacexUrls.AllLaunchesQuery)
     suspend fun getLaunchById(@Body body: ApiRequest): Response<ApiResponse<Launch>>

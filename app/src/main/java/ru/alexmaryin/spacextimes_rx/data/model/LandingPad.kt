@@ -7,7 +7,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.LandingPadType
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.data.room_model.LandingPadLocal
 
 @JsonClass(generateAdapter = true)
@@ -20,7 +19,7 @@ data class LandingPad(
     val latitude: Float?,
     val longitude: Float?,
     val status: PadStatus?,
-    val launches: List<Launches> = emptyList(),
+    val launches: List<Launch> = emptyList(),
     override val wikipedia: String?,
     @Transient override var wikiLocale: String? = null,
     override val details: String?,
