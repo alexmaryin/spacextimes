@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "90a7cf08bf7f25c74dc410d31875fed5",
+    "identityHash": "dd3e34b5ee7d902b24660314455f731a",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -394,7 +394,7 @@
       },
       {
         "tableName": "launches_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `detailsRu` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `reused` INTEGER, `recovered` INTEGER, `ships` TEXT, `recoveryAttempt` INTEGER, `patch` TEXT NOT NULL, `reddit` TEXT NOT NULL, `flickr` TEXT NOT NULL, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `youtubeId` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `detailsRu` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `reused` INTEGER, `recovered` INTEGER, `recoveryAttempt` INTEGER, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `youtubeId` TEXT, `small` TEXT, `large` TEXT, `campaign` TEXT, `launch` TEXT, `media` TEXT, `recovery` TEXT, `small` TEXT NOT NULL, `original` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -511,34 +511,10 @@
             "notNull": false
           },
           {
-            "fieldPath": "fairings.ships",
-            "columnName": "ships",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "fairings.recoveryAttempt",
             "columnName": "recoveryAttempt",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "links.patch",
-            "columnName": "patch",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "links.reddit",
-            "columnName": "reddit",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "links.flickr",
-            "columnName": "flickr",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "links.presskit",
@@ -569,6 +545,54 @@
             "columnName": "youtubeId",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "links.patch.small",
+            "columnName": "small",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.patch.large",
+            "columnName": "large",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.reddit.campaign",
+            "columnName": "campaign",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.reddit.launch",
+            "columnName": "launch",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.reddit.media",
+            "columnName": "media",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.reddit.recovery",
+            "columnName": "recovery",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.flickr.small",
+            "columnName": "small",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "links.flickr.original",
+            "columnName": "original",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -611,7 +635,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90a7cf08bf7f25c74dc410d31875fed5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dd3e34b5ee7d902b24660314455f731a')"
     ]
   }
 }

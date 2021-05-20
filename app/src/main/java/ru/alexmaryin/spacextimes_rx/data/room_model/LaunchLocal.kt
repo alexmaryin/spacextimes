@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.room_model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.Rocket
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
@@ -14,8 +15,13 @@ import java.util.*
 data class LaunchLocal(
     @PrimaryKey val id: String,
     val name: String,
+//    @Relation(
+//        parentColumn = "id",
+//        entity = Rocket::class,
+//        entityColumn = "id",
+//    )
+//    @Embedded val rocket: Rocket?,
     val window: Int?,
-    //@Embedded val rocket: Rocket?,
     val success: Boolean? = null,
     val upcoming: Boolean,
     val details: String?,
