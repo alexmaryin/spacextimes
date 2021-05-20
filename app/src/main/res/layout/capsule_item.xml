@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="capsule" type="ru.alexmaryin.spacextimes_rx.data.model.lists.Capsules" />
+        <variable name="capsule" type="ru.alexmaryin.spacextimes_rx.data.model.Capsule" />
         <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
     </data>

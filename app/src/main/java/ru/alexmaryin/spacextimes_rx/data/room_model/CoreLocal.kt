@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 
 @Entity(tableName = "cores_table")
 data class CoreLocal(
@@ -20,9 +19,6 @@ data class CoreLocal(
     val lastUpdate: String?,
     val lastUpdateRu: String?,
 ) {
-    fun toResponseList() = Cores(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
-        waterLandAttempts, waterLandings, lastUpdate, lastUpdateRu, emptyList())
-
-    fun toResponseDetails() = Core(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
+    fun toResponse() = Core(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
         waterLandAttempts, waterLandings, lastUpdate, lastUpdateRu, emptyList())
 }

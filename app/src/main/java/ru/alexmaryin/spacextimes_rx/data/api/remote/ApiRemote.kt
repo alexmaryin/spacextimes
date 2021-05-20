@@ -13,20 +13,20 @@ import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 
 interface ApiRemote {
 
-    @GET(SpacexUrls.AllCapsules)
-    suspend fun getCapsules(): Response<List<Capsules>>
+    @POST(SpacexUrls.CapsuleQuery)
+    suspend fun getCapsules(@Body body: ApiRequest): Response<ApiResponse<List<Capsule>>>
 
     @POST(SpacexUrls.CapsuleQuery)
     suspend fun getCapsuleById(@Body body: ApiRequest): Response<ApiResponse<Capsule>>
 
-    @GET(SpacexUrls.AllCores)
-    suspend fun getCores(): Response<List<Cores>>
+    @POST(SpacexUrls.CoreQuery)
+    suspend fun getCores(@Body body: ApiRequest): Response<ApiResponse<List<Core>>>
 
     @POST(SpacexUrls.CoreQuery)
     suspend fun getCoreById(@Body body: ApiRequest): Response<ApiResponse<Core>>
 
-    @GET(SpacexUrls.AllCrew)
-    suspend fun getCrew(): Response<List<Crews>>
+    @POST(SpacexUrls.CrewQuery)
+    suspend fun getCrew(@Body body: ApiRequest): Response<ApiResponse<List<Crew>>>
 
     @POST(SpacexUrls.CrewQuery)
     suspend fun getCrewById(@Body body: ApiRequest): Response<ApiResponse<Crew>>

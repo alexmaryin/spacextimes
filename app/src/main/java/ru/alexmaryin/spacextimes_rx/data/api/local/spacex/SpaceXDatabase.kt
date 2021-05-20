@@ -7,15 +7,17 @@ import androidx.room.TypeConverters
 import ru.alexmaryin.spacextimes_rx.data.api.local.RoomConverters
 import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleLocal
 import ru.alexmaryin.spacextimes_rx.data.room_model.CoreLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.CrewLocal
 
 @Database(entities = [
         CapsuleLocal::class,
-        CoreLocal::class
+        CoreLocal::class,
+        CrewLocal::class,
     ],
     autoMigrations = [
-//        AutoMigration(from = 1, to = 2)
+        AutoMigration(from = 2, to = 3)
     ],
-    version = 2)
+    version = 3)
 @TypeConverters(RoomConverters::class)
 abstract class SpaceXDatabase : RoomDatabase() {
     abstract val dao: SpaceXDao

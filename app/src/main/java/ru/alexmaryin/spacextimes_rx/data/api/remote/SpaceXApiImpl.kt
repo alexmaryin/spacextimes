@@ -21,12 +21,14 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
         )
     )
 
-    private val dragonWithCapsule = PopulatedObject(path = "dragon", populate = PopulatedObject(path = "capsule"))
+    private val dragonWithCapsule = PopulatedObject(path = "dragon", populate = PopulatedObject(path = "capsule", select = "-launches"))
 
     private val populateLaunchDetails = ApiOptions(
         populate = listOf(
-            PopulatedObject(path = "rocket crew capsules payloads launchpad"),
-            PopulatedObject(path = "cores", populate = PopulatedObject(path = "core")),
+            PopulatedObject(path = "rocket launchpad"),
+            PopulatedObject(path = "crew", select = "-launches"),
+            PopulatedObject(path = "capsules", select = "-launches"),
+            PopulatedObject(path = "cores", populate = PopulatedObject(path = "core", select = "-launches")),
             PopulatedObject(path = "payloads", populate = dragonWithCapsule)
         )
     )
@@ -41,19 +43,21 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
 
     private fun requestById(id: String, options: ApiOptions = ApiOptions()) = ApiRequest(ApiQuery(id), options)
 
-//    private fun requestById(id: String, options: Map<String, Any> = emptyMap()) = Gson().toJson(
-//        ApiRequest(query = mapOf("_id" to id), options = options)
-//    ).toRequestBody("application/json".toMediaTypeOrNull())
+    override suspend fun getCapsules(): Response<ApiResponse<List<Capsule>>> =
+        apiRemote.getCapsules(ApiRequest(options = populateNestedLaunches))
 
-    override suspend fun getCapsules(): Response<List<Capsules>> = apiRemote.getCapsules()
     override suspend fun getCapsuleById(id: String): Response<ApiResponse<Capsule>> =
         apiRemote.getCapsuleById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getCores(): Response<List<Cores>> = apiRemote.getCores()
+    override suspend fun getCores(): Response<ApiResponse<List<Core>>> =
+        apiRemote.getCores(ApiRequest(options = populateNestedLaunches))
+
     override suspend fun getCoreById(id: String): Response<ApiResponse<Core>> =
         apiRemote.getCoreById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getCrew(): Response<List<Crews>> = apiRemote.getCrew()
+    override suspend fun getCrew(): Response<ApiResponse<List<Crew>>> =
+        apiRemote.getCrew(ApiRequest(options = populateNestedLaunches))
+
     override suspend fun getCrewById(id: String): Response<ApiResponse<Crew>> =
         apiRemote.getCrewById(requestById(id, populateNestedLaunches))
 

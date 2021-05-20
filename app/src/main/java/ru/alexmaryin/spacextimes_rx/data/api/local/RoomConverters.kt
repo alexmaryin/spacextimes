@@ -2,9 +2,11 @@ package ru.alexmaryin.spacextimes_rx.data.api.local
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import java.util.*
 
-@ProvidedTypeConverter
+//@ProvidedTypeConverter
 class RoomConverters {
     @TypeConverter
     fun fromDate(date: Date) = date.time

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="core"
-            type="ru.alexmaryin.spacextimes_rx.data.model.lists.Cores" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.Core" />
         <variable
             name="clickListener"
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />

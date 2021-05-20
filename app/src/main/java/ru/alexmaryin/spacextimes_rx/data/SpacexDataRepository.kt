@@ -6,10 +6,13 @@ import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApi
+import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
+import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchFilter
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.net.SocketTimeoutException
+import java.util.*
 import javax.inject.Inject
 
 class SpacexDataRepository @Inject constructor(
@@ -79,7 +82,8 @@ class SpacexDataRepository @Inject constructor(
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById)
 
     fun getCores() = fetchItems(remoteApi::getCores, localApi::getCores, localApi::saveCores)
-        .map { it.toListOf<Cores>()?.sortedWith(compareBy(Cores::block, Cores::serial))?.reversed()?.toSuccess() ?: it }
+        .map { it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it }
+
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
 
     fun getCrew() = fetchItems(remoteApi::getCrew, localApi::getCrew)
@@ -99,6 +103,21 @@ class SpacexDataRepository @Inject constructor(
 
     fun getLaunches() = fetchItems(remoteApi::getLaunches, localApi::getLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById)
+
+    suspend fun filterLaunches(launchFilter: Set<LaunchFilter>) = localApi.getLaunches().run {
+        val result = filter { launch ->
+            (launch.upcoming == LaunchFilter.Upcoming in launchFilter || launch.upcoming != LaunchFilter.Past in launchFilter) &&
+                    (launch.success == LaunchFilter.Successfully in launchFilter || launch.success != LaunchFilter.Failed in launchFilter)
+        }
+        Pair(result,  size)
+    }
+
+    suspend fun getNextLaunch(filter: Set<LaunchFilter>) = filterLaunches(filter).first.run {
+        val position = indexOfLast {
+            it.datePrecision >= DatePrecision.DAY && it.dateLocal > Calendar.getInstance().time
+        }
+        if (position > 0) Pair(position, get(position)) else null
+    }
 
     fun getPayloadById(id: String) = fetchItemById(id, remoteApi::getPayloadById, localApi::getPayloadById)
 

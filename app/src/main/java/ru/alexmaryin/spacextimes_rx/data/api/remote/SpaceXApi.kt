@@ -7,17 +7,15 @@ import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 import java.io.File
 
-//enum class LaunchesFilter { ALL, UPCOMING, PAST, LATEST, NEXT }
-
 interface SpaceXApi {
 
-    suspend fun getCapsules(): Response<List<Capsules>>
+    suspend fun getCapsules(): Response<ApiResponse<List<Capsule>>>
     suspend fun getCapsuleById(id: String): Response<ApiResponse<Capsule>>
 
-    suspend fun getCores(): Response<List<Cores>>
+    suspend fun getCores(): Response<ApiResponse<List<Core>>>
     suspend fun getCoreById(id: String): Response<ApiResponse<Core>>
 
-    suspend fun getCrew(): Response<List<Crews>>
+    suspend fun getCrew(): Response<ApiResponse<List<Crew>>>
     suspend fun getCrewById(id: String): Response<ApiResponse<Crew>>
 
     suspend fun getDragons(): Response<List<Dragon>>

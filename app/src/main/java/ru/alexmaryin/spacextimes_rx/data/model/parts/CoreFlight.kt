@@ -2,11 +2,11 @@ package ru.alexmaryin.spacextimes_rx.data.model.parts
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
+import ru.alexmaryin.spacextimes_rx.data.model.Core
 
 @JsonClass(generateAdapter = true)
 data class CoreFlight(
-    val core: Cores?,
+    val core: Core?,
     val flight: Int?,
     val gridfins: Boolean?,
     val legs: Boolean?,

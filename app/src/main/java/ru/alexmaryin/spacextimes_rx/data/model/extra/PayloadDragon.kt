@@ -2,11 +2,11 @@ package ru.alexmaryin.spacextimes_rx.data.model.extra
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Capsules
+import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 
 @JsonClass(generateAdapter = true)
 data class PayloadDragon(
-    val capsule: Capsules? = null,
+    val capsule: Capsule? = null,
     val manifest: String? = null,
     @Json(name = "mass_returned_kg") val returnedMassInKg: Float? = null,
     @Json(name = "mass_returned_lbs") val returnedMassInLbs: Float? = null,

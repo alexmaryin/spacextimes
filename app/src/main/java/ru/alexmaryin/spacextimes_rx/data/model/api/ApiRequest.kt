@@ -16,7 +16,7 @@ data class ApiQuery(
 
 @JsonClass(generateAdapter = true)
 data class ApiOptions(
-    val select: String? = null,
+    var select: String? = null,
     val sort: String? = null,
     val offset: Int? = null,
     val page: Int? = null,
@@ -28,5 +28,6 @@ data class ApiOptions(
 @JsonClass(generateAdapter = true)
 data class PopulatedObject(
     val path: String,
+    val select: String? = null,
     val populate: PopulatedObject? = null
 )

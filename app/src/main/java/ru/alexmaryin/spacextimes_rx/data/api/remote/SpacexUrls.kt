@@ -3,11 +3,8 @@ package ru.alexmaryin.spacextimes_rx.data.api.remote
 class SpacexUrls {
     companion object {
         const val Base = "https://api.spacexdata.com/v4/"
-        const val AllCapsules = "capsules/"
         const val CapsuleQuery = "capsules/query/"
-        const val AllCores = "cores/"
         const val CoreQuery = "cores/query/"
-        const val AllCrew = "crew/"
         const val CrewQuery = "crew/query/"
         const val AllDragons = "dragons/"
         const val AllLandingPads = "landpads/"

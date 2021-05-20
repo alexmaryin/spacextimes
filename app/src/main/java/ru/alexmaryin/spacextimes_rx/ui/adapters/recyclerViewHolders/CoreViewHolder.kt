@@ -3,8 +3,8 @@ package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Cores
 import ru.alexmaryin.spacextimes_rx.databinding.CoreItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
@@ -13,23 +13,23 @@ class CoreViewHolder : ViewHolderVisitor {
 
     override val layout = R.layout.core_item
 
-    private fun falconResourceName(item: Cores) = if (item.block == null) "falcon1" else buildString {
+    private fun falconResourceName(item: Core) = if (item.block == null) "falcon1" else buildString {
         append("falcon9block${item.block}")
-        append(if (item.block > 4 || item.totalFlights() >= 2) "legs_" else "_")
+        append(if (item.block > 4 || item.totalFlights >= 2) "legs_" else "_")
         append(
             when {
-                item.totalFlights() < 1 -> 1
-                item.totalFlights() > 10 -> 10
-                else -> item.totalFlights()
+                item.totalFlights < 1 -> 1
+                item.totalFlights > 10 -> 10
+                else -> item.totalFlights
             }
         )
     }
 
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
-        val core = item as Cores
+        val core = item as Core
         with(binding as CoreItemBinding) {
             this.core = core
-            this.clickListener = if (core.totalFlights() > 0) clickListener else AdapterClickListenerById { _, _ ->
+            this.clickListener = if (core.totalFlights > 0) clickListener else AdapterClickListenerById { _, _ ->
                 Toast.makeText(root.context, root.context.getString(R.string.core_not_fly_text), Toast.LENGTH_LONG).show()
             }
 
@@ -59,8 +59,8 @@ class CoreViewHolder : ViewHolderVisitor {
 
             coreReusing.text = buildString {
                 append(
-                    if (core.totalFlights() > 0)
-                        root.resources.getQuantityString(R.plurals.reuseCountString, core.totalFlights(), core.totalFlights())
+                    if (core.totalFlights > 0)
+                        root.resources.getQuantityString(R.plurals.reuseCountString, core.totalFlights, core.totalFlights)
                     else root.resources.getString(R.string.noFlightString)
                 )
                 if (core.groundLandAttempts > 0) append(root.context.getString(R.string.groundLandCoreCountString, core.groundLandings, core.groundLandAttempts))
@@ -69,5 +69,5 @@ class CoreViewHolder : ViewHolderVisitor {
         }
     }
 
-    override fun acceptBinding(item: Any): Boolean = item is Cores
+    override fun acceptBinding(item: Any): Boolean = item is Core
 }

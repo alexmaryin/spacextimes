@@ -4,9 +4,9 @@ import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import com.squareup.picasso.Picasso
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleStatus
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Capsules
 import ru.alexmaryin.spacextimes_rx.databinding.CapsuleItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
@@ -17,9 +17,9 @@ class CapsuleViewHolder : ViewHolderVisitor {
     override val layout = R.layout.capsule_item
 
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
-        val capsule = item as Capsules
+        val capsule = item as Capsule
         with(binding as CapsuleItemBinding) {
-            this.clickListener = if (capsule.launches.isNotEmpty()) clickListener else AdapterClickListenerById { _, _ ->
+            this.clickListener = if (capsule.totalFlights > 0) clickListener else AdapterClickListenerById { _, _ ->
                 Toast.makeText(root.context, root.context.getString(R.string.capsule_not_fly_text), Toast.LENGTH_LONG).show()
             }
             this.capsule = capsule
@@ -61,12 +61,12 @@ class CapsuleViewHolder : ViewHolderVisitor {
             }
 
             capsuleReused.text = buildString {
-                if (capsule.reuseCount > 0) append(root.resources.getQuantityString(R.plurals.reuseCountString, capsule.reuseCount, capsule.reuseCount))
+                if (capsule.totalFlights > 0) append(root.resources.getQuantityString(R.plurals.reuseCountString, capsule.totalFlights, capsule.totalFlights))
                 if (capsule.landLandings > 0) append(root.context.getString(R.string.groundLandCountString, capsule.landLandings))
                 if (capsule.waterLandings > 0) append(root.context.getString(R.string.waterLandCountString, capsule.waterLandings))
             }
         }
     }
 
-    override fun acceptBinding(item: Any): Boolean = item is Capsules
+    override fun acceptBinding(item: Any): Boolean = item is Capsule
 }

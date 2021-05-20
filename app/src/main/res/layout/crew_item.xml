@@ -9,7 +9,7 @@
             type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
         <variable
             name="crewMember"
-            type="ru.alexmaryin.spacextimes_rx.data.model.lists.Crews" />
+            type="ru.alexmaryin.spacextimes_rx.data.model.Crew" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
     </data>
     

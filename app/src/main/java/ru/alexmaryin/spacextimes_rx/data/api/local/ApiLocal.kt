@@ -5,15 +5,16 @@ import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 
 interface ApiLocal {
 
-    suspend fun getCapsules(): List<Capsules>
-    suspend fun saveCapsules(capsules: List<Capsules>)
+    suspend fun getCapsules(): List<Capsule>
+    suspend fun saveCapsules(capsules: List<Capsule>)
     suspend fun getCapsuleById(id: String): Capsule?
 
-    suspend fun getCores(): List<Cores>
-    suspend fun saveCores(cores: List<Cores>)
+    suspend fun getCores(): List<Core>
+    suspend fun saveCores(cores: List<Core>)
     suspend fun getCoreById(id: String): Core?
 
-    suspend fun getCrew(): List<Crews>
+    suspend fun getCrew(): List<Crew>
+    suspend fun saveCrew(crew: List<Crew>)
     suspend fun getCrewById(id: String): Crew?
 
     suspend fun getDragons(): List<Dragon>

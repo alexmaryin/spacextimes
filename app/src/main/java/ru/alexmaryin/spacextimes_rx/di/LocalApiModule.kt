@@ -24,7 +24,7 @@ class LocalApiModule {
             TranslateDatabase::class.java,
             "translationsDb"
         )
-            .addTypeConverter(RoomConverters())
+            //.addTypeConverter(RoomConverters())
             .fallbackToDestructiveMigration()
             .build()
 
@@ -40,7 +40,7 @@ class LocalApiModule {
             SpaceXDatabase::class.java,
             "spacexDb"
         )
-            .addTypeConverter(RoomConverters())
+            //.addTypeConverter(RoomConverters())
             .fallbackToDestructiveMigration()
             .build()
 

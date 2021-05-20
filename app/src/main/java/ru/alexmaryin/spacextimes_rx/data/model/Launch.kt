@@ -10,8 +10,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Capsules
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Crews
 import ru.alexmaryin.spacextimes_rx.data.model.lists.LaunchPads
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
@@ -34,9 +32,9 @@ data class Launch(
     @Transient override var detailsRu: String? = null,
     val fairings: Fairings?,
     val links: Links,
-    val crew: List<Crews> = emptyList(),
+    val crew: List<Crew> = emptyList(),
     val ships: List<String> = emptyList(),
-    val capsules: List<Capsules> = emptyList(),
+    val capsules: List<Capsule> = emptyList(),
     val payloads: List<Payload> = emptyList(),
     val cores: List<CoreFlight> = emptyList(),
     val failures: List<Failure> = emptyList(),

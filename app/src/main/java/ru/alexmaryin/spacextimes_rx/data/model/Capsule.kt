@@ -23,4 +23,10 @@ data class Capsule(
     val launches: List<Launches> = emptyList()
 ) : HasStringId, HasLastUpdate {
     fun toRoom() = CapsuleLocal(id, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu)
+
+    val totalFlights: Int get() = when {
+        launches.isNotEmpty() -> launches.size
+        reuseCount > 0 -> reuseCount + 1
+        else -> waterLandings + landLandings
+    }
 }
