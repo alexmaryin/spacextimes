@@ -33,7 +33,6 @@ data class Launch(
     val fairings: Fairings?,
     val links: Links,
     val crew: List<Crew> = emptyList(),
-    val ships: List<String> = emptyList(),
     val capsules: List<Capsule> = emptyList(),
     val payloads: List<Payload> = emptyList(),
     val cores: List<CoreFlight> = emptyList(),

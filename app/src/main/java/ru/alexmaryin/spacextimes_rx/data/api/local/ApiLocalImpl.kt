@@ -3,7 +3,6 @@ package ru.alexmaryin.spacextimes_rx.data.api.local
 import android.util.Log
 import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXDao
 import ru.alexmaryin.spacextimes_rx.data.model.*
-import ru.alexmaryin.spacextimes_rx.data.model.lists.LandingPads
 import ru.alexmaryin.spacextimes_rx.data.model.lists.LaunchPads
 import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import javax.inject.Inject
@@ -85,13 +84,22 @@ class ApiLocalImpl @Inject constructor(
         return null
     }
 
-    override suspend fun getLandingPads(): List<LandingPads> {
-        return emptyList()
-    }
+    override suspend fun getLandingPads(): List<LandingPad> = spaceXDao.selectAllLandingPads().map { it.toResponse() }
+        .also {
+            Log.d("REPO_LOCAL", "Selected all landing pads from Room: ${it.size} items")
+        }
 
-    override suspend fun getLandingPadById(id: String): LandingPad? {
-        Log.d("REPO_LOCAL", "Local landing pad with id $id is requested. Return null for debug.")
-        return null
+    override suspend fun getLandingPadById(id: String): LandingPad? = spaceXDao.selectLandingPad(id)?.toResponse().apply {
+        // TODO launches = spaceXDao.selectLaunchesForLandingPad(id) <- this is Landing pad id for query
+    }
+        .also {
+            it?.let { Log.d("REPO_LOCAL", "Selected landing pad from Room with id: ${it.id}") }
+        }
+
+    override suspend fun saveLandingPads(pads: List<LandingPad>) {
+        pads.forEach { spaceXDao.insertLandingPad(it.toRoom()) }
+        // TODO maybe save details of launches?
+        Log.d("REPO_LOCAL", "Saving landing pads to Room: ${pads.size} items")
     }
 
     override suspend fun getRockets(): List<Rocket> {

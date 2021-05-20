@@ -23,7 +23,8 @@ interface ApiLocal {
     suspend fun getLaunchPads(): List<LaunchPads>
     suspend fun getLaunchPadById(id: String): LaunchPad?
 
-    suspend fun getLandingPads(): List<LandingPads>
+    suspend fun getLandingPads(): List<LandingPad>
+    suspend fun saveLandingPads(pads: List<LandingPad>)
     suspend fun getLandingPadById(id: String): LandingPad?
 
     suspend fun getRockets(): List<Rocket>

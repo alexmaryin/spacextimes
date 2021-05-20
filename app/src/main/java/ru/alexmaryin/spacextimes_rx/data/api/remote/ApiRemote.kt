@@ -43,8 +43,8 @@ interface ApiRemote {
     @POST(SpacexUrls.LaunchPadQuery)
     suspend fun getLaunchPadById(@Body body: ApiRequest): Response<ApiResponse<LaunchPad>>
 
-    @GET(SpacexUrls.AllLandingPads)
-    suspend fun getLandingPads(): Response<List<LandingPads>>
+    @POST(SpacexUrls.LandingPadQuery)
+    suspend fun getLandingPads(@Body body: ApiRequest): Response<ApiResponse<List<LandingPad>>>
 
     @POST(SpacexUrls.LandingPadQuery)
     suspend fun getLandingPadById(@Body body: ApiRequest): Response<ApiResponse<LandingPad>>
