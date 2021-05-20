@@ -66,7 +66,7 @@ data class Launch(
         DatePrecision.HOUR -> DateFormat.getDateTimeInstance(DateFormat.LONG, TimeFormat.CLOCK_24H).format(dateLocal)
     }
 
-    fun toRoom() = LaunchLocal(id, name, window, rocket, success, upcoming, details, detailsRu, fairings, links,
+    fun toRoom() = LaunchLocal(id, name, window, success, upcoming, details, detailsRu, fairings, links,
         autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
         toBeDetermined, notEarlyThan)
 }

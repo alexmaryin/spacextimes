@@ -7,6 +7,5 @@ import com.squareup.moshi.JsonClass
 data class Fairings(
     val reused: Boolean?,
     val recovered: Boolean?,
-    val ships: List<String> = emptyList(),
     @Json(name = "recovery_attempt") val recoveryAttempt: Boolean?,
 )

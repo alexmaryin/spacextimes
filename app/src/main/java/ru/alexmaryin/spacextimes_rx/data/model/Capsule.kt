@@ -21,7 +21,8 @@ data class Capsule(
     @Transient override var lastUpdateRu: String? = null,
     val launches: List<Launch> = emptyList()
 ) : HasStringId, HasLastUpdate {
-    fun toRoom() = CapsuleLocal(id, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu)
+    fun toRoom() = CapsuleLocal(id, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu,
+        launches.map { it.toRoom() })
 
     val totalFlights: Int get() = when {
         launches.isNotEmpty() -> launches.size

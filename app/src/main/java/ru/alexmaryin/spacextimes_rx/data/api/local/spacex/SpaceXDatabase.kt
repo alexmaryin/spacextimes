@@ -14,11 +14,13 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.*
         LandingPadLocal::class,
         LaunchPadLocal::class,
         LaunchLocal::class,
+        LaunchesToCapsules::class,
     ],
     autoMigrations = [
-        AutoMigration(from = 2, to = 3)
+        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 3, to = 4),
     ],
-    version = 3)
+    version = 4)
 @TypeConverters(RoomConverters::class)
 abstract class SpaceXDatabase : RoomDatabase() {
     abstract val dao: SpaceXDao

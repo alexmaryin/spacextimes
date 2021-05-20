@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.room_model
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
@@ -14,13 +15,13 @@ data class LaunchLocal(
     @PrimaryKey val id: String,
     val name: String,
     val window: Int?,
-    val rocket: Rocket?,
+    //@Embedded val rocket: Rocket?,
     val success: Boolean? = null,
     val upcoming: Boolean,
     val details: String?,
     val detailsRu: String? = null,
-    val fairings: Fairings?,
-    val links: Links,
+    @Embedded val fairings: Fairings?,
+    @Embedded val links: Links,
     val autoUpdate: Boolean,
     val flightNumber: Int,
     val dateUtc: Date,
@@ -32,7 +33,7 @@ data class LaunchLocal(
     val toBeDetermined: Boolean = false,
     val notEarlyThan: Boolean = false,
 ) {
-    fun toResponse() = Launch(id, name, window, rocket, success, upcoming, details, detailsRu, fairings, links,
+    fun toResponse() = Launch(id, name, window, null, success, upcoming, details, detailsRu, fairings, links,
         autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
         toBeDetermined, notEarlyThan)
 }

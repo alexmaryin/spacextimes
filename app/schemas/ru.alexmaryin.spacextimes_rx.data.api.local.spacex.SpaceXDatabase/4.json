@@ -1,0 +1,617 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "90a7cf08bf7f25c74dc410d31875fed5",
+    "entities": [
+      {
+        "tableName": "capsules_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `serial` TEXT NOT NULL, `status` TEXT NOT NULL, `type` TEXT NOT NULL, `reuseCount` INTEGER NOT NULL, `waterLandings` INTEGER NOT NULL, `landLandings` INTEGER NOT NULL, `lastUpdate` TEXT, `lastUpdateRu` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serial",
+            "columnName": "serial",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reuseCount",
+            "columnName": "reuseCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterLandings",
+            "columnName": "waterLandings",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "landLandings",
+            "columnName": "landLandings",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdate",
+            "columnName": "lastUpdate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdateRu",
+            "columnName": "lastUpdateRu",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "cores_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `serial` TEXT NOT NULL, `block` INTEGER, `status` TEXT NOT NULL, `reuseCount` INTEGER NOT NULL, `groundLandAttempts` INTEGER NOT NULL, `groundLandings` INTEGER NOT NULL, `waterLandAttempts` INTEGER NOT NULL, `waterLandings` INTEGER NOT NULL, `lastUpdate` TEXT, `lastUpdateRu` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serial",
+            "columnName": "serial",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "block",
+            "columnName": "block",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reuseCount",
+            "columnName": "reuseCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groundLandAttempts",
+            "columnName": "groundLandAttempts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groundLandings",
+            "columnName": "groundLandings",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterLandAttempts",
+            "columnName": "waterLandAttempts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterLandings",
+            "columnName": "waterLandings",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdate",
+            "columnName": "lastUpdate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdateRu",
+            "columnName": "lastUpdateRu",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "crew_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `status` TEXT NOT NULL, `agency` TEXT, `image` TEXT, `wikipedia` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "agency",
+            "columnName": "agency",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wikipedia",
+            "columnName": "wikipedia",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "landing_pads_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `type` TEXT NOT NULL, `locality` TEXT, `region` TEXT, `latitude` REAL, `longitude` REAL, `status` TEXT, `wikipedia` TEXT, `details` TEXT, `detailsRu` TEXT, `landingAttempts` INTEGER NOT NULL, `landingSuccesses` INTEGER NOT NULL, `fullName` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locality",
+            "columnName": "locality",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "region",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wikipedia",
+            "columnName": "wikipedia",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "details",
+            "columnName": "details",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "detailsRu",
+            "columnName": "detailsRu",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "landingAttempts",
+            "columnName": "landingAttempts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "landingSuccesses",
+            "columnName": "landingSuccesses",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullName",
+            "columnName": "fullName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "launch_pads_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `locality` TEXT, `region` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `status` TEXT NOT NULL, `details` TEXT, `detailsRu` TEXT, `timeZone` TEXT NOT NULL, `fullName` TEXT, `launchAttempts` INTEGER NOT NULL, `launchSuccesses` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "locality",
+            "columnName": "locality",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "region",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "details",
+            "columnName": "details",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "detailsRu",
+            "columnName": "detailsRu",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timeZone",
+            "columnName": "timeZone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullName",
+            "columnName": "fullName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "launchAttempts",
+            "columnName": "launchAttempts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "launchSuccesses",
+            "columnName": "launchSuccesses",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "launches_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `detailsRu` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `reused` INTEGER, `recovered` INTEGER, `ships` TEXT, `recoveryAttempt` INTEGER, `patch` TEXT NOT NULL, `reddit` TEXT NOT NULL, `flickr` TEXT NOT NULL, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `youtubeId` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "window",
+            "columnName": "window",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "success",
+            "columnName": "success",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "upcoming",
+            "columnName": "upcoming",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "details",
+            "columnName": "details",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "detailsRu",
+            "columnName": "detailsRu",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "autoUpdate",
+            "columnName": "autoUpdate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flightNumber",
+            "columnName": "flightNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateUtc",
+            "columnName": "dateUtc",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateUnix",
+            "columnName": "dateUnix",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateLocal",
+            "columnName": "dateLocal",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "datePrecision",
+            "columnName": "datePrecision",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "staticFireDateUtc",
+            "columnName": "staticFireDateUtc",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "staticFireDateUnix",
+            "columnName": "staticFireDateUnix",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "toBeDetermined",
+            "columnName": "toBeDetermined",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notEarlyThan",
+            "columnName": "notEarlyThan",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fairings.reused",
+            "columnName": "reused",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fairings.recovered",
+            "columnName": "recovered",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fairings.ships",
+            "columnName": "ships",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fairings.recoveryAttempt",
+            "columnName": "recoveryAttempt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.patch",
+            "columnName": "patch",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "links.reddit",
+            "columnName": "reddit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "links.flickr",
+            "columnName": "flickr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "links.presskit",
+            "columnName": "presskit",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.webcast",
+            "columnName": "webcast",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.article",
+            "columnName": "article",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.wikipedia",
+            "columnName": "wikipedia",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "links.youtubeId",
+            "columnName": "youtubeId",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "launches_to_capsules_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchId` TEXT NOT NULL, `capsuleId` TEXT NOT NULL, PRIMARY KEY(`launchId`, `capsuleId`))",
+        "fields": [
+          {
+            "fieldPath": "launchId",
+            "columnName": "launchId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capsuleId",
+            "columnName": "capsuleId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "launchId",
+            "capsuleId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90a7cf08bf7f25c74dc410d31875fed5')"
+    ]
+  }
+}
