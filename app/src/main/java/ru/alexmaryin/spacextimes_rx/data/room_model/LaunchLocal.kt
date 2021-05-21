@@ -20,7 +20,7 @@ data class LaunchLocal(
         entity = RocketLocal::class,
         entityColumn = "id",
     )
-    @Embedded val rocket: RocketLocal?,
+    val rocket: RocketLocal?,
     val window: Int?,
     val success: Boolean? = null,
     val upcoming: Boolean,

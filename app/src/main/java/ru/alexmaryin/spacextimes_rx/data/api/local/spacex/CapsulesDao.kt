@@ -5,17 +5,18 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleWithLaunches
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchesToCapsules
 
 interface CapsulesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCapsule(capsule: CapsuleLocal)
 
-    @Query("select * from capsules_table join launches_to_capsules_table on capsuleId=id")
-    suspend fun selectAllCapsules(): List<CapsuleLocal>
+    @Transaction @Query("select * from capsules_table")
+    suspend fun selectAllCapsules(): List<CapsuleWithLaunches>
 
-    @Query("select * from capsules_table where id=:id")
-    suspend fun selectCapsule(id: String): CapsuleLocal?
+    @Transaction @Query("select * from capsules_table where id=:id")
+    suspend fun selectCapsule(id: String): CapsuleWithLaunches?
 
     @Query("delete from capsules_table")
     suspend fun clearCapsules()

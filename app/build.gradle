@@ -14,7 +14,7 @@ android {
         applicationId "ru.alexmaryin.spacextimes_rx"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode = 12
+        versionCode = 13
         versionName = "0.5"
 
         testInstrumentationRunner "ru.alexmaryin.spacextimes_rx.HiltTestRunner"
@@ -64,6 +64,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    ndkVersion '21.0.6113669'
 }
 
 dependencies {

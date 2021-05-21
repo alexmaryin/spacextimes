@@ -6,6 +6,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.LineSize
 
 @JsonClass(generateAdapter = true)
 data class CompositeFairing(
-    @Embedded val height: LineSize,
-    @Embedded val diameter: LineSize,
+    @Embedded(prefix = "height") val height: LineSize,
+    @Embedded(prefix = "diameter") val diameter: LineSize,
 )

@@ -13,6 +13,6 @@ data class Links(
     val webcast: String?,
     val article: String?,
     val wikipedia: String?,
-    @Transient var wikiLocale: String? = null,
+    var wikiLocale: String? = null,
     @Json(name = "youtube_id") val youtubeId: String?,
 )

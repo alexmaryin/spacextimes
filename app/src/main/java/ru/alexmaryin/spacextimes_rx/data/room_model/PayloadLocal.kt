@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.data.room_model
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
@@ -27,7 +26,7 @@ data class PayloadLocal(
         entity = PayloadDragonLocal::class,
         entityColumn = "id"
     )
-    @Embedded val dragon: PayloadDragonLocal,
+    val dragon: PayloadDragonLocal,
     val semiAxis: Float?,
     val rightAscension: Float?,
     val periapsis: Float?,

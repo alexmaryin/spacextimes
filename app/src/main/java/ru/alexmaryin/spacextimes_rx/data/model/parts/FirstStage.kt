@@ -9,8 +9,8 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Thrust
 data class FirstStage(
     val engines: Int,
     val reusable: Boolean,
-    @Embedded @Json(name = "thrust_sea_level") val thrustSeaLevel: Thrust,
-    @Embedded @Json(name = "thrust_vacuum") val thrustVacuum: Thrust,
+    @Embedded(prefix = "seaLevel") @Json(name = "thrust_sea_level") val thrustSeaLevel: Thrust,
+    @Embedded(prefix = "vacuum") @Json(name = "thrust_vacuum") val thrustVacuum: Thrust,
     @Json(name = "fuel_amount_tons") val fuelAmount: Float?,
     @Json(name = "burn_time_sec") val burnTime: Int?,
 )
