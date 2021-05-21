@@ -11,6 +11,6 @@ data class Thruster(
     val pods: Int,
     val isp: Int,
     val thrust: Thrust,
-    @Json(name = "fuel_1") val HotComponent: String,
-    @Json(name = "fuel_2") val OxidizerComponent: String
+    @Json(name = "fuel_1") val hotComponent: String,
+    @Json(name = "fuel_2") val oxidizerComponent: String
 )

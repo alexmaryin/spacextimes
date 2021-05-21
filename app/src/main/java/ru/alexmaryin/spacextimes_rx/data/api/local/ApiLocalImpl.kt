@@ -64,12 +64,18 @@ class ApiLocalImpl @Inject constructor(
         Log.d("REPO_LOCAL", "Saving crew members to Room: ${crew.size} items")
     }
 
-    override suspend fun getDragons(): List<Dragon> {
-        return emptyList()
+    override suspend fun getDragons(): List<Dragon> = spaceXDao.selectAllDragons().map { it.toResponse() }
+        .also {
+            Log.d("REPO_LOCAL", "Selected all dragons from Room: ${it.size} items")
+        }
+
+    override suspend fun getDragonById(id: String): Dragon? = spaceXDao.selectDragon(id)?.toResponse().also {
+        it?.let { Log.d("REPO_LOCAL", "Selected dragon from Room with id: ${it.id}") }
     }
 
-    override suspend fun getDragonById(id: String): Dragon? {
-        return null
+    override suspend fun saveDragons(dragons: List<Dragon>) {
+        dragons.forEach { spaceXDao.insertDragon(it.toRoom()) }
+        Log.d("REPO_LOCAL", "Saving dragons to Room: ${dragons.size} items")
     }
 
     override suspend fun getLaunchPads(): List<LaunchPad> = spaceXDao.selectAllLaunchPads().map { it.toResponse() }

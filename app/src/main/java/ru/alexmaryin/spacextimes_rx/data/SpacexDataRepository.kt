@@ -21,20 +21,8 @@ class SpacexDataRepository @Inject constructor(
     private val networkHelper: NetworkHelper,
     ) {
 
-    private inline fun <reified T> Response<*>.successList(): List<T> = when (body()) {
-        is List<*> -> (body() as List<*>).map { it as T }
-        is ApiResponse<*> -> ((body() as ApiResponse<*>).docs as List<*>).map { it as T }
-        else -> throw TypeCastException("Unexpected response type")
-    }
-
-    private inline fun <reified T> Response<*>.successItem(): T = when (body()) {
-        is T -> body() as T
-        is ApiResponse<*> -> (body() as ApiResponse<*>).docs.first() as T
-        else -> throw TypeCastException("Unexpected response type")
-    }
-
-    private inline fun <reified T, R> fetchItems(
-        noinline apiCallback: suspend () -> Response<R>,
+    private inline fun <reified T> fetchItems(
+        noinline apiCallback: suspend () -> Response<ApiResponse<T>>,
         noinline localApiCallback: suspend () -> List<T> = { emptyList() },
         noinline saveApiCallback: suspend (List<T>) -> Unit = {},
     ) = flow {
@@ -44,7 +32,7 @@ class SpacexDataRepository @Inject constructor(
         // Then, try to fetch refreshed data from server and save to local cache after fetching
         if (networkHelper.isNetworkConnected()) {
             apiCallback().apply {
-                if (isSuccessful) successList<T>().apply {
+                if (isSuccessful) body()?.docs?.apply {
                     emit(Success(this))
                     saveApiCallback(this)
                 }
@@ -59,15 +47,15 @@ class SpacexDataRepository @Inject constructor(
         }
     }
 
-    private inline fun <reified T, R> fetchItemById(
+    private inline fun <reified T> fetchItemById(
         id: String,
-        noinline apiCallback: suspend (String) -> Response<R>,
+        noinline apiCallback: suspend (String) -> Response<ApiResponse<T>>,
         noinline localApiCallback: suspend (String) -> T? = { null },
     ) = flow {
         emit(Loading)
         localApiCallback(id)?.let { emit(Success(it)) } ?: if (networkHelper.isNetworkConnected()) {
             apiCallback(id).apply {
-                if (isSuccessful) emit(Success(successItem<T>()))
+                if (isSuccessful) body()?.docs?.let { emit(Success(it.first())) }
                     else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
@@ -88,7 +76,7 @@ class SpacexDataRepository @Inject constructor(
     fun getCrew() = fetchItems(remoteApi::getCrew, localApi::getCrew, localApi::saveCrew)
     fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById)
 
-    fun getDragons() = fetchItems(remoteApi::getDragons, localApi::getDragons)
+    fun getDragons() = fetchItems(remoteApi::getDragons, localApi::getDragons, localApi::saveDragons)
     fun getDragonById(id: String) = fetchItemById(id, remoteApi::getDragonById, localApi::getDragonById)
 
     fun getRockets() = fetchItems(remoteApi::getRockets, localApi::getRockets, localApi::saveRockets)

@@ -17,6 +17,7 @@ interface ApiLocal {
     suspend fun getCrewById(id: String): Crew?
 
     suspend fun getDragons(): List<Dragon>
+    suspend fun saveDragons(dragons: List<Dragon>)
     suspend fun getDragonById(id: String): Dragon?
 
     suspend fun getLaunchPads(): List<LaunchPad>

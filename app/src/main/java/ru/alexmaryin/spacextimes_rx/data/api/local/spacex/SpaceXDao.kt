@@ -4,4 +4,4 @@ import androidx.room.*
 
 @Dao
 interface SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, LaunchPadDao, LaunchDao,
-        HistoryDao, RocketDao
+        HistoryDao, RocketDao, DragonDao

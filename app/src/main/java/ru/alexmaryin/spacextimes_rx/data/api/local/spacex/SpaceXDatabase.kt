@@ -17,6 +17,7 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.*
         LaunchesToCapsules::class,
         HistoryLocal::class,
         RocketLocal::class,
+        DragonLocal::class,
     ],
     autoMigrations = [
         AutoMigration(from = 2, to = 3),

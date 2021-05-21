@@ -77,7 +77,7 @@ class DragonDetailViewModel @Inject constructor(
         addAll(dragon.thrusters.map {
             TwoStringsItem(
                 caption =  res.getString(R.string.capsule_thruster_line1, it.amount, it.pods, it.type, it.thrust.kN, it.isp),
-                details = res.getString(R.string.capsule_thruster_line2, it.HotComponent, it.OxidizerComponent)
+                details = res.getString(R.string.capsule_thruster_line2, it.hotComponent, it.oxidizerComponent)
             )}
         )
 

@@ -13,49 +13,49 @@ import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 interface ApiRemote {
 
     @POST(SpacexUrls.CapsuleQuery)
-    suspend fun getCapsules(@Body body: ApiRequest): Response<ApiResponse<List<Capsule>>>
+    suspend fun getCapsules(@Body body: ApiRequest): Response<ApiResponse<Capsule>>
 
     @POST(SpacexUrls.CapsuleQuery)
     suspend fun getCapsuleById(@Body body: ApiRequest): Response<ApiResponse<Capsule>>
 
     @POST(SpacexUrls.CoreQuery)
-    suspend fun getCores(@Body body: ApiRequest): Response<ApiResponse<List<Core>>>
+    suspend fun getCores(@Body body: ApiRequest): Response<ApiResponse<Core>>
 
     @POST(SpacexUrls.CoreQuery)
     suspend fun getCoreById(@Body body: ApiRequest): Response<ApiResponse<Core>>
 
     @POST(SpacexUrls.CrewQuery)
-    suspend fun getCrew(@Body body: ApiRequest): Response<ApiResponse<List<Crew>>>
+    suspend fun getCrew(@Body body: ApiRequest): Response<ApiResponse<Crew>>
 
     @POST(SpacexUrls.CrewQuery)
     suspend fun getCrewById(@Body body: ApiRequest): Response<ApiResponse<Crew>>
 
-    @GET(SpacexUrls.AllDragons)
-    suspend fun getDragons(): Response<List<Dragon>>
+    @POST(SpacexUrls.DragonQuery)
+    suspend fun getDragons(@Body body: ApiRequest): Response<ApiResponse<Dragon>>
 
-    @GET(SpacexUrls.AllDragons +"{id}")
-    suspend fun getDragonById(@Path("id") id: String): Response<Dragon>
+    @POST(SpacexUrls.DragonQuery)
+    suspend fun getDragonById(@Body body: ApiRequest): Response<ApiResponse<Dragon>>
 
     @POST(SpacexUrls.LaunchPadQuery)
-    suspend fun getLaunchPads(@Body body: ApiRequest): Response<ApiResponse<List<LaunchPad>>>
+    suspend fun getLaunchPads(@Body body: ApiRequest): Response<ApiResponse<LaunchPad>>
 
     @POST(SpacexUrls.LaunchPadQuery)
     suspend fun getLaunchPadById(@Body body: ApiRequest): Response<ApiResponse<LaunchPad>>
 
     @POST(SpacexUrls.LandingPadQuery)
-    suspend fun getLandingPads(@Body body: ApiRequest): Response<ApiResponse<List<LandingPad>>>
+    suspend fun getLandingPads(@Body body: ApiRequest): Response<ApiResponse<LandingPad>>
 
     @POST(SpacexUrls.LandingPadQuery)
     suspend fun getLandingPadById(@Body body: ApiRequest): Response<ApiResponse<LandingPad>>
 
     @POST(SpacexUrls.RocketQuery)
-    suspend fun getRockets(@Body body: ApiRequest): Response<ApiResponse<List<Rocket>>>
+    suspend fun getRockets(@Body body: ApiRequest): Response<ApiResponse<Rocket>>
 
-    @GET(SpacexUrls.RocketQuery)
+    @POST(SpacexUrls.RocketQuery)
     suspend fun getRocketById(@Body body: ApiRequest): Response<ApiResponse<Rocket>>
 
     @POST(SpacexUrls.AllLaunchesQuery)
-    suspend fun getLaunches(@Body body: ApiRequest): Response<ApiResponse<List<Launch>>>
+    suspend fun getLaunches(@Body body: ApiRequest): Response<ApiResponse<Launch>>
 
     @POST(SpacexUrls.AllLaunchesQuery)
     suspend fun getLaunchById(@Body body: ApiRequest): Response<ApiResponse<Launch>>
@@ -64,10 +64,9 @@ interface ApiRemote {
     suspend fun getPayloadById(@Body body: ApiRequest): Response<ApiResponse<Payload>>
 
     @POST(SpacexUrls.HistoryQuery)
-    suspend fun getHistoryEvents(@Body body: ApiRequest): Response<ApiResponse<List<History>>>
+    suspend fun getHistoryEvents(@Body body: ApiRequest): Response<ApiResponse<History>>
 
     @Multipart
     @POST(TranslatorUrls.FileToText)
     suspend fun translate(@Part("lang") lang: RequestBody, @Part file: MultipartBody.Part): Response<PlainTextResponse>
-
 }

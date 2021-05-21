@@ -45,46 +45,49 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
 
     private fun requestById(id: String, options: ApiOptions = ApiOptions()) = ApiRequest(ApiQuery(id), options)
 
-    override suspend fun getCapsules(): Response<ApiResponse<List<Capsule>>> =
+    override suspend fun getCapsules(): Response<ApiResponse<Capsule>> =
         apiRemote.getCapsules(ApiRequest(options = populateNestedLaunches))
 
     override suspend fun getCapsuleById(id: String): Response<ApiResponse<Capsule>> =
         apiRemote.getCapsuleById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getCores(): Response<ApiResponse<List<Core>>> =
+    override suspend fun getCores(): Response<ApiResponse<Core>> =
         apiRemote.getCores(ApiRequest(options = populateNestedLaunches))
 
     override suspend fun getCoreById(id: String): Response<ApiResponse<Core>> =
         apiRemote.getCoreById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getCrew(): Response<ApiResponse<List<Crew>>> =
+    override suspend fun getCrew(): Response<ApiResponse<Crew>> =
         apiRemote.getCrew(ApiRequest(options = populateNestedLaunches))
 
     override suspend fun getCrewById(id: String): Response<ApiResponse<Crew>> =
         apiRemote.getCrewById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getDragons(): Response<List<Dragon>> = apiRemote.getDragons()
-    override suspend fun getDragonById(id: String): Response<Dragon> = apiRemote.getDragonById(id)
+    override suspend fun getDragons(): Response<ApiResponse<Dragon>> =
+        apiRemote.getDragons(ApiRequest(options = ApiOptions()))
 
-    override suspend fun getLaunchPads(): Response<ApiResponse<List<LaunchPad>>> =
+    override suspend fun getDragonById(id: String): Response<ApiResponse<Dragon>> =
+        apiRemote.getDragonById(requestById(id))
+
+    override suspend fun getLaunchPads(): Response<ApiResponse<LaunchPad>> =
         apiRemote.getLaunchPads(ApiRequest(options = populateNestedLaunches))
 
     override suspend fun getLaunchPadById(id: String): Response<ApiResponse<LaunchPad>> =
         apiRemote.getLaunchPadById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getLandingPads(): Response<ApiResponse<List<LandingPad>>> =
+    override suspend fun getLandingPads(): Response<ApiResponse<LandingPad>> =
         apiRemote.getLandingPads(ApiRequest(options = populateNestedLaunches))
 
     override suspend fun getLandingPadById(id: String): Response<ApiResponse<LandingPad>> =
         apiRemote.getLandingPadById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getRockets(): Response<ApiResponse<List<Rocket>>> =
+    override suspend fun getRockets(): Response<ApiResponse<Rocket>> =
         apiRemote.getRockets(ApiRequest(options = ApiOptions()))
 
     override suspend fun getRocketById(id: String): Response<ApiResponse<Rocket>> =
         apiRemote.getRocketById(requestById(id))
 
-    override suspend fun getLaunches(): Response<ApiResponse<List<Launch>>> =
+    override suspend fun getLaunches(): Response<ApiResponse<Launch>> =
         apiRemote.getLaunches(ApiRequest(options = populateLaunches))
 
     override suspend fun getLaunchById(id: String): Response<ApiResponse<Launch>> =
@@ -93,7 +96,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     override suspend fun getPayloadById(id: String): Response<ApiResponse<Payload>> =
         apiRemote.getPayloadById(requestById(id, populatePayload))
 
-    override suspend fun getHistoryEvents(): Response<ApiResponse<List<History>>> =
+    override suspend fun getHistoryEvents(): Response<ApiResponse<History>> =
         apiRemote.getHistoryEvents(ApiRequest(options = ApiOptions()))
 
     override suspend fun translate(file: File): Response<PlainTextResponse> {
