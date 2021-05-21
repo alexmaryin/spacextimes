@@ -1,7 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.api.local
 
 import ru.alexmaryin.spacextimes_rx.data.model.*
-import ru.alexmaryin.spacextimes_rx.data.model.lists.*
 
 interface ApiLocal {
 
@@ -29,6 +28,7 @@ interface ApiLocal {
     suspend fun getLandingPadById(id: String): LandingPad?
 
     suspend fun getRockets(): List<Rocket>
+    suspend fun saveRockets(rockets: List<Rocket>)
     suspend fun getRocketById(id: String): Rocket?
 
     suspend fun getLaunches(): List<Launch>
@@ -38,4 +38,5 @@ interface ApiLocal {
     suspend fun getPayloadById(id: String): Payload?
 
     suspend fun getHistoryEvents(): List<History>
+    suspend fun saveHistoryEvents(events: List<History>)
 }

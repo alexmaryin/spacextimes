@@ -78,8 +78,11 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     override suspend fun getLandingPadById(id: String): Response<ApiResponse<LandingPad>> =
         apiRemote.getLandingPadById(requestById(id, populateNestedLaunches))
 
-    override suspend fun getRockets(): Response<List<Rocket>> = apiRemote.getRockets()
-    override suspend fun getRocketById(id: String): Response<Rocket> = apiRemote.getRocketById(id)
+    override suspend fun getRockets(): Response<ApiResponse<List<Rocket>>> =
+        apiRemote.getRockets(ApiRequest(options = ApiOptions()))
+
+    override suspend fun getRocketById(id: String): Response<ApiResponse<Rocket>> =
+        apiRemote.getRocketById(requestById(id))
 
     override suspend fun getLaunches(): Response<ApiResponse<List<Launch>>> =
         apiRemote.getLaunches(ApiRequest(options = populateLaunches))
@@ -90,7 +93,8 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     override suspend fun getPayloadById(id: String): Response<ApiResponse<Payload>> =
         apiRemote.getPayloadById(requestById(id, populatePayload))
 
-    override suspend fun getHistoryEvents(): Response<List<History>> = apiRemote.getHistoryEvents()
+    override suspend fun getHistoryEvents(): Response<ApiResponse<List<History>>> =
+        apiRemote.getHistoryEvents(ApiRequest(options = ApiOptions()))
 
     override suspend fun translate(file: File): Response<PlainTextResponse> {
         val lang = "en-ru".toRequestBody("application/json".toMediaTypeOrNull())

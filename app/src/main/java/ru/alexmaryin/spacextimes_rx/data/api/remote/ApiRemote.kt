@@ -48,11 +48,11 @@ interface ApiRemote {
     @POST(SpacexUrls.LandingPadQuery)
     suspend fun getLandingPadById(@Body body: ApiRequest): Response<ApiResponse<LandingPad>>
 
-    @GET(SpacexUrls.AllRockets)
-    suspend fun getRockets(): Response<List<Rocket>>
+    @POST(SpacexUrls.RocketQuery)
+    suspend fun getRockets(@Body body: ApiRequest): Response<ApiResponse<List<Rocket>>>
 
-    @GET(SpacexUrls.AllRockets +"{id}")
-    suspend fun getRocketById(@Path("id") id: String): Response<Rocket>
+    @GET(SpacexUrls.RocketQuery)
+    suspend fun getRocketById(@Body body: ApiRequest): Response<ApiResponse<Rocket>>
 
     @POST(SpacexUrls.AllLaunchesQuery)
     suspend fun getLaunches(@Body body: ApiRequest): Response<ApiResponse<List<Launch>>>
@@ -63,8 +63,8 @@ interface ApiRemote {
     @POST(SpacexUrls.PayloadQuery)
     suspend fun getPayloadById(@Body body: ApiRequest): Response<ApiResponse<Payload>>
 
-    @GET(SpacexUrls.AllHistoryEvents)
-    suspend fun getHistoryEvents(): Response<List<History>>
+    @POST(SpacexUrls.HistoryQuery)
+    suspend fun getHistoryEvents(@Body body: ApiRequest): Response<ApiResponse<List<History>>>
 
     @Multipart
     @POST(TranslatorUrls.FileToText)

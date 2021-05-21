@@ -26,15 +26,15 @@ interface SpaceXApi {
     suspend fun getLandingPads(): Response<ApiResponse<List<LandingPad>>>
     suspend fun getLandingPadById(id: String): Response<ApiResponse<LandingPad>>
 
-    suspend fun getRockets(): Response<List<Rocket>>
-    suspend fun getRocketById(id: String): Response<Rocket>
+    suspend fun getRockets(): Response<ApiResponse<List<Rocket>>>
+    suspend fun getRocketById(id: String): Response<ApiResponse<Rocket>>
 
     suspend fun getLaunches(): Response<ApiResponse<List<Launch>>>
     suspend fun getLaunchById(id: String): Response<ApiResponse<Launch>>
 
     suspend fun getPayloadById(id: String): Response<ApiResponse<Payload>>
 
-    suspend fun getHistoryEvents(): Response<List<History>>
+    suspend fun getHistoryEvents(): Response<ApiResponse<List<History>>>
 
     suspend fun translate(file: File): Response<PlainTextResponse>
 }

@@ -14,6 +14,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.Engine
 import ru.alexmaryin.spacextimes_rx.data.model.parts.FirstStage
 import ru.alexmaryin.spacextimes_rx.data.model.parts.LandingLegs
 import ru.alexmaryin.spacextimes_rx.data.model.parts.SecondStage
+import ru.alexmaryin.spacextimes_rx.data.room_model.RocketLocal
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
 import java.text.DateFormat
 import java.util.*
@@ -45,6 +46,11 @@ data class Rocket(
     @Json(name = "payload_weights") val payloadWeights: List<PayloadWeight> = emptyList(),
     @Json(name = "flickr_images") val images: List<String> = emptyList(),
 ) : HasStringId, HasDescription, HasWiki {
+
     fun firstFlightStr(context: Context): String =
         DateFormat.getDateInstance(DateFormat.LONG, context.currentLocale()).format(firstFlight)
+
+    fun toRoom() = RocketLocal(id, name, type, active, stages, boosters, country, company, wikipedia, wikiLocale,
+        description, descriptionRu, height, diameter, mass, engines, successRate, costPerLaunch, firstFlight, firstStage,
+        secondStage, landingLegs, payloadWeights, images)
 }

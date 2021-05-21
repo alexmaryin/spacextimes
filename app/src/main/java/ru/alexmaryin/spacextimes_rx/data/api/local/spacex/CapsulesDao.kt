@@ -11,10 +11,7 @@ interface CapsulesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCapsule(capsule: CapsuleLocal)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertJoinedLaunches(join: LaunchesToCapsules)
-
-    @Query("select * from capsules_table")
+    @Query("select * from capsules_table join launches_to_capsules_table on capsuleId=id")
     suspend fun selectAllCapsules(): List<CapsuleLocal>
 
     @Query("select * from capsules_table where id=:id")

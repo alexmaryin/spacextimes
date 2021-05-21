@@ -83,25 +83,24 @@ class SpacexDataRepository @Inject constructor(
 
     fun getCores() = fetchItems(remoteApi::getCores, localApi::getCores, localApi::saveCores)
         .map { it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it }
-
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
 
-    fun getCrew() = fetchItems(remoteApi::getCrew, localApi::getCrew)
+    fun getCrew() = fetchItems(remoteApi::getCrew, localApi::getCrew, localApi::saveCrew)
     fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById)
 
     fun getDragons() = fetchItems(remoteApi::getDragons, localApi::getDragons)
     fun getDragonById(id: String) = fetchItemById(id, remoteApi::getDragonById, localApi::getDragonById)
 
-    fun getRockets() = fetchItems(remoteApi::getRockets, localApi::getRockets)
+    fun getRockets() = fetchItems(remoteApi::getRockets, localApi::getRockets, localApi::saveRockets)
     fun getRocketById(id: String) = fetchItemById(id, remoteApi::getRocketById, localApi::getRocketById)
 
-    fun getLaunchPads() = fetchItems(remoteApi::getLaunchPads, localApi::getLaunchPads)
+    fun getLaunchPads() = fetchItems(remoteApi::getLaunchPads, localApi::getLaunchPads, localApi::saveLaunchPads)
     fun getLaunchPadById(id: String) = fetchItemById(id, remoteApi::getLaunchPadById, localApi::getLaunchPadById)
 
-    fun getLandingPads() = fetchItems(remoteApi::getLandingPads, localApi::getLandingPads)
+    fun getLandingPads() = fetchItems(remoteApi::getLandingPads, localApi::getLandingPads, localApi::saveLandingPads)
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
-    fun getLaunches() = fetchItems(remoteApi::getLaunches, localApi::getLaunches)
+    fun getLaunches() = fetchItems(remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById)
 
     suspend fun filterLaunches(launchFilter: Set<LaunchFilter>) = localApi.getLaunches().run {
@@ -121,5 +120,5 @@ class SpacexDataRepository @Inject constructor(
 
     fun getPayloadById(id: String) = fetchItemById(id, remoteApi::getPayloadById, localApi::getPayloadById)
 
-    fun getHistoryEvents() = fetchItems(remoteApi::getHistoryEvents, localApi::getHistoryEvents)
+    fun getHistoryEvents() = fetchItems(remoteApi::getHistoryEvents, localApi::getHistoryEvents, localApi::saveHistoryEvents)
 }

@@ -6,6 +6,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasTitle
 import ru.alexmaryin.spacextimes_rx.data.model.extra.HistoryLinks
+import ru.alexmaryin.spacextimes_rx.data.room_model.HistoryLocal
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -18,4 +19,6 @@ data class History(
     val links: HistoryLinks,
     @Json(name = "event_date_utc") val eventDateUTC: Date,
     @Json(name = "event_date_unix") val eventDateUnix: Long?,
-) : HasStringId, HasDetails, HasTitle
+) : HasStringId, HasDetails, HasTitle {
+    fun toRoom() = HistoryLocal(id, title, titleRu, details, detailsRu, links, eventDateUTC, eventDateUnix)
+}
