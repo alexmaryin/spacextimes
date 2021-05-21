@@ -8,7 +8,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.local.RoomConverters
 import ru.alexmaryin.spacextimes_rx.data.room_model.*
 
 @Database(entities = [
-        CapsuleLocal::class,
+        CapsuleWithoutLaunches::class,
         CoreLocal::class,
         CrewLocal::class,
         LandingPadLocal::class,

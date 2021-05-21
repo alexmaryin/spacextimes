@@ -12,7 +12,7 @@ data class PayloadDragonLocal(
     @PrimaryKey val id: String,
     @Relation(
         parentColumn = "id",
-        entity = CapsuleLocal::class,
+        entity = CapsuleWithoutLaunches::class,
         entityColumn = "id"
     )
     @Embedded val capsule: Capsule?,

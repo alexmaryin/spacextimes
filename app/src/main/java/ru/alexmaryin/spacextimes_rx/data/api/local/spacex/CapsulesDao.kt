@@ -4,20 +4,19 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleWithoutLaunches
 import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleLocal
-import ru.alexmaryin.spacextimes_rx.data.room_model.CapsuleWithLaunches
-import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchesToCapsules
 
 interface CapsulesDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCapsule(capsule: CapsuleLocal)
 
     @Transaction @Query("select * from capsules_table")
-    suspend fun selectAllCapsules(): List<CapsuleWithLaunches>
+    suspend fun selectAllCapsules(): List<CapsuleLocal>
 
     @Transaction @Query("select * from capsules_table where id=:id")
-    suspend fun selectCapsule(id: String): CapsuleWithLaunches?
+    suspend fun selectCapsule(id: String): CapsuleLocal?
 
-    @Query("delete from capsules_table")
+    @Transaction @Query("delete from capsules_table")
     suspend fun clearCapsules()
 }

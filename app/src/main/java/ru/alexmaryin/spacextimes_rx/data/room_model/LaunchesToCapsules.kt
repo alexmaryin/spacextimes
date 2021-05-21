@@ -13,7 +13,7 @@ import androidx.room.ForeignKey
             childColumns = ["launchId"]
         ),
         ForeignKey(
-            entity = CapsuleLocal::class,
+            entity = CapsuleWithoutLaunches::class,
             parentColumns = ["id"],
             childColumns = ["capsuleId"]
         )
