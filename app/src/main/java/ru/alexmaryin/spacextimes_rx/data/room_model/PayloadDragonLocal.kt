@@ -15,7 +15,7 @@ data class PayloadDragonLocal(
         entity = CapsuleWithoutLaunches::class,
         entityColumn = "id"
     )
-    @Embedded val capsule: Capsule?,
+    val capsule: Capsule?,
     val manifest: String?,
     val returnedMassInKg: Float?,
     val returnedMassInLbs: Float?,

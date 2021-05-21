@@ -8,14 +8,9 @@ import ru.alexmaryin.spacextimes_rx.data.model.Capsule
 data class CapsuleLocal(
     @Embedded val capsule: CapsuleWithoutLaunches,
     @Relation(
-        parentColumn = "id",
-        entity = LaunchLocal::class,
-        entityColumn = "id",
-        associateBy = Junction(
-            value = LaunchesToCapsules::class,
-            parentColumn = "capsuleId",
-            entityColumn = "launchId"
-        )
+        parentColumn = "capsuleId",
+        entityColumn = "launchId",
+        associateBy = Junction(LaunchesToCapsules::class)
     ) var launches: List<LaunchLocal>
 ) {
     fun toResponse() = with(capsule) {
