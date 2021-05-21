@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.model.extra
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.Capsule
+import ru.alexmaryin.spacextimes_rx.data.room_model.PayloadDragonLocal
 
 @JsonClass(generateAdapter = true)
 data class PayloadDragon(
@@ -15,4 +16,7 @@ data class PayloadDragon(
     @Json(name = "land_landing") val groundLanding: Boolean? = null,
 ) {
     fun isNotEmpty(): Boolean = this != PayloadDragon()
+
+    fun toRoom(payloadId: String) = PayloadDragonLocal(payloadId, capsule, manifest, returnedMassInKg, returnedMassInLbs,
+        flightTime, waterLanding, groundLanding)
 }

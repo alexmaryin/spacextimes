@@ -7,6 +7,7 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PayloadType
 import ru.alexmaryin.spacextimes_rx.data.model.extra.PayloadDragon
+import ru.alexmaryin.spacextimes_rx.data.room_model.PayloadLocal
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -81,4 +82,8 @@ data class Payload(
 
     val isOrbitDataPresent get() = (eccentricity ?: semiAxis ?: inclination ?: longitude ?: pericenterArg ?: rightAscension ?:
             meanAnomaly ?: meanMotion ?: epoch) != null
+
+    fun toRoom() = PayloadLocal(id, name, type, reused, customers, nationalities, manufacturers, orbit, regime, longitude,
+    eccentricity, epoch, dragon.toRoom(id), semiAxis, rightAscension, periapsis, apoapsis, inclination, pericenterArg,
+        lifeSpan, period, meanMotion, meanAnomaly, massInKg, massInLbs, referenceSystem, norads)
 }

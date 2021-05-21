@@ -37,6 +37,7 @@ interface ApiLocal {
     suspend fun getLaunchById(id: String): Launch?
 
     suspend fun getPayloadById(id: String): Payload?
+    suspend fun savePayload(payload: Payload)
 
     suspend fun getHistoryEvents(): List<History>
     suspend fun saveHistoryEvents(events: List<History>)

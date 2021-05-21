@@ -22,6 +22,12 @@ class RoomConverters {
     fun toStringList(source: String): List<String> = source.split("\n")
 
     @TypeConverter
+    fun fromIntList(list: List<Int>): String = list.joinToString(",")
+
+    @TypeConverter
+    fun toIntList(source: String): List<Int> = source.split(",").map { it.toInt() }
+
+    @TypeConverter
     fun fromPayloadWeightList(source: List<PayloadWeight>): String = source.joinToString("\n") {
         "${it.id.name}:::${it.name}:::${it.kg}:::${it.lb}"
     }

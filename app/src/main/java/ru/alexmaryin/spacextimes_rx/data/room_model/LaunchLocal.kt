@@ -15,12 +15,12 @@ import java.util.*
 data class LaunchLocal(
     @PrimaryKey val id: String,
     val name: String,
-//    @Relation(
-//        parentColumn = "id",
-//        entity = Rocket::class,
-//        entityColumn = "id",
-//    )
-//    @Embedded val rocket: Rocket?,
+    @Relation(
+        parentColumn = "id",
+        entity = RocketLocal::class,
+        entityColumn = "id",
+    )
+    @Embedded val rocket: RocketLocal?,
     val window: Int?,
     val success: Boolean? = null,
     val upcoming: Boolean,

@@ -146,8 +146,13 @@ class ApiLocalImpl @Inject constructor(
         Log.d("REPO_LOCAL", "Saving launches to Room: ${launches.size} items")
     }
 
-    override suspend fun getPayloadById(id: String): Payload? {
-        return null
+    override suspend fun getPayloadById(id: String): Payload? = spaceXDao.selectPayload(id)?.toResponse().also {
+        it?.let { Log.d("REPO_LOCAL", "Selected payload from Room with id: ${it.id}") }
+    }
+
+    override suspend fun savePayload(payload: Payload) {
+        spaceXDao.insertPayload(payload.toRoom())
+        Log.d("REPO_LOCAL", "Saving payloads with id:${payload.id} to Room")
     }
 
     override suspend fun getHistoryEvents(): List<History> = spaceXDao.selectAllHistoryEvents().map { it.toResponse() }
