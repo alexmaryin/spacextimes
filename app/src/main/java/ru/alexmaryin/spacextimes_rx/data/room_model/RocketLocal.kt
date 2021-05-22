@@ -16,7 +16,7 @@ import java.util.*
 
 @Entity(tableName = "rockets_table")
 data class RocketLocal(
-    @PrimaryKey val id: String,
+    @PrimaryKey val rocketId: String,
     val name: String,
     val type: RocketType,
     val active: Boolean,
@@ -41,7 +41,7 @@ data class RocketLocal(
     val payloadWeights: List<PayloadWeight>,
     val images: List<String>,
 ) {
-    fun toResponse() = Rocket(id, name, type, active, stages, boosters, country, company, wikipedia, wikiLocale,
+    fun toResponse() = Rocket(rocketId, name, type, active, stages, boosters, country, company, wikipedia, wikiLocale,
         description, descriptionRu, height, diameter, mass, engines, successRate, costPerLaunch, firstFlight, firstStage,
         secondStage, landingLegs, payloadWeights, images)
 }

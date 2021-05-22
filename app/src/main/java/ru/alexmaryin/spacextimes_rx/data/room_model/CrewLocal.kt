@@ -7,7 +7,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
 
 @Entity(tableName = "crew_table")
 data class CrewLocal(
-    @PrimaryKey val id: String,
+    @PrimaryKey val crewId: String,
     val name: String?,
     val status: CrewStatus,
     val agency: String?,
@@ -15,5 +15,5 @@ data class CrewLocal(
     val wikipedia: String?,
 ) {
 
-    fun toResponse() = Crew(id, name, status, agency, image, wikipedia)
+    fun toResponse() = Crew(crewId, name, status, agency, image, wikipedia)
 }

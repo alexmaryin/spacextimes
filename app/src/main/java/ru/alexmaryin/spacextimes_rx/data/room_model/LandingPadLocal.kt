@@ -8,7 +8,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
 
 @Entity(tableName = "landing_pads_table")
 data class LandingPadLocal(
-    @PrimaryKey val id: String,
+    @PrimaryKey val landingPadId: String,
     val name: String?,
     val type: LandingPadType,
     val locality: String?,
@@ -23,6 +23,6 @@ data class LandingPadLocal(
     val landingSuccesses: Int = 0,
     val fullName: String?,
 ) {
-    fun toResponse() = LandingPad(id, name, type, locality, region, latitude, longitude, status, emptyList(),
+    fun toResponse() = LandingPad(landingPadId, name, type, locality, region, latitude, longitude, status, emptyList(),
         wikipedia, null, details, detailsRu, landingAttempts, landingSuccesses, fullName)
 }

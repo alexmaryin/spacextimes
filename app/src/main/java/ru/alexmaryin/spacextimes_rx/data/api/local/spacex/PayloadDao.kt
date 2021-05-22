@@ -3,18 +3,20 @@ package ru.alexmaryin.spacextimes_rx.data.api.local.spacex
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.PayloadLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.PayloadWithoutDragon
 
 interface PayloadDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPayload(payload: PayloadLocal)
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPayload(payload: PayloadWithoutDragon)
 
-    @Query("select * from payloads_table join payload_dragons_table on payload_dragons_table.id=id")
+    @Transaction @Query("select * from payloads_table")
     suspend fun selectAllPayloads(): List<PayloadLocal>
 
-    @Query("select * from payloads_table join payload_dragons_table on payload_dragons_table.id=id where id=:id ")
+    @Transaction @Query("select * from payloads_table where payloadId=:id")
     suspend fun selectPayload(id: String): PayloadLocal?
 
-    @Query("delete from payloads_table")
+    @Transaction @Query("delete from payloads_table")
     suspend fun clearPayloads()
 }

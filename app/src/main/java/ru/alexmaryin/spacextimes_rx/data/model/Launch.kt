@@ -13,6 +13,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutRocket
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
 import ru.alexmaryin.spacextimes_rx.utils.halfYearString
 import ru.alexmaryin.spacextimes_rx.utils.quarterYearString
@@ -25,7 +26,7 @@ data class Launch(
     override val id: String,
     val name: String,
     val window: Int?,
-    val rocket: Rocket?,
+    var rocket: Rocket?,
     val success: Boolean? = null,
     val upcoming: Boolean,
     override val details: String?,
@@ -66,7 +67,7 @@ data class Launch(
         DatePrecision.HOUR -> DateFormat.getDateTimeInstance(DateFormat.LONG, TimeFormat.CLOCK_24H).format(dateLocal)
     }
 
-    fun toRoom() = LaunchLocal(id, name, window, success, upcoming, details, detailsRu, fairings, links,
+    fun toRoom() = LaunchWithoutRocket(id, name, rocket?.id, window, success, upcoming, details, detailsRu, fairings, links,
         autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
         toBeDetermined, notEarlyThan)
 }

@@ -7,7 +7,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 
 @Entity(tableName = "cores_table")
 data class CoreLocal(
-    @PrimaryKey val id: String,
+    @PrimaryKey val coreId: String,
     val serial: String,
     val block: Int?,
     val status: CoreStatus,
@@ -19,6 +19,6 @@ data class CoreLocal(
     val lastUpdate: String?,
     val lastUpdateRu: String?,
 ) {
-    fun toResponse() = Core(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
+    fun toResponse() = Core(coreId, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
         waterLandAttempts, waterLandings, lastUpdate, lastUpdateRu, emptyList())
 }

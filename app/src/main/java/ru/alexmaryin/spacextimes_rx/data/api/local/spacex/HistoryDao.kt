@@ -3,18 +3,19 @@ package ru.alexmaryin.spacextimes_rx.data.api.local.spacex
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.HistoryLocal
 
 interface HistoryDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHistoryEvent(event: HistoryLocal)
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertHistoryEvents(events: List<HistoryLocal>)
 
-    @Query("select * from history_events_table")
+    @Transaction @Query("select * from history_events_table")
     suspend fun selectAllHistoryEvents(): List<HistoryLocal>
 
-    @Query("select * from history_events_table where id=:id")
+    @Transaction @Query("select * from history_events_table where historyId=:id")
     suspend fun selectHistoryEvent(id: String): HistoryLocal?
 
-    @Query("delete from history_events_table")
+    @Transaction @Query("delete from history_events_table")
     suspend fun clearHistory()
 }

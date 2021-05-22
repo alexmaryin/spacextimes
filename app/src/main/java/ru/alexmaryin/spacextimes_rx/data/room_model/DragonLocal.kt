@@ -15,7 +15,7 @@ import java.util.*
 
 @Entity(tableName = "dragons_table")
 data class DragonLocal(
-    @PrimaryKey val id: String,
+    @PrimaryKey val dragonId: String,
     val name: String,
     val type: String,
     val thrusters: List<Thruster>,
@@ -40,7 +40,7 @@ data class DragonLocal(
     @Embedded(prefix = "fullHeight") val heightWithTrunk: LineSize,
     val images: List<String>,
 ) {
-    fun toResponse() = Dragon(id, name, type, thrusters, trunk, diameter, description, descriptionRu,
+    fun toResponse() = Dragon(dragonId, name, type, thrusters, trunk, diameter, description, descriptionRu,
         wikipedia, wikiLocale, isActive, crewCapacity, slideWallAngle, orbitDuration, dryMass,
         firstFlight, heatShield, launchPayloadMass, launchPayloadVolume, returnPayloadMass, returnPayloadVolume,
         pressurizedCapsule, heightWithTrunk, images)

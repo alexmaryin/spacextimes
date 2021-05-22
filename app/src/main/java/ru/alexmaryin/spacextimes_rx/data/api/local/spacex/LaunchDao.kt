@@ -3,18 +3,20 @@ package ru.alexmaryin.spacextimes_rx.data.api.local.spacex
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutRocket
 
 interface LaunchDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLaunch(launch: LaunchLocal)
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLaunches(launches: List<LaunchWithoutRocket>)
 
-    @Query("select * from launches_table")
+    @Transaction @Query("select * from launches_table")
     suspend fun selectAllLaunches(): List<LaunchLocal>
 
-    @Query("select * from launches_table where id=:id")
+    @Transaction @Query("select * from launches_table where launchId=:id")
     suspend fun selectLaunch(id: String): LaunchLocal?
 
-    @Query("delete from launches_table")
+    @Transaction @Query("delete from launches_table")
     suspend fun clearLaunches()
 }

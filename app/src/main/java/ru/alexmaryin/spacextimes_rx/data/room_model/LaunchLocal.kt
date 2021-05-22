@@ -1,45 +1,14 @@
 package ru.alexmaryin.spacextimes_rx.data.room_model
 
 import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import androidx.room.Relation
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
-import ru.alexmaryin.spacextimes_rx.data.model.Rocket
-import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
-import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
-import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
-import java.util.*
 
-@Entity(tableName = "launches_table")
 data class LaunchLocal(
-    @PrimaryKey val id: String,
-    val name: String,
+    @Embedded val launch: LaunchWithoutRocket,
     @Relation(
-        parentColumn = "id",
-        entity = RocketLocal::class,
-        entityColumn = "id",
-    )
-    val rocket: RocketLocal?,
-    val window: Int?,
-    val success: Boolean? = null,
-    val upcoming: Boolean,
-    val details: String?,
-    val detailsRu: String? = null,
-    @Embedded val fairings: Fairings?,
-    @Embedded val links: Links,
-    val autoUpdate: Boolean,
-    val flightNumber: Int,
-    val dateUtc: Date,
-    val dateUnix: Long?,
-    val dateLocal: Date,
-    val datePrecision: DatePrecision,
-    val staticFireDateUtc: Date?,
-    val staticFireDateUnix: Long?,
-    val toBeDetermined: Boolean = false,
-    val notEarlyThan: Boolean = false,
+        parentColumn = "rocketId",
+        entityColumn = "rocketId"
+    ) val rocket: RocketLocal?
 ) {
-    fun toResponse() = Launch(id, name, window, null, success, upcoming, details, detailsRu, fairings, links,
-        autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
-        toBeDetermined, notEarlyThan)
+    fun toResponse() = launch.toResponse().also { it.rocket = rocket?.toResponse() }
 }

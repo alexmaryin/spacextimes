@@ -15,16 +15,12 @@ class ApiLocalImpl @Inject constructor(
         }
 
     override suspend fun saveCapsules(capsules: List<Capsule>) {
-        capsules.forEach { spaceXDao.insertCapsule(it.toRoom()) }
-        // TODO maybe save details of launches?
+        spaceXDao.insertCapsules(capsules.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving capsules to Room: ${capsules.size} items")
     }
 
     override suspend fun getCapsuleById(id: String): Capsule? =
-        spaceXDao.selectCapsule(id)?.toResponse().apply {
-            // TODO launches = spaceXDao.selectLaunchesForCapsule(id) <- this is Capsule id for query
-        }
-            .also {
+        spaceXDao.selectCapsule(id)?.toResponse().also {
                 it?.let { Log.d("REPO_LOCAL", "Selected capsule from Room with id: ${it.id}") }
             }
 
@@ -33,16 +29,12 @@ class ApiLocalImpl @Inject constructor(
             Log.d("REPO_LOCAL", "Selected all cores from Room: ${it.size} items")
         }
 
-    override suspend fun getCoreById(id: String): Core? = spaceXDao.selectCore(id)?.toResponse().apply {
-        // TODO launches = spaceXDao.selectLaunchesForCore(id) <- this is Core id for query
-    }
-        .also {
+    override suspend fun getCoreById(id: String): Core? = spaceXDao.selectCore(id)?.toResponse().also {
             it?.let { Log.d("REPO_LOCAL", "Selected core from Room with id: ${it.id}") }
         }
 
     override suspend fun saveCores(cores: List<Core>) {
-        cores.forEach { spaceXDao.insertCore(it.toRoom()) }
-        // TODO maybe save details of launches?
+        spaceXDao.insertCores(cores.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving cores to Room: ${cores.size} items")
     }
 
@@ -51,16 +43,12 @@ class ApiLocalImpl @Inject constructor(
             Log.d("REPO_LOCAL", "Selected all crew members from Room: ${it.size} items")
         }
 
-    override suspend fun getCrewById(id: String): Crew? = spaceXDao.selectCrewMember(id)?.toResponse().apply {
-        // TODO launches = spaceXDao.selectLaunchesForCrew(id) <- this is Crew id for query
-    }
-        .also {
+    override suspend fun getCrewById(id: String): Crew? = spaceXDao.selectCrewMember(id)?.toResponse().also {
             it?.let { Log.d("REPO_LOCAL", "Selected crew member from Room with id: ${it.id}") }
         }
 
     override suspend fun saveCrew(crew: List<Crew>) {
-        crew.forEach { spaceXDao.insertCrew(it.toRoom()) }
-        // TODO maybe save details of launches?
+        spaceXDao.insertCrew(crew.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving crew members to Room: ${crew.size} items")
     }
 
@@ -74,7 +62,7 @@ class ApiLocalImpl @Inject constructor(
     }
 
     override suspend fun saveDragons(dragons: List<Dragon>) {
-        dragons.forEach { spaceXDao.insertDragon(it.toRoom()) }
+        spaceXDao.insertDragons(dragons.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving dragons to Room: ${dragons.size} items")
     }
 
@@ -83,16 +71,12 @@ class ApiLocalImpl @Inject constructor(
             Log.d("REPO_LOCAL", "Selected all launch pads from Room: ${it.size} items")
         }
 
-    override suspend fun getLaunchPadById(id: String): LaunchPad? = spaceXDao.selectLaunchPad(id)?.toResponse().apply {
-        // TODO launches = spaceXDao.selectLaunchesForLaunchPad(id) <- this is Launch pad id for query
-    }
-        .also {
+    override suspend fun getLaunchPadById(id: String): LaunchPad? = spaceXDao.selectLaunchPad(id)?.toResponse().also {
             it?.let { Log.d("REPO_LOCAL", "Selected launch pad from Room with id: ${it.id}") }
         }
 
     override suspend fun saveLaunchPads(pads: List<LaunchPad>) {
-        pads.forEach { spaceXDao.insertLaunchPad(it.toRoom()) }
-        // TODO maybe save details of launches?
+        spaceXDao.insertLaunchPads(pads.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving launch pads to Room: ${pads.size} items")
     }
 
@@ -101,16 +85,12 @@ class ApiLocalImpl @Inject constructor(
             Log.d("REPO_LOCAL", "Selected all landing pads from Room: ${it.size} items")
         }
 
-    override suspend fun getLandingPadById(id: String): LandingPad? = spaceXDao.selectLandingPad(id)?.toResponse().apply {
-        // TODO launches = spaceXDao.selectLaunchesForLandingPad(id) <- this is Landing pad id for query
-    }
-        .also {
+    override suspend fun getLandingPadById(id: String): LandingPad? = spaceXDao.selectLandingPad(id)?.toResponse().also {
             it?.let { Log.d("REPO_LOCAL", "Selected landing pad from Room with id: ${it.id}") }
         }
 
     override suspend fun saveLandingPads(pads: List<LandingPad>) {
-        pads.forEach { spaceXDao.insertLandingPad(it.toRoom()) }
-        // TODO maybe save details of launches?
+        spaceXDao.insertLandingPads(pads.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving landing pads to Room: ${pads.size} items")
     }
 
@@ -124,7 +104,7 @@ class ApiLocalImpl @Inject constructor(
     }
 
     override suspend fun saveRockets(rockets: List<Rocket>) {
-        rockets.forEach { spaceXDao.insertRocket(it.toRoom()) }
+        spaceXDao.insertRockets(rockets.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving rockets to Room: ${rockets.size} items")
     }
 
@@ -133,16 +113,12 @@ class ApiLocalImpl @Inject constructor(
             Log.d("REPO_LOCAL", "Selected all launches from Room: ${it.size} items")
         }
 
-    override suspend fun getLaunchById(id: String): Launch? = spaceXDao.selectLaunch(id)?.toResponse().apply {
-        // TODO populate lists and objects
-    }
-        .also {
+    override suspend fun getLaunchById(id: String): Launch? = spaceXDao.selectLaunch(id)?.toResponse().also {
             it?.let { Log.d("REPO_LOCAL", "Selected launch from Room with id: ${it.id}") }
         }
 
     override suspend fun saveLaunches(launches: List<Launch>) {
-        launches.forEach { spaceXDao.insertLaunch(it.toRoom()) }
-        // TODO maybe save details of lists?
+        spaceXDao.insertLaunches(launches.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving launches to Room: ${launches.size} items")
     }
 
@@ -161,7 +137,7 @@ class ApiLocalImpl @Inject constructor(
         }
 
     override suspend fun saveHistoryEvents(events: List<History>) {
-        events.forEach { spaceXDao.insertHistoryEvent(it.toRoom()) }
+        spaceXDao.insertHistoryEvents(events.map { it.toRoom() })
         Log.d("REPO_LOCAL", "Saving history events to Room: ${events.size} items")
     }
 }

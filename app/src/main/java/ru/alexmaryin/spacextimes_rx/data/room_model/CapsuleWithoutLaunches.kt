@@ -7,7 +7,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.enums.CapsuleType
 
 @Entity(tableName = "capsules_table")
 data class CapsuleWithoutLaunches(
-    @PrimaryKey val id: String,
+    @PrimaryKey val capsuleId: String,
     val serial: String,
     val status: CapsuleStatus,
     val type: CapsuleType,
