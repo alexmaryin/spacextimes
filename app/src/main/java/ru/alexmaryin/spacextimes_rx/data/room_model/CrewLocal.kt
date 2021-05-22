@@ -1,19 +1,18 @@
 package ru.alexmaryin.spacextimes_rx.data.room_model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import ru.alexmaryin.spacextimes_rx.data.model.Crew
-import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
+import androidx.room.Embedded
+import androidx.room.Junction
+import androidx.room.Relation
 
-@Entity(tableName = "crew_table")
 data class CrewLocal(
-    @PrimaryKey val crewId: String,
-    val name: String?,
-    val status: CrewStatus,
-    val agency: String?,
-    val image: String?,
-    val wikipedia: String?,
+    @Embedded val crew: CrewWithoutLaunches,
+    @Relation(
+        parentColumn = "crewId",
+        entityColumn = "launchId",
+        associateBy = Junction(LaunchesToCrew::class)
+    ) val launches: List<LaunchWithoutDetails>
 ) {
-
-    fun toResponse() = Crew(crewId, name, status, agency, image, wikipedia)
+    fun toResponse() = crew.toResponse().also { crew ->
+        crew.launches = launches.map { it.toResponse() }
+    }
 }

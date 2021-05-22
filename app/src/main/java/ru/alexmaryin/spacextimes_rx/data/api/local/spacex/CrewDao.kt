@@ -5,10 +5,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.CrewLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.CrewWithoutLaunches
 
 interface CrewDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCrew(crew: List<CrewLocal>)
+    suspend fun insertCrew(crew: List<CrewWithoutLaunches>)
 
     @Transaction @Query("select * from crew_table")
     suspend fun selectAllCrew(): List<CrewLocal>

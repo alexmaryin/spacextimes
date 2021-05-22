@@ -17,18 +17,24 @@ data class LaunchLocal(
     @Relation(
         parentColumn = "launchId",
         entityColumn = "crewId",
-        associateBy = Junction(CrewMembersToLaunch::class)
-    ) val crew: List<CrewLocal>,
+        associateBy = Junction(LaunchesToCrew::class)
+    ) val crew: List<CrewWithoutLaunches>,
     @Relation(
         parentColumn = "launchId",
         entityColumn = "capsuleId",
         associateBy = Junction(LaunchesToCapsules::class)
-    ) val capsules: List<CapsuleWithoutLaunches>
+    ) val capsules: List<CapsuleWithoutLaunches>,
+    @Relation(
+        parentColumn = "launchId",
+        entityColumn = "coreId",
+        associateBy = Junction(LaunchesToCores::class)
+    ) val cores: List<CoreWithoutLaunches>,
 ) {
-    fun toResponse() = launch.toResponse().also {
-        it.rocket = rocket?.toResponse()
-        it.launchPad = launchPad?.toResponse()
-        it.crew = crew.map { member -> member.toResponse() }
-        it.capsules = capsules.map { capsule -> capsule.toResponse() }
+    fun toResponse() = launch.toResponse().also { launch ->
+        launch.rocket = rocket?.toResponse()
+        launch.launchPad = launchPad?.toResponse()
+        launch.crew = crew.map { it.toResponse() }
+        launch.capsules = capsules.map { it.toResponse() }
+        //launch.cores = cores.map { it.toResponse() }
     }
 }

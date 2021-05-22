@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CrewStatus
-import ru.alexmaryin.spacextimes_rx.data.room_model.CrewLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.CrewWithoutLaunches
 
 @JsonClass(generateAdapter = true)
 data class Crew(
@@ -15,8 +15,8 @@ data class Crew(
     val image: String?,
     override val wikipedia: String?,
     @Transient override var wikiLocale: String? = null,
-    val launches: List<Launch> = emptyList()
+    var launches: List<Launch> = emptyList()
 ) : HasStringId, HasWiki {
 
-    fun toRoom() = CrewLocal(id, name, status, agency, image, wikipedia)
+    fun toRoom() = CrewWithoutLaunches(id, name, status, agency, image, wikipedia)
 }

@@ -46,7 +46,7 @@ data class Launch(
     var crew: List<Crew> = emptyList(),
     var capsules: List<Capsule> = emptyList(),
     val payloads: List<Payload> = emptyList(),
-    val cores: List<CoreFlight> = emptyList(),
+    var cores: List<CoreFlight> = emptyList(),
     val failures: List<Failure> = emptyList(),
 ) : HasStringId, HasDetails, HasWiki {
 
