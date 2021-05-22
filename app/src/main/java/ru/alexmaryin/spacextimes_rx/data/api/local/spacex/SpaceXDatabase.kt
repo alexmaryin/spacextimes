@@ -8,12 +8,13 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.*
 
 @Database(entities = [
         CapsuleWithoutLaunches::class,
-        CoreLocal::class,
+        CoreWithoutLaunches::class,
         CrewLocal::class,
         LandingPadLocal::class,
         LaunchPadLocal::class,
         LaunchWithoutDetails::class,
         LaunchesToCapsules::class,
+        LaunchesToCores::class,
         HistoryLocal::class,
         RocketLocal::class,
         DragonLocal::class,

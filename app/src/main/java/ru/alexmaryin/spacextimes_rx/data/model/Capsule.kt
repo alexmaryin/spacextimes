@@ -20,7 +20,7 @@ data class Capsule(
     @Json(name = "land_landings") val landLandings: Int,
     @Json(name = "last_update") override val lastUpdate: String?,
     override var lastUpdateRu: String? = null,
-    val launches: List<Launch> = emptyList()
+    var launches: List<Launch> = emptyList()
 ) : HasStringId, HasLastUpdate {
     fun toRoom() = CapsuleWithoutLaunches(id, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu)
 
