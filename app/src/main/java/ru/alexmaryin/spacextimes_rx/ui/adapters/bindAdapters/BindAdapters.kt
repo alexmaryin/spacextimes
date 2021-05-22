@@ -68,15 +68,15 @@ object CommonAdapters {
     @JvmStatic
     @BindingAdapter(value = ["carouselSource", "launchName"], requireAll = true)
     fun populateCarousel(view: View, images: List<String>?, launchName: String = "") {
-        images?.let {
+        images?.filter { it.isNotBlank() }?.let { imagesList ->
             with(view as CarouselView) {
                 visibility = View.VISIBLE
                 setImageListener { position, imageView ->
                     imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                    loadImage(imageView, images[position])
+                    loadImage(imageView, imagesList[position])
                 }
-                setImageClickListener(downloadImageFromCarousel(context, images, "images_$launchName.jpg"))
-                pageCount = images.size
+                setImageClickListener(downloadImageFromCarousel(context, imagesList, "images_$launchName.jpg"))
+                pageCount = imagesList.size
             }
         }
     }

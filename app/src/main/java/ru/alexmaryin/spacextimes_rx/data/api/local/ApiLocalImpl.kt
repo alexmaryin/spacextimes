@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.api.local
 import android.util.Log
 import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXDao
 import ru.alexmaryin.spacextimes_rx.data.model.*
+import ru.alexmaryin.spacextimes_rx.data.room_model.*
 import javax.inject.Inject
 
 class ApiLocalImpl @Inject constructor(
@@ -118,8 +119,18 @@ class ApiLocalImpl @Inject constructor(
         }
 
     override suspend fun saveLaunches(launches: List<Launch>) {
-        spaceXDao.insertLaunches(launches.map { it.toRoom() })
+        val rocketsSet = emptySet<RocketLocal>().toMutableSet()
+        val launchPadsSet = emptySet<LaunchPadLocal>().toMutableSet()
+        spaceXDao.insertLaunches(launches.map { launch ->
+            // Caching details for each launch at first
+            launch.rocket?.let { rocketsSet += it.toRoom() }
+            launch.launchPad?.let { launchPadsSet += it.toRoom() }
+            launch.toRoom() })
+        spaceXDao.insertRockets(rocketsSet.toList())
+        spaceXDao.insertLaunchPads(launchPadsSet.toList())
         Log.d("REPO_LOCAL", "Saving launches to Room: ${launches.size} items")
+        Log.d("REPO_LOCAL", "Saving rockets to Room: ${rocketsSet.size} items")
+        Log.d("REPO_LOCAL", "Saving launch pads to Room: ${launchPadsSet.size} items")
     }
 
     override suspend fun getPayloadById(id: String): Payload? = spaceXDao.selectPayload(id)?.toResponse().also {

@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PatchImages(
-    @Json(name = "small") val smallPatch: String?,
-    @Json(name = "large") val largePatch: String?,
+    @Json(name = "small") val smallPatch: String? = null,
+    @Json(name = "large") val largePatch: String? = null,
 )

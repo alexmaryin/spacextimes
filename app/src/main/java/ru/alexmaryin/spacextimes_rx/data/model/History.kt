@@ -16,7 +16,7 @@ data class History(
     @Transient override var titleRu: String? = null,
     override val details: String,
     @Transient override var detailsRu: String? = null,
-    val links: HistoryLinks,
+    val links: HistoryLinks?,
     @Json(name = "event_date_utc") val eventDateUTC: Date,
     @Json(name = "event_date_unix") val eventDateUnix: Long?,
 ) : HasStringId, HasDetails, HasTitle {

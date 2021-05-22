@@ -118,12 +118,10 @@ class RocketDetailViewModel @Inject constructor(
                 left = res.getString(R.string.stage_fuel_amount_str, fuelAmount ?: 0f),
                 right = res.getString(R.string.stage_burn_time_str, burnTime ?: 0)
             ))
-            if (payloads.compositeFairing.height.meters != null) {
+            payloads.compositeFairing?.let {
                 add(TwoStringsItem(
                     caption = res.getString(R.string.fairing_caption),
-                    details = res.getString(R.string.fairing_details_str,
-                        payloads.compositeFairing.height.meters,
-                        payloads.compositeFairing.diameter.meters)
+                    details = res.getString(R.string.fairing_details_str, it.height.meters, it.diameter.meters)
                 ))
             }
         }

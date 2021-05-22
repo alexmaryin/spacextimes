@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.api.local
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import ru.alexmaryin.spacextimes_rx.data.model.enums.OrbitType
 import ru.alexmaryin.spacextimes_rx.data.model.extra.PayloadWeight
@@ -7,13 +8,13 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Thrust
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Thruster
 import java.util.*
 
-//@ProvidedTypeConverter
+@ProvidedTypeConverter
 class RoomConverters {
     @TypeConverter
-    fun fromDate(date: Date) = date.time
+    fun fromDate(date: Date?) = date?.time
 
     @TypeConverter
-    fun toDate(dateUnix: Long) = Date(dateUnix)
+    fun toDate(dateUnix: Long?) = dateUnix?.let { Date(it) }
 
     @TypeConverter
     fun fromStringList(list: List<String>): String = list.joinToString("\n")

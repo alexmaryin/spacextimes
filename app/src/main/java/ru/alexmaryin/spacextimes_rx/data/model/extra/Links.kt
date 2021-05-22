@@ -6,13 +6,13 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Links(
-    @Embedded val patch: PatchImages,
-    @Embedded val reddit: Reddit,
+    @Embedded val patch: PatchImages?,
+    @Embedded val reddit: Reddit?,
     @Embedded val flickr: FlickrImages,
-    val presskit: String?,
-    val webcast: String?,
-    val article: String?,
-    val wikipedia: String?,
+    val presskit: String? = null,
+    val webcast: String? = null,
+    val article: String? = null,
+    val wikipedia: String? = null,
     var wikiLocale: String? = null,
-    @Json(name = "youtube_id") val youtubeId: String?,
+    @Json(name = "youtube_id") val youtubeId: String? = null,
 )

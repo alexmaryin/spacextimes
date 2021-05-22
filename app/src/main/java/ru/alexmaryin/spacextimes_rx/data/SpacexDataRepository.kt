@@ -53,7 +53,8 @@ class SpacexDataRepository @Inject constructor(
         noinline localApiCallback: suspend (String) -> T? = { null },
     ) = flow {
         emit(Loading)
-        localApiCallback(id)?.let { emit(Success(it)) } ?: if (networkHelper.isNetworkConnected()) {
+        localApiCallback(id)?.let { emit(Success(it)) }
+        if (networkHelper.isNetworkConnected()) {
             apiCallback(id).apply {
                 if (isSuccessful) body()?.docs?.let { emit(Success(it.first())) }
                     else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))

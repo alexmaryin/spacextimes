@@ -43,8 +43,8 @@ class LaunchDetailViewModel @Inject constructor(
     fun composeDetails(res: Context, launch: Launch) = mutableListOf<HasStringId>().apply {
         with(launch) {
 
-            if(images.isNotEmpty()) {
-                add(CarouselItem(images = images, launchName = name))
+            images.filter { it.isNotBlank() }.apply {
+                if(isNotEmpty()) add(CarouselItem(images = this, launchName = name))
             }
 
             add(OneLineItem2(
@@ -130,10 +130,10 @@ class LaunchDetailViewModel @Inject constructor(
             LinksItem(
                 wiki = wikiLocale ?: wikipedia,
                 youtube = links.webcast ?: links.youtubeId?.let { "https://www.youtube.com/watch?v=${it}" },
-                redditCampaign = links.reddit.campaign,
-                redditLaunch = links.reddit.launch,
-                redditMedia = links.reddit.media,
-                redditRecovery = links.reddit.recovery,
+                redditCampaign = links.reddit?.campaign,
+                redditLaunch = links.reddit?.launch,
+                redditMedia = links.reddit?.media,
+                redditRecovery = links.reddit?.recovery,
                 pressKit = links.presskit,
                 article = links.article
             ).apply {

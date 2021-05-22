@@ -5,11 +5,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
-import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutRocket
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutDetails
 
 interface LaunchDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLaunches(launches: List<LaunchWithoutRocket>)
+    suspend fun insertLaunches(launches: List<LaunchWithoutDetails>)
 
     @Transaction @Query("select * from launches_table")
     suspend fun selectAllLaunches(): List<LaunchLocal>

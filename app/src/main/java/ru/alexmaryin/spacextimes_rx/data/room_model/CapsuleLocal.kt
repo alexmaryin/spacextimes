@@ -11,7 +11,7 @@ data class CapsuleLocal(
         parentColumn = "capsuleId",
         entityColumn = "launchId",
         associateBy = Junction(LaunchesToCapsules::class)
-    ) var launches: List<LaunchWithoutRocket>
+    ) var launches: List<LaunchWithoutDetails>
 ) {
     fun toResponse() = with(capsule) {
         Capsule(capsuleId, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu,

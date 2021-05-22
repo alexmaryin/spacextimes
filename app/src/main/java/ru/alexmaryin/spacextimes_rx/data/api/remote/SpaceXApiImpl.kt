@@ -35,6 +35,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     private val populatePayload = ApiOptions(populate = listOf(dragonWithCapsule))
 
     private val populateLaunches = ApiOptions(
+        select = "-crew -capsules -cores -payloads",
         populate = listOf(
             PopulatedObject(path = "rocket"),
             PopulatedObject(path = "launchpad", select = "-launches -rockets"),

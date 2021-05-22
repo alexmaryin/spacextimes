@@ -10,7 +10,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
 import java.util.*
 
 @Entity(tableName = "launches_table")
-data class LaunchWithoutRocket(
+data class LaunchWithoutDetails(
     @PrimaryKey val launchId: String,
     val name: String,
     val rocketId: String?,
@@ -24,14 +24,15 @@ data class LaunchWithoutRocket(
     val autoUpdate: Boolean,
     val flightNumber: Int,
     val dateUtc: Date,
-    val dateUnix: Long?,
+    val dateUnix: Long,
     val dateLocal: Date,
     val datePrecision: DatePrecision,
     val staticFireDateUtc: Date?,
     val staticFireDateUnix: Long?,
     val toBeDetermined: Boolean,
     val notEarlyThan: Boolean,
+    val launchPadId: String?,
 ) {
     fun toResponse() = Launch(launchId, name, window, null, success, upcoming, details, detailsRu, fairings, links, autoUpdate, flightNumber,
-        dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix, toBeDetermined, notEarlyThan)
+        dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix, toBeDetermined, notEarlyThan, null)
 }

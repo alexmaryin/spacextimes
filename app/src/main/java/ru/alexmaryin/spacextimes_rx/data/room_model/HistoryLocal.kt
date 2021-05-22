@@ -11,10 +11,10 @@ import java.util.*
 data class HistoryLocal(
     @PrimaryKey val historyId: String,
     val title: String,
-    val titleRu: String? = null,
+    val titleRu: String?,
     val details: String,
-    val detailsRu: String? = null,
-    @Embedded val links: HistoryLinks,
+    val detailsRu: String?,
+    @Embedded val links: HistoryLinks?,
     val eventDateUTC: Date,
     val eventDateUnix: Long?,
 ) {
