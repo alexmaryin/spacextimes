@@ -35,13 +35,14 @@ class RoomConverters {
     }
 
     @TypeConverter
-    fun toPayloadWeightList(source: String): List<PayloadWeight> = source.split("\n").map {
+    fun toPayloadWeightList(source: String): List<PayloadWeight> = source.split("\n")
+        .filter { it.isNotBlank() }.map {
         it.split(":::").run {
             PayloadWeight(
                 id = OrbitType.valueOf(get(0)),
                 name = get(1),
-                kg = get(2).toFloat(),
-                lb = get(3).toFloat()
+                kg = get(2).toFloatOrNull(),
+                lb = get(3).toFloatOrNull()
             )
         }
     }
@@ -52,14 +53,15 @@ class RoomConverters {
     }
 
     @TypeConverter
-    fun toThrusterList(source: String): List<Thruster> = source.split("\n").map {
+    fun toThrusterList(source: String): List<Thruster> = source.split("\n")
+        .filter { it.isNotBlank() }.map {
         it.split(":::").run {
             Thruster(
                 type = get(0),
-                amount = get(1).toInt(),
-                pods = get(2).toInt(),
-                isp = get(3).toInt(),
-                thrust = Thrust(kN = get(4).toFloat(), lbf = get(5).toInt()),
+                amount = get(1).toIntOrNull(),
+                pods = get(2).toIntOrNull(),
+                isp = get(3).toIntOrNull(),
+                thrust = Thrust(kN = get(4).toFloatOrNull(), lbf = get(5).toIntOrNull()),
                 hotComponent = get(6),
                 oxidizerComponent = get(7)
             )
@@ -72,11 +74,12 @@ class RoomConverters {
     }
 
     @TypeConverter
-    fun toFailuresList(source: String): List<Failure> = source.split("\n").map {
+    fun toFailuresList(source: String): List<Failure> = source.split("\n")
+        .filter { it.isNotBlank() }.map {
         it.split(":::").run {
             Failure(
-                time = get(0).toInt(),
-                altitude = get(1).toInt(),
+                time = get(0).toIntOrNull(),
+                altitude = get(1).toIntOrNull(),
                 reason = get(2)
             )
         }

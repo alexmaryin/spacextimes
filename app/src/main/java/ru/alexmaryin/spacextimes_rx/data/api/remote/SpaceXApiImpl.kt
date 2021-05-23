@@ -14,7 +14,10 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
 
     private val populateNestedLaunches = ApiOptions(
         populate = listOf(
-            PopulatedObject(path = "launches", populate = PopulatedObject(path = "rocket")),
+            PopulatedObject(
+                select = "-crew -capsules -cores -payloads -launchpad",
+                path = "launches",
+                populate = PopulatedObject(path = "rocket")),
             PopulatedObject(path = "rockets")
         )
     )
