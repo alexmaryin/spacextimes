@@ -39,7 +39,8 @@ class SpacexDataRepository @Inject constructor(
                 else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
-    }.catch { e ->
+    }
+        .catch { e ->
         when (e) {
             is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
             is SocketTimeoutException -> emit(Error("Server timeout", ErrorType.REMOTE_API_ERROR))
@@ -60,7 +61,8 @@ class SpacexDataRepository @Inject constructor(
                     else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
-    }.catch { e ->
+    }
+        .catch { e ->
         when (e) {
             is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
             else -> emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.OTHER_ERROR))

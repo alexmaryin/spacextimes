@@ -18,8 +18,8 @@ data class Volume(
 
 @JsonClass(generateAdapter = true)
 data class LineSize(
-    val meters: Float,
-    val feet: Float
+    val meters: Float?,
+    val feet: Float?
 )
 
 @JsonClass(generateAdapter = true)
@@ -30,8 +30,8 @@ data class Thrust(
 
 @JsonClass(generateAdapter = true)
 data class Isp(
-    val vacuum: Int,
-    @Json(name = "sea_level") val seaLevel: Int,
+    val vacuum: Int?,
+    @Json(name = "sea_level") val seaLevel: Int?,
 )
 
 @JsonClass(generateAdapter = true)
