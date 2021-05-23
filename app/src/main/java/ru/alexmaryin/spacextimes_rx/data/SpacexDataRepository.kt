@@ -52,12 +52,16 @@ class SpacexDataRepository @Inject constructor(
         id: String,
         noinline apiCallback: suspend (String) -> Response<ApiResponse<T>>,
         noinline localApiCallback: suspend (String) -> T? = { null },
+        noinline saveApiCallback: suspend (T) -> Unit = {}
     ) = flow {
         emit(Loading)
         localApiCallback(id)?.let { emit(Success(it)) }
         if (networkHelper.isNetworkConnected()) {
             apiCallback(id).apply {
-                if (isSuccessful) body()?.docs?.let { emit(Success(it.first())) }
+                if (isSuccessful) body()?.docs?.apply {
+                    emit(Success(first()))
+                    saveApiCallback(first())
+                }
                     else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
@@ -92,7 +96,7 @@ class SpacexDataRepository @Inject constructor(
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
     fun getLaunches() = fetchItems(remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
-    fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById)
+    fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById, localApi::saveLaunchDetails)
 
     suspend fun filterLaunches(launchFilter: Set<LaunchFilter>) = localApi.getLaunches().run {
         val result = filter { launch ->

@@ -9,7 +9,7 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.PayloadWithoutDragon
 
 interface PayloadDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPayload(payload: PayloadWithoutDragon)
+    suspend fun insertPayloads(payloads: List<PayloadWithoutDragon>)
 
     @Transaction @Query("select * from payloads_table")
     suspend fun selectAllPayloads(): List<PayloadLocal>

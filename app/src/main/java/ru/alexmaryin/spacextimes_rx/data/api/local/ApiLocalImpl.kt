@@ -133,12 +133,22 @@ class ApiLocalImpl @Inject constructor(
         Log.d("REPO_LOCAL", "Saving launch pads to Room: ${launchPadsSet.size} items")
     }
 
+    override suspend fun saveLaunchDetails(launch: Launch) {
+        spaceXDao.insertLaunches(listOf(launch.toRoom().launch))
+        launch.rocket?.let {spaceXDao.insertRockets(listOf(it.toRoom())) }
+        launch.launchPad?.let { spaceXDao.insertLaunchPads(listOf(it.toRoom())) }
+        spaceXDao.insertCrew(launch.crew.map { it.toRoom() })
+        spaceXDao.insertCapsules(launch.capsules.map { it.toRoom() })
+        spaceXDao.insertPayloads(launch.payloads.map { it.toRoom().payload })
+        spaceXDao.insertCoreFlights(launch.cores.map { it.toRoom() })
+    }
+
     override suspend fun getPayloadById(id: String): Payload? = spaceXDao.selectPayload(id)?.toResponse().also {
         it?.let { Log.d("REPO_LOCAL", "Selected payload from Room with id: ${it.id}") }
     }
 
     override suspend fun savePayload(payload: Payload) {
-        spaceXDao.insertPayload(payload.toRoom().payload)
+        spaceXDao.insertPayloads(listOf(payload.toRoom().payload))
         Log.d("REPO_LOCAL", "Saving payloads with id:${payload.id} to Room")
     }
 

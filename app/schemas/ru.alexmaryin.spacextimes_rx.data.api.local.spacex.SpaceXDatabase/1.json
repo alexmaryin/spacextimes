@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "22cdb382def5159083c77ebb37c630e3",
+    "identityHash": "61379adcc74d61b38d765c9300cd6364",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -827,7 +827,7 @@
       },
       {
         "tableName": "rockets_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rocketId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `active` INTEGER NOT NULL, `stages` INTEGER NOT NULL, `boosters` INTEGER NOT NULL, `country` TEXT NOT NULL, `company` TEXT NOT NULL, `wikipedia` TEXT, `wikiLocale` TEXT, `description` TEXT, `descriptionRu` TEXT, `successRate` REAL NOT NULL, `costPerLaunch` REAL NOT NULL, `firstFlight` INTEGER NOT NULL, `payloadWeights` TEXT NOT NULL, `images` TEXT NOT NULL, `heightmeters` REAL NOT NULL, `heightfeet` REAL NOT NULL, `diametermeters` REAL NOT NULL, `diameterfeet` REAL NOT NULL, `kg` INTEGER NOT NULL, `lb` INTEGER NOT NULL, `enginesnumber` INTEGER NOT NULL, `enginestype` TEXT NOT NULL, `enginesversion` TEXT NOT NULL, `engineslayout` TEXT, `enginesengineLossMax` INTEGER, `enginesoxidizerComponent` TEXT NOT NULL, `engineshotComponent` TEXT NOT NULL, `enginesthrustToWeight` REAL NOT NULL, `enginesvacuum` INTEGER NOT NULL, `enginesseaLevel` INTEGER NOT NULL, `enginesseaLevelkN` REAL, `enginesseaLevellbf` INTEGER, `enginesvacuumLevelkN` REAL, `enginesvacuumLevellbf` INTEGER, `firstStageengines` INTEGER NOT NULL, `firstStagereusable` INTEGER NOT NULL, `firstStagefuelAmount` REAL, `firstStageburnTime` INTEGER, `firstStageseaLevelkN` REAL, `firstStageseaLevellbf` INTEGER, `firstStagevacuumkN` REAL, `firstStagevacuumlbf` INTEGER, `secondStagereusable` INTEGER NOT NULL, `secondStageengines` INTEGER NOT NULL, `secondStagefuelAmount` REAL, `secondStageburnTime` INTEGER, `secondStagekN` REAL, `secondStagelbf` INTEGER, `secondStageoption` TEXT NOT NULL, `secondStageheightmeters` REAL, `secondStageheightfeet` REAL, `secondStagediametermeters` REAL, `secondStagediameterfeet` REAL, `number` INTEGER NOT NULL, `material` TEXT, PRIMARY KEY(`rocketId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rocketId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `active` INTEGER NOT NULL, `stages` INTEGER NOT NULL, `boosters` INTEGER NOT NULL, `country` TEXT NOT NULL, `company` TEXT NOT NULL, `wikipedia` TEXT, `wikiLocale` TEXT, `description` TEXT, `descriptionRu` TEXT, `successRate` REAL NOT NULL, `costPerLaunch` REAL NOT NULL, `firstFlight` INTEGER NOT NULL, `payloadWeights` TEXT NOT NULL, `images` TEXT NOT NULL, `heightmeters` REAL, `heightfeet` REAL, `diametermeters` REAL, `diameterfeet` REAL, `kg` INTEGER NOT NULL, `lb` INTEGER NOT NULL, `enginesnumber` INTEGER NOT NULL, `enginestype` TEXT NOT NULL, `enginesversion` TEXT NOT NULL, `engineslayout` TEXT, `enginesengineLossMax` INTEGER, `enginesoxidizerComponent` TEXT NOT NULL, `engineshotComponent` TEXT NOT NULL, `enginesthrustToWeight` REAL NOT NULL, `enginesvacuum` INTEGER, `enginesseaLevel` INTEGER, `enginesseaLevelkN` REAL, `enginesseaLevellbf` INTEGER, `enginesvacuumLevelkN` REAL, `enginesvacuumLevellbf` INTEGER, `firstStageengines` INTEGER NOT NULL, `firstStagereusable` INTEGER NOT NULL, `firstStagefuelAmount` REAL, `firstStageburnTime` INTEGER, `firstStageseaLevelkN` REAL, `firstStageseaLevellbf` INTEGER, `firstStagevacuumkN` REAL, `firstStagevacuumlbf` INTEGER, `secondStagereusable` INTEGER NOT NULL, `secondStageengines` INTEGER NOT NULL, `secondStagefuelAmount` REAL, `secondStageburnTime` INTEGER, `secondStagekN` REAL, `secondStagelbf` INTEGER, `secondStageoption` TEXT NOT NULL, `secondStageheightmeters` REAL, `secondStageheightfeet` REAL, `secondStagediametermeters` REAL, `secondStagediameterfeet` REAL, `number` INTEGER NOT NULL, `material` TEXT, PRIMARY KEY(`rocketId`))",
         "fields": [
           {
             "fieldPath": "rocketId",
@@ -935,25 +935,25 @@
             "fieldPath": "height.meters",
             "columnName": "heightmeters",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "height.feet",
             "columnName": "heightfeet",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "diameter.meters",
             "columnName": "diametermeters",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "diameter.feet",
             "columnName": "diameterfeet",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "mass.kg",
@@ -1019,13 +1019,13 @@
             "fieldPath": "engines.isp.vacuum",
             "columnName": "enginesvacuum",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "engines.isp.seaLevel",
             "columnName": "enginesseaLevel",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "engines.thrustSeaLevel.kN",
@@ -1189,7 +1189,7 @@
       },
       {
         "tableName": "dragons_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dragonId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `thrusters` TEXT NOT NULL, `description` TEXT, `descriptionRu` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `isActive` INTEGER NOT NULL, `crewCapacity` INTEGER NOT NULL, `slideWallAngle` INTEGER NOT NULL, `orbitDuration` INTEGER NOT NULL, `dryMass` INTEGER NOT NULL, `firstFlight` INTEGER, `images` TEXT NOT NULL, `trunkinMeters` INTEGER NOT NULL, `trunkinFeet` INTEGER NOT NULL, `trunksolarArray` INTEGER NOT NULL, `trunkunpressurized` INTEGER NOT NULL, `diametermeters` REAL NOT NULL, `diameterfeet` REAL NOT NULL, `shieldmaterial` TEXT NOT NULL, `shieldsize` REAL NOT NULL, `shieldtemperature` INTEGER NOT NULL, `shielddevelopPartner` TEXT NOT NULL, `launchMasskg` INTEGER NOT NULL, `launchMasslb` INTEGER NOT NULL, `launchVolumeinMeters` INTEGER NOT NULL, `launchVolumeinFeet` INTEGER NOT NULL, `returnMasskg` INTEGER NOT NULL, `returnMasslb` INTEGER NOT NULL, `returnVolumeinMeters` INTEGER NOT NULL, `returnVolumeinFeet` INTEGER NOT NULL, `capsuleinMeters` INTEGER NOT NULL, `capsuleinFeet` INTEGER NOT NULL, `fullHeightmeters` REAL NOT NULL, `fullHeightfeet` REAL NOT NULL, PRIMARY KEY(`dragonId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dragonId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `thrusters` TEXT NOT NULL, `description` TEXT, `descriptionRu` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `isActive` INTEGER NOT NULL, `crewCapacity` INTEGER NOT NULL, `slideWallAngle` INTEGER NOT NULL, `orbitDuration` INTEGER NOT NULL, `dryMass` INTEGER NOT NULL, `firstFlight` INTEGER, `images` TEXT NOT NULL, `trunkinMeters` INTEGER NOT NULL, `trunkinFeet` INTEGER NOT NULL, `trunksolarArray` INTEGER NOT NULL, `trunkunpressurized` INTEGER NOT NULL, `diametermeters` REAL, `diameterfeet` REAL, `shieldmaterial` TEXT NOT NULL, `shieldsize` REAL NOT NULL, `shieldtemperature` INTEGER NOT NULL, `shielddevelopPartner` TEXT NOT NULL, `launchMasskg` INTEGER NOT NULL, `launchMasslb` INTEGER NOT NULL, `launchVolumeinMeters` INTEGER NOT NULL, `launchVolumeinFeet` INTEGER NOT NULL, `returnMasskg` INTEGER NOT NULL, `returnMasslb` INTEGER NOT NULL, `returnVolumeinMeters` INTEGER NOT NULL, `returnVolumeinFeet` INTEGER NOT NULL, `capsuleinMeters` INTEGER NOT NULL, `capsuleinFeet` INTEGER NOT NULL, `fullHeightmeters` REAL, `fullHeightfeet` REAL, PRIMARY KEY(`dragonId`))",
         "fields": [
           {
             "fieldPath": "dragonId",
@@ -1309,13 +1309,13 @@
             "fieldPath": "diameter.meters",
             "columnName": "diametermeters",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "diameter.feet",
             "columnName": "diameterfeet",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "heatShield.material",
@@ -1405,13 +1405,13 @@
             "fieldPath": "heightWithTrunk.meters",
             "columnName": "fullHeightmeters",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "heightWithTrunk.feet",
             "columnName": "fullHeightfeet",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -1739,7 +1739,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '22cdb382def5159083c77ebb37c630e3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '61379adcc74d61b38d765c9300cd6364')"
     ]
   }
 }

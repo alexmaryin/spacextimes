@@ -35,6 +35,7 @@ interface ApiLocal {
     suspend fun getLaunches(): List<Launch>
     suspend fun saveLaunches(launches: List<Launch>)
     suspend fun getLaunchById(id: String): Launch?
+    suspend fun saveLaunchDetails(launch: Launch)
 
     suspend fun getPayloadById(id: String): Payload?
     suspend fun savePayload(payload: Payload)
