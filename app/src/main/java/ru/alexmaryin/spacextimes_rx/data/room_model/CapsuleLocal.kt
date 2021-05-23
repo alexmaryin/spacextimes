@@ -10,7 +10,7 @@ data class CapsuleLocal(
         parentColumn = "capsuleId",
         entityColumn = "launchId",
         associateBy = Junction(LaunchesToCapsules::class)
-    ) var launches: List<LaunchWithoutDetails>
+    ) var launches: List<LaunchWithoutDetails> = emptyList()
 ) {
     fun toResponse() = capsule.toResponse().also { capsule ->
         capsule.launches = launches.map { it.toResponse() }

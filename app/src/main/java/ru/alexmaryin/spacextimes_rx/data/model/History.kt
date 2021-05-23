@@ -20,5 +20,6 @@ data class History(
     @Json(name = "event_date_utc") val eventDateUTC: Date,
     @Json(name = "event_date_unix") val eventDateUnix: Long?,
 ) : HasStringId, HasDetails, HasTitle {
+
     fun toRoom() = HistoryLocal(id, title, titleRu, details, detailsRu, links, eventDateUTC, eventDateUnix)
 }

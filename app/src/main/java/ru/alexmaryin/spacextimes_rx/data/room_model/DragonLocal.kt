@@ -38,7 +38,7 @@ data class DragonLocal(
     @Embedded(prefix = "returnVolume") val returnPayloadVolume: Volume,
     @Embedded(prefix = "capsule") val pressurizedCapsule: PressurizedCapsule,
     @Embedded(prefix = "fullHeight") val heightWithTrunk: LineSize,
-    val images: List<String>,
+    val images: List<String> = emptyList(),
 ) {
     fun toResponse() = Dragon(dragonId, name, type, thrusters, trunk, diameter, description, descriptionRu,
         wikipedia, wikiLocale, isActive, crewCapacity, slideWallAngle, orbitDuration, dryMass,

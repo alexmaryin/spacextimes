@@ -10,7 +10,7 @@ data class CrewLocal(
         parentColumn = "crewId",
         entityColumn = "launchId",
         associateBy = Junction(LaunchesToCrew::class)
-    ) val launches: List<LaunchWithoutDetails>
+    ) val launches: List<LaunchWithoutDetails> = emptyList()
 ) {
     fun toResponse() = crew.toResponse().also { crew ->
         crew.launches = launches.map { it.toResponse() }

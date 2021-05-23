@@ -125,7 +125,7 @@ class ApiLocalImpl @Inject constructor(
             // Caching details for each launch at first
             launch.rocket?.let { rocketsSet += it.toRoom() }
             launch.launchPad?.let { launchPadsSet += it.toRoom() }
-            launch.toRoom() })
+            launch.toRoom().launch })
         spaceXDao.insertRockets(rocketsSet.toList())
         spaceXDao.insertLaunchPads(launchPadsSet.toList())
         Log.d("REPO_LOCAL", "Saving launches to Room: ${launches.size} items")
@@ -138,7 +138,7 @@ class ApiLocalImpl @Inject constructor(
     }
 
     override suspend fun savePayload(payload: Payload) {
-        spaceXDao.insertPayload(payload.toRoom())
+        spaceXDao.insertPayload(payload.toRoom().payload)
         Log.d("REPO_LOCAL", "Saving payloads with id:${payload.id} to Room")
     }
 

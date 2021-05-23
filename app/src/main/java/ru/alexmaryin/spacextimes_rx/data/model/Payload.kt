@@ -25,7 +25,7 @@ data class Payload(
     val longitude: Float?,
     val eccentricity: Float?,
     val epoch: Date?,
-    val dragon: PayloadDragon,
+    var dragon: PayloadDragon,
     @Json(name = "semi_major_axis_km") val semiAxis: Float?,
     @Json(name = "raan") val rightAscension: Float?,
     @Json(name = "periapsis_km") val periapsis: Float?,
@@ -84,7 +84,13 @@ data class Payload(
     val isOrbitDataPresent get() = (eccentricity ?: semiAxis ?: inclination ?: longitude ?: pericenterArg ?: rightAscension ?:
             meanAnomaly ?: meanMotion ?: epoch) != null
 
-    fun toRoom() = PayloadWithoutDragon(id, name, type, reused, customers, nationalities, manufacturers, orbit, regime, longitude,
-    eccentricity, epoch, id, semiAxis, rightAscension, periapsis, apoapsis, inclination, pericenterArg,
-        lifeSpan, period, meanMotion, meanAnomaly, massInKg, massInLbs, referenceSystem, norads)
+    fun toRoom() = PayloadLocal(
+        payload = PayloadWithoutDragon(id, name, type, reused, customers, nationalities, manufacturers, orbit, regime, longitude,
+            eccentricity, epoch, id, semiAxis, rightAscension, periapsis, apoapsis, inclination, pericenterArg,
+            lifeSpan, period, meanMotion, meanAnomaly, massInKg, massInLbs, referenceSystem, norads),
+        dragon = dragon.toRoom(id)
+    )
+
+
+
 }

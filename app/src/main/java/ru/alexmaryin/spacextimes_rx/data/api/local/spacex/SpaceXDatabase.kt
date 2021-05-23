@@ -6,7 +6,8 @@ import androidx.room.TypeConverters
 import ru.alexmaryin.spacextimes_rx.data.api.local.RoomConverters
 import ru.alexmaryin.spacextimes_rx.data.room_model.*
 
-@Database(entities = [
+@Database(
+    entities = [
         CapsuleWithoutLaunches::class,
         CoreWithoutLaunches::class,
         CrewWithoutLaunches::class,
@@ -16,14 +17,18 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.*
         LaunchesToCapsules::class,
         LaunchesToCores::class,
         LaunchesToCrew::class,
+        LaunchesToPayloads::class,
+        LaunchesToCoreFlights::class,
         HistoryLocal::class,
         RocketLocal::class,
         DragonLocal::class,
         PayloadDragonWithoutCapsule::class,
         PayloadWithoutDragon::class,
+        CoreFlightWithoutDetails::class,
     ],
     autoMigrations = [],
-    version = 1)
+    version = 1
+)
 @TypeConverters(RoomConverters::class)
 abstract class SpaceXDatabase : RoomDatabase() {
     abstract val dao: SpaceXDao

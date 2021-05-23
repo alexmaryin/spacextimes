@@ -3,6 +3,7 @@ package ru.alexmaryin.spacextimes_rx.data.api.local
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import ru.alexmaryin.spacextimes_rx.data.model.enums.OrbitType
+import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.PayloadWeight
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Thrust
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Thruster
@@ -65,4 +66,19 @@ class RoomConverters {
         }
     }
 
+    @TypeConverter
+    fun fromFailuresList(source: List<Failure>): String = source.joinToString("\n") {
+        "${it.time}:::${it.altitude}:::${it.reason}"
+    }
+
+    @TypeConverter
+    fun toFailuresList(source: String): List<Failure> = source.split("\n").map {
+        it.split(":::").run {
+            Failure(
+                time = get(0).toInt(),
+                altitude = get(1).toInt(),
+                reason = get(2)
+            )
+        }
+    }
 }

@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
+import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
 import java.util.*
@@ -32,7 +33,9 @@ data class LaunchWithoutDetails(
     val toBeDetermined: Boolean,
     val notEarlyThan: Boolean,
     val launchPadId: String?,
+    val failures: List<Failure>,
 ) {
     fun toResponse() = Launch(launchId, name, window, null, success, upcoming, details, detailsRu, fairings, links, autoUpdate, flightNumber,
-        dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix, toBeDetermined, notEarlyThan, null)
+        dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix, toBeDetermined, notEarlyThan, null,
+        failures = failures)
 }

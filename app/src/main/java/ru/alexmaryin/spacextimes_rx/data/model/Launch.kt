@@ -12,6 +12,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutDetails
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
 import ru.alexmaryin.spacextimes_rx.utils.halfYearString
@@ -45,7 +46,7 @@ data class Launch(
     @Json(name = "launchpad") var launchPad: LaunchPad?,
     var crew: List<Crew> = emptyList(),
     var capsules: List<Capsule> = emptyList(),
-    val payloads: List<Payload> = emptyList(),
+    var payloads: List<Payload> = emptyList(),
     var cores: List<CoreFlight> = emptyList(),
     val failures: List<Failure> = emptyList(),
 ) : HasStringId, HasDetails, HasWiki {
@@ -66,7 +67,15 @@ data class Launch(
         DatePrecision.HOUR -> DateFormat.getDateTimeInstance(DateFormat.LONG, TimeFormat.CLOCK_24H).format(dateLocal)
     }
 
-    fun toRoom() = LaunchWithoutDetails(id, name, rocket?.id, window, success, upcoming, details, detailsRu, fairings, links,
-        autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
-        toBeDetermined, notEarlyThan, launchPad?.id)
+    fun toRoom() = LaunchLocal(
+        launch = LaunchWithoutDetails(id, name, rocket?.id, window, success, upcoming, details, detailsRu, fairings, links,
+            autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
+            toBeDetermined, notEarlyThan, launchPad?.id, failures),
+        rocket = rocket?.toRoom(),
+        launchPad = launchPad?.toRoom(),
+        crew = crew.map { it.toRoom() },
+        capsules = capsules.map { it.toRoom() },
+        payloads = payloads.map { it.toRoom().payload },
+        cores = cores.map { it.toRoom() }
+    )
 }

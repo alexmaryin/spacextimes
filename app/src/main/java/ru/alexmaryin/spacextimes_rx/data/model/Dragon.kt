@@ -42,6 +42,7 @@ data class Dragon(
     @Json(name = "height_w_trunk") val heightWithTrunk: LineSize,
     @Json(name = "flickr_images") val images: List<String>,
 ) : HasStringId, HasDescription, HasWiki {
+
     fun toRoom() = DragonLocal(id, name, type, thrusters, trunk, diameter, description, descriptionRu, wikipedia, wikiLocale,
         isActive, crewCapacity, slideWallAngle, orbitDuration, dryMass, firstFlight, heatShield,
         launchPayloadMass, launchPayloadVolume, returnPayloadMass, returnPayloadVolume, pressurizedCapsule,

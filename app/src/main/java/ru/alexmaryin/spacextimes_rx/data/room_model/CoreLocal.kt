@@ -10,7 +10,7 @@ data class CoreLocal(
         parentColumn = "coreId",
         entityColumn = "launchId",
         associateBy = Junction(LaunchesToCores::class)
-    ) val launches: List<LaunchWithoutDetails>
+    ) val launches: List<LaunchWithoutDetails> = emptyList()
 ) {
     fun toResponse() = core.toResponse().also { core ->
         core.launches = launches.map { it.toResponse() }

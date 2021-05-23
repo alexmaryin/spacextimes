@@ -22,6 +22,7 @@ data class Capsule(
     override var lastUpdateRu: String? = null,
     var launches: List<Launch> = emptyList()
 ) : HasStringId, HasLastUpdate {
+
     fun toRoom() = CapsuleWithoutLaunches(id, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu)
 
     val totalFlights: Int get() = when {
