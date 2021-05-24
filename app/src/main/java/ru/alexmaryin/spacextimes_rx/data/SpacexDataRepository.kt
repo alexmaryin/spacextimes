@@ -82,10 +82,10 @@ class SpacexDataRepository @Inject constructor(
 
     fun getCores() = fetchItems(remoteApi::getCores, localApi::getCores, localApi::saveCores)
         .map { it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it }
-    fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById)
+    fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById, localApi::saveCoreDetails)
 
     fun getCrew() = fetchItems(remoteApi::getCrew, localApi::getCrew, localApi::saveCrew)
-    fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById)
+    fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById, localApi::saveCrewDetails)
 
     fun getDragons() = fetchItems(remoteApi::getDragons, localApi::getDragons, localApi::saveDragons)
     fun getDragonById(id: String) = fetchItemById(id, remoteApi::getDragonById, localApi::getDragonById)

@@ -10,7 +10,5 @@ data class CoreFlightLocal(
         entityColumn = "coreId",
     ) val core: CoreWithoutLaunches,
 ) {
-    fun toResponse() = coreFlight.toResponse().also { coreFlight ->
-        coreFlight.core = core.toResponse()
-    }
+    fun toResponse() = coreFlight.toResponse(core.toResponse())
 }

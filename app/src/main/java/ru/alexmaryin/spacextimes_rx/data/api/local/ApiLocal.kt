@@ -12,10 +12,12 @@ interface ApiLocal {
     suspend fun getCores(): List<Core>
     suspend fun saveCores(cores: List<Core>)
     suspend fun getCoreById(id: String): Core?
+    suspend fun saveCoreDetails(core: Core)
 
     suspend fun getCrew(): List<Crew>
     suspend fun saveCrew(crew: List<Crew>)
     suspend fun getCrewById(id: String): Crew?
+    suspend fun saveCrewDetails(crew: Crew)
 
     suspend fun getDragons(): List<Dragon>
     suspend fun saveDragons(dragons: List<Dragon>)

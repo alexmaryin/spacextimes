@@ -1,4 +1,4 @@
-package ru.alexmaryin.spacextimes_rx.data.room_model
+package ru.alexmaryin.spacextimes_rx.data.room_model.junctions
 
 import androidx.room.Entity
 

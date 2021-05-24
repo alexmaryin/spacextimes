@@ -3,6 +3,11 @@ package ru.alexmaryin.spacextimes_rx.data.room_model
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
+import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
+import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCapsules
+import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCoreFlights
+import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCrew
+import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToPayloads
 
 data class LaunchLocal(
     @Embedded val launch: LaunchWithoutDetails,
@@ -35,12 +40,14 @@ data class LaunchLocal(
         associateBy = Junction(LaunchesToCoreFlights::class)
     ) val cores: List<CoreFlightWithoutDetails> = emptyList(),
 ) {
-    fun toResponse() = launch.toResponse().also { launch ->
+    suspend fun toResponse(coreSelect: (suspend (String) -> CoreFlight?)? = null) = launch.toResponse().also { launch ->
         launch.rocket = rocket?.toResponse()
         launch.launchPad = launchPad?.toResponse()
         launch.crew = crew.map { it.toResponse() }
         launch.capsules = capsules.map { it.toResponse() }
         launch.payloads = payloads.map { it.toResponse() }
-        launch.cores = cores.map { it.toResponse() }
+        coreSelect?.let {
+            launch.cores = cores.mapNotNull { coreSelect(it.coreFlightId) }
+        }
     }
 }

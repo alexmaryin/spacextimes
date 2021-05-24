@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ru.alexmaryin.spacextimes_rx.data.api.local.RoomConverters
 import ru.alexmaryin.spacextimes_rx.data.room_model.*
+import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
 
 @Database(
     entities = [
