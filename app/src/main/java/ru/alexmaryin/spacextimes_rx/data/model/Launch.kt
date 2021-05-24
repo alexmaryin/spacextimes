@@ -76,6 +76,6 @@ data class Launch(
         crew = crew.map { it.toRoom() },
         capsules = capsules.map { it.toRoom() },
         payloads = payloads.map { it.toRoom().payload },
-        cores = cores.map { it.toRoom().coreFlight }
+        cores = cores.mapNotNull { it.toRoom()?.coreFlight }
     )
 }

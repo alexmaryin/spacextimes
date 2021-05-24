@@ -50,8 +50,11 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
             insertCrew(crew.map { it.toRoom() })
             capsules.forEach { insertLaunchesToCapsule(LaunchesToCapsules(id, it.id)) }
             insertCapsules(capsules.map { it.toRoom() })
-            cores.forEach { insertLaunchesToCoreFlight(LaunchesToCoreFlights(id, it.core.id)) }
-            insertCoreFlights(cores.map { it.toRoom().coreFlight })
+            insertCores(cores.mapNotNull { coreFlight ->
+                if (coreFlight.isNotEmpty) insertLaunchesToCoreFlight(LaunchesToCoreFlights(id, coreFlight.core!!.id))
+                coreFlight.core?.toRoom()
+            })
+            insertCoreFlights(cores.mapNotNull { it.toRoom()?.coreFlight })
             payloads.forEach { insertLaunchesToPayloads(LaunchesToPayloads(id, it.id)) }
             insertPayloads(payloads.map { it.toRoom().payload })
         }

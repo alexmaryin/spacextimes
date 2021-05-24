@@ -8,16 +8,20 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.CoreFlightWithoutDetails
 
 @JsonClass(generateAdapter = true)
 data class CoreFlight(
-    var core: Core,
-    val flight: Int?,
-    val gridfins: Boolean?,
-    val legs: Boolean?,
-    val reused: Boolean?,
-    val landpad: String?,
-    @Json(name = "landing_attempt") val landingAttempt: Boolean?,
-    @Json(name = "landing_success") val landingSuccess: Boolean?,
-    @Json(name = "landing_type") val landingType: String?,
+    var core: Core? = null,
+    val flight: Int? = null,
+    val gridfins: Boolean? = null,
+    val legs: Boolean? = null,
+    val reused: Boolean? = null,
+    val landpad: String? = null,
+    @Json(name = "landing_attempt") val landingAttempt: Boolean? = null,
+    @Json(name = "landing_success") val landingSuccess: Boolean? = null,
+    @Json(name = "landing_type") val landingType: String? = null,
 ) {
-    fun toRoom() = CoreFlightLocal(CoreFlightWithoutDetails(core.id, core.id, flight, gridfins, legs, reused, landpad, landingAttempt,
-        landingSuccess, landingType), core.toRoom())
+    val isNotEmpty get() = this != CoreFlight()
+
+    fun toRoom() = core?.let {
+        if (isNotEmpty) CoreFlightLocal(CoreFlightWithoutDetails(it.id, it.id, flight, gridfins, legs, reused, landpad, landingAttempt,
+            landingSuccess, landingType), it.toRoom()) else null
+    }
 }
