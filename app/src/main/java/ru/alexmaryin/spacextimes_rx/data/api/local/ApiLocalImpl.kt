@@ -20,6 +20,8 @@ class ApiLocalImpl @Inject constructor(
         Log.d("REPO_LOCAL", "Saving capsules to Room: ${capsules.size} items")
     }
 
+    override suspend fun saveCapsuleDetails(capsule: Capsule) = spaceXDao.insertCapsuleWithLaunches(capsule)
+
     override suspend fun getCapsuleById(id: String): Capsule? =
         spaceXDao.selectCapsule(id)?.toResponse().also {
                 it?.let { Log.d("REPO_LOCAL", "Selected capsule from Room with id: ${it.id}") }

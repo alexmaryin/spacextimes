@@ -1,7 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.data
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocal
@@ -40,6 +42,7 @@ class SpacexDataRepository @Inject constructor(
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
     }
+        .flowOn(Dispatchers.IO)
         .catch { e ->
         when (e) {
             is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
@@ -66,6 +69,7 @@ class SpacexDataRepository @Inject constructor(
             }
         } else emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
     }
+        .flowOn(Dispatchers.IO)
         .catch { e ->
         when (e) {
             is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
@@ -74,7 +78,7 @@ class SpacexDataRepository @Inject constructor(
     }
 
     fun getCapsules() = fetchItems(remoteApi::getCapsules, localApi::getCapsules, localApi::saveCapsules)
-    fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById)
+    fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById, localApi::saveCapsuleDetails)
 
     fun getCores() = fetchItems(remoteApi::getCores, localApi::getCores, localApi::saveCores)
         .map { it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it }
