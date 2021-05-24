@@ -21,7 +21,7 @@ class SpaceXViewModel @Inject constructor(
 
     var currentScreen: MainScreen = LaunchesScr
     private var needRefresh = true
-    private val launchFilter = mutableSetOf(LaunchFilter.Successfully, LaunchFilter.Failed, LaunchFilter.Past, LaunchFilter.Upcoming)
+    private val launchFilter = mutableSetOf(LaunchFilterType.Successfully, LaunchFilterType.Failed, LaunchFilterType.Past, LaunchFilterType.Upcoming)
 
     private val state = MutableSharedFlow<Result>(1)
     fun getState() = state.asSharedFlow()
@@ -50,12 +50,12 @@ class SpaceXViewModel @Inject constructor(
         changeScreen(currentScreen)
     }
 
-    fun toggleLaunchFilter(filter: LaunchFilter) {
+    fun toggleLaunchFilter(filter: LaunchFilterType) {
         if (filter in launchFilter) launchFilter -= filter else launchFilter += filter
         filterLaunches()
     }
 
-    fun isFilterOn(filter: LaunchFilter) = filter in launchFilter
+    fun isFilterOn(filter: LaunchFilterType) = filter in launchFilter
 
     private fun filterLaunches() = viewModelScope.launch {
         val (launches, totalCount) = repository.filterLaunches(launchFilter)
@@ -66,7 +66,7 @@ class SpaceXViewModel @Inject constructor(
     }
 
     fun scrollNextLaunch() = viewModelScope.launch {
-        if (LaunchFilter.Upcoming in launchFilter) {
+        if (LaunchFilterType.Upcoming in launchFilter) {
             repository.getNextLaunch(launchFilter)?.let { scrollTrigger.emit(Success(it)) }
         } else scrollTrigger.emit(Error("", ErrorType.UPCOMING_LAUNCHES_DESELECTED))
     }

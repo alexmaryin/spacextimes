@@ -5,7 +5,7 @@
 
     <data>
         <variable name="spaceXViewModel" type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel" />
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchFilter" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchFilterType" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

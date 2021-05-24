@@ -13,6 +13,7 @@ import ru.alexmaryin.spacextimes_rx.utils.Result
 sealed class MainScreen {
     abstract val name: String
     abstract val titleRes: Int
+    open val filter: ListFilter = EmptyFilter
     abstract fun setClickListener(navController: NavController): AdapterClickListenerById
     abstract fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi): Flow<Result>
 }
@@ -80,6 +81,7 @@ object Rockets : MainScreen() {
 object LaunchesScr : MainScreen() {
     override val name = "Launches"
     override val titleRes= R.string.launchesTitle
+    override var filter = LaunchFilter(setOf(LaunchFilterType.Successfully, LaunchFilterType.Failed, LaunchFilterType.Past, LaunchFilterType.Upcoming))
 
     override fun setClickListener(navController: NavController) = AdapterClickListenerById { id, _ ->
         navController.navigate(MainFragmentDirections.actionShowLaunchDetails(id))

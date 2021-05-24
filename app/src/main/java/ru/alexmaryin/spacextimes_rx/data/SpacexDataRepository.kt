@@ -11,7 +11,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
-import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchFilter
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchFilterType
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.net.SocketTimeoutException
 import java.util.*
@@ -102,15 +102,15 @@ class SpacexDataRepository @Inject constructor(
     fun getLaunches() = fetchItems(remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById, localApi::saveLaunchDetails)
 
-    suspend fun filterLaunches(launchFilter: Set<LaunchFilter>) = localApi.getLaunches().run {
+    suspend fun filterLaunches(launchFilter: Set<LaunchFilterType>) = localApi.getLaunches().run {
         val result = filter { launch ->
-            (launch.upcoming == LaunchFilter.Upcoming in launchFilter || launch.upcoming != LaunchFilter.Past in launchFilter) &&
-                    (launch.success == LaunchFilter.Successfully in launchFilter || launch.success != LaunchFilter.Failed in launchFilter)
+            (launch.upcoming == LaunchFilterType.Upcoming in launchFilter || launch.upcoming != LaunchFilterType.Past in launchFilter) &&
+                    (launch.success == LaunchFilterType.Successfully in launchFilter || launch.success != LaunchFilterType.Failed in launchFilter)
         }
         Pair(result,  size)
     }
 
-    suspend fun getNextLaunch(filter: Set<LaunchFilter>) = filterLaunches(filter).first.run {
+    suspend fun getNextLaunch(filter: Set<LaunchFilterType>) = filterLaunches(filter).first.run {
         val position = indexOfLast {
             it.datePrecision >= DatePrecision.DAY && it.dateLocal > Calendar.getInstance().time
         }
