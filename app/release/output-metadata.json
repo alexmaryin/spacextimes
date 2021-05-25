@@ -1,19 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "ru.alexmaryin.spacextimes_rx",
-  "variantName": "release",
+  "variantName": "processReleaseResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "properties": [],
-      "versionCode": 12,
+      "versionCode": 13,
       "versionName": "0.5",
-      "enabled": true,
       "outputFile": "app-release.apk"
     }
   ]

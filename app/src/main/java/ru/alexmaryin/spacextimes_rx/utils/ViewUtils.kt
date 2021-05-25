@@ -49,6 +49,8 @@ fun View.openLink(url: String?) {
     }
 }
 
+
+
 fun downloadDialog(context: Context, url: String?, filename: String) {
     AlertDialog.Builder(context)
         .setTitle(context.getString(R.string.saving_title_string))

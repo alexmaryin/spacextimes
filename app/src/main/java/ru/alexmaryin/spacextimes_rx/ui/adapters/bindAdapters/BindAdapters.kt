@@ -8,6 +8,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
@@ -46,9 +47,13 @@ object CommonAdapters {
         url?.let {
             view.setOnClickListener {
                 Intent().apply {
-                    action = Intent.ACTION_VIEW
+                    val isPdf = url.endsWith("pdf", true)
+                    action = if (isPdf) Intent.ACTION_OPEN_DOCUMENT else Intent.ACTION_VIEW
                     data = Uri.parse(url)
-                }.run { it.context.startActivity(this) }
+                    type = if (isPdf) "application/pdf" else "text/html"
+                    flags += Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    categories += Intent.CATEGORY_OPENABLE
+                }.run { (it.context as AppCompatActivity).startActivity(this) }
             }
         }
     }
