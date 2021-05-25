@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +31,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LaunchPadDetailFragment : Fragment() {
 
-    private val args: LaunchPadDetailFragmentArgs by navArgs()
     private val padViewModel: LaunchPadDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentRecyclerDetailBinding
@@ -43,6 +41,11 @@ class LaunchPadDetailFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
         binding.lifecycleOwner = this
+
+        binding.detailsList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
 
         padViewModel.loadLaunchPad()
 
@@ -89,10 +92,6 @@ class LaunchPadDetailFragment : Fragment() {
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(padViewModel.composeDetails(requireContext(), launchPad))
-        binding.detailsList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = detailsAdapter
-        }
+        binding.detailsList.adapter = detailsAdapter
     }
 }

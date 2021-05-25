@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +32,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CoreDetailFragment : Fragment() {
 
-    private val args: CoreDetailFragmentArgs by navArgs()
     private val coreViewModel: CoreDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentRecyclerDetailBinding
@@ -44,6 +42,11 @@ class CoreDetailFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
         binding.lifecycleOwner = this
+
+        binding.detailsList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
 
         lifecycleScope.launch {
             coreViewModel.getState()
@@ -78,10 +81,6 @@ class CoreDetailFragment : Fragment() {
             }
         }, viewHoldersManager)
         missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.missions_list_header))) + core.launches)
-        binding.detailsList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = missionsAdapter
-        }
+        binding.detailsList.adapter = missionsAdapter
     }
 }

@@ -40,6 +40,10 @@ class MainFragment : Fragment() {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.lifecycleOwner = this
+        with (binding.recyclerView) {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
         return binding.root
     }
 
@@ -100,11 +104,6 @@ class MainFragment : Fragment() {
 
     private fun collectState() {
 
-//        spaceXViewModel.observeFilterChange().collectOnFragment(this) { (shown, total) ->
-//            binding.filterGroup.visibility = View.GONE
-//            Toast.makeText(requireContext(), getString(R.string.filtered_launches_toast, shown, total), Toast.LENGTH_SHORT).show()
-//        }
-
         spaceXViewModel.getState().collectOnFragment(this) { state ->
             binding.filterGroup.visibility = View.GONE
             when (state) {
@@ -156,11 +155,6 @@ class MainFragment : Fragment() {
         clickListener: AdapterClickListenerById
     ) {
         activity?.title = getString(titleResource)
-        val currentAdapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
-        binding.recyclerView.apply {
-            adapter = currentAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-//            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-        }
+        binding.recyclerView.adapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
     }
 }
