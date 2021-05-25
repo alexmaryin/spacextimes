@@ -20,7 +20,6 @@
                 android:id="@+id/countdownTimer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
                 android:background="#8042E3FF"
                 android:contentDescription="@string/countdown_timer_to_launch_description"
                 android:format="@string/countdown_to_launch_string"

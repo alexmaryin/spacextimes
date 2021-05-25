@@ -158,9 +158,9 @@ class MainFragment : Fragment() {
         activity?.title = getString(titleResource)
         val currentAdapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
             adapter = currentAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+//            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
     }
 }

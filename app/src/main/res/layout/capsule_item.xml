@@ -67,7 +67,6 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:onClick="@{() -> clickListener.onClick(capsule.id, ItemTypes.CAPSULE)}"
-            android:layout_margin="5dp"
             android:contentDescription="@string/capsuleTypeString"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
