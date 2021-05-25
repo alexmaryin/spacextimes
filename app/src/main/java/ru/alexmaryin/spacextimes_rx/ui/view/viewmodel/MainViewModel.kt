@@ -19,18 +19,14 @@ class SpaceXViewModel @Inject constructor(
     private val translator: TranslatorApi
 ) : ViewModel() {
 
-    var currentScreen: MainScreen = LaunchesScr
+    var currentScreen: MainScreen = Launches
     private var needRefresh = true
-    private val launchFilter = mutableSetOf(LaunchFilterType.Successfully, LaunchFilterType.Failed, LaunchFilterType.Past, LaunchFilterType.Upcoming)
 
     private val state = MutableSharedFlow<Result>(1)
     fun getState() = state.asSharedFlow()
 
-    private val scrollTrigger = MutableSharedFlow<Result>(0)
+    private val scrollTrigger = MutableSharedFlow<Boolean>(0)
     fun getScrollTrigger() = scrollTrigger.asSharedFlow()
-
-    private val filterChange = MutableSharedFlow<Pair<Int, Int>>(0)
-    fun observeFilterChange() = filterChange.asSharedFlow()
 
     fun changeScreen(screen: MainScreen) {
         if (screen != currentScreen || needRefresh) {
@@ -39,7 +35,6 @@ class SpaceXViewModel @Inject constructor(
             viewModelScope.launch {
                 screen.readRepository(repository, translator).collect { result ->
                     state.emit(result)
-                    if (screen == LaunchesScr) result.toListOf<Launch>()?.let { filterLaunches() }
                 }
             }
         }
@@ -50,24 +45,14 @@ class SpaceXViewModel @Inject constructor(
         changeScreen(currentScreen)
     }
 
-    fun toggleLaunchFilter(filter: LaunchFilterType) {
-        if (filter in launchFilter) launchFilter -= filter else launchFilter += filter
-        filterLaunches()
+    fun toggleLaunchFilter(filter: String) {
+        currentScreen.filter.toggleLaunchFilter(filter)
+        armRefresh()
     }
 
-    fun isFilterOn(filter: LaunchFilterType) = filter in launchFilter
-
-    private fun filterLaunches() = viewModelScope.launch {
-        val (launches, totalCount) = repository.filterLaunches(launchFilter)
-        if (launches.isNotEmpty()) {
-            state.emit(Success(launches))
-            filterChange.emit(Pair(launches.size, totalCount))
-        }
-    }
+    fun getNextLaunchPosition(launches: List<Launch>) = repository.getNextLaunch(launches).nullIfNegative()
 
     fun scrollNextLaunch() = viewModelScope.launch {
-        if (LaunchFilterType.Upcoming in launchFilter) {
-            repository.getNextLaunch(launchFilter)?.let { scrollTrigger.emit(Success(it)) }
-        } else scrollTrigger.emit(Error("", ErrorType.UPCOMING_LAUNCHES_DESELECTED))
+        scrollTrigger.emit("Upcoming" in currentScreen.filter.filters)
     }
 }

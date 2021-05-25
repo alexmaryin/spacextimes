@@ -57,13 +57,13 @@ class MainFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
-        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.currentScreen == LaunchesScr
+        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.currentScreen == Launches
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.launchesSelect -> spaceXViewModel.changeScreen(LaunchesScr)
+            R.id.launchesSelect -> spaceXViewModel.changeScreen(Launches)
             R.id.capsulesSelect -> spaceXViewModel.changeScreen(Capsules)
             R.id.coresSelect -> spaceXViewModel.changeScreen(Cores)
             R.id.crewSelect -> spaceXViewModel.changeScreen(Crew)
@@ -100,10 +100,10 @@ class MainFragment : Fragment() {
 
     private fun collectState() {
 
-        spaceXViewModel.observeFilterChange().collectOnFragment(this) { (shown, total) ->
-            binding.filterGroup.visibility = View.GONE
-            Toast.makeText(requireContext(), getString(R.string.filtered_launches_toast, shown, total), Toast.LENGTH_SHORT).show()
-        }
+//        spaceXViewModel.observeFilterChange().collectOnFragment(this) { (shown, total) ->
+//            binding.filterGroup.visibility = View.GONE
+//            Toast.makeText(requireContext(), getString(R.string.filtered_launches_toast, shown, total), Toast.LENGTH_SHORT).show()
+//        }
 
         spaceXViewModel.getState().collectOnFragment(this) { state ->
             when (state) {
@@ -133,16 +133,15 @@ class MainFragment : Fragment() {
 
         spaceXViewModel.getScrollTrigger().collectOnFragment(this) { state ->
             when (state) {
-                is Error -> Toast.makeText(requireContext(),
-                    if (state.error == ErrorType.UPCOMING_LAUNCHES_DESELECTED) getString(R.string.upcoming_launches_deselected_string) else state.msg,
-                    Toast.LENGTH_SHORT).show()
-                is Success<*> -> {
-                    val (position, launch) = state.toDetails<Pair<Int, Launch>>()
-                    binding.recyclerView.addItemShaker(position)
-                    val timeTo = (launch.dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
-                    Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, launch.name, timeTo), Snackbar.LENGTH_LONG).show()
+                false -> Toast.makeText(requireContext(), getString(R.string.upcoming_launches_deselected_string), Toast.LENGTH_SHORT).show()
+                true -> {
+                    val launches = (binding.recyclerView.adapter as BaseListAdapter).currentList.map { it as Launch }
+                    spaceXViewModel.getNextLaunchPosition(launches)?.let { position ->
+                        binding.recyclerView.addItemShaker(position)
+                        val timeTo = (launches[position].dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
+                        Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, launches[position].name, timeTo), Snackbar.LENGTH_LONG).show()
+                    }
                 }
-                else -> {}
             }
             with (binding.filterGroup) {
                 postDelayed({ visibility = View.GONE }, 1000)

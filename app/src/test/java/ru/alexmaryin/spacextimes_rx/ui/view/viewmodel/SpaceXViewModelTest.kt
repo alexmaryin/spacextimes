@@ -62,7 +62,7 @@ class SpaceXViewModelTest {
     fun `viewModel should return loading first`() = testCoroutineScope.runBlockingTest {
         `when`(repository.getLaunches()).thenReturn(flowOf(Loading).stateIn(this))
 
-        viewModel.changeScreen(LaunchesScr)
+        viewModel.changeScreen(Launches)
         val result = viewModel.getState().first()
         assertTrue(result == Loading)
         verify(repository).getLaunches()
@@ -81,7 +81,7 @@ class SpaceXViewModelTest {
 
         var loadingFlag = false
 
-        viewModel.changeScreen(LaunchesScr)
+        viewModel.changeScreen(Launches)
         viewModel.getState().take(2).collect { state ->
             list.add(state)
             when (state) {

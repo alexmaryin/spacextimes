@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.api.filters.filterLaunchesWith
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.emptyClickListener
 import ru.alexmaryin.spacextimes_rx.ui.view.fragments.MainFragmentDirections
@@ -78,17 +79,17 @@ object Rockets : MainScreen() {
         translator.run { repository.getRockets().translateDescription() }
 }
 
-object LaunchesScr : MainScreen() {
+object Launches : MainScreen() {
     override val name = "Launches"
     override val titleRes= R.string.launchesTitle
-    override var filter = LaunchFilter(setOf(LaunchFilterType.Successfully, LaunchFilterType.Failed, LaunchFilterType.Past, LaunchFilterType.Upcoming))
+    override var filter = LaunchFilter
 
     override fun setClickListener(navController: NavController) = AdapterClickListenerById { id, _ ->
         navController.navigate(MainFragmentDirections.actionShowLaunchDetails(id))
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getLaunches().translateDetails() }
+        translator.run { repository.getLaunches().translateDetails().filterLaunchesWith(filter.filters) }
 }
 
 object LaunchPads : MainScreen() {
