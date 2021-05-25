@@ -106,6 +106,7 @@ class MainFragment : Fragment() {
 //        }
 
         spaceXViewModel.getState().collectOnFragment(this) { state ->
+            binding.filterGroup.visibility = View.GONE
             when (state) {
                 Loading -> {
                     binding.recyclerView replaceBy binding.shimmerLayout.shimmer
