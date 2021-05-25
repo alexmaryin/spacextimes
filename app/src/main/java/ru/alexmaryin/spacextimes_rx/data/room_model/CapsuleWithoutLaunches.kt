@@ -15,7 +15,6 @@ data class CapsuleWithoutLaunches(
     val waterLandings: Int,
     val landLandings: Int,
     val lastUpdate: String?,
-    val lastUpdateRu: String?,
 ) {
-    fun toResponse() = Capsule(capsuleId, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate, lastUpdateRu)
+    fun toResponse() = Capsule(capsuleId, serial, status, type, reuseCount, waterLandings, landLandings, lastUpdate)
 }

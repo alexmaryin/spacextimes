@@ -21,13 +21,13 @@ data class LandingPad(
     val status: PadStatus?,
     val launches: List<Launch> = emptyList(),
     override val wikipedia: String?,
-    @Transient override var wikiLocale: String? = null,
     override val details: String?,
-    @Transient override var detailsRu: String? = null,
     @Json(name = "landing_attempts") val landingAttempts: Int = 0,
     @Json(name = "landing_successes") val landingSuccesses: Int = 0,
     @Json(name = "full_name") val fullName: String?,
+    @Transient override var wikiLocale: String? = null,
+    @Transient override var detailsRu: String? = null,
 ) : HasStringId, HasDetails, HasWiki {
 
-    fun toRoom() = LandingPadLocal(id, name, type, locality, region, latitude, longitude, status, wikipedia, details, detailsRu, landingAttempts, landingSuccesses, fullName)
+    fun toRoom() = LandingPadLocal(id, name, type, locality, region, latitude, longitude, status, wikipedia, details, landingAttempts, landingSuccesses, fullName)
 }

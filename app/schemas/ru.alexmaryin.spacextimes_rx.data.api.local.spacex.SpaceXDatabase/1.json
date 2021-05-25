@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "61379adcc74d61b38d765c9300cd6364",
+    "identityHash": "ae7046f8d4a26d739233832b950929dd",
     "entities": [
       {
         "tableName": "capsules_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`capsuleId` TEXT NOT NULL, `serial` TEXT NOT NULL, `status` TEXT NOT NULL, `type` TEXT NOT NULL, `reuseCount` INTEGER NOT NULL, `waterLandings` INTEGER NOT NULL, `landLandings` INTEGER NOT NULL, `lastUpdate` TEXT, `lastUpdateRu` TEXT, PRIMARY KEY(`capsuleId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`capsuleId` TEXT NOT NULL, `serial` TEXT NOT NULL, `status` TEXT NOT NULL, `type` TEXT NOT NULL, `reuseCount` INTEGER NOT NULL, `waterLandings` INTEGER NOT NULL, `landLandings` INTEGER NOT NULL, `lastUpdate` TEXT, PRIMARY KEY(`capsuleId`))",
         "fields": [
           {
             "fieldPath": "capsuleId",
@@ -55,12 +55,6 @@
             "columnName": "lastUpdate",
             "affinity": "TEXT",
             "notNull": false
-          },
-          {
-            "fieldPath": "lastUpdateRu",
-            "columnName": "lastUpdateRu",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -74,7 +68,7 @@
       },
       {
         "tableName": "cores_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coreId` TEXT NOT NULL, `serial` TEXT NOT NULL, `block` INTEGER, `status` TEXT NOT NULL, `reuseCount` INTEGER NOT NULL, `groundLandAttempts` INTEGER NOT NULL, `groundLandings` INTEGER NOT NULL, `waterLandAttempts` INTEGER NOT NULL, `waterLandings` INTEGER NOT NULL, `lastUpdate` TEXT, `lastUpdateRu` TEXT, PRIMARY KEY(`coreId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coreId` TEXT NOT NULL, `serial` TEXT NOT NULL, `block` INTEGER, `status` TEXT NOT NULL, `reuseCount` INTEGER NOT NULL, `groundLandAttempts` INTEGER NOT NULL, `groundLandings` INTEGER NOT NULL, `waterLandAttempts` INTEGER NOT NULL, `waterLandings` INTEGER NOT NULL, `lastUpdate` TEXT, PRIMARY KEY(`coreId`))",
         "fields": [
           {
             "fieldPath": "coreId",
@@ -133,12 +127,6 @@
           {
             "fieldPath": "lastUpdate",
             "columnName": "lastUpdate",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "lastUpdateRu",
-            "columnName": "lastUpdateRu",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -204,7 +192,7 @@
       },
       {
         "tableName": "landing_pads_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`landingPadId` TEXT NOT NULL, `name` TEXT, `type` TEXT NOT NULL, `locality` TEXT, `region` TEXT, `latitude` REAL, `longitude` REAL, `status` TEXT, `wikipedia` TEXT, `details` TEXT, `detailsRu` TEXT, `landingAttempts` INTEGER NOT NULL, `landingSuccesses` INTEGER NOT NULL, `fullName` TEXT, PRIMARY KEY(`landingPadId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`landingPadId` TEXT NOT NULL, `name` TEXT, `type` TEXT NOT NULL, `locality` TEXT, `region` TEXT, `latitude` REAL, `longitude` REAL, `status` TEXT, `wikipedia` TEXT, `details` TEXT, `landingAttempts` INTEGER NOT NULL, `landingSuccesses` INTEGER NOT NULL, `fullName` TEXT, PRIMARY KEY(`landingPadId`))",
         "fields": [
           {
             "fieldPath": "landingPadId",
@@ -267,12 +255,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "detailsRu",
-            "columnName": "detailsRu",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "landingAttempts",
             "columnName": "landingAttempts",
             "affinity": "INTEGER",
@@ -302,7 +284,7 @@
       },
       {
         "tableName": "launch_pads_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchPadId` TEXT NOT NULL, `name` TEXT, `locality` TEXT, `region` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `status` TEXT NOT NULL, `details` TEXT, `detailsRu` TEXT, `timeZone` TEXT NOT NULL, `fullName` TEXT, `launchAttempts` INTEGER NOT NULL, `launchSuccesses` INTEGER NOT NULL, PRIMARY KEY(`launchPadId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchPadId` TEXT NOT NULL, `name` TEXT, `locality` TEXT, `region` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `status` TEXT NOT NULL, `details` TEXT, `timeZone` TEXT NOT NULL, `fullName` TEXT, `launchAttempts` INTEGER NOT NULL, `launchSuccesses` INTEGER NOT NULL, PRIMARY KEY(`launchPadId`))",
         "fields": [
           {
             "fieldPath": "launchPadId",
@@ -353,12 +335,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "detailsRu",
-            "columnName": "detailsRu",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "timeZone",
             "columnName": "timeZone",
             "affinity": "TEXT",
@@ -394,7 +370,7 @@
       },
       {
         "tableName": "launches_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchId` TEXT NOT NULL, `name` TEXT NOT NULL, `rocketId` TEXT, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `detailsRu` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER NOT NULL, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `launchPadId` TEXT, `failures` TEXT NOT NULL, `reused` INTEGER, `recovered` INTEGER, `recoveryAttempt` INTEGER, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `youtubeId` TEXT, `smallPatch` TEXT, `largePatch` TEXT, `campaign` TEXT, `launch` TEXT, `media` TEXT, `recovery` TEXT, `small` TEXT NOT NULL, `original` TEXT NOT NULL, PRIMARY KEY(`launchId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchId` TEXT NOT NULL, `name` TEXT NOT NULL, `rocketId` TEXT, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER NOT NULL, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `launchPadId` TEXT, `failures` TEXT NOT NULL, `reused` INTEGER, `recovered` INTEGER, `recoveryAttempt` INTEGER, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `youtubeId` TEXT, `smallPatch` TEXT, `largePatch` TEXT, `campaign` TEXT, `launch` TEXT, `media` TEXT, `recovery` TEXT, `small` TEXT NOT NULL, `original` TEXT NOT NULL, PRIMARY KEY(`launchId`))",
         "fields": [
           {
             "fieldPath": "launchId",
@@ -435,12 +411,6 @@
           {
             "fieldPath": "details",
             "columnName": "details",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "detailsRu",
-            "columnName": "detailsRu",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -765,7 +735,7 @@
       },
       {
         "tableName": "history_events_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`historyId` TEXT NOT NULL, `title` TEXT NOT NULL, `titleRu` TEXT, `details` TEXT NOT NULL, `detailsRu` TEXT, `eventDateUTC` INTEGER NOT NULL, `eventDateUnix` INTEGER, `article` TEXT, PRIMARY KEY(`historyId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`historyId` TEXT NOT NULL, `title` TEXT NOT NULL, `details` TEXT NOT NULL, `eventDateUTC` INTEGER NOT NULL, `eventDateUnix` INTEGER, `article` TEXT, PRIMARY KEY(`historyId`))",
         "fields": [
           {
             "fieldPath": "historyId",
@@ -780,22 +750,10 @@
             "notNull": true
           },
           {
-            "fieldPath": "titleRu",
-            "columnName": "titleRu",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "details",
             "columnName": "details",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "detailsRu",
-            "columnName": "detailsRu",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "eventDateUTC",
@@ -827,7 +785,7 @@
       },
       {
         "tableName": "rockets_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rocketId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `active` INTEGER NOT NULL, `stages` INTEGER NOT NULL, `boosters` INTEGER NOT NULL, `country` TEXT NOT NULL, `company` TEXT NOT NULL, `wikipedia` TEXT, `wikiLocale` TEXT, `description` TEXT, `descriptionRu` TEXT, `successRate` REAL NOT NULL, `costPerLaunch` REAL NOT NULL, `firstFlight` INTEGER NOT NULL, `payloadWeights` TEXT NOT NULL, `images` TEXT NOT NULL, `heightmeters` REAL, `heightfeet` REAL, `diametermeters` REAL, `diameterfeet` REAL, `kg` INTEGER NOT NULL, `lb` INTEGER NOT NULL, `enginesnumber` INTEGER NOT NULL, `enginestype` TEXT NOT NULL, `enginesversion` TEXT NOT NULL, `engineslayout` TEXT, `enginesengineLossMax` INTEGER, `enginesoxidizerComponent` TEXT NOT NULL, `engineshotComponent` TEXT NOT NULL, `enginesthrustToWeight` REAL NOT NULL, `enginesvacuum` INTEGER, `enginesseaLevel` INTEGER, `enginesseaLevelkN` REAL, `enginesseaLevellbf` INTEGER, `enginesvacuumLevelkN` REAL, `enginesvacuumLevellbf` INTEGER, `firstStageengines` INTEGER NOT NULL, `firstStagereusable` INTEGER NOT NULL, `firstStagefuelAmount` REAL, `firstStageburnTime` INTEGER, `firstStageseaLevelkN` REAL, `firstStageseaLevellbf` INTEGER, `firstStagevacuumkN` REAL, `firstStagevacuumlbf` INTEGER, `secondStagereusable` INTEGER NOT NULL, `secondStageengines` INTEGER NOT NULL, `secondStagefuelAmount` REAL, `secondStageburnTime` INTEGER, `secondStagekN` REAL, `secondStagelbf` INTEGER, `secondStageoption` TEXT NOT NULL, `secondStageheightmeters` REAL, `secondStageheightfeet` REAL, `secondStagediametermeters` REAL, `secondStagediameterfeet` REAL, `number` INTEGER NOT NULL, `material` TEXT, PRIMARY KEY(`rocketId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rocketId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `active` INTEGER NOT NULL, `stages` INTEGER NOT NULL, `boosters` INTEGER NOT NULL, `country` TEXT NOT NULL, `company` TEXT NOT NULL, `wikipedia` TEXT, `description` TEXT, `successRate` REAL NOT NULL, `costPerLaunch` REAL NOT NULL, `firstFlight` INTEGER NOT NULL, `payloadWeights` TEXT NOT NULL, `images` TEXT NOT NULL, `heightmeters` REAL, `heightfeet` REAL, `diametermeters` REAL, `diameterfeet` REAL, `kg` INTEGER NOT NULL, `lb` INTEGER NOT NULL, `enginesnumber` INTEGER NOT NULL, `enginestype` TEXT NOT NULL, `enginesversion` TEXT NOT NULL, `engineslayout` TEXT, `enginesengineLossMax` INTEGER, `enginesoxidizerComponent` TEXT NOT NULL, `engineshotComponent` TEXT NOT NULL, `enginesthrustToWeight` REAL NOT NULL, `enginesvacuum` INTEGER, `enginesseaLevel` INTEGER, `enginesseaLevelkN` REAL, `enginesseaLevellbf` INTEGER, `enginesvacuumLevelkN` REAL, `enginesvacuumLevellbf` INTEGER, `firstStageengines` INTEGER NOT NULL, `firstStagereusable` INTEGER NOT NULL, `firstStagefuelAmount` REAL, `firstStageburnTime` INTEGER, `firstStageseaLevelkN` REAL, `firstStageseaLevellbf` INTEGER, `firstStagevacuumkN` REAL, `firstStagevacuumlbf` INTEGER, `secondStagereusable` INTEGER NOT NULL, `secondStageengines` INTEGER NOT NULL, `secondStagefuelAmount` REAL, `secondStageburnTime` INTEGER, `secondStagekN` REAL, `secondStagelbf` INTEGER, `secondStageoption` TEXT NOT NULL, `secondStageheightmeters` REAL, `secondStageheightfeet` REAL, `secondStagediametermeters` REAL, `secondStagediameterfeet` REAL, `number` INTEGER NOT NULL, `material` TEXT, PRIMARY KEY(`rocketId`))",
         "fields": [
           {
             "fieldPath": "rocketId",
@@ -884,20 +842,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "wikiLocale",
-            "columnName": "wikiLocale",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "descriptionRu",
-            "columnName": "descriptionRu",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -1189,7 +1135,7 @@
       },
       {
         "tableName": "dragons_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dragonId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `thrusters` TEXT NOT NULL, `description` TEXT, `descriptionRu` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `isActive` INTEGER NOT NULL, `crewCapacity` INTEGER NOT NULL, `slideWallAngle` INTEGER NOT NULL, `orbitDuration` INTEGER NOT NULL, `dryMass` INTEGER NOT NULL, `firstFlight` INTEGER, `images` TEXT NOT NULL, `trunkinMeters` INTEGER NOT NULL, `trunkinFeet` INTEGER NOT NULL, `trunksolarArray` INTEGER NOT NULL, `trunkunpressurized` INTEGER NOT NULL, `diametermeters` REAL, `diameterfeet` REAL, `shieldmaterial` TEXT NOT NULL, `shieldsize` REAL NOT NULL, `shieldtemperature` INTEGER NOT NULL, `shielddevelopPartner` TEXT NOT NULL, `launchMasskg` INTEGER NOT NULL, `launchMasslb` INTEGER NOT NULL, `launchVolumeinMeters` INTEGER NOT NULL, `launchVolumeinFeet` INTEGER NOT NULL, `returnMasskg` INTEGER NOT NULL, `returnMasslb` INTEGER NOT NULL, `returnVolumeinMeters` INTEGER NOT NULL, `returnVolumeinFeet` INTEGER NOT NULL, `capsuleinMeters` INTEGER NOT NULL, `capsuleinFeet` INTEGER NOT NULL, `fullHeightmeters` REAL, `fullHeightfeet` REAL, PRIMARY KEY(`dragonId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dragonId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `thrusters` TEXT NOT NULL, `description` TEXT, `wikipedia` TEXT, `isActive` INTEGER NOT NULL, `crewCapacity` INTEGER NOT NULL, `slideWallAngle` INTEGER NOT NULL, `orbitDuration` INTEGER NOT NULL, `dryMass` INTEGER NOT NULL, `firstFlight` INTEGER, `images` TEXT NOT NULL, `trunkinMeters` INTEGER NOT NULL, `trunkinFeet` INTEGER NOT NULL, `trunksolarArray` INTEGER NOT NULL, `trunkunpressurized` INTEGER NOT NULL, `diametermeters` REAL, `diameterfeet` REAL, `shieldmaterial` TEXT NOT NULL, `shieldsize` REAL NOT NULL, `shieldtemperature` INTEGER NOT NULL, `shielddevelopPartner` TEXT NOT NULL, `launchMasskg` INTEGER NOT NULL, `launchMasslb` INTEGER NOT NULL, `launchVolumeinMeters` INTEGER NOT NULL, `launchVolumeinFeet` INTEGER NOT NULL, `returnMasskg` INTEGER NOT NULL, `returnMasslb` INTEGER NOT NULL, `returnVolumeinMeters` INTEGER NOT NULL, `returnVolumeinFeet` INTEGER NOT NULL, `capsuleinMeters` INTEGER NOT NULL, `capsuleinFeet` INTEGER NOT NULL, `fullHeightmeters` REAL, `fullHeightfeet` REAL, PRIMARY KEY(`dragonId`))",
         "fields": [
           {
             "fieldPath": "dragonId",
@@ -1222,20 +1168,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "descriptionRu",
-            "columnName": "descriptionRu",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "wikipedia",
             "columnName": "wikipedia",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "wikiLocale",
-            "columnName": "wikiLocale",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -1739,7 +1673,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '61379adcc74d61b38d765c9300cd6364')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae7046f8d4a26d739233832b950929dd')"
     ]
   }
 }

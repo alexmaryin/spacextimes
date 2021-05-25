@@ -15,11 +15,10 @@ data class LaunchPadLocal(
     val longitude: Float,
     val status: PadStatus,
     val details: String?,
-    val detailsRu: String? = null,
     val timeZone: String,
     val fullName: String?,
     val launchAttempts: Int = 0,
     val launchSuccesses: Int = 0,
 ) {
-    fun toResponse() = LaunchPad(launchPadId, name, locality, region, latitude, longitude, status, details, detailsRu, timeZone, fullName)
+    fun toResponse() = LaunchPad(launchPadId, name, locality, region, latitude, longitude, status, details, timeZone, fullName)
 }

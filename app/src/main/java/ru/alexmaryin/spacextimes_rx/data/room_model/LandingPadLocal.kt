@@ -18,11 +18,10 @@ data class LandingPadLocal(
     val status: PadStatus?,
     val wikipedia: String?,
     val details: String?,
-    val detailsRu: String? = null,
     val landingAttempts: Int = 0,
     val landingSuccesses: Int = 0,
     val fullName: String?,
 ) {
     fun toResponse() = LandingPad(landingPadId, name, type, locality, region, latitude, longitude, status, emptyList(),
-        wikipedia, null, details, detailsRu, landingAttempts, landingSuccesses, fullName)
+        wikipedia, details, landingAttempts, landingSuccesses, fullName)
 }

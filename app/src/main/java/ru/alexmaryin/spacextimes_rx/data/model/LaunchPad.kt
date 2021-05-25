@@ -17,14 +17,14 @@ data class LaunchPad(
     val longitude: Float,
     val status: PadStatus,
     override val details: String?,
-    @Transient override var detailsRu: String? = null,
     @Json(name = "timezone") val timeZone: String,
     @Json(name = "full_name") val fullName: String?,
     @Json(name = "launch_attempts") val launchAttempts: Int = 0,
     @Json(name = "launch_successes") val launchSuccesses: Int = 0,
     val rockets: List<Rocket> = emptyList(),
     val launches: List<Launch> = emptyList(),
+    @Transient override var detailsRu: String? = null,
 ) : HasStringId, HasDetails {
 
-    fun toRoom() = LaunchPadLocal(id, name, locality, region, latitude, longitude, status, details, detailsRu, timeZone, fullName)
+    fun toRoom() = LaunchPadLocal(id, name, locality, region, latitude, longitude, status, details, timeZone, fullName)
 }

@@ -20,8 +20,8 @@ data class Core(
     @Json(name = "asds_attempts") val waterLandAttempts: Int,
     @Json(name = "asds_landings") val waterLandings: Int,
     @Json(name = "last_update") override val lastUpdate: String?,
-    @Transient override var lastUpdateRu: String? = null,
     var launches: List<Launch> = emptyList(),
+    @Transient override var lastUpdateRu: String? = null,
 ) : HasStringId, HasLastUpdate {
 
     val totalFlights: Int get() = when {
@@ -31,5 +31,5 @@ data class Core(
     }
 
     fun toRoom() = CoreWithoutLaunches(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
-        waterLandAttempts, waterLandings, lastUpdate, lastUpdateRu)
+        waterLandAttempts, waterLandings, lastUpdate)
 }

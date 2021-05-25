@@ -13,13 +13,13 @@ import java.util.*
 data class History(
     override val id: String,
     override val title: String,
-    @Transient override var titleRu: String? = null,
     override val details: String,
-    @Transient override var detailsRu: String? = null,
     val links: HistoryLinks?,
     @Json(name = "event_date_utc") val eventDateUTC: Date,
     @Json(name = "event_date_unix") val eventDateUnix: Long?,
+    @Transient override var titleRu: String? = null,
+    @Transient override var detailsRu: String? = null,
 ) : HasStringId, HasDetails, HasTitle {
 
-    fun toRoom() = HistoryLocal(id, title, titleRu, details, detailsRu, links, eventDateUTC, eventDateUnix)
+    fun toRoom() = HistoryLocal(id, title, details, links, eventDateUTC, eventDateUnix)
 }

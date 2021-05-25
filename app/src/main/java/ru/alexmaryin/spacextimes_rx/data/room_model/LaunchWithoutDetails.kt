@@ -19,7 +19,6 @@ data class LaunchWithoutDetails(
     val success: Boolean?,
     val upcoming: Boolean,
     val details: String?,
-    val detailsRu: String?,
     @Embedded val fairings: Fairings?,
     @Embedded val links: Links,
     val autoUpdate: Boolean,
@@ -35,7 +34,7 @@ data class LaunchWithoutDetails(
     val launchPadId: String?,
     val failures: List<Failure>,
 ) {
-    fun toResponse() = Launch(launchId, name, window, null, success, upcoming, details, detailsRu, fairings, links, autoUpdate, flightNumber,
+    fun toResponse() = Launch(launchId, name, window, null, success, upcoming, details, fairings, links, autoUpdate, flightNumber,
         dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix, toBeDetermined, notEarlyThan, null,
-        failures = failures)
+        failures)
 }

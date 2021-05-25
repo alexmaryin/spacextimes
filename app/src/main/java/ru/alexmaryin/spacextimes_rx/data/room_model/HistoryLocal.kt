@@ -11,12 +11,10 @@ import java.util.*
 data class HistoryLocal(
     @PrimaryKey val historyId: String,
     val title: String,
-    val titleRu: String?,
     val details: String,
-    val detailsRu: String?,
     @Embedded val links: HistoryLinks?,
     val eventDateUTC: Date,
     val eventDateUnix: Long?,
 ) {
-    fun toResponse() = History(historyId, title, titleRu, details, detailsRu, links, eventDateUTC, eventDateUnix)
+    fun toResponse() = History(historyId, title, details, links, eventDateUTC, eventDateUnix)
 }

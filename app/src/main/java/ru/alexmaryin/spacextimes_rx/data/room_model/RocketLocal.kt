@@ -25,9 +25,7 @@ data class RocketLocal(
     val country: String,
     val company: String,
     val wikipedia: String?,
-    val wikiLocale: String?,
     val description: String?,
-    val descriptionRu: String?,
     @Embedded(prefix = "height") val height: LineSize,
     @Embedded(prefix = "diameter") val diameter: LineSize,
     @Embedded val mass: Mass,
@@ -41,7 +39,7 @@ data class RocketLocal(
     val payloadWeights: List<PayloadWeight>,
     val images: List<String>,
 ) {
-    fun toResponse() = Rocket(rocketId, name, type, active, stages, boosters, country, company, wikipedia, wikiLocale,
-        description, descriptionRu, height, diameter, mass, engines, successRate, costPerLaunch, firstFlight, firstStage,
+    fun toResponse() = Rocket(rocketId, name, type, active, stages, boosters, country, company, wikipedia,
+        description, height, diameter, mass, engines, successRate, costPerLaunch, firstFlight, firstStage,
         secondStage, landingLegs, payloadWeights, images)
 }

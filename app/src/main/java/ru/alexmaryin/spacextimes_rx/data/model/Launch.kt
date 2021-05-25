@@ -30,7 +30,6 @@ data class Launch(
     val success: Boolean?,
     val upcoming: Boolean,
     override val details: String?,
-    @Transient override var detailsRu: String? = null,
     val fairings: Fairings?,
     val links: Links,
     @Json(name = "auto_update") val autoUpdate: Boolean,
@@ -44,11 +43,12 @@ data class Launch(
     @Json(name = "tbd") val toBeDetermined: Boolean = false,
     @Json(name = "net") val notEarlyThan: Boolean = false,
     @Json(name = "launchpad") var launchPad: LaunchPad?,
+    val failures: List<Failure> = emptyList(),
     var crew: List<Crew> = emptyList(),
     var capsules: List<Capsule> = emptyList(),
     var payloads: List<Payload> = emptyList(),
     var cores: List<CoreFlight> = emptyList(),
-    val failures: List<Failure> = emptyList(),
+    @Transient override var detailsRu: String? = null,
 ) : HasStringId, HasDetails, HasWiki {
 
     override val wikipedia get() = links.wikipedia
@@ -68,7 +68,7 @@ data class Launch(
     }
 
     fun toRoom() = LaunchLocal(
-        launch = LaunchWithoutDetails(id, name, rocket?.id, window, success, upcoming, details, detailsRu, fairings, links,
+        launch = LaunchWithoutDetails(id, name, rocket?.id, window, success, upcoming, details, fairings, links,
             autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
             toBeDetermined, notEarlyThan, launchPad?.id, failures),
         rocket = rocket?.toRoom(),

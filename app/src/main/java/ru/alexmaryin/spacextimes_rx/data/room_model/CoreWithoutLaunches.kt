@@ -17,8 +17,7 @@ data class CoreWithoutLaunches(
     val waterLandAttempts: Int,
     val waterLandings: Int,
     val lastUpdate: String?,
-    val lastUpdateRu: String?,
 ){
     fun toResponse() = Core(coreId, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
-        waterLandAttempts, waterLandings, lastUpdate, lastUpdateRu)
+        waterLandAttempts, waterLandings, lastUpdate)
 }
