@@ -19,7 +19,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
                 path = "launches",
                 populate = PopulatedObject(path = "rocket")),
             PopulatedObject(path = "rockets")
-        )
+        ),
     )
 
     private val dragonWithCapsule = PopulatedObject(path = "dragon", populate = PopulatedObject(path = "capsule", select = "-launches"))
@@ -32,20 +32,12 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
             PopulatedObject(path = "capsules", select = "-launches"),
             PopulatedObject(path = "cores", populate = PopulatedObject(path = "core", select = "-launches")),
             PopulatedObject(path = "payloads", populate = dragonWithCapsule)
-        )
+        ),
+        sort = "field  -upcoming -date_local -name",
+        pagination = false
     )
 
     private val populatePayload = ApiOptions(populate = listOf(dragonWithCapsule))
-
-    private val populateLaunches = ApiOptions(
-        select = "-crew -capsules -cores -payloads",
-        populate = listOf(
-            PopulatedObject(path = "rocket"),
-            PopulatedObject(path = "launchpad", select = "-launches -rockets"),
-        ),
-        sort = "field  -upcoming -date_local -name",
-        pagination = false,
-    )
 
     private fun requestById(id: String, options: ApiOptions = ApiOptions()) = ApiRequest(ApiQuery(id), options)
 
