@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -36,14 +37,33 @@ class MainFragment : Fragment() {
     @Inject lateinit var settings: Settings
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
 
+    private var backPressedTime: Long = 0
+    private val backPressHandler = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (spaceXViewModel.currentScreen is Launches) {
+                if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                    activity?.finish()
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.press_back_finish_message), Toast.LENGTH_SHORT).show()
+                    backPressedTime = System.currentTimeMillis()
+                }
+            } else {
+                spaceXViewModel.changeScreen(Launches)
+                activity?.invalidateOptionsMenu()
+            }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.lifecycleOwner = this
-        with (binding.recyclerView) {
+        with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressHandler)
         return binding.root
     }
 
@@ -77,6 +97,7 @@ class MainFragment : Fragment() {
             R.id.landingPadsSelect -> spaceXViewModel.changeScreen(LandingPads)
             R.id.historySelect -> spaceXViewModel.changeScreen(HistoryEvents)
             R.id.filterAction -> binding.filterGroup.swapVisibility()
+            R.id.syncAction -> spaceXViewModel.startSynchronization()
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -143,7 +164,7 @@ class MainFragment : Fragment() {
                     }
                 }
             }
-            with (binding.filterGroup) {
+            with(binding.filterGroup) {
                 postDelayed({ visibility = View.GONE }, 1000)
             }
         }

@@ -47,8 +47,10 @@ class CapsuleDetailFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
 
+        capsuleViewModel.load()
+
         lifecycleScope.launch {
-            capsuleViewModel.getState()
+            capsuleViewModel.getDetails()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect { state ->
                     when (state) {

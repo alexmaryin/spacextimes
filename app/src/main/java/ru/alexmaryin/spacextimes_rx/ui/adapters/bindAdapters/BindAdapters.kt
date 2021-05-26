@@ -8,7 +8,6 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
@@ -46,14 +45,13 @@ object CommonAdapters {
     fun openLink(view: View, url: String?) {
         url?.let {
             view.setOnClickListener {
-                Intent().apply {
-                    val isPdf = url.endsWith("pdf", true)
-                    action = if (isPdf) Intent.ACTION_OPEN_DOCUMENT else Intent.ACTION_VIEW
-                    data = Uri.parse(url)
-                    type = if (isPdf) "application/pdf" else "text/html"
-                    flags += Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    categories += Intent.CATEGORY_OPENABLE
-                }.run { (it.context as AppCompatActivity).startActivity(this) }
+                val intent = if (url.endsWith("pdf", true)) {
+                    Intent(Intent.ACTION_VIEW, Uri.parse(url)).run {
+                        type = "application/pdf"
+                        Intent.createChooser(this, "Открыть pdf").apply { flags += Intent.FLAG_ACTIVITY_NEW_TASK }
+                    }
+                } else Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                it.context.startActivity(intent)
             }
         }
     }
@@ -67,7 +65,7 @@ object CommonAdapters {
     @JvmStatic
     @BindingAdapter("checkVisibility")
     fun setVisibility(view: View, value: Any?) {
-        view.visibility = if(value != null) View.VISIBLE else View.GONE
+        view.visibility = if (value != null) View.VISIBLE else View.GONE
     }
 
     @JvmStatic

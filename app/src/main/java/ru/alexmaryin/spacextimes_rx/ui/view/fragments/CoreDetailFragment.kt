@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Core
-import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentRecyclerDetailBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
@@ -48,8 +47,10 @@ class CoreDetailFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
 
+        coreViewModel.load()
+
         lifecycleScope.launch {
-            coreViewModel.getState()
+            coreViewModel.getDetails()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect { state ->
                     when (state) {
@@ -80,7 +81,7 @@ class CoreDetailFragment : Fragment() {
                 ItemTypes.LAUNCH -> findNavController().navigate(CoreDetailFragmentDirections.actionShowLaunchDetails(id))
             }
         }, viewHoldersManager)
-        missionsAdapter.submitList(listOf(RecyclerHeader(text = getString(R.string.missions_list_header))) + core.launches)
+        missionsAdapter.submitList(coreViewModel.composeList(requireContext(), core))
         binding.detailsList.adapter = missionsAdapter
     }
 }

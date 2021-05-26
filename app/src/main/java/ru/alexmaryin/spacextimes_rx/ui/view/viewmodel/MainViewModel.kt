@@ -10,13 +10,15 @@ import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
 
 @HiltViewModel
 class SpaceXViewModel @Inject constructor(
     private val repository: SpacexDataRepository,
-    private val translator: TranslatorApi
+    private val translator: TranslatorApi,
+    private val settings: Settings,
 ) : ViewModel() {
 
     var currentScreen: MainScreen = Launches
@@ -47,6 +49,11 @@ class SpaceXViewModel @Inject constructor(
 
     fun toggleLaunchFilter(filter: String) {
         currentScreen.filter.toggleLaunchFilter(filter)
+        armRefresh()
+    }
+
+    fun startSynchronization() {
+        settings.armedSynchronize = true
         armRefresh()
     }
 
