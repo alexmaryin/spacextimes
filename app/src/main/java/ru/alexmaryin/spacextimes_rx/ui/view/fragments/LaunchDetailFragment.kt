@@ -14,7 +14,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +35,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LaunchDetailFragment : Fragment() {
 
-    private val args: LaunchDetailFragmentArgs by navArgs()
     private val launchViewModel: LaunchDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentLaunchDetailBinding
@@ -44,6 +42,11 @@ class LaunchDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_launch_detail, container, false)
         binding.lifecycleOwner = this
+
+        binding.detailsList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
 
         launchViewModel.state.set("locale", requireContext().currentLocaleLang())
         launchViewModel.loadLaunch()
@@ -116,10 +119,6 @@ class LaunchDetailFragment : Fragment() {
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(launchViewModel.composeDetails(requireContext(), launch))
-        binding.detailsList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = detailsAdapter
-        }
+        binding.detailsList.adapter = detailsAdapter
     }
 }

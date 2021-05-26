@@ -17,7 +17,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
-import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class DragonDetailViewModel @Inject constructor(
     fun loadDragon() = viewModelScope.launch {
         repository.getDragonById(state.get("dragonId") ?: "")
             .localizeWiki<Dragon>(state.get("locale") ?: "en")
-            .collect { result -> dragonState.value = result }
+            .collect { result -> dragonState.emit(result) }
     }
 
     fun composeDetails(res: Context, dragon: Dragon) = mutableListOf<HasStringId>().apply {
@@ -77,7 +77,7 @@ class DragonDetailViewModel @Inject constructor(
         addAll(dragon.thrusters.map {
             TwoStringsItem(
                 caption =  res.getString(R.string.capsule_thruster_line1, it.amount, it.pods, it.type, it.thrust.kN, it.isp),
-                details = res.getString(R.string.capsule_thruster_line2, it.HotComponent, it.OxidizerComponent)
+                details = res.getString(R.string.capsule_thruster_line2, it.hotComponent, it.oxidizerComponent)
             )}
         )
 

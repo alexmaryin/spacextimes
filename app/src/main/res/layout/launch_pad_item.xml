@@ -5,7 +5,7 @@
 
     <data>
         <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
-        <variable name="launchPad" type="ru.alexmaryin.spacextimes_rx.data.model.lists.LaunchPads" />
+        <variable name="launchPad" type="ru.alexmaryin.spacextimes_rx.data.model.LaunchPad" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
         <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
     </data>

@@ -1,7 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +31,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CrewDetailFragment : Fragment() {
 
-    private val args: CrewDetailFragmentArgs by navArgs()
     private val crewViewModel: CrewDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: CrewDetailFragmentBinding
@@ -45,6 +42,10 @@ class CrewDetailFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.crew_detail_fragment, container, false)
         binding.lifecycleOwner = this
+        binding.crewDetails.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
 
         crewViewModel.state.set("locale", requireContext().currentLocaleLang())
         crewViewModel.loadCrew()
@@ -83,27 +84,20 @@ class CrewDetailFragment : Fragment() {
     }
 
     private fun bindDetails(crew: Crew) {
-        Log.d("WIKI_LOCALE", "Wiki link ${crew.wikipedia}\n Local wiki link ${crew.wikiLocale}")
         activity?.title = crew.name
         binding.crew = crew
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
-        if (crew.launches.isNotEmpty()) {
-            val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
-                when(itemType) {
-                    ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))
-                    ItemTypes.LINKS -> {
-                        Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
-                        binding.crewDetails.openLink(id)
-                    }
+        val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
+            when (itemType) {
+                ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))
+                ItemTypes.LINKS -> {
+                    Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
+                    binding.crewDetails.openLink(id)
                 }
-            }, viewHoldersManager)
-            missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
-            binding.crewDetails.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-                adapter = missionsAdapter
             }
-        }
+        }, viewHoldersManager)
+        missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
+        binding.crewDetails.adapter = missionsAdapter
     }
 
     override fun onDestroyView() {

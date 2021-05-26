@@ -18,7 +18,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
-import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import java.text.NumberFormat
@@ -38,7 +38,7 @@ class RocketDetailViewModel @Inject constructor(
     fun loadRocket() = viewModelScope.launch {
         repository.getRocketById(state.get("rocketId") ?: "")
             .localizeWiki<Rocket>(state.get("locale") ?: "en")
-            .collect { result -> rocketState.value = result }
+            .collect { result -> rocketState.emit(result) }
     }
 
     fun composeDetails(res: Context, rocket: Rocket) = mutableListOf<HasStringId>().apply {
@@ -118,12 +118,10 @@ class RocketDetailViewModel @Inject constructor(
                 left = res.getString(R.string.stage_fuel_amount_str, fuelAmount ?: 0f),
                 right = res.getString(R.string.stage_burn_time_str, burnTime ?: 0)
             ))
-            if (payloads.compositeFairing.height.meters != null) {
+            payloads.compositeFairing?.let {
                 add(TwoStringsItem(
                     caption = res.getString(R.string.fairing_caption),
-                    details = res.getString(R.string.fairing_details_str,
-                        payloads.compositeFairing.height.meters,
-                        payloads.compositeFairing.diameter.meters)
+                    details = res.getString(R.string.fairing_details_str, it.height.meters, it.diameter.meters)
                 ))
             }
         }

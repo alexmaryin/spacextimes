@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +32,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DragonDetailFragment : Fragment() {
 
-    private val args: DragonDetailFragmentArgs by navArgs()
     private val dragonViewModel: DragonDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: DragonDetailFragmentBinding
@@ -45,6 +43,11 @@ class DragonDetailFragment : Fragment() {
         activity?.title = getString(R.string.loadingText)
         binding = DataBindingUtil.inflate(inflater, R.layout.dragon_detail_fragment, container, false)
         binding.lifecycleOwner = this
+
+        binding.detailsList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
 
         dragonViewModel.state.set("locale", requireContext().currentLocaleLang())
         dragonViewModel.loadDragon()
@@ -103,11 +106,7 @@ class DragonDetailFragment : Fragment() {
             }
         }, viewHoldersManager)
         detailsAdapter.submitList(dragonViewModel.composeDetails(requireContext(), dragon))
-        binding.detailsList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = detailsAdapter
-        }
+        binding.detailsList.adapter = detailsAdapter
     }
 
     override fun onDestroyView() {

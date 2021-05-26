@@ -14,6 +14,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.Engine
 import ru.alexmaryin.spacextimes_rx.data.model.parts.FirstStage
 import ru.alexmaryin.spacextimes_rx.data.model.parts.LandingLegs
 import ru.alexmaryin.spacextimes_rx.data.model.parts.SecondStage
+import ru.alexmaryin.spacextimes_rx.data.room_model.RocketLocal
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
 import java.text.DateFormat
 import java.util.*
@@ -29,9 +30,7 @@ data class Rocket(
     val country: String,
     val company: String,
     override val wikipedia: String?,
-    @Transient override var wikiLocale: String? = null,
     override val description: String?,
-    @Transient override var descriptionRu: String? = null,
     val height: LineSize,
     val diameter: LineSize,
     val mass: Mass,
@@ -44,7 +43,14 @@ data class Rocket(
     @Json(name = "landing_legs") val landingLegs: LandingLegs,
     @Json(name = "payload_weights") val payloadWeights: List<PayloadWeight> = emptyList(),
     @Json(name = "flickr_images") val images: List<String> = emptyList(),
+    @Transient override var wikiLocale: String? = null,
+    @Transient override var descriptionRu: String? = null,
 ) : HasStringId, HasDescription, HasWiki {
+
     fun firstFlightStr(context: Context): String =
         DateFormat.getDateInstance(DateFormat.LONG, context.currentLocale()).format(firstFlight)
+
+    fun toRoom() = RocketLocal(id, name, type, active, stages, boosters, country, company, wikipedia,
+        description, height, diameter, mass, engines, successRate, costPerLaunch, firstFlight, firstStage,
+        secondStage, landingLegs, payloadWeights, images)
 }

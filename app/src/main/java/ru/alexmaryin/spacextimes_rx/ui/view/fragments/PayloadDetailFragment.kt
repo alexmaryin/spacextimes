@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +33,6 @@ import kotlin.time.ExperimentalTime
 @AndroidEntryPoint
 class PayloadDetailFragment : Fragment() {
 
-    private val args: PayloadDetailFragmentArgs by navArgs()
     private val payloadViewModel: PayloadDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentRecyclerDetailBinding
@@ -43,8 +41,15 @@ class PayloadDetailFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
         binding.lifecycleOwner = this
 
+        binding.detailsList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
+
+        payloadViewModel.loadPayload()
+
         lifecycleScope.launch {
-            payloadViewModel.getState()
+            payloadViewModel.getDetails()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect { state ->
                     when (state) {
@@ -80,10 +85,6 @@ class PayloadDetailFragment : Fragment() {
             }
         }, viewHoldersManager)
         payloadAdapter.submitList(payloadViewModel.populateDetails(requireContext(), payload))
-        binding.detailsList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = payloadAdapter
-        }
+        binding.detailsList.adapter = payloadAdapter
     }
 }

@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.ui.adapters.recyclerViewHolders
 
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.History
@@ -15,6 +16,7 @@ class HistoryEventsViewHolder : ViewHolderVisitor {
         val historyEvent = item as History
         with(binding as HistoryEventItemBinding) {
             this.historyEvent = historyEvent
+            eventLinkText.visibility = historyEvent.links?.article?.run { View.VISIBLE } ?: View.GONE
         }
     }
 

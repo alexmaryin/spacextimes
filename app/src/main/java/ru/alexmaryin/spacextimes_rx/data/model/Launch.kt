@@ -10,11 +10,10 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Capsules
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Crews
-import ru.alexmaryin.spacextimes_rx.data.model.lists.LaunchPads
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutDetails
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
 import ru.alexmaryin.spacextimes_rx.utils.halfYearString
 import ru.alexmaryin.spacextimes_rx.utils.quarterYearString
@@ -25,32 +24,32 @@ import java.util.*
 @JsonClass(generateAdapter = true)
 data class Launch(
     override val id: String,
+    @Transient val refreshTime: Long? = null,
     val name: String,
     val window: Int?,
-    val rocket: Rocket?,
-    val success: Boolean? = null,
+    var rocket: Rocket?,
+    val success: Boolean?,
     val upcoming: Boolean,
     override val details: String?,
-    @Transient override var detailsRu: String? = null,
     val fairings: Fairings?,
     val links: Links,
-    val crew: List<Crews> = emptyList(),
-    val ships: List<String> = emptyList(),
-    val capsules: List<Capsules> = emptyList(),
-    val payloads: List<Payload> = emptyList(),
-    val cores: List<CoreFlight> = emptyList(),
-    val failures: List<Failure> = emptyList(),
-    @Json(name = "launchpad") val launchPad: LaunchPads?,
     @Json(name = "auto_update") val autoUpdate: Boolean,
     @Json(name = "flight_number") val flightNumber: Int,
     @Json(name = "date_utc") val dateUtc: Date,
-    @Json(name = "dater_unix") val dateUnix: Long?,
+    @Json(name = "date_unix") val dateUnix: Long,
     @Json(name = "date_local") val dateLocal: Date,
     @Json(name = "date_precision") val datePrecision: DatePrecision,
     @Json(name = "static_fire_date_utc") val staticFireDateUtc: Date?,
     @Json(name = "static_fire_date_unix") val staticFireDateUnix: Long?,
     @Json(name = "tbd") val toBeDetermined: Boolean = false,
     @Json(name = "net") val notEarlyThan: Boolean = false,
+    @Json(name = "launchpad") var launchPad: LaunchPad?,
+    val failures: List<Failure> = emptyList(),
+    var crew: List<Crew> = emptyList(),
+    var capsules: List<Capsule> = emptyList(),
+    var payloads: List<Payload> = emptyList(),
+    var cores: List<CoreFlight> = emptyList(),
+    @Transient override var detailsRu: String? = null,
 ) : HasStringId, HasDetails, HasWiki {
 
     override val wikipedia get() = links.wikipedia
@@ -68,4 +67,16 @@ data class Launch(
         DatePrecision.DAY -> DateFormat.getDateInstance(DateFormat.LONG).format(dateLocal)
         DatePrecision.HOUR -> DateFormat.getDateTimeInstance(DateFormat.LONG, TimeFormat.CLOCK_24H).format(dateLocal)
     }
+
+    fun toRoom(setRefresh: Boolean = false) = LaunchLocal(
+        launch = LaunchWithoutDetails(id, if (setRefresh) System.currentTimeMillis() else null, name, rocket?.id, window, success, upcoming, details, fairings, links,
+            autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
+            toBeDetermined, notEarlyThan, launchPad?.id, failures),
+        rocket = rocket?.toRoom(),
+        launchPad = launchPad?.toRoom(),
+        crew = crew.map { it.toRoom() },
+        capsules = capsules.map { it.toRoom() },
+        payloads = payloads.map { it.toRoom().payload },
+        cores = cores.mapNotNull { it.toRoom()?.coreFlight }
+    )
 }

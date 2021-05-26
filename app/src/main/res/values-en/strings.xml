@@ -263,4 +263,5 @@
     <string name="payload_caption">Payload</string>
     <string name="upcoming_launches_deselected_string">Upcoming launches are deselected</string>
     <string name="countdown_to_launch_string">Remains %s</string>
+    <string name="press_back_finish_message">Press back again to finish</string>
 </resources>

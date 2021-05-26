@@ -31,7 +31,7 @@
         <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/fragment_rocket_detail.xml" value="0.25" />
         <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/history_event_item.xml" value="0.3359375" />
         <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/landing_pad_item.xml" value="0.3359375" />
-        <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/launch_item.xml" value="0.3359375" />
+        <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/launch_item.xml" value="0.23981481481481481" />
         <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/launch_pad_item.xml" value="0.3359375" />
         <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/links_item.xml" value="0.28289473684210525" />
         <entry key="..\:/Android/Projects/spacextimes_rx/app/src/main/res/layout/main_recycler_shimmer.xml" value="0.28289473684210525" />
@@ -52,7 +52,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11 (2)" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android API 30 Platform" project-jdk-type="Android SDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
@@ -36,10 +37,33 @@ class MainFragment : Fragment() {
     @Inject lateinit var settings: Settings
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
 
+    private var backPressedTime: Long = 0
+    private val backPressHandler = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (spaceXViewModel.currentScreen is Launches) {
+                if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                    activity?.finish()
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.press_back_finish_message), Toast.LENGTH_SHORT).show()
+                    backPressedTime = System.currentTimeMillis()
+                }
+            } else {
+                spaceXViewModel.changeScreen(Launches)
+                activity?.invalidateOptionsMenu()
+            }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.lifecycleOwner = this
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressHandler)
         return binding.root
     }
 
@@ -57,13 +81,13 @@ class MainFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
-        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.currentScreen == LaunchesScr
+        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.currentScreen == Launches
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.launchesSelect -> spaceXViewModel.changeScreen(LaunchesScr)
+            R.id.launchesSelect -> spaceXViewModel.changeScreen(Launches)
             R.id.capsulesSelect -> spaceXViewModel.changeScreen(Capsules)
             R.id.coresSelect -> spaceXViewModel.changeScreen(Cores)
             R.id.crewSelect -> spaceXViewModel.changeScreen(Crew)
@@ -73,6 +97,7 @@ class MainFragment : Fragment() {
             R.id.landingPadsSelect -> spaceXViewModel.changeScreen(LandingPads)
             R.id.historySelect -> spaceXViewModel.changeScreen(HistoryEvents)
             R.id.filterAction -> binding.filterGroup.swapVisibility()
+            R.id.syncAction -> spaceXViewModel.startSynchronization()
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -100,12 +125,8 @@ class MainFragment : Fragment() {
 
     private fun collectState() {
 
-        spaceXViewModel.observeFilterChange().collectOnFragment(this) { (shown, total) ->
-            binding.filterGroup.visibility = View.GONE
-            Toast.makeText(requireContext(), getString(R.string.filtered_launches_toast, shown, total), Toast.LENGTH_SHORT).show()
-        }
-
         spaceXViewModel.getState().collectOnFragment(this) { state ->
+            binding.filterGroup.visibility = View.GONE
             when (state) {
                 Loading -> {
                     binding.recyclerView replaceBy binding.shimmerLayout.shimmer
@@ -133,18 +154,17 @@ class MainFragment : Fragment() {
 
         spaceXViewModel.getScrollTrigger().collectOnFragment(this) { state ->
             when (state) {
-                is Error -> Toast.makeText(requireContext(),
-                    if (state.error == ErrorType.UPCOMING_LAUNCHES_DESELECTED) getString(R.string.upcoming_launches_deselected_string) else state.msg,
-                    Toast.LENGTH_SHORT).show()
-                is Success<*> -> {
-                    val (position, launch) = state.toDetails<Pair<Int, Launches>>()
-                    binding.recyclerView.addItemShaker(position)
-                    val timeTo = (launch.dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
-                    Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, launch.name, timeTo), Snackbar.LENGTH_LONG).show()
+                false -> Toast.makeText(requireContext(), getString(R.string.upcoming_launches_deselected_string), Toast.LENGTH_SHORT).show()
+                true -> {
+                    val launches = (binding.recyclerView.adapter as BaseListAdapter).currentList.map { it as Launch }
+                    spaceXViewModel.getNextLaunchPosition(launches)?.let { position ->
+                        binding.recyclerView.addItemShaker(position)
+                        val timeTo = (launches[position].dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
+                        Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, launches[position].name, timeTo), Snackbar.LENGTH_LONG).show()
+                    }
                 }
-                else -> {}
             }
-            with (binding.filterGroup) {
+            with(binding.filterGroup) {
                 postDelayed({ visibility = View.GONE }, 1000)
             }
         }
@@ -156,11 +176,6 @@ class MainFragment : Fragment() {
         clickListener: AdapterClickListenerById
     ) {
         activity?.title = getString(titleResource)
-        val currentAdapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
-            adapter = currentAdapter
-        }
+        binding.recyclerView.adapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
     }
 }

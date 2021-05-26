@@ -12,6 +12,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.PressurizedCapsule
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Shield
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Thruster
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Trunk
+import ru.alexmaryin.spacextimes_rx.data.room_model.DragonLocal
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -23,9 +24,7 @@ data class Dragon(
     val trunk: Trunk,
     val diameter: LineSize,
     override val description: String?,
-    @Transient override var descriptionRu: String? = null,
     override val wikipedia: String?,
-    @Transient override var wikiLocale: String? = null,
     @Json(name = "active") val isActive: Boolean,
     @Json(name = "crew_capacity") val crewCapacity: Int = 0,
     @Json(name = "sidewall_angle_deg") val slideWallAngle: Int,
@@ -40,4 +39,12 @@ data class Dragon(
     @Json(name = "pressurized_capsule") val pressurizedCapsule: PressurizedCapsule,
     @Json(name = "height_w_trunk") val heightWithTrunk: LineSize,
     @Json(name = "flickr_images") val images: List<String>,
-) : HasStringId, HasDescription, HasWiki
+    @Transient override var descriptionRu: String? = null,
+    @Transient override var wikiLocale: String? = null,
+) : HasStringId, HasDescription, HasWiki {
+
+    fun toRoom() = DragonLocal(id, name, type, thrusters, trunk, diameter, description, wikipedia,
+        isActive, crewCapacity, slideWallAngle, orbitDuration, dryMass, firstFlight, heatShield,
+        launchPayloadMass, launchPayloadVolume, returnPayloadMass, returnPayloadVolume, pressurizedCapsule,
+        heightWithTrunk, images)
+}

@@ -24,20 +24,20 @@ data class LineSize(
 
 @JsonClass(generateAdapter = true)
 data class Thrust(
-    val kN: Float,
-    val lbf: Int
+    val kN: Float?,
+    val lbf: Int?
 )
 
 @JsonClass(generateAdapter = true)
 data class Isp(
-    val vacuum: Int,
-    @Json(name = "sea_level") val seaLevel: Int,
+    val vacuum: Int?,
+    @Json(name = "sea_level") val seaLevel: Int?,
 )
 
 @JsonClass(generateAdapter = true)
 data class PayloadWeight(
     val id: OrbitType,
     val name: String,
-    val kg: Float,
-    val lb: Float,
+    val kg: Float?,
+    val lb: Float?,
 )

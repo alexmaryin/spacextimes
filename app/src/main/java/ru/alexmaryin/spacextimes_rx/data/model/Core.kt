@@ -5,7 +5,8 @@ import com.squareup.moshi.JsonClass
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
-import ru.alexmaryin.spacextimes_rx.data.model.lists.Launches
+import ru.alexmaryin.spacextimes_rx.data.room_model.CoreWithoutLaunches
+import kotlin.math.max
 
 @JsonClass(generateAdapter = true)
 data class Core(
@@ -19,6 +20,16 @@ data class Core(
     @Json(name = "asds_attempts") val waterLandAttempts: Int,
     @Json(name = "asds_landings") val waterLandings: Int,
     @Json(name = "last_update") override val lastUpdate: String?,
+    var launches: List<Launch> = emptyList(),
     @Transient override var lastUpdateRu: String? = null,
-    val launches: List<Launches> = emptyList(),
-) : HasStringId, HasLastUpdate
+) : HasStringId, HasLastUpdate {
+
+    val totalFlights: Int get() = when {
+        launches.isNotEmpty() -> launches.size
+        reuseCount > 0 -> reuseCount + 1
+        else -> max(groundLandAttempts + waterLandAttempts, groundLandings + waterLandings)
+    }
+
+    fun toRoom() = CoreWithoutLaunches(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
+        waterLandAttempts, waterLandings, lastUpdate)
+}

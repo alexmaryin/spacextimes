@@ -7,6 +7,8 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PayloadType
 import ru.alexmaryin.spacextimes_rx.data.model.extra.PayloadDragon
+import ru.alexmaryin.spacextimes_rx.data.room_model.PayloadLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.PayloadWithoutDragon
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -23,14 +25,14 @@ data class Payload(
     val longitude: Float?,
     val eccentricity: Float?,
     val epoch: Date?,
-    val dragon: PayloadDragon,
+    var dragon: PayloadDragon,
     @Json(name = "semi_major_axis_km") val semiAxis: Float?,
     @Json(name = "raan") val rightAscension: Float?,
     @Json(name = "periapsis_km") val periapsis: Float?,
     @Json(name = "apoapsis_km") val apoapsis: Float?,
     @Json(name = "inclination_deg") val inclination: Float?,
     @Json(name = "arg_of_pericenter") val pericenterArg: Float?,
-    @Json(name = "lifespan_years") val lifeSpan: Int?,
+    @Json(name = "lifespan_years") val lifeSpan: Float?,
     @Json(name = "period_min") val period: Float?,
     @Json(name = "mean_motion") val meanMotion: Float?,
     @Json(name = "mean_anomaly") val meanAnomaly: Float?,
@@ -81,4 +83,14 @@ data class Payload(
 
     val isOrbitDataPresent get() = (eccentricity ?: semiAxis ?: inclination ?: longitude ?: pericenterArg ?: rightAscension ?:
             meanAnomaly ?: meanMotion ?: epoch) != null
+
+    fun toRoom() = PayloadLocal(
+        payload = PayloadWithoutDragon(id, name, type, reused, customers, nationalities, manufacturers, orbit, regime, longitude,
+            eccentricity, epoch, id, semiAxis, rightAscension, periapsis, apoapsis, inclination, pericenterArg,
+            lifeSpan, period, meanMotion, meanAnomaly, massInKg, massInLbs, referenceSystem, norads),
+        dragon = dragon.toRoom(id)
+    )
+
+
+
 }

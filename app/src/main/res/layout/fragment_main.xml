@@ -5,7 +5,6 @@
 
     <data>
         <variable name="spaceXViewModel" type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel" />
-        <import type="ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchFilter" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -39,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Successfully)}"
-                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Successfully)}"
+                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Successfully")}'
+                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Successfully")}'
                 android:text="@string/success_filter" />
 
             <com.google.android.material.chip.Chip
@@ -48,8 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Failed)}"
-                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Failed)}"
+                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Failed")}'
+                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Failed")}'
                 android:text="@string/failed_filter" />
 
             <com.google.android.material.chip.Chip
@@ -57,8 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Past)}"
-                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Past)}"
+                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Past")}'
+                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Past")}'
                 android:text="@string/past_filter" />
 
             <com.google.android.material.chip.Chip
@@ -66,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:checked="@{spaceXViewModel.isFilterOn(LaunchFilter.Upcoming)}"
-                android:onClick="@{()-> spaceXViewModel.toggleLaunchFilter(LaunchFilter.Upcoming)}"
+                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Upcoming")}'
+                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Upcoming")}'
                 android:text="@string/upcoming_filter" />
 
             <com.google.android.material.chip.Chip

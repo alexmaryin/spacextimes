@@ -45,10 +45,13 @@ object CommonAdapters {
     fun openLink(view: View, url: String?) {
         url?.let {
             view.setOnClickListener {
-                Intent().apply {
-                    action = Intent.ACTION_VIEW
-                    data = Uri.parse(url)
-                }.run { it.context.startActivity(this) }
+                val intent = if (url.endsWith("pdf", true)) {
+                    Intent(Intent.ACTION_VIEW, Uri.parse(url)).run {
+                        type = "application/pdf"
+                        Intent.createChooser(this, "Открыть pdf").apply { flags += Intent.FLAG_ACTIVITY_NEW_TASK }
+                    }
+                } else Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                it.context.startActivity(intent)
             }
         }
     }
@@ -62,21 +65,21 @@ object CommonAdapters {
     @JvmStatic
     @BindingAdapter("checkVisibility")
     fun setVisibility(view: View, value: Any?) {
-        view.visibility = if(value != null) View.VISIBLE else View.GONE
+        view.visibility = if (value != null) View.VISIBLE else View.GONE
     }
 
     @JvmStatic
     @BindingAdapter(value = ["carouselSource", "launchName"], requireAll = true)
     fun populateCarousel(view: View, images: List<String>?, launchName: String = "") {
-        images?.let {
+        images?.filter { it.isNotBlank() }?.let { imagesList ->
             with(view as CarouselView) {
                 visibility = View.VISIBLE
                 setImageListener { position, imageView ->
                     imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                    loadImage(imageView, images[position])
+                    loadImage(imageView, imagesList[position])
                 }
-                setImageClickListener(downloadImageFromCarousel(context, images, "images_$launchName.jpg"))
-                pageCount = images.size
+                setImageClickListener(downloadImageFromCarousel(context, imagesList, "images_$launchName.jpg"))
+                pageCount = imagesList.size
             }
         }
     }

@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.wiki.localizeWiki
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.*
-import ru.alexmaryin.spacextimes_rx.data.repository.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import java.text.DateFormat
@@ -36,44 +36,52 @@ class LaunchDetailViewModel @Inject constructor(
             repository.getLaunchById(state.get("launchId") ?: "")
                 .translateDetails()
                 .localizeWiki<Launch>(state.get("locale") ?: "en")
-                .collect { result -> launchState.value = result }
+                .collect { result -> launchState.emit(result) }
         }
     }
 
     fun composeDetails(res: Context, launch: Launch) = mutableListOf<HasStringId>().apply {
         with(launch) {
 
-            if(images.isNotEmpty()) {
-                add(CarouselItem(images = images, launchName = name))
+            images.filter { it.isNotBlank() }.apply {
+                if (isNotEmpty()) add(CarouselItem(images = this, launchName = name))
             }
 
-            add(OneLineItem2(
-                left = res.getString(R.string.launch_number_caption),
-                right = flightNumber.toString()
-            ))
+            add(
+                OneLineItem2(
+                    left = res.getString(R.string.launch_number_caption),
+                    right = flightNumber.toString()
+                )
+            )
 
             staticFireDateUtc?.let {
-                add(OneLineItem2(
-                    left = res.getString(R.string.static_fire_date_caption),
-                    right = DateFormat.getDateInstance(DateFormat.LONG).format(it)
-                ))
+                add(
+                    OneLineItem2(
+                        left = res.getString(R.string.static_fire_date_caption),
+                        right = DateFormat.getDateInstance(DateFormat.LONG).format(it)
+                    )
+                )
             }
 
-            add(OneLineItem2(
-                left = res.getString(R.string.launch_date_caption),
-                right = when {
-                    toBeDetermined -> res.getString(R.string.to_be_determined_string)
-                    notEarlyThan -> res.getString(R.string.not_early_string) + dateTrimmed(res)
-                    else -> dateTrimmed(res)
-                }
-            ))
+            add(
+                OneLineItem2(
+                    left = res.getString(R.string.launch_date_caption),
+                    right = when {
+                        toBeDetermined -> res.getString(R.string.to_be_determined_string)
+                        notEarlyThan -> res.getString(R.string.not_early_string) + dateTrimmed(res)
+                        else -> dateTrimmed(res)
+                    }
+                )
+            )
 
             details?.let {
-                add(TwoStringsItem(
-                    id = "details",
-                    caption = res.getString(R.string.details_caption),
-                    details = detailsRu ?: details
-                ))
+                add(
+                    TwoStringsItem(
+                        id = "details",
+                        caption = res.getString(R.string.details_caption),
+                        details = detailsRu ?: details
+                    )
+                )
             }
 
             if (payloads.isNotEmpty()) {
@@ -91,8 +99,10 @@ class LaunchDetailViewModel @Inject constructor(
                                 cores.forEachIndexed { index, core ->
                                     append("${this@cores[index].serial}: ")
                                     if (core.landingAttempt == true && core.landingSuccess != null) {
-                                        appendLine((if(core.landingSuccess) res.getString(R.string.landing_success_string)
-                                            else res.getString(R.string.landing_fail_string)) + " (${core.landingType})")
+                                        appendLine(
+                                            (if (core.landingSuccess) res.getString(R.string.landing_success_string)
+                                            else res.getString(R.string.landing_fail_string)) + " (${core.landingType})"
+                                        )
                                     } else appendLine(res.getString(R.string.no_landing_attempt_string))
                                 }
                             }
@@ -107,33 +117,35 @@ class LaunchDetailViewModel @Inject constructor(
                 add(it)
             }
 
-            if(capsules.isNotEmpty()) {
+            if (capsules.isNotEmpty()) {
                 add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_capsules_caption, capsules.size)))
                 addAll(capsules)
             }
 
-            if(crew.isNotEmpty()) {
+            if (crew.isNotEmpty()) {
                 add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_crew_caption, crew.size)))
                 addAll(crew)
             }
 
-            if(failures.isNotEmpty()) {
+            if (failures.isNotEmpty()) {
                 add(RecyclerHeader(text = res.getString(R.string.failures_list_caption)))
                 failures.forEach { failure ->
-                    add(TwoStringsItem(
-                        caption = res.getString(R.string.failure_time_altitude_text, failure.time ?: 0, failure.altitude ?: 0),
-                        details = res.getString(R.string.failure_reason_text, failure.reason)
-                    ))
+                    add(
+                        TwoStringsItem(
+                            caption = res.getString(R.string.failure_time_altitude_text, failure.time ?: 0, failure.altitude ?: 0),
+                            details = res.getString(R.string.failure_reason_text, failure.reason)
+                        )
+                    )
                 }
             }
 
             LinksItem(
                 wiki = wikiLocale ?: wikipedia,
                 youtube = links.webcast ?: links.youtubeId?.let { "https://www.youtube.com/watch?v=${it}" },
-                redditCampaign = links.reddit.campaign,
-                redditLaunch = links.reddit.launch,
-                redditMedia = links.reddit.media,
-                redditRecovery = links.reddit.recovery,
+                redditCampaign = links.reddit?.campaign,
+                redditLaunch = links.reddit?.launch,
+                redditMedia = links.reddit?.media,
+                redditRecovery = links.reddit?.recovery,
                 pressKit = links.presskit,
                 article = links.article
             ).apply {
