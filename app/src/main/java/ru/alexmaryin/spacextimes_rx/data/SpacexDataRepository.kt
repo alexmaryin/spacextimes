@@ -32,7 +32,6 @@ class SpacexDataRepository @Inject constructor(
     ) = flow {
         emit(Loading)
         localApiCallback().run {
-            val n = settings.needSyncFor(T::class.simpleName!!)
             if (settings.needSyncFor(T::class.simpleName!!) || isEmpty()) {
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback().apply {

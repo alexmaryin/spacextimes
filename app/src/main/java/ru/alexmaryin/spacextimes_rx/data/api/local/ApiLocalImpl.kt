@@ -62,7 +62,7 @@ class ApiLocalImpl @Inject constructor(
         spaceXDao.selectCoreFlight(coreId)?.toResponse()
     }
 
-    override suspend fun saveLaunches(launches: List<Launch>) = spaceXDao.insertLaunches(launches.map { it.toRoom().launch })
+    override suspend fun saveLaunches(launches: List<Launch>) = spaceXDao.insertLaunchesWithDetails(launches)
 
     override suspend fun saveLaunchDetails(launch: Launch) = spaceXDao.insertLaunchWithDetails(launch)
 

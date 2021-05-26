@@ -32,7 +32,7 @@ data class Payload(
     @Json(name = "apoapsis_km") val apoapsis: Float?,
     @Json(name = "inclination_deg") val inclination: Float?,
     @Json(name = "arg_of_pericenter") val pericenterArg: Float?,
-    @Json(name = "lifespan_years") val lifeSpan: Int?,
+    @Json(name = "lifespan_years") val lifeSpan: Float?,
     @Json(name = "period_min") val period: Float?,
     @Json(name = "mean_motion") val meanMotion: Float?,
     @Json(name = "mean_anomaly") val meanAnomaly: Float?,

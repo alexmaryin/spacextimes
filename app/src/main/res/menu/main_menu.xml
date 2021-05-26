@@ -41,17 +41,10 @@
         android:title="@string/aiTranslateTitle" />
 
     <item
-        android:id="@+id/help_action"
-        android:enabled="false"
-        android:icon="@drawable/ic_outline_help_outline_24"
-        android:title="@string/description_of_the_page_text"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/filterAction"
         android:icon="@drawable/ic_filter"
         android:title="@string/filter_menu_item"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/syncAction"

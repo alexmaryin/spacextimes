@@ -92,7 +92,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
         apiRemote.getRocketById(requestById(id))
 
     override suspend fun getLaunches(): Response<ApiResponse<Launch>> =
-        apiRemote.getLaunches(ApiRequest(options = populateLaunches))
+        apiRemote.getLaunches(ApiRequest(options = populateLaunchDetails))
 
     override suspend fun getLaunchById(id: String): Response<ApiResponse<Launch>> =
         apiRemote.getLaunchById(requestById(id, populateLaunchDetails))

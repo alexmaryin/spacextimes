@@ -6,17 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.model.Payload
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.data.model.enums.PayloadType
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.LinksItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
-import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.data.model.Dragon
-import ru.alexmaryin.spacextimes_rx.data.model.enums.PayloadType
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
@@ -89,7 +90,7 @@ class PayloadDetailViewModel @Inject constructor(
                 apoapsis?.let { add(OneLineItem2(left = res.getString(R.string.apoapsis_caption), right = res.getString(R.string.distance_string, it))) }
                 periapsis?.let { add(OneLineItem2(left = res.getString(R.string.periapsis_caption), right = res.getString(R.string.distance_string, it))) }
                 period?.let { add(OneLineItem2(left = res.getString(R.string.period_caption), right = it.toDouble().prettifyMinutesPeriod(res))) }
-                lifeSpan?.let { add(OneLineItem2(left = res.getString(R.string.life_span_caption), right = res.resources.getQuantityString(R.plurals.years_count, it, it))) }
+                lifeSpan?.let { add(OneLineItem2(left = res.getString(R.string.life_span_caption), right = res.resources.getQuantityString(R.plurals.years_count, it.toInt(), it.toInt()))) }
 
                 if (isOrbitDataPresent) {
                     add(RecyclerHeader(text = res.getString(R.string.orbit_elements_caption)))

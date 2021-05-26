@@ -28,7 +28,7 @@ data class PayloadWithoutDragon(
     val apoapsis: Float?,
     val inclination: Float?,
     val pericenterArg: Float?,
-    val lifeSpan: Int?,
+    val lifeSpan: Float?,
     val period: Float?,
     val meanMotion: Float?,
     val meanAnomaly: Float?,

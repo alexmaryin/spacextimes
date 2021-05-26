@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c6d6d0dc4ee5756fe5c8f668a4ad6c85",
+    "identityHash": "d401b194a0c632ce1f05e4ec17e398ea",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -1427,7 +1427,7 @@
       },
       {
         "tableName": "payloads_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`payloadId` TEXT NOT NULL, `name` TEXT, `type` TEXT, `reused` INTEGER NOT NULL, `customers` TEXT NOT NULL, `nationalities` TEXT NOT NULL, `manufacturers` TEXT NOT NULL, `orbit` TEXT, `regime` TEXT, `longitude` REAL, `eccentricity` REAL, `epoch` INTEGER, `payloadDragonId` TEXT, `semiAxis` REAL, `rightAscension` REAL, `periapsis` REAL, `apoapsis` REAL, `inclination` REAL, `pericenterArg` REAL, `lifeSpan` INTEGER, `period` REAL, `meanMotion` REAL, `meanAnomaly` REAL, `massInKg` REAL, `massInLbs` REAL, `referenceSystem` TEXT, `norads` TEXT NOT NULL, PRIMARY KEY(`payloadId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`payloadId` TEXT NOT NULL, `name` TEXT, `type` TEXT, `reused` INTEGER NOT NULL, `customers` TEXT NOT NULL, `nationalities` TEXT NOT NULL, `manufacturers` TEXT NOT NULL, `orbit` TEXT, `regime` TEXT, `longitude` REAL, `eccentricity` REAL, `epoch` INTEGER, `payloadDragonId` TEXT, `semiAxis` REAL, `rightAscension` REAL, `periapsis` REAL, `apoapsis` REAL, `inclination` REAL, `pericenterArg` REAL, `lifeSpan` REAL, `period` REAL, `meanMotion` REAL, `meanAnomaly` REAL, `massInKg` REAL, `massInLbs` REAL, `referenceSystem` TEXT, `norads` TEXT NOT NULL, PRIMARY KEY(`payloadId`))",
         "fields": [
           {
             "fieldPath": "payloadId",
@@ -1546,7 +1546,7 @@
           {
             "fieldPath": "lifeSpan",
             "columnName": "lifeSpan",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": false
           },
           {
@@ -1679,7 +1679,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c6d6d0dc4ee5756fe5c8f668a4ad6c85')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd401b194a0c632ce1f05e4ec17e398ea')"
     ]
   }
 }
