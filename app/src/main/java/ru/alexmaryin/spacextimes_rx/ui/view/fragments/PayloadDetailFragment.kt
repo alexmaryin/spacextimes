@@ -46,8 +46,10 @@ class PayloadDetailFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
 
+        payloadViewModel.loadPayload()
+
         lifecycleScope.launch {
-            payloadViewModel.getState()
+            payloadViewModel.getDetails()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect { state ->
                     when (state) {

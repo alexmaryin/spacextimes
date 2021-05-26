@@ -11,5 +11,8 @@ class Settings @Inject constructor() {
     var armedSynchronize: Boolean = false
     var lastSync: Map<String, Long> = emptyMap()
 
-    fun needSyncFor(cls: String) = armedSynchronize || System.currentTimeMillis() - (lastSync[cls] ?: 0) > SYNC_INTERVAL
+    fun needSyncFor(cls: String) : Boolean {
+        val q = System.currentTimeMillis() - (lastSync[cls] ?: 0) > SYNC_INTERVAL
+        return armedSynchronize || q
+    }
 }

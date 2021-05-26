@@ -87,19 +87,17 @@ class CrewDetailFragment : Fragment() {
         activity?.title = crew.name
         binding.crew = crew
         binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
-        if (crew.launches.isNotEmpty()) {
-            val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
-                when(itemType) {
-                    ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))
-                    ItemTypes.LINKS -> {
-                        Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
-                        binding.crewDetails.openLink(id)
-                    }
+        val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
+            when (itemType) {
+                ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))
+                ItemTypes.LINKS -> {
+                    Toast.makeText(requireContext(), getString(R.string.open_link_announce), Toast.LENGTH_SHORT).show()
+                    binding.crewDetails.openLink(id)
                 }
-            }, viewHoldersManager)
-            missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
-            binding.crewDetails.adapter = missionsAdapter
-        }
+            }
+        }, viewHoldersManager)
+        missionsAdapter.submitList(crewViewModel.composeDetails(requireContext(), crew))
+        binding.crewDetails.adapter = missionsAdapter
     }
 
     override fun onDestroyView() {

@@ -42,7 +42,7 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
     }
 
     suspend fun insertLaunchWithDetails(launch: Launch) {
-        insertLaunches(listOf(launch.toRoom().launch))
+        insertLaunches(listOf(launch.toRoom(setRefresh = true).launch))
         with(launch) {
             rocket?.let { insertRockets(listOf(it.toRoom())) }
             launchPad?.let { insertLaunchPads(listOf(it.toRoom())) }

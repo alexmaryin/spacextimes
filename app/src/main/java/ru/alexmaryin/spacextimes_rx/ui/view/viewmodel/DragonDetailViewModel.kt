@@ -34,7 +34,7 @@ class DragonDetailViewModel @Inject constructor(
     fun loadDragon() = viewModelScope.launch {
         repository.getDragonById(state.get("dragonId") ?: "")
             .localizeWiki<Dragon>(state.get("locale") ?: "en")
-            .collect { result -> dragonState.value = result }
+            .collect { result -> dragonState.emit(result) }
     }
 
     fun composeDetails(res: Context, dragon: Dragon) = mutableListOf<HasStringId>().apply {

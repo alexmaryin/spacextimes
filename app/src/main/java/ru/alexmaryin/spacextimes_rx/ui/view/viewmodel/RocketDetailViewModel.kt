@@ -38,7 +38,7 @@ class RocketDetailViewModel @Inject constructor(
     fun loadRocket() = viewModelScope.launch {
         repository.getRocketById(state.get("rocketId") ?: "")
             .localizeWiki<Rocket>(state.get("locale") ?: "en")
-            .collect { result -> rocketState.value = result }
+            .collect { result -> rocketState.emit(result) }
     }
 
     fun composeDetails(res: Context, rocket: Rocket) = mutableListOf<HasStringId>().apply {

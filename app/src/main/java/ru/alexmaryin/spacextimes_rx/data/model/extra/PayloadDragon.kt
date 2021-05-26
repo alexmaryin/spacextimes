@@ -15,7 +15,9 @@ data class PayloadDragon(
     @Json(name = "water_landing") val waterLanding: Boolean? = null,
     @Json(name = "land_landing") val groundLanding: Boolean? = null,
 ) {
-    fun isNotEmpty(): Boolean = this != PayloadDragon()
+    fun isNotEmpty() = this != PayloadDragon()
+
+    fun isEmpty() = this == PayloadDragon()
 
     fun toRoom(payloadId: String) = PayloadDragonWithoutCapsule(payloadId, capsule?.id, manifest, returnedMassInKg, returnedMassInLbs,
         flightTime, waterLanding, groundLanding)

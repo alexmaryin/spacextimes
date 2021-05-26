@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ae7046f8d4a26d739233832b950929dd",
+    "identityHash": "c6d6d0dc4ee5756fe5c8f668a4ad6c85",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -370,13 +370,19 @@
       },
       {
         "tableName": "launches_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchId` TEXT NOT NULL, `name` TEXT NOT NULL, `rocketId` TEXT, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER NOT NULL, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `launchPadId` TEXT, `failures` TEXT NOT NULL, `reused` INTEGER, `recovered` INTEGER, `recoveryAttempt` INTEGER, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `youtubeId` TEXT, `smallPatch` TEXT, `largePatch` TEXT, `campaign` TEXT, `launch` TEXT, `media` TEXT, `recovery` TEXT, `small` TEXT NOT NULL, `original` TEXT NOT NULL, PRIMARY KEY(`launchId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchId` TEXT NOT NULL, `refreshTime` INTEGER, `name` TEXT NOT NULL, `rocketId` TEXT, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER NOT NULL, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `launchPadId` TEXT, `failures` TEXT NOT NULL, `reused` INTEGER, `recovered` INTEGER, `recoveryAttempt` INTEGER, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `youtubeId` TEXT, `smallPatch` TEXT, `largePatch` TEXT, `campaign` TEXT, `launch` TEXT, `media` TEXT, `recovery` TEXT, `small` TEXT NOT NULL, `original` TEXT NOT NULL, PRIMARY KEY(`launchId`))",
         "fields": [
           {
             "fieldPath": "launchId",
             "columnName": "launchId",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "refreshTime",
+            "columnName": "refreshTime",
+            "affinity": "INTEGER",
+            "notNull": false
           },
           {
             "fieldPath": "name",
@@ -1673,7 +1679,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae7046f8d4a26d739233832b950929dd')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c6d6d0dc4ee5756fe5c8f668a4ad6c85')"
     ]
   }
 }

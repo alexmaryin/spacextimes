@@ -32,14 +32,15 @@ class SpacexDataRepository @Inject constructor(
     ) = flow {
         emit(Loading)
         localApiCallback().run {
+            val n = settings.needSyncFor(T::class.simpleName!!)
             if (settings.needSyncFor(T::class.simpleName!!) || isEmpty()) {
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback().apply {
                         if (isSuccessful) body()?.docs?.apply {
-                            emit(Success(this))
-                            saveApiCallback(this)
-                            settings.lastSync = mapOf(T::class.simpleName!! to System.currentTimeMillis())
                             settings.armedSynchronize = false
+                            settings.lastSync = mapOf(T::class.simpleName!! to System.currentTimeMillis())
+                            saveApiCallback(this)
+                            emit(Success(this))
                         }
                         else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                     }
@@ -73,9 +74,9 @@ class SpacexDataRepository @Inject constructor(
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback(id).apply {
                         if (isSuccessful) body()?.docs?.apply {
-                            emit(Success(first()))
-                            saveApiCallback(first())
                             settings.armedSynchronize = false
+                            saveApiCallback(first())
+                            emit(Success(first()))
                         }
                         else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                     }
