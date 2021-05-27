@@ -32,50 +32,6 @@
             android:visibility="gone"
             app:layout_insetEdge="top"
             tools:visibility="visible">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/successChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Successfully")}'
-                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Successfully")}'
-                android:text="@string/success_filter" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/failedChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Failed")}'
-                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Failed")}'
-                android:text="@string/failed_filter" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/pastChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Past")}'
-                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Past")}'
-                android:text="@string/past_filter" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/upcomingChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:checked='@{spaceXViewModel.currentScreen.filter.isFilterOn("Upcoming")}'
-                android:onClick='@{()-> spaceXViewModel.toggleLaunchFilter("Upcoming")}'
-                android:text="@string/upcoming_filter" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/nextChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="false"
-                android:onClick="@{()-> spaceXViewModel.scrollNextLaunch()}"
-                android:text="@string/next_launch_chip" />
         </com.google.android.material.chip.ChipGroup>
 
         <include

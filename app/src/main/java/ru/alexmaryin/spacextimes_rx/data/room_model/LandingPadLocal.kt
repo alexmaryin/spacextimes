@@ -18,8 +18,8 @@ data class LandingPadLocal(
     val status: PadStatus?,
     val wikipedia: String?,
     val details: String?,
-    val landingAttempts: Int = 0,
-    val landingSuccesses: Int = 0,
+    val landingAttempts: Int,
+    val landingSuccesses: Int,
     val fullName: String?,
 ) {
     fun toResponse() = LandingPad(landingPadId, name, type, locality, region, latitude, longitude, status, emptyList(),

@@ -41,14 +41,14 @@
         android:title="@string/aiTranslateTitle" />
 
     <item
-        android:id="@+id/filterAction"
-        android:icon="@drawable/ic_filter"
-        android:title="@string/filter_menu_item"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/syncAction"
         android:icon="@drawable/ic_outline_autorenew_24"
         android:title="@string/sync_menu_item"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/filterAction"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/filter_menu_item"
+        app:showAsAction="ifRoom" />
 </menu>
