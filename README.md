@@ -14,7 +14,7 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 - [x] Rockets list, rocket details
 - [x] Launch pads list with google-map location, pad details
 - [x] Landing pads list with google-map location, pad details
-- [x] Launches list, launches details
+- [x] Launches list, launches details, filtering and fast search next launch
 - [x] Payloads details with satellite data
 - [x] Company milestone events 
 - [x] Navigation between elements
@@ -30,9 +30,9 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 * Auto-translation for english descriptions and remarks by [FastTranslator](https://fasttranslator.herokuapp.com/)
 * Wiki-pages interlanguage auto-selecting with [Jsoup](https://jsoup.org/)
 * Cache for translations on Room (sqlite)
-* Cache for network responses and pictures download by okHttp and Picasso
-* Memory-cache for fetched data in application life
+* Cache for fetched data on Room (sqlite) with sheduling for sync
 * Downloading full-format photo of launch, vehicle or crew member to device
+* Performance, speed of data fetching improved (max of 10..65 ms for response on my own device)
 
 **English**
 
