@@ -56,7 +56,7 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun saveRockets(rockets: List<Rocket>) = spaceXDao.insertRockets(rockets.map { it.toRoom() })
 
-    override suspend fun getLaunches(): List<Launch> = spaceXDao.selectAllLaunches().map { it.toResponse() }
+    override suspend fun getLaunches(): List<Launch> = spaceXDao.selectLaunchesForList().map { it.toResponse() }
 
     override suspend fun getLaunchById(id: String): Launch? = spaceXDao.selectLaunch(id)?.toResponse { coreId ->
         spaceXDao.selectCoreFlight(coreId)?.toResponse()

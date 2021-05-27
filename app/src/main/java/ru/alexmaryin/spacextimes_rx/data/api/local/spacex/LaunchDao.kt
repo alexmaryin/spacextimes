@@ -5,6 +5,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocalShort
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutDetails
 
 interface LaunchDao {
@@ -12,7 +13,7 @@ interface LaunchDao {
     suspend fun insertLaunches(launches: List<LaunchWithoutDetails>)
 
     @Transaction @Query("select * from launches_table order by upcoming desc, flightNumber desc, name")
-    suspend fun selectAllLaunches(): List<LaunchLocal>
+    suspend fun selectLaunchesForList(): List<LaunchLocalShort>
 
     @Transaction @Query("select * from launches_table where launchId=:id")
     suspend fun selectLaunch(id: String): LaunchLocal?
