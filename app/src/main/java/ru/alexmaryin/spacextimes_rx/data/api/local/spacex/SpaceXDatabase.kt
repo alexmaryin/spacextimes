@@ -13,7 +13,7 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
         CoreWithoutLaunches::class,
         CrewWithoutLaunches::class,
         LandingPadLocal::class,
-        LaunchPadLocal::class,
+        LaunchPadWithoutLaunches::class,
         LaunchWithoutDetails::class,
         LaunchesToCapsules::class,
         LaunchesToCores::class,

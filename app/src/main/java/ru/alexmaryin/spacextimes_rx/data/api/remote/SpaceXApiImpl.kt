@@ -33,7 +33,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
             PopulatedObject(path = "cores", populate = PopulatedObject(path = "core", select = "-launches")),
             PopulatedObject(path = "payloads", populate = dragonWithCapsule)
         ),
-        sort = "field  -upcoming -date_local -name",
+        sort = "field  -upcoming -flight_number name",
         pagination = false
     )
 

@@ -64,7 +64,7 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun saveLaunches(launches: List<Launch>) = spaceXDao.insertLaunchesWithDetails(launches)
 
-    override suspend fun saveLaunchDetails(launch: Launch) = spaceXDao.insertLaunchWithDetails(launch)
+    override suspend fun saveLaunchDetails(launch: Launch) = spaceXDao.insertLaunchesWithDetails(listOf(launch))
 
     override suspend fun getPayloadById(id: String): Payload? = spaceXDao.selectPayload(id)?.toResponse()
 

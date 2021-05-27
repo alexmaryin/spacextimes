@@ -18,7 +18,7 @@ data class LaunchLocal(
     @Relation(
         parentColumn = "launchPadId",
         entityColumn = "launchPadId"
-    ) val launchPad: LaunchPadLocal?,
+    ) val launchPad: LaunchPadWithoutLaunches?,
     @Relation(
         parentColumn = "launchId",
         entityColumn = "crewId",

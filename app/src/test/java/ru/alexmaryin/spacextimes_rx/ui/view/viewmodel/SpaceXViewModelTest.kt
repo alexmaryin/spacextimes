@@ -123,17 +123,17 @@ class SpaceXViewModelTest {
 //        assertTrue(repository.getNextLaunch(list) == 1)
 //    }
 
-    @Test
-    fun `scroll next launch should emit error if upcoming is turned off`() = testCoroutineScope.runBlockingTest {
-        val flow = flow { emit(Success(emptyList<Launch>())) }.stateIn(this)
-        `when`(repository.getLaunches()).thenReturn(flow)
-        viewModel.changeScreen(Launches)
-        viewModel.toggleLaunchFilter("Upcoming")
-        viewModel.getScrollTrigger().test {
-            viewModel.scrollNextLaunch()
-            assertFalse(expectItem())
-        }
-    }
+//    @Test
+//    fun `scroll next launch should emit error if upcoming is turned off`() = testCoroutineScope.runBlockingTest {
+//        val flow = flow { emit(Success(emptyList<Launch>())) }.stateIn(this)
+//        `when`(repository.getLaunches()).thenReturn(flow)
+//        viewModel.changeScreen(Launches)
+//        viewModel.toggleLaunchFilter("Upcoming")
+//        viewModel.getScrollTrigger().test {
+//            viewModel.scrollNextLaunch()
+//            assertFalse(expectItem())
+//        }
+//    }
 
 //    // mock objects
 //

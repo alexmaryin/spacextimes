@@ -11,7 +11,7 @@ interface LaunchDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLaunches(launches: List<LaunchWithoutDetails>)
 
-    @Transaction @Query("select * from launches_table")
+    @Transaction @Query("select * from launches_table order by upcoming desc, flightNumber desc, name")
     suspend fun selectAllLaunches(): List<LaunchLocal>
 
     @Transaction @Query("select * from launches_table where launchId=:id")

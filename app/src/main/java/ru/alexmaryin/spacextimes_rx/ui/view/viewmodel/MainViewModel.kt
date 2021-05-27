@@ -24,6 +24,10 @@ class SpaceXViewModel @Inject constructor(
     var currentScreen: MainScreen = Launches
     private var needRefresh = true
 
+    val getFilterIfAvailable get() = if( currentScreen.filter != EmptyFilter) currentScreen.filter else null
+
+    val isFilterAvailable get() = currentScreen.filter != EmptyFilter
+
     private val state = MutableSharedFlow<Result>(1)
     fun getState() = state.asSharedFlow()
 
@@ -47,11 +51,6 @@ class SpaceXViewModel @Inject constructor(
         changeScreen(currentScreen)
     }
 
-    fun toggleLaunchFilter(filter: String) {
-        currentScreen.filter.toggleLaunchFilter(filter)
-        armRefresh()
-    }
-
     fun startSynchronization() {
         settings.armedSynchronize = true
         armRefresh()
@@ -60,6 +59,6 @@ class SpaceXViewModel @Inject constructor(
     fun getNextLaunchPosition(launches: List<Launch>) = repository.getNextLaunch(launches).nullIfNegative()
 
     fun scrollNextLaunch() = viewModelScope.launch {
-        scrollTrigger.emit("Upcoming" in currentScreen.filter.filters)
+        scrollTrigger.emit(currentScreen.filter.isFilterOn("Upcoming"))
     }
 }

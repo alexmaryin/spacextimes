@@ -12,14 +12,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
-import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
-import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.*
@@ -81,7 +80,7 @@ class MainFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
-        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.currentScreen == Launches
+        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.isFilterAvailable
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -134,13 +133,13 @@ class MainFragment : Fragment() {
                     activity?.title = getString(R.string.loadingText)
                 }
                 is Success<*> -> {
-                    renderItems(
-                        state.toListOf()!!,
-                        spaceXViewModel.currentScreen.titleRes,
-                        spaceXViewModel.currentScreen.setClickListener(findNavController())
-                    )
+                    activity?.title = getString(spaceXViewModel.currentScreen.titleRes)
+                    binding.recyclerView.adapter = BaseListAdapter(
+                        spaceXViewModel.currentScreen.setClickListener(findNavController()),
+                        viewHoldersManager).apply { submitList(state.toListOf()!!) }
                     binding.shimmerLayout.shimmer replaceBy binding.recyclerView
                     binding.shimmerLayout.shimmer.stopShimmer()
+                    populateFilterGroup()
                 }
                 is Error -> {
                     binding.shimmerLayout.shimmer.stopShimmer()
@@ -170,12 +169,23 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun <T : HasStringId> renderItems(
-        items: List<T>,
-        titleResource: Int,
-        clickListener: AdapterClickListenerById
-    ) {
-        activity?.title = getString(titleResource)
-        binding.recyclerView.adapter = BaseListAdapter(clickListener, viewHoldersManager).apply { submitList(items) }
+    private fun populateFilterGroup() {
+        spaceXViewModel.getFilterIfAvailable?.let { filter ->
+            binding.filterGroup.removeAllViews()
+            filter.filters.forEach { chipFilter ->
+                binding.filterGroup.addView(Chip(requireContext()).apply {
+                    text = getString(chipFilter.resId)
+                    isCheckable = chipFilter.isCheckable
+                    isChecked = chipFilter.checked
+                    setOnClickListener {
+                        if (isCheckable) {
+                           toggle()
+                           chipFilter.toggle()
+                        }
+                        chipFilter.onClick(spaceXViewModel)
+                    }
+                })
+            }
+        }
     }
 }

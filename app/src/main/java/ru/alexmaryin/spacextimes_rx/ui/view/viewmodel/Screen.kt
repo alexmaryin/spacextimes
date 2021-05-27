@@ -89,7 +89,7 @@ object Launches : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getLaunches().translateDetails().filterLaunchesWith(filter.filters) }
+        translator.run { repository.getLaunches().translateDetails().filterLaunchesWith(filter.names) }
 }
 
 object LaunchPads : MainScreen() {
