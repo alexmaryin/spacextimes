@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+//    id "com.google.protobuf" version "0.8.12"
 }
 
 android {
@@ -65,6 +66,22 @@ android {
         unitTests.returnDefaultValues = true
     }
     ndkVersion '21.0.6113669'
+
+//    protobuf {
+//        protoc {
+//            artifact = "com.google.protobuf:protoc:3.10.0"
+//        }
+//
+//        generateProtoTasks {
+//            all().each { task ->
+//                task.builtins {
+//                    java {
+//                        option 'lite'
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
 
 dependencies {
@@ -143,4 +160,8 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+    //DataStore
+    implementation "androidx.datastore:datastore:1.0.0-beta01"
+    implementation  "com.google.protobuf:protobuf-javalite:3.10.0"
 }
