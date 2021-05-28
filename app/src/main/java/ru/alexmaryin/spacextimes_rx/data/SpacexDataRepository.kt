@@ -19,7 +19,6 @@ import ru.alexmaryin.spacextimes_rx.utils.*
 import java.net.SocketTimeoutException
 import java.util.*
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 
 class SpacexDataRepository @Inject constructor(
     private val remoteApi: SpaceXApi,
@@ -33,31 +32,30 @@ class SpacexDataRepository @Inject constructor(
         noinline localApiCallback: suspend () -> List<T> = { emptyList() },
         noinline saveApiCallback: suspend (List<T>) -> Unit = {},
     ) = flow {
+        var remoteFailed = true
         emit(Loading)
-        val t = measureTimeMillis {
-            localApiCallback().run {
-                if (settings.needSyncFor(T::class.simpleName!!) || isEmpty()) {
-                    if (networkHelper.isNetworkConnected()) {
-                        apiCallback().apply {
-                            if (isSuccessful) body()?.docs?.apply {
-                                settings.armedSynchronize = false
-                                settings.lastSync = mapOf(T::class.simpleName!! to System.currentTimeMillis())
-                                saveApiCallback(this)
-                                emit(Success(this))
-                                Log.d("REPOSITORY", "Fetched from internet list of ${T::class.simpleName} total count $size")
-                            }
-                            else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
+        localApiCallback().run {
+            if (settings.needSyncFor(T::class.simpleName!!) || isEmpty()) {
+                if (networkHelper.isNetworkConnected()) {
+                    apiCallback().apply {
+                        if (isSuccessful) body()?.docs?.apply {
+                            settings.armedSynchronize = false
+                            settings.lastSync = mapOf(T::class.simpleName!! to System.currentTimeMillis())
+                            saveApiCallback(this)
+                            emit(Success(this))
+                            remoteFailed = false
+                            Log.d("REPOSITORY", "Fetched from internet list of ${T::class.simpleName} total count $size")
                         }
-                    } else {
-                        emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
+                        else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                     }
                 } else {
-                    emit(Success(this))
-                    Log.d("REPOSITORY", "Fetched from Room local base list of ${T::class.simpleName} total count $size")
+                    emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
                 }
             }
+
+            if (remoteFailed)
+                emit(if (isNotEmpty()) Success(this) else Error("No local saved data", ErrorType.NO_SAVED_DATA))
         }
-        Log.d("REPOSITORY", "It takes $t ms")
     }
         .flowOn(Dispatchers.IO)
         .catch { e ->
@@ -74,8 +72,8 @@ class SpacexDataRepository @Inject constructor(
         noinline localApiCallback: suspend (String) -> T? = { null },
         noinline saveApiCallback: suspend (T) -> Unit = {}
     ) = flow {
+        var remoteFailed = true
         emit(Loading)
-
         localApiCallback(id).run {
             if (this == null || settings.armedSynchronize) {
                 if (networkHelper.isNetworkConnected()) {
@@ -84,17 +82,16 @@ class SpacexDataRepository @Inject constructor(
                             settings.armedSynchronize = false
                             saveApiCallback(first())
                             emit(Success(first()))
+                            remoteFailed = false
                             Log.d("REPOSITORY", "Fetched from internet ${T::class.simpleName} with id:${first().id}")
                         }
                         else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                     }
-                } else {
-                    emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
-                }
-            } else {
-                emit(Success(this))
-                Log.d("REPOSITORY", "Fetched from Room local base ${T::class.simpleName} with id:$id")
+                } else  emit(Error("No internet connection!", ErrorType.NO_INTERNET_CONNECTION))
             }
+
+            if (remoteFailed)
+                emit(if (this != null) Success(this) else Error("No local saved data", ErrorType.NO_SAVED_DATA))
         }
     }
         .flowOn(Dispatchers.IO)

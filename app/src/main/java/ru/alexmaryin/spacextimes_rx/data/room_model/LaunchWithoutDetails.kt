@@ -13,7 +13,6 @@ import java.util.*
 @Entity(tableName = "launches_table")
 data class LaunchWithoutDetails(
     @PrimaryKey val launchId: String,
-    val refreshTime: Long?,
     val name: String,
     val rocketId: String?,
     val window: Int?,
@@ -35,7 +34,7 @@ data class LaunchWithoutDetails(
     val launchPadId: String?,
     val failures: List<Failure>,
 ) {
-    fun toResponse() = Launch(launchId, refreshTime, name, window, null, success, upcoming, details, fairings, links, autoUpdate, flightNumber,
+    fun toResponse() = Launch(launchId, name, window, null, success, upcoming, details, fairings, links, autoUpdate, flightNumber,
         dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix, toBeDetermined, notEarlyThan, null,
         failures)
 }

@@ -24,7 +24,6 @@ import java.util.*
 @JsonClass(generateAdapter = true)
 data class Launch(
     override val id: String,
-    @Transient val refreshTime: Long? = null,
     val name: String,
     val window: Int?,
     var rocket: Rocket?,
@@ -63,13 +62,13 @@ data class Launch(
         DatePrecision.YEAR_HALF -> halfYearString(context, dateLocal)
         DatePrecision.YEAR_QUARTER -> quarterYearString(context, dateLocal)
         DatePrecision.YEAR -> SimpleDateFormat("yyyy", context.currentLocale()).format(dateLocal)
-        DatePrecision.MONTH -> SimpleDateFormat("MMM yyyy", context.currentLocale()).format(dateLocal)
+        DatePrecision.MONTH -> SimpleDateFormat("LLLL yyyy", context.currentLocale()).format(dateLocal)
         DatePrecision.DAY -> DateFormat.getDateInstance(DateFormat.LONG).format(dateLocal)
         DatePrecision.HOUR -> DateFormat.getDateTimeInstance(DateFormat.LONG, TimeFormat.CLOCK_24H).format(dateLocal)
     }
 
-    fun toRoom(setRefresh: Boolean = false) = LaunchLocal(
-        launch = LaunchWithoutDetails(id, if (setRefresh) System.currentTimeMillis() else null, name, rocket?.id, window, success, upcoming, details, fairings, links,
+    fun toRoom() = LaunchLocal(
+        launch = LaunchWithoutDetails(id, name, rocket?.id, window, success, upcoming, details, fairings, links,
             autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
             toBeDetermined, notEarlyThan, launchPad?.id, failures),
         rocket = rocket?.toRoom(),

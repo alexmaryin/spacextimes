@@ -17,7 +17,7 @@ data class ApiQuery(
 @JsonClass(generateAdapter = true)
 data class ApiOptions(
     var select: String? = null,
-    val sort: String? = null,
+    var sort: String? = null,
     val offset: Int? = null,
     val page: Int? = null,
     val limit: Int? = null,

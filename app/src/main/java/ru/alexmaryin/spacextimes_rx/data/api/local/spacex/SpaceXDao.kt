@@ -58,7 +58,7 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
                 payloads.forEach { insertLaunchesToPayloads(LaunchesToPayloads(id, it.id)) }
                 insertPayloads(payloads.map { it.toRoom().payload })
             }
-            launch.toRoom(setRefresh = true).launch
+            launch.toRoom().launch
         })
     }
 }

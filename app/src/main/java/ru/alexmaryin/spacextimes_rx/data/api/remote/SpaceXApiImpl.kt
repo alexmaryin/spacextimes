@@ -33,7 +33,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
             PopulatedObject(path = "cores", populate = PopulatedObject(path = "core", select = "-launches")),
             PopulatedObject(path = "payloads", populate = dragonWithCapsule)
         ),
-        sort = "field  -upcoming -flight_number name",
+        sort = "field -upcoming -flight_number name",
         pagination = false
     )
 
@@ -48,7 +48,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
         apiRemote.getCapsuleById(requestById(id, populateNestedLaunches))
 
     override suspend fun getCores(): Response<ApiResponse<Core>> =
-        apiRemote.getCores(ApiRequest(options = populateNestedLaunches))
+        apiRemote.getCores(ApiRequest(options = populateNestedLaunches.apply { sort = "field -block -serial" }))
 
     override suspend fun getCoreById(id: String): Response<ApiResponse<Core>> =
         apiRemote.getCoreById(requestById(id, populateNestedLaunches))
