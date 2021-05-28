@@ -5,9 +5,14 @@ import kotlinx.coroutines.flow.Flow
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
+import ru.alexmaryin.spacextimes_rx.data.api.filters.filterCoresWith
 import ru.alexmaryin.spacextimes_rx.data.api.filters.filterLaunchesWith
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.emptyClickListener
+import ru.alexmaryin.spacextimes_rx.ui.view.filters.CoreFilter
+import ru.alexmaryin.spacextimes_rx.ui.view.filters.EmptyFilter
+import ru.alexmaryin.spacextimes_rx.ui.view.filters.LaunchFilter
+import ru.alexmaryin.spacextimes_rx.ui.view.filters.ListFilter
 import ru.alexmaryin.spacextimes_rx.ui.view.fragments.MainFragmentDirections
 import ru.alexmaryin.spacextimes_rx.utils.Result
 
@@ -34,13 +39,14 @@ object Capsules : MainScreen() {
 object Cores : MainScreen() {
     override val name = "Cores"
     override val titleRes = R.string.coresTitle
+    override val filter = CoreFilter
 
     override fun setClickListener(navController: NavController) = AdapterClickListenerById { id, _ ->
         navController.navigate(MainFragmentDirections.actionShowCoreDetails(id))
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getCores().translateLastUpdate() }
+        translator.run { repository.getCores().translateLastUpdate().filterCoresWith(filter.names) }
 }
 
 object Crew : MainScreen() {

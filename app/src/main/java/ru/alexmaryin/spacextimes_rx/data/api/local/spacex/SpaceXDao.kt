@@ -13,49 +13,56 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
 
     suspend fun insertCapsuleWithLaunches(capsule: Capsule) {
         insertCapsule(capsule.toRoom())
-        if (capsule.launches.isNotEmpty()) {
-            insertLaunches(capsule.launches.map {
-                insertLaunchesToCapsule(LaunchesToCapsules(it.id, capsule.id))
-                it.toRoom().launch
-            })
-        }
+        insertLaunchesToCapsule(capsule.launches.map { LaunchesToCapsules(it.id, capsule.id) })
+    }
+
+    suspend fun insertCapsuleWithLaunches(capsules: List<Capsule>) {
+        insertCapsules(capsules.map { capsule ->
+            insertLaunchesToCapsule(capsule.launches.map { LaunchesToCapsules(it.id, capsule.id) })
+            capsule.toRoom()
+        })
     }
 
     suspend fun insertCoreWithLaunches(core: Core) {
         insertCore(core.toRoom())
-        if (core.launches.isNotEmpty()) {
-            insertLaunches(core.launches.map {
-                insertLaunchesToCore(LaunchesToCores(it.id, core.id))
-                it.toRoom().launch
-            })
-        }
+        insertLaunchesToCore(core.launches.map { LaunchesToCores(it.id, core.id) })
     }
 
-    suspend fun insertCrewWithLaunches(crew: Crew) {
-        insertMember(crew.toRoom())
-        if (crew.launches.isNotEmpty()) {
-            insertLaunches(crew.launches.map {
-                insertLaunchesToCrew(LaunchesToCrew(it.id, crew.id))
-                it.toRoom().launch
-            })
-        }
+    suspend fun insertCoresWithLaunches(cores: List<Core>) {
+        insertCores(cores.map { core ->
+            insertLaunchesToCore(core.launches.map { LaunchesToCores(it.id, core.id) })
+            core.toRoom()
+        })
+    }
+
+    suspend fun insertCrewWithLaunches(member: Crew) {
+        insertMember(member.toRoom())
+        insertLaunchesToCrew(member.launches.map { LaunchesToCrew(it.id, member.id) })
+    }
+
+    suspend fun insertCrewWithLaunches(crew: List<Crew>) {
+        insertCrew(crew.map { member ->
+            insertLaunchesToCrew(member.launches.map { LaunchesToCrew(it.id, member.id) })
+            member.toRoom()
+        })
     }
 
     private suspend fun insertLaunchDetails(launch: Launch) {
         with(launch) {
             rocket?.let { insertRocket(it.toRoom()) }
             launchPad?.let { insertLaunchPad(it.toRoom()) }
-            crew.forEach { insertLaunchesToCrew(LaunchesToCrew(id, it.id)) }
             insertCrew(crew.map { it.toRoom() })
-            capsules.forEach { insertLaunchesToCapsule(LaunchesToCapsules(id, it.id)) }
             insertCapsules(capsules.map { it.toRoom() })
-            insertCores(cores.mapNotNull { coreFlight ->
-                if (coreFlight.isNotEmpty) insertLaunchesToCoreFlight(LaunchesToCoreFlights(id, coreFlight.core!!.id))
-                coreFlight.core?.toRoom()
-            })
             insertCoreFlights(cores.mapNotNull { it.toRoom()?.coreFlight })
-            payloads.forEach { insertLaunchesToPayloads(LaunchesToPayloads(id, it.id)) }
             insertPayloads(payloads.map { it.toRoom().payload })
+            insertLaunchesToCrew(crew.map { LaunchesToCrew(id, it.id) })
+            insertLaunchesToCapsule(capsules.map { LaunchesToCapsules(id, it.id) })
+            insertLaunchesToPayloads(payloads.map { LaunchesToPayloads(id, it.id) })
+            cores.mapNotNull { it.core }.apply {
+                insertCores(map { it.toRoom() })
+                insertLaunchesToCore(map { LaunchesToCores(id, it.id) })
+                insertLaunchesToCoreFlight(map { LaunchesToCoreFlights(id, it.id) })
+            }
         }
     }
 

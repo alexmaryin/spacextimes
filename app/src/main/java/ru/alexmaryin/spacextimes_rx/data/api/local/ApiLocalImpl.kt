@@ -10,7 +10,7 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun getCapsules(): List<Capsule> = spaceXDao.selectAllCapsules().map { it.toResponse() }
 
-    override suspend fun saveCapsules(capsules: List<Capsule>) = spaceXDao.insertCapsules(capsules.map { it.toRoom() })
+    override suspend fun saveCapsules(capsules: List<Capsule>) = spaceXDao.insertCapsuleWithLaunches(capsules)
 
     override suspend fun saveCapsuleDetails(capsule: Capsule) = spaceXDao.insertCapsuleWithLaunches(capsule)
 
@@ -20,7 +20,7 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun getCoreById(id: String): Core? = spaceXDao.selectCore(id)?.toResponse()
 
-    override suspend fun saveCores(cores: List<Core>) = spaceXDao.insertCores(cores.map { it.toRoom() })
+    override suspend fun saveCores(cores: List<Core>) = spaceXDao.insertCoresWithLaunches(cores)
 
     override suspend fun saveCoreDetails(core: Core) = spaceXDao.insertCoreWithLaunches(core)
 
@@ -28,9 +28,9 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun getCrewById(id: String): Crew? = spaceXDao.selectCrewMember(id)?.toResponse()
 
-    override suspend fun saveCrew(crew: List<Crew>) = spaceXDao.insertCrew(crew.map { it.toRoom() })
+    override suspend fun saveCrew(crew: List<Crew>) = spaceXDao.insertCrewWithLaunches(crew)
 
-    override suspend fun saveCrewDetails(crew: Crew) = spaceXDao.insertCrewWithLaunches(crew)
+    override suspend fun saveCrewDetails(member: Crew) = spaceXDao.insertCrewWithLaunches(member)
 
     override suspend fun getDragons(): List<Dragon> = spaceXDao.selectAllDragons().map { it.toResponse() }
 

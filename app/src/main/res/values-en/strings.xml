@@ -147,11 +147,6 @@
     <string name="links_string">Links for media:</string>
     <string name="open_link_announce">Link shall be open in browser</string>
     <string name="next_flight_announce">Next launch - %1$s (remaining %2$s)</string>
-    <string name="success_filter">Successfully</string>
-    <string name="failed_filter">Failed</string>
-    <string name="past_filter">Past</string>
-    <string name="upcoming_filter">Upcoming</string>
-    <string name="next_launch_chip">Next launch</string>
     <string name="filtered_launches_toast">Filtered %1$d of %2$d launches</string>
     <string name="dragon_boilerplate_text">Dragon boilerplate</string>
     <string name="dragon_1_0_text">Dragon cargo</string>
@@ -169,6 +164,19 @@
     <string name="on_ground_landing">on ground</string>
     <string name="payload_capsule_landing_caption">Returned</string>
     <string name="orbit_details_caption">Orbit regime</string>
+
+    <!--    filters for launches list-->
+    <string name="success_filter">Successfully</string>
+    <string name="failed_filter">Failed</string>
+    <string name="past_filter">Past</string>
+    <string name="upcoming_filter">Upcoming</string>
+    <string name="next_launch_chip">Next launch</string>
+
+    <!--    filters for cores list-->
+    <string name="no_flights_vehicle_filter">Not flying</string>
+    <string name="flying_vehicle_filter">Flying</string>
+    <string name="active_vehicle_filter">Active</string>
+    <string name="inactive_vehicle_filter">Not active</string>
 
     <!--    customer string-->
     <plurals name="payload_customer_string">

@@ -11,6 +11,7 @@ import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.di.Settings
+import ru.alexmaryin.spacextimes_rx.ui.view.filters.EmptyFilter
 import ru.alexmaryin.spacextimes_rx.utils.*
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class SpaceXViewModel @Inject constructor(
     var currentScreen: MainScreen = Launches
     private var needRefresh = true
 
-    val getFilterIfAvailable get() = if( currentScreen.filter != EmptyFilter) currentScreen.filter else null
+    val getFilterIfAvailable get() = if (isFilterAvailable) currentScreen.filter else null
 
     val isFilterAvailable get() = currentScreen.filter != EmptyFilter
 

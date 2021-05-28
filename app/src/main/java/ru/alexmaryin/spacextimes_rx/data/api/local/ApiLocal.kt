@@ -17,7 +17,7 @@ interface ApiLocal {
     suspend fun getCrew(): List<Crew>
     suspend fun saveCrew(crew: List<Crew>)
     suspend fun getCrewById(id: String): Crew?
-    suspend fun saveCrewDetails(crew: Crew)
+    suspend fun saveCrewDetails(member: Crew)
 
     suspend fun getDragons(): List<Dragon>
     suspend fun saveDragons(dragons: List<Dragon>)

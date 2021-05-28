@@ -1,4 +1,6 @@
-package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
+package ru.alexmaryin.spacextimes_rx.ui.view.filters
+
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 
 data class FilterChip(
     val name: String,
