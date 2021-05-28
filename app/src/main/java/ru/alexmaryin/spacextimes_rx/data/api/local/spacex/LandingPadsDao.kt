@@ -15,7 +15,4 @@ interface LandingPadsDao {
 
     @Transaction @Query("select * from landing_pads_table where landingPadId=:id")
     suspend fun selectLandingPad(id: String): LandingPadLocal?
-
-    @Transaction @Query("delete from landing_pads_table")
-    suspend fun clearLandingPads()
 }

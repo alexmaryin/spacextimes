@@ -12,12 +12,12 @@ interface LaunchDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLaunches(launches: List<LaunchWithoutDetails>)
 
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLaunch(launch: LaunchWithoutDetails)
+
     @Transaction @Query("select * from launches_table order by upcoming desc, flightNumber desc, name")
     suspend fun selectLaunchesForList(): List<LaunchLocalShort>
 
     @Transaction @Query("select * from launches_table where launchId=:id")
     suspend fun selectLaunch(id: String): LaunchLocal?
-
-    @Transaction @Query("delete from launches_table")
-    suspend fun clearLaunches()
 }

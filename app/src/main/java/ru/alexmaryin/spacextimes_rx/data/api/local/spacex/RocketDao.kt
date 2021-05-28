@@ -10,12 +10,12 @@ interface RocketDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRockets(rockets: List<RocketLocal>)
 
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRocket(rocket: RocketLocal)
+
     @Transaction @Query("select * from rockets_table")
     suspend fun selectAllRockets(): List<RocketLocal>
 
     @Transaction @Query("select * from rockets_table where rocketId=:id")
     suspend fun selectRocket(id: String): RocketLocal?
-
-    @Transaction @Query("delete from rockets_table")
-    suspend fun clearRockets()
 }

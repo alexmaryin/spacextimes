@@ -11,12 +11,12 @@ interface CoresDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCores(cores: List<CoreWithoutLaunches>)
 
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCore(core: CoreWithoutLaunches)
+
     @Transaction @Query("select * from cores_table order by block desc, serial desc")
     suspend fun selectAllCores(): List<CoreLocal>
 
     @Transaction @Query("select * from cores_table where coreId=:id")
     suspend fun selectCore(id: String): CoreLocal?
-
-    @Transaction @Query("delete from cores_table")
-    suspend fun clearCores()
 }

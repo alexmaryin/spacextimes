@@ -8,14 +8,11 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.CoreFlightLocal
 import ru.alexmaryin.spacextimes_rx.data.room_model.CoreFlightWithoutDetails
 
 interface CoreFlightsDao {
+
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCoreFlights(coreFlights: List<CoreFlightWithoutDetails>)
 
     @Transaction
     @Query("select * from core_flights_table where coreFlightId=:id")
     suspend fun selectCoreFlight(id: String): CoreFlightLocal?
-
-    @Transaction
-    @Query("delete from core_flights_table")
-    suspend fun clearCoreFlights()
 }

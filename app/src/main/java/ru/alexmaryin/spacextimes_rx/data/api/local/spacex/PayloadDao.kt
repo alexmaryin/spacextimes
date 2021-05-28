@@ -11,12 +11,9 @@ interface PayloadDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPayloads(payloads: List<PayloadWithoutDragon>)
 
-    @Transaction @Query("select * from payloads_table")
-    suspend fun selectAllPayloads(): List<PayloadLocal>
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPayload(payload: PayloadWithoutDragon)
 
     @Transaction @Query("select * from payloads_table where payloadId=:id")
     suspend fun selectPayload(id: String): PayloadLocal?
-
-    @Transaction @Query("delete from payloads_table")
-    suspend fun clearPayloads()
 }

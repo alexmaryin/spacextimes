@@ -11,12 +11,12 @@ interface CrewDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCrew(crew: List<CrewWithoutLaunches>)
 
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMember(crew: CrewWithoutLaunches)
+
     @Transaction @Query("select * from crew_table")
     suspend fun selectAllCrew(): List<CrewLocal>
 
     @Transaction @Query("select * from crew_table where crewId=:id")
     suspend fun selectCrewMember(id: String): CrewLocal?
-
-    @Transaction @Query("delete from crew_table")
-    suspend fun clearCrew()
 }
