@@ -42,7 +42,7 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
     private fun requestById(id: String, options: ApiOptions = ApiOptions()) = ApiRequest(ApiQuery(id), options)
 
     override suspend fun getCapsules(): Response<ApiResponse<Capsule>> =
-        apiRemote.getCapsules(ApiRequest(options = populateNestedLaunches))
+        apiRemote.getCapsules(ApiRequest(options = populateNestedLaunches.apply { sort = "field -serial" }))
 
     override suspend fun getCapsuleById(id: String): Response<ApiResponse<Capsule>> =
         apiRemote.getCapsuleById(requestById(id, populateNestedLaunches))

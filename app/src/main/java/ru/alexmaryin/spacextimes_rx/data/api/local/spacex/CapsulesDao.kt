@@ -15,7 +15,7 @@ interface CapsulesDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCapsule(capsule: CapsuleWithoutLaunches)
 
-    @Transaction @Query("select * from capsules_table")
+    @Transaction @Query("select * from capsules_table order by serial desc")
     suspend fun selectAllCapsules(): List<CapsuleLocal>
 
     @Transaction @Query("select * from capsules_table where capsuleId=:id")
