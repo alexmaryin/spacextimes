@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.room_model.junctions
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 @Entity(
@@ -7,6 +8,6 @@ import androidx.room.Entity
     primaryKeys = ["launchId", "payloadId"],
 )
 data class LaunchesToPayloads(
-    val launchId: String,
-    val payloadId: String,
+    @ColumnInfo(index = true) val launchId: String,
+    @ColumnInfo(index = true) val payloadId: String,
 )

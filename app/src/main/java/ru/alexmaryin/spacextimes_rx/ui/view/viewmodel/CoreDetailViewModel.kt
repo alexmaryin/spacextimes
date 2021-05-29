@@ -14,7 +14,7 @@ import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
-import ru.alexmaryin.spacextimes_rx.di.Settings
+import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import javax.inject.Inject
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class CoreDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     private val repository: SpacexDataRepository,
-    private val settings: Settings,
+    private val settings: SettingsRepository,
 ) : ViewModel() {
 
     private val details = MutableStateFlow<Result>(Loading)
@@ -35,12 +35,14 @@ class CoreDetailViewModel @Inject constructor(
     }
 
     fun composeList(res: Context, core: Core) = mutableListOf<HasStringId>().apply {
-        add(RecyclerHeader(text = res.getString(R.string.missions_list_header)))
         with(core.launches) {
-            if (isEmpty() || core.totalFlights != size) {
-                settings.armedSynchronize = true
+            if (isEmpty() || core.totalFlights != size) viewModelScope.launch {
+                settings.armSynchronize = true
                 load()
-            } else addAll(this)
+            } else {
+                add(RecyclerHeader(text = res.getString(R.string.missions_list_header)))
+                addAll(this)
+            }
         }
     }
 }

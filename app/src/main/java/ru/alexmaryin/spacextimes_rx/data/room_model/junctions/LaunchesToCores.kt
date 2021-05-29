@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.room_model.junctions
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 @Entity(
@@ -7,6 +8,6 @@ import androidx.room.Entity
     primaryKeys = ["launchId", "coreId"],
 )
 data class LaunchesToCores(
-    val launchId: String,
-    val coreId: String,
+    @ColumnInfo(index = true) val launchId: String,
+    @ColumnInfo(index = true) val coreId: String,
 )

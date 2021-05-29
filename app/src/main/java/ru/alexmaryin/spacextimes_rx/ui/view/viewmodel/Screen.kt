@@ -3,11 +3,11 @@ package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.Flow
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.filters.filterCapsulesWith
 import ru.alexmaryin.spacextimes_rx.data.api.filters.filterCoresWith
 import ru.alexmaryin.spacextimes_rx.data.api.filters.filterLaunchesWith
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.emptyClickListener
 import ru.alexmaryin.spacextimes_rx.ui.view.filters.*

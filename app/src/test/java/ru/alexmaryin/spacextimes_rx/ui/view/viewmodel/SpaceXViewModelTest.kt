@@ -1,27 +1,29 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import app.cash.turbine.test
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.*
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
-import ru.alexmaryin.spacextimes_rx.di.Settings
-import ru.alexmaryin.spacextimes_rx.utils.*
-import java.util.*
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
+import ru.alexmaryin.spacextimes_rx.utils.Error
+import ru.alexmaryin.spacextimes_rx.utils.ErrorType
+import ru.alexmaryin.spacextimes_rx.utils.Loading
+import ru.alexmaryin.spacextimes_rx.utils.Result
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
@@ -36,7 +38,6 @@ class SpaceXViewModelTest {
     private lateinit var closable: AutoCloseable
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
     private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
-    private val settings = Settings()
 
     @Before
     fun setUp() {
@@ -48,7 +49,7 @@ class SpaceXViewModelTest {
             override fun Flow<Result>.translateDescription() = this
             override fun Flow<Result>.translateTitle() = this
         }
-        viewModel = SpaceXViewModel(repository, translator, settings)
+        viewModel = SpaceXViewModel(repository, translator)
     }
 
     @After

@@ -25,7 +25,7 @@ data class Core(
 ) : HasStringId, HasLastUpdate {
 
     val totalFlights: Int get() = when {
-        launches.isNotEmpty() -> launches.size
+        launches.isNotEmpty() -> launches.filterNot { it.upcoming }.size
         reuseCount > 0 -> reuseCount + 1
         else -> max(groundLandAttempts + waterLandAttempts, groundLandings + waterLandings)
     }

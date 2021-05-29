@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -9,16 +10,19 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
-import ru.alexmaryin.spacextimes_rx.di.Settings
+import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.*
@@ -33,8 +37,8 @@ class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
-    @Inject lateinit var settings: Settings
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject lateinit var settings: SettingsRepository
 
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {
@@ -62,7 +66,7 @@ class MainFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(this, backPressHandler)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressHandler)
         return binding.root
     }
 
@@ -79,9 +83,14 @@ class MainFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
-        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.isFilterAvailable
-        super.onPrepareOptionsMenu(menu)
+        lifecycleScope.launch {
+            settings.saved.collect {
+                    settings ->
+                menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
+                menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.isFilterAvailable
+                super.onPrepareOptionsMenu(menu)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -96,7 +105,12 @@ class MainFragment : Fragment() {
             R.id.landingPadsSelect -> spaceXViewModel.changeScreen(LandingPads)
             R.id.historySelect -> spaceXViewModel.changeScreen(HistoryEvents)
             R.id.filterAction -> binding.filterGroup.swapVisibility()
-            R.id.syncAction -> spaceXViewModel.startSynchronization()
+
+            R.id.syncAction -> lifecycleScope.launch {
+                settings.armSynchronize = true
+                spaceXViewModel.armRefresh()
+            }
+
             R.id.translateSwitch -> {
                 if (item.isChecked) {
                     item.isChecked = false
@@ -118,8 +132,10 @@ class MainFragment : Fragment() {
     }
 
     private fun processTranslate(switch: Boolean) {
-        settings.translateToRu = switch
-        spaceXViewModel.armRefresh()
+        lifecycleScope.launch {
+            settings.translateToRu(switch)
+            spaceXViewModel.armRefresh()
+        }
     }
 
     private fun collectState() {
@@ -147,6 +163,7 @@ class MainFragment : Fragment() {
                         processTranslate(false)
                     Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
                     activity?.title = getString(R.string.error_title)
+                    Log.d("ERROR_FETCH", state.msg)
                 }
             }
         }
