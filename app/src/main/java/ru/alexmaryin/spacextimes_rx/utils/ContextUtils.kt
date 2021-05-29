@@ -4,19 +4,16 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import android.util.TypedValue
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.drawToBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
+import ru.alexmaryin.spacextimes_rx.ProtoSettings
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.di.SettingsSerializer
 import java.util.*
@@ -60,8 +57,3 @@ fun Context.currentLocaleLang(): String = if (Build.VERSION.SDK_INT >= Build.VER
 @Suppress("DEPRECATION")
 fun Context.currentLocale(): Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
     resources.configuration.locales[0] else resources.configuration.locale
-
-val Context.settingsDataStore: DataStore<ProtoSettings> by dataStore(
-    fileName = "settings.pb",
-    serializer = SettingsSerializer
-)

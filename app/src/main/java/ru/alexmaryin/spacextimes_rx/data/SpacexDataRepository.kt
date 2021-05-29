@@ -2,10 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApi
@@ -14,7 +11,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
-import ru.alexmaryin.spacextimes_rx.di.Settings
+import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.net.SocketTimeoutException
 import java.util.*
@@ -24,26 +21,27 @@ class SpacexDataRepository @Inject constructor(
     private val remoteApi: SpaceXApi,
     private val localApi: ApiLocal,
     private val networkHelper: NetworkHelper,
-    private val settings: Settings,
+    private val settings: SettingsRepository,
 ) {
 
     private inline fun <reified T> fetchItems(
         noinline apiCallback: suspend () -> Response<ApiResponse<T>>,
         noinline localApiCallback: suspend () -> List<T> = { emptyList() },
         noinline saveApiCallback: suspend (List<T>) -> Unit = {},
-    ) = flow {
+    ) = settings.checkNeedSync(T::class.simpleName!!).take(1).transform { needSync ->
+        Log.d("REPOSITORY", "Requesting for ${T::class.simpleName!!} at ${Calendar.getInstance().time}")
         var remoteFailed = true
         emit(Loading)
         localApiCallback().run {
-            if (settings.needSyncFor(T::class.simpleName!!) || isEmpty()) {
+            if (needSync || isEmpty()) {
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback().apply {
                         if (isSuccessful) body()?.docs?.apply {
-                            settings.armedSynchronize = false
-                            settings.lastSync = mapOf(T::class.simpleName!! to System.currentTimeMillis())
-                            saveApiCallback(this)
-                            emit(Success(this))
+                            settings.saveLastSync(T::class.simpleName!!)
+                            settings.armSynchronize = false
                             remoteFailed = false
+                            emit(Success(this))
+                            saveApiCallback(this)
                             Log.d("REPOSITORY", "Fetched from internet list of ${T::class.simpleName} total count $size")
                         }
                         else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
@@ -72,17 +70,18 @@ class SpacexDataRepository @Inject constructor(
         noinline localApiCallback: suspend (String) -> T? = { null },
         noinline saveApiCallback: suspend (T) -> Unit = {}
     ) = flow {
+        Log.d("REPOSITORY", "Requesting for ${T::class.simpleName!!} with id:$id at ${Calendar.getInstance().time}")
         var remoteFailed = true
         emit(Loading)
         localApiCallback(id).run {
-            if (this == null || settings.armedSynchronize) {
+            if (this == null || settings.armSynchronize) {
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback(id).apply {
                         if (isSuccessful) body()?.docs?.apply {
-                            settings.armedSynchronize = false
-                            saveApiCallback(first())
-                            emit(Success(first()))
+                            settings.armSynchronize = false
                             remoteFailed = false
+                            emit(Success(first()))
+                            saveApiCallback(first())
                             Log.d("REPOSITORY", "Fetched from internet ${T::class.simpleName} with id:${first().id}")
                         }
                         else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))

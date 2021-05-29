@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "43fa8fbb73137261f664e1f9b41462e0",
+    "identityHash": "78b9744cce600d9a8612f87a9e6ad141",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -622,7 +622,24 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_launches_to_capsules_table_launchId",
+            "unique": false,
+            "columnNames": [
+              "launchId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_capsules_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
+          },
+          {
+            "name": "index_launches_to_capsules_table_capsuleId",
+            "unique": false,
+            "columnNames": [
+              "capsuleId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_capsules_table_capsuleId` ON `${TABLE_NAME}` (`capsuleId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -649,7 +666,24 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_launches_to_cores_table_launchId",
+            "unique": false,
+            "columnNames": [
+              "launchId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_cores_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
+          },
+          {
+            "name": "index_launches_to_cores_table_coreId",
+            "unique": false,
+            "columnNames": [
+              "coreId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_cores_table_coreId` ON `${TABLE_NAME}` (`coreId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -676,7 +710,24 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_launches_to_crew_table_launchId",
+            "unique": false,
+            "columnNames": [
+              "launchId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_crew_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
+          },
+          {
+            "name": "index_launches_to_crew_table_crewId",
+            "unique": false,
+            "columnNames": [
+              "crewId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_crew_table_crewId` ON `${TABLE_NAME}` (`crewId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -703,7 +754,24 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_launches_to_payloads_table_launchId",
+            "unique": false,
+            "columnNames": [
+              "launchId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_payloads_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
+          },
+          {
+            "name": "index_launches_to_payloads_table_payloadId",
+            "unique": false,
+            "columnNames": [
+              "payloadId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_payloads_table_payloadId` ON `${TABLE_NAME}` (`payloadId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -730,7 +798,24 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_launches_to_core_flights_table_launchId",
+            "unique": false,
+            "columnNames": [
+              "launchId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_core_flights_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
+          },
+          {
+            "name": "index_launches_to_core_flights_table_coreFlightId",
+            "unique": false,
+            "columnNames": [
+              "coreFlightId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_launches_to_core_flights_table_coreFlightId` ON `${TABLE_NAME}` (`coreFlightId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -1673,7 +1758,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '43fa8fbb73137261f664e1f9b41462e0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '78b9744cce600d9a8612f87a9e6ad141')"
     ]
   }
 }

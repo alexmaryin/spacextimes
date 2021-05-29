@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.LaunchPad
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
@@ -17,8 +18,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
-import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.di.Settings
+import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class LaunchPadDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     val repository: SpacexDataRepository,
     private val translator: TranslatorApi,
-    private val settings: Settings,
+    private val settings: SettingsRepository,
 ) : ViewModel() {
 
     private val padState = MutableStateFlow<Result>(Loading)
@@ -44,8 +44,8 @@ class LaunchPadDetailViewModel @Inject constructor(
 
     fun composeDetails(res: Context, launchPad: LaunchPad) = mutableListOf<HasStringId>().apply {
 
-        if (launchPad.launches.isEmpty() && launchPad.launchAttempts + launchPad.launchSuccesses > 0) {
-            settings.armedSynchronize = true
+        if (launchPad.launches.isEmpty() && launchPad.launchAttempts + launchPad.launchSuccesses > 0) viewModelScope.launch {
+            settings.armSynchronize = true
             loadLaunchPad()
         } else {
             add(
