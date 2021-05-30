@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -46,6 +47,7 @@ class LandingPadDetailViewModel @Inject constructor(
     fun composeDetails(res: Context, landingPad: LandingPad) = mutableListOf<HasStringId>().apply {
 
         if (landingPad.launches.isEmpty() && landingPad.landingAttempts + landingPad.landingSuccesses > 0)  viewModelScope.launch {
+            Log.d("REPOSITORY", "Arm internet refresh for landing pads because ${landingPad.launches.size} != ${landingPad.landingAttempts}")
             settings.armSynchronize = true
             loadLandingPad()
         } else {

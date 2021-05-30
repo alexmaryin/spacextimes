@@ -168,7 +168,7 @@ class MainFragmentTest {
         KConditionWatchers.waitForElementFullyVisible(onView(withText(R.string.launchesTitle)), DEFAULT_TIMEOUT_LIMIT)
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.aiTranslateTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())
-        onView(withText(R.string.aiTranslateAlertText)).check(matches(isDisplayed()))
+        onView(withText(R.string.aiTranslateOnText)).check(matches(isDisplayed()))
         onView(withText(R.string.agreeText)).perform(click())
         openContextualActionModeOverflowMenu()
         KConditionWatchers.waitForElement(onView(withText(R.string.aiTranslateTitle)), DEFAULT_TIMEOUT_LIMIT).perform(click())

@@ -6,4 +6,5 @@ option java_multiple_files = true;
 message ProtoSettings {
   bool translate_to_ru = 1;
   map<string, int64> last_sync = 2;
+  int32 refresh_interval = 3;
 }

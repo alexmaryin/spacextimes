@@ -1,9 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
@@ -24,20 +22,22 @@ class TranslatorImpl @Inject constructor(
     private inline fun <reified T> Flow<Result>.doTranslate(
         from: KProperty1<T, String?>,
         to: KMutableProperty1<T, String?>,
-    ) = combine(settings.saved) { result, saved ->
+    ) = combine(settings.saved.take(1)) { result, saved ->
         if (result is Success<*> && saved.translateToRu) {
             result.toListOf<T>()?.let { items ->
                 withContext(Dispatchers.IO) {
                     translatorInternal.tryLoadLocalTranslate(coroutineContext, items, from, to)
                     translatorInternal.translate(coroutineContext, items, from, to)
+                    if (result.isSingleData<T>()) items.toSingleSuccess() else items.toSuccess()
                 }
-                if (result.isSingleData<T>()) items.toSingleSuccess() else items.toSuccess()
-            } ?: throw TypeCastException("List have not implement HasDetails interface")
+            }?: throw TypeCastException("List have not implement HasDetails interface")
         } else {
             result
         }
     }.catch { e ->
-        if (e is IOException) emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
+        if (e is IOException) {
+            emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
+        }
     }
 
     override fun Flow<Result>.translateDetails(): Flow<Result> = doTranslate(HasDetails::details, HasDetails::detailsRu)

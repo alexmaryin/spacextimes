@@ -5,18 +5,17 @@ import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.*
 import ru.alexmaryin.spacextimes_rx.ProtoSettings
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-const val SYNC_INTERVAL = 7200000   // 2 hour for sync interval
+const val HOUR_TO_MILLIS = 60 * 60 * 1000   // hours to milliseconds
 
 class SettingsRepository @Inject constructor(val settings: DataStore<ProtoSettings>) {
 
-    val saved get() = settings.data
+    val saved = settings.data
     var armSynchronize = false
 
     suspend fun translateToRu(value: Boolean) = settings.updateData {
@@ -27,11 +26,15 @@ class SettingsRepository @Inject constructor(val settings: DataStore<ProtoSettin
         it.toBuilder().putLastSync(cls, System.currentTimeMillis()).build()
     }
 
-    fun checkNeedSync(cls: String) = saved.transform {
+    suspend fun refreshInterval(hours: Int) = settings.updateData {
+        it.toBuilder().setRefreshInterval(hours * HOUR_TO_MILLIS).build()
+    }
+
+    fun checkNeedSync(cls: String) = saved.take(1).map { saved ->
         Log.d("REPOSITORY", "Triggered check need sync for $cls")
-        emit(it.lastSyncMap[cls]?.run {
-            System.currentTimeMillis() - this > SYNC_INTERVAL
-        } ?: false || armSynchronize)
+        saved.lastSyncMap[cls]?.run {
+            System.currentTimeMillis() - this > saved.refreshInterval
+        } ?: false || armSynchronize
     }
 }
 

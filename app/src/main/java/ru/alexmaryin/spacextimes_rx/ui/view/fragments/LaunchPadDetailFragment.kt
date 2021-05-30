@@ -40,7 +40,7 @@ class LaunchPadDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_detail, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())

@@ -15,13 +15,19 @@
     <string name="filter_menu_item" translatable="false">filter</string>
     <string name="sync_menu_item" translatable="false">synchronize</string>
     <string name="loadingText">загрузка…</string>
-    <string name="aiTranslateOffText">Машинный перевод отключен</string>
+
+
+<!--    Preferences screen-->
+    <string name="preferencesTitle">Настройки</string>
     <string name="experimentalTitle">Экспериментально!</string>
-    <string name="aiTranslateAlertText" translatable="false">Включение машинного перевода позволит перевести английский текст в описании, но не обязательно будет на 100% корректный!
-        Аббревиатуры и прочие технические словечки могут быть переведены с ошибками.\n
-        Перевод осуществляется сервисом https://fasttranslator.herokuapp.com\n
-        У сервиса имеется ограничение на бесплатный перевод по количеству запросов и их размеру в час с одного ip.
-    </string>
+    <string name="aiTranslateOffText">Машинный перевод отключен. Включение машинного перевода позволит перевести английский текст в описании, но не обязательно будет на 100% корректный! Аббревиатуры и прочие технические словечки могут быть переведены с ошибками.</string>
+    <string name="aiTranslateOnText" translatable="false">Перевод осуществляется сервисом https://fasttranslator.herokuapp.com\nУ сервиса имеется ограничение на бесплатный перевод по количеству запросов и их размеру в час с одного ip.</string>
+    <string name="synchronizeTitle">Синхронизация</string>
+    <string name="refreshIntervalTitle">Частота синхронизации</string>
+    <string name="refreshSummary">Определяет в часах интервал, по истечении которого данные будут обновляться из сети при очередном отображении.</string>
+
+
+
     <string name="agreeText">Да</string>
     <string name="cancelText">Отмена</string>
     <string name="unknownText">неизвестно</string>

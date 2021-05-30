@@ -1,23 +1,18 @@
 package ru.alexmaryin.spacextimes_rx.di
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import ru.alexmaryin.spacextimes_rx.ProtoSettings
+import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocal
+import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocalImpl
 import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApi
 import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApiImpl
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorImpl
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorInternalApi
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorInternalApiImpl
-import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocal
-import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocalImpl
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManagerImpl
@@ -62,16 +57,5 @@ class ActivityModule {
         registerViewHolder(ItemTypes.PAYLOAD, PayloadViewHolder())
         registerViewHolder(ItemTypes.CAROUSEL, CarouselViewHolder())
     }
-
-    @Provides
-    @ActivityRetainedScoped
-    fun provideSettingsRepository(@ApplicationContext context: Context) = SettingsRepository(
-        context.dataStore
-    )
-
-    private val Context.dataStore: DataStore<ProtoSettings> by dataStore(
-        fileName = "settings.proto",
-        serializer = SettingsSerializer
-    )
 }
 

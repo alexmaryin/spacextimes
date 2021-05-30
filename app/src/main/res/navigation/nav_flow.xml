@@ -72,6 +72,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/mainFragment"/>
+        <action
+            android:id="@+id/action_showPreferences"
+            app:destination="@id/preferencesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/crewDetailFragment"
@@ -242,4 +250,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/payloadDetailFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="ru.alexmaryin.spacextimes_rx.ui.view.fragments.PreferencesFragment"/>
 </navigation>

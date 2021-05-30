@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/experimentalTitle">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="translate_to_ru"
+            android:summaryOff="@string/aiTranslateOffText"
+            android:summaryOn="@string/aiTranslateOnText"
+            android:title="@string/aiTranslateTitle" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/synchronizeTitle">
+
+        <SeekBarPreference
+            android:defaultValue="2"
+            android:key="refresh_interval"
+            android:title="@string/refreshIntervalTitle"
+            android:summary="@string/refreshSummary"
+            android:max="24"
+            app:min="0"
+            app:seekBarIncrement="1"
+            app:showSeekBarValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>
