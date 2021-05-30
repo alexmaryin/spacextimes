@@ -34,8 +34,10 @@ class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
-    @Inject lateinit var viewHoldersManager: ViewHoldersManager
-    @Inject lateinit var settings: SettingsRepository
+    @Inject
+    lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject
+    lateinit var settings: SettingsRepository
 
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {
@@ -64,6 +66,16 @@ class MainFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressHandler)
+
+        findNavController().currentBackStackEntry?.let {
+            it.savedStateHandle.getLiveData<Boolean>("preferences_changed").observe(viewLifecycleOwner) { isChanged ->
+                if (isChanged) {
+                    spaceXViewModel.armRefresh()
+                    it.savedStateHandle.remove<Boolean>("preferences_changed")
+                }
+            }
+        }
+
         return binding.root
     }
 
@@ -123,7 +135,8 @@ class MainFragment : Fragment() {
                     activity?.title = getString(spaceXViewModel.currentScreen.titleRes)
                     binding.recyclerView.adapter = BaseListAdapter(
                         spaceXViewModel.currentScreen.setClickListener(findNavController()),
-                        viewHoldersManager).apply { submitList(state.toListOf()!!) }
+                        viewHoldersManager
+                    ).apply { submitList(state.toListOf()!!) }
                     binding.shimmerLayout.shimmer replaceBy binding.recyclerView
                     binding.shimmerLayout.shimmer.stopShimmer()
                     populateFilterGroup()
@@ -169,8 +182,8 @@ class MainFragment : Fragment() {
                     isChecked = chipFilter.checked
                     setOnClickListener {
                         if (isCheckable) {
-                           toggle()
-                           chipFilter.toggle()
+                            toggle()
+                            chipFilter.toggle()
                         }
                         chipFilter.onClick(spaceXViewModel)
                     }

@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreferenceCompat
@@ -30,6 +31,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 isChecked = it.translateToRu
                 setOnPreferenceChangeListener { _, value ->
                     lifecycleScope.launch { settings.translateToRu(value as Boolean) }
+                    findNavController().previousBackStackEntry?.let {
+                        it.savedStateHandle["preferences_changed"] = true
+                    }
                     true
                 }
             }
@@ -38,6 +42,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 value = it.refreshInterval / HOUR_TO_MILLIS
                 setOnPreferenceChangeListener { _, value ->
                     lifecycleScope.launch { settings.refreshInterval(value as Int) }
+                    findNavController().previousBackStackEntry?.let {
+                        it.savedStateHandle["preferences_changed"] = true
+                    }
                     true
                 }
             }
