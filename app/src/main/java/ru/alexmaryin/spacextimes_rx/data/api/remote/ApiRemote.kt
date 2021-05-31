@@ -1,14 +1,11 @@
 package ru.alexmaryin.spacextimes_rx.data.api.remote
 
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.*
-import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorUrls
+import retrofit2.http.Body
+import retrofit2.http.POST
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiRequest
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
-import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 
 interface ApiRemote {
 
@@ -65,8 +62,4 @@ interface ApiRemote {
 
     @POST(SpacexUrls.HistoryQuery)
     suspend fun getHistoryEvents(@Body body: ApiRequest): Response<ApiResponse<History>>
-
-    @Multipart
-    @POST(TranslatorUrls.FileToText)
-    suspend fun translate(@Part("lang") lang: RequestBody, @Part file: MultipartBody.Part): Response<PlainTextResponse>
 }
