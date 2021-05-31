@@ -7,7 +7,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreferenceCompat
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.di.HOUR_TO_MILLIS
@@ -25,7 +24,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         requireActivity().title = getString(R.string.preferencesTitle)
 
-        settings.saved.take(1).collectOnFragment(this) {
+        settings.saved.collectOnFragment(this) {
 
             findPreference<SwitchPreferenceCompat>("translate_to_ru")?.apply {
                 isChecked = it.translateToRu

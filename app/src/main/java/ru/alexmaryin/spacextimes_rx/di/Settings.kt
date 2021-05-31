@@ -15,7 +15,7 @@ const val HOUR_TO_MILLIS = 60 * 60 * 1000   // hours to milliseconds
 
 class SettingsRepository @Inject constructor(val settings: DataStore<ProtoSettings>) {
 
-    val saved = settings.data
+    val saved = settings.data.take(1)
     var armSynchronize = false
 
     suspend fun translateToRu(value: Boolean) = settings.updateData {

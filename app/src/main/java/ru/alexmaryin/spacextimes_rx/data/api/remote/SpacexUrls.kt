@@ -2,7 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data.api.remote
 
 class SpacexUrls {
     companion object {
-        const val Base = "https://api.spacexdata.com/v4/"
+        const val BaseUrl = "https://api.spacexdata.com/v4/"
         const val CapsuleQuery = "capsules/query/"
         const val CoreQuery = "cores/query/"
         const val CrewQuery = "crew/query/"

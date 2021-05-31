@@ -10,6 +10,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
 
 interface ApiFastTranslator {
     @Multipart
-    @POST
+    @POST(TranslatorUrls.FileToText)
     suspend fun translate(@Part("lang") lang: RequestBody, @Part file: MultipartBody.Part): Response<PlainTextResponse>
 }

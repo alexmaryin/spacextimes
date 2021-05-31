@@ -3,8 +3,10 @@ package ru.alexmaryin.spacextimes_rx.data.api.translator
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -33,25 +35,26 @@ class TranslatorImpl @Inject constructor(
 ) : TranslatorApi {
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun translateByFile(source: List<String>) =
-        withContext(Dispatchers.IO) {
-            val file = File.createTempFile("translate${source.hashCode()}", ".txt", appContext.cacheDir).apply {
-                writeText(source.joinToString("\n"))
-            }
-            val response = apiRemote.translate(
-                "en-ru".toRequestBody("application/json".toMediaTypeOrNull()),
-                MultipartBody.Part.createFormData("file", file.path, file.asRequestBody("text/plain".toMediaTypeOrNull()))
-            )
-            file.delete()
-            if (response.isSuccessful) source.zip(response.body()?.data!!.split("\n"))
-            else throw IOException(response.message())
+    private suspend fun List<String>.translateByFile() = run {
+        val file = File.createTempFile("translate${hashCode()}", ".txt", appContext.cacheDir).apply {
+            writeText(joinToString("\n"))
         }
+        val response = apiRemote.translate(
+            "en-ru".toRequestBody("application/json".toMediaTypeOrNull()),
+            MultipartBody.Part.createFormData("file", file.path, file.asRequestBody("text/plain".toMediaTypeOrNull()))
+        )
+        file.delete()
+        if (response.isSuccessful) zip(response.body()?.data!!.split("\n"))
+        else throw IOException(response.message())
+    }
 
     private suspend fun <T> List<T>.tryLoadCachedTranslate(
         from: KProperty1<T, String?>,
         to: KMutableProperty1<T, String?>
     ) = map { item ->
-        from.get(item)?.let { origin -> to.set(item, translationsDao.findString(origin)?.translation) }
+        from.get(item)?.let { origin ->
+            to.set(item, translationsDao.findString(origin)?.translation)
+        }
         item
     }
 
@@ -62,8 +65,9 @@ class TranslatorImpl @Inject constructor(
         filter { to.get(it) == null }
             .mapNotNull { from.get(it) }
             .toChunkedList()
+            .filterNot { it.isEmpty() }
             .forEach { part ->
-                translateByFile(part).forEach { (origin, translated) ->
+                part.translateByFile().forEach { (origin, translated) ->
                     to.set(find { from.get(it) == origin }!!, translated)
                     translationsDao.insert(TranslateItem(origin = origin, translation = translated, insertDate = Date()))
                 }
@@ -73,10 +77,12 @@ class TranslatorImpl @Inject constructor(
     private inline fun <reified T> Flow<Result>.doTranslate(
         from: KProperty1<T, String?>,
         to: KMutableProperty1<T, String?>,
-    ) = combine(settings.saved.take(1)) { result, saved ->
+    ) = combine(settings.saved) { result, saved ->
         if (result is Success<*> && saved.translateToRu) {
             result.toListOf<T>()?.let { items ->
-                items.tryLoadCachedTranslate(from, to).tryRemoteTranslate(from, to)
+                items
+                    .tryLoadCachedTranslate(from, to)
+                    .tryRemoteTranslate(from, to)
                 if (result.isSingleData<T>()) items.toSingleSuccess() else items.toSuccess()
             } ?: throw TypeCastException("This list has not implement interface ${T::class.simpleName}")
         } else {

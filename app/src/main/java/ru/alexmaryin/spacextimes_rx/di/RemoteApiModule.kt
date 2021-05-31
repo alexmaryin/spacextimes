@@ -60,7 +60,7 @@ class RemoteApiModule {
     fun provideBaseRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(SpacexUrls.Base)
+            .baseUrl(SpacexUrls.BaseUrl)
             .client(okHttpClient)
             .build()
 
@@ -70,7 +70,7 @@ class RemoteApiModule {
     fun provideTranslatorRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(TranslatorUrls.FileToText)
+            .baseUrl(TranslatorUrls.BaseUrl)
             .client(okHttpClient)
             .build()
 
