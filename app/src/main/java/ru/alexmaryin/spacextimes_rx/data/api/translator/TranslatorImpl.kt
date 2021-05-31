@@ -1,25 +1,78 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flowOn
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDao
+import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateItem
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasTitle
 import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
 import ru.alexmaryin.spacextimes_rx.utils.*
+import java.io.File
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 
+@ExperimentalStdlibApi
 class TranslatorImpl @Inject constructor(
     private val settings: SettingsRepository,
-    private val translatorInternal: TranslatorInternalApi
+    private val translationsDao: TranslateDao,
+    private val apiRemote: ApiFastTranslator,
+    @ApplicationContext val appContext: Context,
 ) : TranslatorApi {
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    private suspend fun List<String>.translateByFile() = run {
+        val file = File.createTempFile("translate${hashCode()}", ".txt", appContext.cacheDir).apply {
+            writeText(joinToString("\n"))
+        }
+        val response = apiRemote.translate(
+            "en-ru".toRequestBody("application/json".toMediaTypeOrNull()),
+            MultipartBody.Part.createFormData("file", file.path, file.asRequestBody("text/plain".toMediaTypeOrNull()))
+        )
+        file.delete()
+        if (response.isSuccessful) zip(response.body()?.data!!.split("\n"))
+        else throw IOException(response.message())
+    }
+
+    private suspend fun <T> List<T>.tryLoadCachedTranslate(
+        from: KProperty1<T, String?>,
+        to: KMutableProperty1<T, String?>
+    ) = map { item ->
+        from.get(item)?.let { origin ->
+            to.set(item, translationsDao.findString(origin)?.translation)
+        }
+        item
+    }
+
+    private suspend fun <T> List<T>.tryRemoteTranslate(
+        from: KProperty1<T, String?>,
+        to: KMutableProperty1<T, String?>
+    ) = apply {
+        filter { to.get(it) == null }
+            .mapNotNull { from.get(it) }
+            .toChunkedList()
+            .filterNot { it.isEmpty() }
+            .forEach { part ->
+                part.translateByFile().forEach { (origin, translated) ->
+                    to.set(find { from.get(it) == origin }!!, translated)
+                    translationsDao.insert(TranslateItem(origin = origin, translation = translated, insertDate = Date()))
+                }
+            }
+    }
 
     private inline fun <reified T> Flow<Result>.doTranslate(
         from: KProperty1<T, String?>,
@@ -27,18 +80,21 @@ class TranslatorImpl @Inject constructor(
     ) = combine(settings.saved) { result, saved ->
         if (result is Success<*> && saved.translateToRu) {
             result.toListOf<T>()?.let { items ->
-                withContext(Dispatchers.IO) {
-                    translatorInternal.tryLoadLocalTranslate(coroutineContext, items, from, to)
-                    translatorInternal.translate(coroutineContext, items, from, to)
-                }
+                items
+                    .tryLoadCachedTranslate(from, to)
+                    .tryRemoteTranslate(from, to)
                 if (result.isSingleData<T>()) items.toSingleSuccess() else items.toSuccess()
-            } ?: throw TypeCastException("List have not implement HasDetails interface")
+            } ?: throw TypeCastException("This list has not implement interface ${T::class.simpleName}")
         } else {
             result
         }
-    }.catch { e ->
-        if (e is IOException) emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
     }
+        .flowOn(Dispatchers.IO)
+        .catch { e ->
+            if (e is IOException) {
+                emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
+            }
+        }
 
     override fun Flow<Result>.translateDetails(): Flow<Result> = doTranslate(HasDetails::details, HasDetails::detailsRu)
 

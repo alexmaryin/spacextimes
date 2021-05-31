@@ -8,7 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.alexmaryin.spacextimes_rx.data.api.local.RoomConverters
+import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXDao
 import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXDatabase
+import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDao
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDatabase
 import javax.inject.Singleton
 
@@ -30,7 +32,7 @@ class LocalApiModule {
 
     @Provides
     @Singleton
-    fun provideTranslationsDao(db: TranslateDatabase) = db.dao
+    fun provideTranslationsDao(db: TranslateDatabase): TranslateDao = db.dao
 
     @Provides
     @Singleton
@@ -46,5 +48,5 @@ class LocalApiModule {
 
     @Provides
     @Singleton
-    fun provideSpaceXDao(db: SpaceXDatabase) = db.dao
+    fun provideSpaceXDao(db: SpaceXDatabase): SpaceXDao = db.dao
 }

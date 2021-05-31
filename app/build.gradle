@@ -147,6 +147,7 @@ dependencies {
     //DataStore
     implementation "androidx.datastore:datastore:1.0.0-beta01"
     implementation  "com.google.protobuf:protobuf-javalite:3.11.0"
+    implementation "androidx.preference:preference-ktx:1.1.1"
 }
 
 protobuf {

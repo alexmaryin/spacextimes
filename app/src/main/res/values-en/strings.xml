@@ -272,4 +272,8 @@
     <string name="upcoming_launches_deselected_string">Upcoming launches are deselected</string>
     <string name="countdown_to_launch_string">Remains %s</string>
     <string name="press_back_finish_message">Press back again to finish</string>
+    <string name="synchronizeTitle">Synchronize</string>
+    <string name="preferencesTitle">Preferences</string>
+    <string name="refreshIntervalTitle">Refresh interval</string>
+    <string name="refreshSummary">Specifies the interval in hours after which the data will be updated from the network on the next showing invoked.</string>
 </resources>

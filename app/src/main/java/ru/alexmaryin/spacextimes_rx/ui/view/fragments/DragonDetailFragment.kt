@@ -42,7 +42,7 @@ class DragonDetailFragment : Fragment() {
     ): View {
         activity?.title = getString(R.string.loadingText)
         binding = DataBindingUtil.inflate(inflater, R.layout.dragon_detail_fragment, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.detailsList.apply {
             layoutManager = LinearLayoutManager(requireContext())

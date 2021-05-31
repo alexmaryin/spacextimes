@@ -1,12 +1,10 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
@@ -37,15 +34,17 @@ class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
-    @Inject lateinit var viewHoldersManager: ViewHoldersManager
-    @Inject lateinit var settings: SettingsRepository
+    @Inject
+    lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject
+    lateinit var settings: SettingsRepository
 
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (spaceXViewModel.currentScreen is Launches) {
                 if (backPressedTime + 2000 > System.currentTimeMillis()) {
-                    activity?.finish()
+                    activity?.finishAndRemoveTask()
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.press_back_finish_message), Toast.LENGTH_SHORT).show()
                     backPressedTime = System.currentTimeMillis()
@@ -60,13 +59,23 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressHandler)
+
+        findNavController().currentBackStackEntry?.let {
+            it.savedStateHandle.getLiveData<Boolean>("preferences_changed").observe(viewLifecycleOwner) { isChanged ->
+                if (isChanged) {
+                    spaceXViewModel.armRefresh()
+                    it.savedStateHandle.remove<Boolean>("preferences_changed")
+                }
+            }
+        }
+
         return binding.root
     }
 
@@ -83,14 +92,8 @@ class MainFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        lifecycleScope.launch {
-            settings.saved.collect {
-                    settings ->
-                menu.findItem(R.id.translateSwitch).isChecked = settings.translateToRu
-                menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.isFilterAvailable
-                super.onPrepareOptionsMenu(menu)
-            }
-        }
+        menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.isFilterAvailable
+        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -111,31 +114,11 @@ class MainFragment : Fragment() {
                 spaceXViewModel.armRefresh()
             }
 
-            R.id.translateSwitch -> {
-                if (item.isChecked) {
-                    item.isChecked = false
-                    Toast.makeText(this.context, getString(R.string.aiTranslateOffText), Toast.LENGTH_SHORT).show()
-                    processTranslate(false)
-                } else {
-                    AlertDialog.Builder(requireContext())
-                        .setTitle(getString(R.string.experimentalTitle))
-                        .setMessage(getString(R.string.aiTranslateAlertText))
-                        .setPositiveButton(getString(R.string.agreeText)) { _: DialogInterface, _: Int -> item.isChecked = true; processTranslate(true) }
-                        .setNegativeButton(getString(R.string.cancelText)) { _: DialogInterface, _: Int -> item.isChecked = false }
-                        .show()
-                }
-            }
+            R.id.preferences -> findNavController().navigate(MainFragmentDirections.actionShowPreferences())
         }
         activity?.invalidateOptionsMenu()
         if (item.itemId != R.id.filterAction) binding.filterGroup.visibility = View.GONE
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun processTranslate(switch: Boolean) {
-        lifecycleScope.launch {
-            settings.translateToRu(switch)
-            spaceXViewModel.armRefresh()
-        }
     }
 
     private fun collectState() {
@@ -152,18 +135,21 @@ class MainFragment : Fragment() {
                     activity?.title = getString(spaceXViewModel.currentScreen.titleRes)
                     binding.recyclerView.adapter = BaseListAdapter(
                         spaceXViewModel.currentScreen.setClickListener(findNavController()),
-                        viewHoldersManager).apply { submitList(state.toListOf()!!) }
+                        viewHoldersManager
+                    ).apply { submitList(state.toListOf()!!) }
                     binding.shimmerLayout.shimmer replaceBy binding.recyclerView
                     binding.shimmerLayout.shimmer.stopShimmer()
                     populateFilterGroup()
                 }
                 is Error -> {
                     binding.shimmerLayout.shimmer.stopShimmer()
-                    if (state.error == ErrorType.REMOTE_TRANSLATOR_ERROR)
-                        processTranslate(false)
                     Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
                     activity?.title = getString(R.string.error_title)
                     Log.d("ERROR_FETCH", state.msg)
+                    lifecycleScope.launch {
+                        settings.translateToRu(false)
+                        spaceXViewModel.armRefresh()
+                    }
                 }
             }
         }
@@ -196,8 +182,8 @@ class MainFragment : Fragment() {
                     isChecked = chipFilter.checked
                     setOnClickListener {
                         if (isCheckable) {
-                           toggle()
-                           chipFilter.toggle()
+                            toggle()
+                            chipFilter.toggle()
                         }
                         chipFilter.onClick(spaceXViewModel)
                     }

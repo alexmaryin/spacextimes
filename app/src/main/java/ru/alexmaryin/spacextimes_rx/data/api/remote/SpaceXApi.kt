@@ -3,8 +3,6 @@ package ru.alexmaryin.spacextimes_rx.data.api.remote
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
-import ru.alexmaryin.spacextimes_rx.data.model.api.PlainTextResponse
-import java.io.File
 
 interface SpaceXApi {
 
@@ -35,6 +33,4 @@ interface SpaceXApi {
     suspend fun getPayloadById(id: String): Response<ApiResponse<Payload>>
 
     suspend fun getHistoryEvents(): Response<ApiResponse<History>>
-
-    suspend fun translate(file: File): Response<PlainTextResponse>
 }

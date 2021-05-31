@@ -34,11 +34,10 @@
         android:id="@+id/landingPadsSelect"
         android:title="@string/landingPadsTitle" />
     <item
-        android:id="@+id/translateSwitch"
-        android:checkable="true"
-        android:checked="false"
+        android:id="@+id/preferences"
         android:enabled="true"
-        android:title="@string/aiTranslateTitle" />
+        android:icon="@drawable/ic_outline_settings_24"
+        android:title="@string/preferencesTitle" />
 
     <item
         android:id="@+id/syncAction"

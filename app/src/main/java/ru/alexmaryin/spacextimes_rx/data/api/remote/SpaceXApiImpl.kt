@@ -1,13 +1,8 @@
 package ru.alexmaryin.spacextimes_rx.data.api.remote
 
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import ru.alexmaryin.spacextimes_rx.data.model.api.*
-import java.io.File
 import javax.inject.Inject
 
 class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : SpaceXApi {
@@ -94,10 +89,4 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
 
     override suspend fun getHistoryEvents(): Response<ApiResponse<History>> =
         apiRemote.getHistoryEvents(ApiRequest(options = ApiOptions()))
-
-    override suspend fun translate(file: File): Response<PlainTextResponse> {
-        val lang = "en-ru".toRequestBody("application/json".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("file", file.path, file.asRequestBody("text/plain".toMediaTypeOrNull()))
-        return apiRemote.translate(lang, body)
-    }
 }

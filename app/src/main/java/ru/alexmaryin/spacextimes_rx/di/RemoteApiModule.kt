@@ -1,7 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.di
 
 import android.content.Context
-import androidx.room.Room
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -16,18 +15,25 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.alexmaryin.spacextimes_rx.BuildConfig
 import ru.alexmaryin.spacextimes_rx.data.api.remote.ApiRemote
 import ru.alexmaryin.spacextimes_rx.data.api.remote.SpacexUrls
-import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDatabase
+import ru.alexmaryin.spacextimes_rx.data.api.translator.ApiFastTranslator
+import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorUrls
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BaseUrl
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TranslatorUrl
 
 @Module
 @InstallIn(SingletonComponent::class)
 class RemoteApiModule {
 
     private val cacheSize = 10 * 1024 * 1024
-
-    @Provides
-    fun provideBaseUrl() = SpacexUrls.Base
 
     @Provides
     @Singleton
@@ -48,16 +54,31 @@ class RemoteApiModule {
         .add(DateJsonAdapter())
         .build()
 
+    @BaseUrl
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit =
+    fun provideBaseRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(baseUrl)
+            .baseUrl(SpacexUrls.BaseUrl)
+            .client(okHttpClient)
+            .build()
+
+    @TranslatorUrl
+    @Provides
+    @Singleton
+    fun provideTranslatorRetrofit(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .baseUrl(TranslatorUrls.BaseUrl)
             .client(okHttpClient)
             .build()
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiRemote = retrofit.create(ApiRemote::class.java)
+    fun provideApiService(@BaseUrl retrofit: Retrofit): ApiRemote = retrofit.create(ApiRemote::class.java)
+
+    @Provides
+    @Singleton
+    fun provideApiFastTranslator(@TranslatorUrl retrofit: Retrofit): ApiFastTranslator = retrofit.create(ApiFastTranslator::class.java)
 }
