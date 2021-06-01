@@ -34,10 +34,8 @@ class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
-    @Inject
-    lateinit var viewHoldersManager: ViewHoldersManager
-    @Inject
-    lateinit var settings: SettingsRepository
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject lateinit var settings: SettingsRepository
 
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {

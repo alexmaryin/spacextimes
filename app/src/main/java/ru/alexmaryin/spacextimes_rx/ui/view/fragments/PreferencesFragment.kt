@@ -17,8 +17,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PreferencesFragment : PreferenceFragmentCompat() {
 
-    @Inject
-    lateinit var settings: SettingsRepository
+    @Inject lateinit var settings: SettingsRepository
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)

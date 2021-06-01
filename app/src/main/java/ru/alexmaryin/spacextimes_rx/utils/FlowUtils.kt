@@ -13,7 +13,7 @@ fun <T> Flow<T>.collectOnFragment(
     block: (T) -> Unit
 ) {
     fragment.lifecycleScope.launch {
-        this@collectOnFragment.flowWithLifecycle(fragment.lifecycle, state)
+        flowWithLifecycle(fragment.lifecycle, state)
             .collect {
                 block(it)
             }

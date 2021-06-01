@@ -15,7 +15,7 @@ const val HOUR_TO_MILLIS = 60 * 60 * 1000   // hours to milliseconds
 
 class SettingsRepository @Inject constructor(val settings: DataStore<ProtoSettings>) {
 
-    val saved = settings.data.take(1)
+    val saved get() = settings.data.take(1)
     var armSynchronize = false
 
     suspend fun translateToRu(value: Boolean) = settings.updateData {
@@ -30,7 +30,7 @@ class SettingsRepository @Inject constructor(val settings: DataStore<ProtoSettin
         it.toBuilder().setRefreshInterval(hours * HOUR_TO_MILLIS).build()
     }
 
-    fun checkNeedSync(cls: String) = saved.take(1).map { saved ->
+    fun checkNeedSync(cls: String) = saved.map { saved ->
         Log.d("REPOSITORY", "Triggered check need sync for $cls")
         saved.lastSyncMap[cls]?.run {
             System.currentTimeMillis() - this > saved.refreshInterval

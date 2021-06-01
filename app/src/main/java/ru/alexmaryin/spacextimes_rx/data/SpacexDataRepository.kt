@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.*
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApi
-import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
@@ -24,25 +23,26 @@ class SpacexDataRepository @Inject constructor(
     private val settings: SettingsRepository,
 ) {
 
-    private inline fun <reified T> fetchItems(
-        noinline apiCallback: suspend () -> Response<ApiResponse<T>>,
-        noinline localApiCallback: suspend () -> List<T> = { emptyList() },
-        noinline saveApiCallback: suspend (List<T>) -> Unit = {},
-    ) = settings.checkNeedSync(T::class.simpleName!!).take(1).transform { needSync ->
-        Log.d("REPOSITORY", "Requesting for ${T::class.simpleName!!} at ${Calendar.getInstance().time}")
+    private fun <T> fetchItems(
+        itemsType: String,
+        apiCallback: suspend () -> Response<ApiResponse<T>>,
+        localApiCallback: suspend () -> List<T>,
+        saveApiCallback: suspend (List<T>) -> Unit,
+    ): Flow<Result> = settings.checkNeedSync(itemsType).transform { needSync ->
+        Log.d("REPOSITORY", "Requesting for $itemsType at ${Calendar.getInstance().time}")
         var remoteFailed = true
         emit(Loading)
-        localApiCallback().run {
-            if (needSync || isEmpty()) {
+        localApiCallback().let { local ->
+            if (needSync || local.isEmpty()) {
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback().apply {
-                        if (isSuccessful) body()?.docs?.apply {
-                            settings.saveLastSync(T::class.simpleName!!)
+                        if (isSuccessful) body()?.docs?.let { remote ->
+                            settings.saveLastSync(itemsType)
                             settings.armSynchronize = false
                             remoteFailed = false
-                            emit(Success(this))
-                            saveApiCallback(this)
-                            Log.d("REPOSITORY", "Fetched from internet list of ${T::class.simpleName} total count $size")
+                            emit(Success(remote))
+                            saveApiCallback(remote)
+                            Log.d("REPOSITORY", "Fetched from internet list of $itemsType total count ${remote.size}")
                         }
                         else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                     }
@@ -52,7 +52,7 @@ class SpacexDataRepository @Inject constructor(
             }
 
             if (remoteFailed)
-                emit(if (isNotEmpty()) Success(this) else Error("No local saved data", ErrorType.NO_SAVED_DATA))
+                emit(if (local.isNotEmpty()) Success(local) else Error("No local saved data", ErrorType.NO_SAVED_DATA))
         }
     }
         .flowOn(Dispatchers.IO)
@@ -64,13 +64,13 @@ class SpacexDataRepository @Inject constructor(
             }
         }
 
-    private inline fun <reified T : HasStringId> fetchItemById(
+    private fun <T : HasStringId> fetchItemById(
         id: String,
-        noinline apiCallback: suspend (String) -> Response<ApiResponse<T>>,
-        noinline localApiCallback: suspend (String) -> T? = { null },
-        noinline saveApiCallback: suspend (T) -> Unit = {}
+        apiCallback: suspend (String) -> Response<ApiResponse<T>>,
+        localApiCallback: suspend (String) -> T? = { null },
+        saveApiCallback: suspend (T) -> Unit = {}
     ) = flow {
-        Log.d("REPOSITORY", "Requesting for ${T::class.simpleName!!} with id:$id at ${Calendar.getInstance().time}")
+        Log.d("REPOSITORY", "Requesting for item with id:$id at ${Calendar.getInstance().time}")
         var remoteFailed = true
         emit(Loading)
         localApiCallback(id).run {
@@ -82,7 +82,7 @@ class SpacexDataRepository @Inject constructor(
                             remoteFailed = false
                             emit(Success(first()))
                             saveApiCallback(first())
-                            Log.d("REPOSITORY", "Fetched from internet ${T::class.simpleName} with id:${first().id}")
+                            Log.d("REPOSITORY", "Fetched from internet item with id:${first().id}")
                         }
                         else emit(Error(errorBody().toString(), ErrorType.REMOTE_API_ERROR))
                     }
@@ -101,34 +101,32 @@ class SpacexDataRepository @Inject constructor(
             }
         }
 
-    fun getCapsules() = fetchItems(remoteApi::getCapsules, localApi::getCapsules, localApi::saveCapsules)
+    fun getCapsules() = fetchItems("Capsules", remoteApi::getCapsules, localApi::getCapsules, localApi::saveCapsules)
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById, localApi::saveCapsuleDetails)
 
-    fun getCores() = fetchItems(remoteApi::getCores, localApi::getCores, localApi::saveCores)
-        .map { it.toListOf<Core>()?.sortedWith(compareBy(Core::block, Core::serial))?.reversed()?.toSuccess() ?: it }
-
+    fun getCores() = fetchItems("Cores", remoteApi::getCores, localApi::getCores, localApi::saveCores)
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById, localApi::saveCoreDetails)
 
-    fun getCrew() = fetchItems(remoteApi::getCrew, localApi::getCrew, localApi::saveCrew)
+    fun getCrew() = fetchItems("Crew", remoteApi::getCrew, localApi::getCrew, localApi::saveCrew)
     fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById, localApi::saveCrewDetails)
 
-    fun getDragons() = fetchItems(remoteApi::getDragons, localApi::getDragons, localApi::saveDragons)
+    fun getDragons() = fetchItems("Dragons", remoteApi::getDragons, localApi::getDragons, localApi::saveDragons)
     fun getDragonById(id: String) = fetchItemById(id, remoteApi::getDragonById, localApi::getDragonById)
 
-    fun getRockets() = fetchItems(remoteApi::getRockets, localApi::getRockets, localApi::saveRockets)
+    fun getRockets() = fetchItems("Rockets", remoteApi::getRockets, localApi::getRockets, localApi::saveRockets)
     fun getRocketById(id: String) = fetchItemById(id, remoteApi::getRocketById, localApi::getRocketById)
 
-    fun getLaunchPads() = fetchItems(remoteApi::getLaunchPads, localApi::getLaunchPads, localApi::saveLaunchPads)
+    fun getLaunchPads() = fetchItems("LaunchPads", remoteApi::getLaunchPads, localApi::getLaunchPads, localApi::saveLaunchPads)
     fun getLaunchPadById(id: String) = fetchItemById(id, remoteApi::getLaunchPadById, localApi::getLaunchPadById)
 
-    fun getLandingPads() = fetchItems(remoteApi::getLandingPads, localApi::getLandingPads, localApi::saveLandingPads)
+    fun getLandingPads() = fetchItems("LandingPads", remoteApi::getLandingPads, localApi::getLandingPads, localApi::saveLandingPads)
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
-    fun getLaunches() = fetchItems(remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
+    fun getLaunches() = fetchItems("Launches", remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById, localApi::saveLaunchDetails)
     fun getNextLaunch(launches: List<Launch>) = launches.indexOfLast { it.datePrecision >= DatePrecision.DAY && it.dateLocal > Calendar.getInstance().time }
 
     fun getPayloadById(id: String) = fetchItemById(id, remoteApi::getPayloadById, localApi::getPayloadById)
 
-    fun getHistoryEvents() = fetchItems(remoteApi::getHistoryEvents, localApi::getHistoryEvents, localApi::saveHistoryEvents)
+    fun getHistoryEvents() = fetchItems("HistoryEvents", remoteApi::getHistoryEvents, localApi::getHistoryEvents, localApi::saveHistoryEvents)
 }

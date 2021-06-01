@@ -17,13 +17,10 @@ class SettingsModule {
 
     @Provides
     @Singleton
-    fun provideSettingsRepository(@ApplicationContext context: Context) = SettingsRepository(
-        context.dataStore
-    )
+    fun provideSettingsRepository(@ApplicationContext context: Context) = SettingsRepository(context.dataStore)
 
     private val Context.dataStore: DataStore<ProtoSettings> by dataStore(
         fileName = "settings.proto",
         serializer = SettingsSerializer
     )
-
 }
