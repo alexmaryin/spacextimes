@@ -17,7 +17,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasLastUpdate
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasTitle
-import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.io.File
 import java.io.IOException
@@ -28,7 +28,7 @@ import kotlin.reflect.KProperty1
 
 @ExperimentalStdlibApi
 class TranslatorImpl @Inject constructor(
-    private val settings: SettingsRepository,
+    private val settings: Settings,
     private val translationsDao: TranslateDao,
     private val apiRemote: ApiFastTranslator,
     @ApplicationContext val appContext: Context,

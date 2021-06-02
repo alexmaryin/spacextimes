@@ -10,7 +10,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
-import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.net.SocketTimeoutException
 import java.util.*
@@ -20,7 +20,7 @@ class SpacexDataRepository @Inject constructor(
     private val remoteApi: SpaceXApi,
     private val localApi: ApiLocal,
     private val networkHelper: NetworkHelper,
-    private val settings: SettingsRepository,
+    private val settings: Settings,
 ) {
 
     private fun <T> fetchItems(
@@ -33,6 +33,7 @@ class SpacexDataRepository @Inject constructor(
         var remoteFailed = true
         emit(Loading)
         localApiCallback().let { local ->
+            Log.d("REPOSITORY", if (local.isNotEmpty()) "Loaded from cache ${local.size} items of $itemsType" else "Cache is empty for $itemsType list")
             if (needSync || local.isEmpty()) {
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback().apply {
@@ -74,6 +75,7 @@ class SpacexDataRepository @Inject constructor(
         var remoteFailed = true
         emit(Loading)
         localApiCallback(id).run {
+            Log.d("REPOSITORY", if (this != null) "Loaded from cache item with id:$id" else "Cache is empty for id:$id")
             if (this == null || settings.armSynchronize) {
                 if (networkHelper.isNetworkConnected()) {
                     apiCallback(id).apply {
@@ -101,32 +103,32 @@ class SpacexDataRepository @Inject constructor(
             }
         }
 
-    fun getCapsules() = fetchItems("Capsules", remoteApi::getCapsules, localApi::getCapsules, localApi::saveCapsules)
+    fun getCapsules(clsName: String) = fetchItems(clsName, remoteApi::getCapsules, localApi::getCapsules, localApi::saveCapsules)
     fun getCapsuleById(id: String) = fetchItemById(id, remoteApi::getCapsuleById, localApi::getCapsuleById, localApi::saveCapsuleDetails)
 
-    fun getCores() = fetchItems("Cores", remoteApi::getCores, localApi::getCores, localApi::saveCores)
+    fun getCores(clsName: String) = fetchItems(clsName, remoteApi::getCores, localApi::getCores, localApi::saveCores)
     fun getCoreById(id: String) = fetchItemById(id, remoteApi::getCoreById, localApi::getCoreById, localApi::saveCoreDetails)
 
-    fun getCrew() = fetchItems("Crew", remoteApi::getCrew, localApi::getCrew, localApi::saveCrew)
+    fun getCrew(clsName: String) = fetchItems(clsName, remoteApi::getCrew, localApi::getCrew, localApi::saveCrew)
     fun getCrewById(id: String) = fetchItemById(id, remoteApi::getCrewById, localApi::getCrewById, localApi::saveCrewDetails)
 
-    fun getDragons() = fetchItems("Dragons", remoteApi::getDragons, localApi::getDragons, localApi::saveDragons)
+    fun getDragons(clsName: String) = fetchItems(clsName, remoteApi::getDragons, localApi::getDragons, localApi::saveDragons)
     fun getDragonById(id: String) = fetchItemById(id, remoteApi::getDragonById, localApi::getDragonById)
 
-    fun getRockets() = fetchItems("Rockets", remoteApi::getRockets, localApi::getRockets, localApi::saveRockets)
+    fun getRockets(clsName: String) = fetchItems(clsName, remoteApi::getRockets, localApi::getRockets, localApi::saveRockets)
     fun getRocketById(id: String) = fetchItemById(id, remoteApi::getRocketById, localApi::getRocketById)
 
-    fun getLaunchPads() = fetchItems("LaunchPads", remoteApi::getLaunchPads, localApi::getLaunchPads, localApi::saveLaunchPads)
+    fun getLaunchPads(clsName: String) = fetchItems(clsName, remoteApi::getLaunchPads, localApi::getLaunchPads, localApi::saveLaunchPads)
     fun getLaunchPadById(id: String) = fetchItemById(id, remoteApi::getLaunchPadById, localApi::getLaunchPadById)
 
-    fun getLandingPads() = fetchItems("LandingPads", remoteApi::getLandingPads, localApi::getLandingPads, localApi::saveLandingPads)
+    fun getLandingPads(clsName: String) = fetchItems(clsName, remoteApi::getLandingPads, localApi::getLandingPads, localApi::saveLandingPads)
     fun getLandingPadById(id: String) = fetchItemById(id, remoteApi::getLandingPadById, localApi::getLandingPadById)
 
-    fun getLaunches() = fetchItems("Launches", remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
+    fun getLaunches(clsName: String) = fetchItems(clsName, remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById, localApi::saveLaunchDetails)
     fun getNextLaunch(launches: List<Launch>) = launches.indexOfLast { it.datePrecision >= DatePrecision.DAY && it.dateLocal > Calendar.getInstance().time }
 
     fun getPayloadById(id: String) = fetchItemById(id, remoteApi::getPayloadById, localApi::getPayloadById)
 
-    fun getHistoryEvents() = fetchItems("HistoryEvents", remoteApi::getHistoryEvents, localApi::getHistoryEvents, localApi::saveHistoryEvents)
+    fun getHistoryEvents(clsName: String) = fetchItems(clsName, remoteApi::getHistoryEvents, localApi::getHistoryEvents, localApi::saveHistoryEvents)
 }

@@ -32,7 +32,7 @@ object Capsules : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getCapsules().translateLastUpdate().filterCapsulesWith(filter.names) }
+        translator.run { repository.getCapsules(name).translateLastUpdate().filterCapsulesWith(filter.names) }
 }
 
 object Cores : MainScreen() {
@@ -45,7 +45,7 @@ object Cores : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getCores().translateLastUpdate().filterCoresWith(filter.names) }
+        translator.run { repository.getCores(name).translateLastUpdate().filterCoresWith(filter.names) }
 }
 
 object Crew : MainScreen() {
@@ -57,7 +57,7 @@ object Crew : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        repository.getCrew()
+        repository.getCrew(name)
 }
 
 object Dragons : MainScreen() {
@@ -69,7 +69,7 @@ object Dragons : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getDragons().translateDescription() }
+        translator.run { repository.getDragons(name).translateDescription() }
 }
 
 object Rockets : MainScreen() {
@@ -81,7 +81,7 @@ object Rockets : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getRockets().translateDescription() }
+        translator.run { repository.getRockets(name).translateDescription() }
 }
 
 object Launches : MainScreen() {
@@ -94,7 +94,7 @@ object Launches : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getLaunches().translateDetails().filterLaunchesWith(filter.names) }
+        translator.run { repository.getLaunches(name).translateDetails().filterLaunchesWith(filter.names) }
 }
 
 object LaunchPads : MainScreen() {
@@ -106,7 +106,7 @@ object LaunchPads : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getLaunchPads().translateDetails() }
+        translator.run { repository.getLaunchPads(name).translateDetails() }
 }
 
 object LandingPads : MainScreen() {
@@ -118,7 +118,7 @@ object LandingPads : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getLandingPads().translateDetails() }
+        translator.run { repository.getLandingPads(name).translateDetails() }
 }
 
 object HistoryEvents : MainScreen() {
@@ -128,6 +128,6 @@ object HistoryEvents : MainScreen() {
     override fun setClickListener(navController: NavController) = emptyClickListener
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getHistoryEvents().translateDetails().translateTitle() }
+        translator.run { repository.getHistoryEvents(name).translateDetails().translateTitle() }
 }
 

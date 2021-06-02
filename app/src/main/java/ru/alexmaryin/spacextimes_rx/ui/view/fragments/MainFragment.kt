@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
-import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.*
@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
-    @Inject lateinit var settings: SettingsRepository
+    @Inject lateinit var settings: Settings
 
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {
@@ -66,10 +66,10 @@ class MainFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressHandler)
 
         findNavController().currentBackStackEntry?.let {
-            it.savedStateHandle.getLiveData<Boolean>("preferences_changed").observe(viewLifecycleOwner) { isChanged ->
+            it.savedStateHandle.getLiveData<Boolean>(Settings.IS_PREFERENCES_CHANGED).observe(viewLifecycleOwner) { isChanged ->
                 if (isChanged) {
                     spaceXViewModel.armRefresh()
-                    it.savedStateHandle.remove<Boolean>("preferences_changed")
+                    it.savedStateHandle.remove<Boolean>(Settings.IS_PREFERENCES_CHANGED)
                 }
             }
         }

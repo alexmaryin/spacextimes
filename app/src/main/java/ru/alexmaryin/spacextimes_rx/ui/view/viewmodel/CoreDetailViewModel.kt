@@ -14,7 +14,7 @@ import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.model.Core
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
-import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import javax.inject.Inject
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class CoreDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     private val repository: SpacexDataRepository,
-    private val settings: SettingsRepository,
+    private val settings: Settings,
 ) : ViewModel() {
 
     private val details = MutableStateFlow<Result>(Loading)

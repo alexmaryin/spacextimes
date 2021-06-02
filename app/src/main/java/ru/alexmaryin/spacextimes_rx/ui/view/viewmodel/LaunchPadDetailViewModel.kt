@@ -18,7 +18,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
-import ru.alexmaryin.spacextimes_rx.di.SettingsRepository
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class LaunchPadDetailViewModel @Inject constructor(
     val state: SavedStateHandle,
     val repository: SpacexDataRepository,
     private val translator: TranslatorApi,
-    private val settings: SettingsRepository,
+    private val settings: Settings,
 ) : ViewModel() {
 
     private val padState = MutableStateFlow<Result>(Loading)
