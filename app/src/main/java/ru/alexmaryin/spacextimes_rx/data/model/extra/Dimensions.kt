@@ -40,4 +40,18 @@ data class PayloadWeight(
     val name: String,
     val kg: Float?,
     val lb: Float?,
-)
+) {
+
+    override fun toString() = "${id.name}:::${name}:::${kg}:::${lb}"
+
+    companion object {
+        fun fromString(source: String) = source.split(":::").run {
+            PayloadWeight(
+                id = OrbitType.valueOf(get(0)),
+                name = get(1),
+                kg = get(2).toFloatOrNull(),
+                lb = get(3).toFloatOrNull()
+            )
+        }
+    }
+}

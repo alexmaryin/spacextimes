@@ -61,12 +61,12 @@ class SpaceXViewModelTest {
 
     @Test
     fun `viewModel should return loading first`() = testCoroutineScope.runBlockingTest {
-        `when`(repository.getLaunches()).thenReturn(flowOf(Loading).stateIn(this))
+        `when`(repository.getLaunches("Launches")).thenReturn(flowOf(Loading).stateIn(this))
 
         viewModel.changeScreen(Launches)
         val result = viewModel.getState().first()
         assertTrue(result == Loading)
-        verify(repository).getLaunches()
+        verify(repository).getLaunches("Launches")
     }
 
     @Test
@@ -78,7 +78,7 @@ class SpaceXViewModelTest {
             emit(Error("", ErrorType.REMOTE_API_ERROR))
         }.stateIn(this)
 
-        `when`(repository.getLaunches()).thenReturn(flow)
+        `when`(repository.getLaunches("Launches")).thenReturn(flow)
 
         var loadingFlag = false
 
@@ -94,7 +94,7 @@ class SpaceXViewModelTest {
                 else -> throw TypeCastException("Unknown state")
             }
         }
-        verify(repository).getLaunches()
+        verify(repository).getLaunches("Launches")
         assertEquals(listOf(Loading, Error("", ErrorType.REMOTE_API_ERROR)), list)
     }
 
