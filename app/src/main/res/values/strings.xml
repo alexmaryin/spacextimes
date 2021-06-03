@@ -11,6 +11,7 @@
     <string name="launchPadsTitle">Зоны запуска</string>
     <string name="landingPadsTitle">Зоны посадки</string>
     <string name="launchesTitle">Запуски</string>
+    <string name="searchTitle">Поиск по названию</string>
     <string name="aiTranslateTitle">Машинный перевод</string>
     <string name="filter_menu_item" translatable="false">filter</string>
     <string name="sync_menu_item" translatable="false">synchronize</string>
@@ -320,4 +321,5 @@
     <string name="countdown_to_launch_string">До запуска %s</string>
     <string name="countdown_timer_to_launch_description" translatable="false">countdown timer to launch</string>
     <string name="press_back_finish_message">Нажмите еще раз для выхода</string>
+
 </resources>

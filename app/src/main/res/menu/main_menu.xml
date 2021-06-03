@@ -40,14 +40,21 @@
         android:title="@string/preferencesTitle" />
 
     <item
-        android:id="@+id/syncAction"
-        android:icon="@drawable/ic_outline_autorenew_24"
-        android:title="@string/sync_menu_item"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/searchAction"
+        android:icon="@drawable/ic_outline_search_24"
+        android:title="@string/searchTitle"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <item
         android:id="@+id/filterAction"
         android:icon="@drawable/ic_filter"
         android:title="@string/filter_menu_item"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/syncAction"
+        android:icon="@drawable/ic_outline_autorenew_24"
+        android:title="@string/sync_menu_item"
+        app:showAsAction="always"/>
 </menu>

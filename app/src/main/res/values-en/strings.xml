@@ -41,6 +41,7 @@
     <string name="launchPadsTitle">Launch pads</string>
     <string name="landingPadsTitle">Landing pads</string>
     <string name="launchesTitle">Launches</string>
+    <string name="searchTitle">Search by name</string>
     <string name="saved_image_notification">Image saved</string>
     <string name="saved_image_text_notification">Click to open in gallery or edit</string>
     <string name="saving_title_string">Save</string>
@@ -276,4 +277,5 @@
     <string name="preferencesTitle">Preferences</string>
     <string name="refreshIntervalTitle">Refresh interval</string>
     <string name="refreshSummary">Specifies the interval in hours after which the data will be updated from the network on the next showing invoked.</string>
+
 </resources>

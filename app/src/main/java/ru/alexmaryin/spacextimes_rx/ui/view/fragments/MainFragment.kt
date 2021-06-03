@@ -1,10 +1,14 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
+import android.app.SearchManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -37,6 +41,7 @@ class MainFragment : Fragment() {
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     @Inject lateinit var settings: Settings
 
+    private var searchQuery: String? = null
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -90,6 +95,8 @@ class MainFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
+        val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu.findItem(R.id.searchAction).actionView as SearchView).setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
         menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.isFilterAvailable
         super.onPrepareOptionsMenu(menu)
     }
