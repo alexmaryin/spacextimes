@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,11 +13,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.SpaceXViewModel
 import ru.alexmaryin.spacextimes_rx.utils.prepareNotificationsChannel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val spaceXViewModel: SpaceXViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,5 +46,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun emitSearch(query: String?) {
         Log.d("SEARCHABLE", "$query")
+        if (!query.isNullOrBlank()) spaceXViewModel.searchText(query)
     }
 }

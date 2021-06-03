@@ -2,7 +2,6 @@ package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -41,7 +40,6 @@ class MainFragment : Fragment() {
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     @Inject lateinit var settings: Settings
 
-    private var searchQuery: String? = null
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -174,6 +172,10 @@ class MainFragment : Fragment() {
             with(binding.filterGroup) {
                 postDelayed({ visibility = View.GONE }, 1000)
             }
+        }
+
+        spaceXViewModel.getSearchState().collectOnFragment(this) { search ->
+            Toast.makeText(requireContext(), "Search for $search", Toast.LENGTH_SHORT).show()
         }
     }
 

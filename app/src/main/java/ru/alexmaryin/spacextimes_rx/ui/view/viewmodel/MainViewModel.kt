@@ -33,6 +33,9 @@ class SpaceXViewModel @Inject constructor(
     private val scrollTrigger = MutableSharedFlow<Boolean>(0)
     fun getScrollTrigger() = scrollTrigger.asSharedFlow()
 
+    private val searchState = MutableSharedFlow<String>(0)
+    fun getSearchState() = searchState.asSharedFlow()
+
     fun changeScreen(screen: MainScreen) {
         if (screen != currentScreen || needRefresh) {
             currentScreen = screen
@@ -54,5 +57,9 @@ class SpaceXViewModel @Inject constructor(
 
     fun scrollNextLaunch() = viewModelScope.launch {
         scrollTrigger.emit(currentScreen.filter.isFilterOn("Upcoming"))
+    }
+
+    fun searchText(text: String) = viewModelScope.launch {
+        searchState.emit(text)
     }
 }
