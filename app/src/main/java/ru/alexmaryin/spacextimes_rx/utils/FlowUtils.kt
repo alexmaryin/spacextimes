@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 fun <T> Flow<T>.collectOnFragment(
     fragment: Fragment,
-    state: Lifecycle.State = Lifecycle.State.RESUMED,
+    state: Lifecycle.State = Lifecycle.State.STARTED,
     block: (T) -> Unit
 ) {
     fragment.lifecycleScope.launch {

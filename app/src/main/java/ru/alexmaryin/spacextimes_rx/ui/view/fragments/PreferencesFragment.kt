@@ -22,29 +22,30 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         requireActivity().title = getString(R.string.preferencesTitle)
 
+        val translateSwitch = findPreference<SwitchPreferenceCompat>(Settings.TRANSLATE_SWITCH)?.apply {
+            setOnPreferenceChangeListener { _, value ->
+                lifecycleScope.launch { settings.translateToRu(value as Boolean) }
+                findNavController().previousBackStackEntry?.let {
+                    it.savedStateHandle[Settings.IS_PREFERENCES_CHANGED] = true
+                }
+                true
+            }
+        }
+
+        val refreshSeekBar = findPreference<SeekBarPreference>(Settings.REFRESH_INTERVAL_BAR)?.apply {
+            setOnPreferenceChangeListener { _, value ->
+                lifecycleScope.launch { settings.refreshInterval(value as Int) }
+                findNavController().previousBackStackEntry?.let {
+                    it.savedStateHandle[Settings.IS_PREFERENCES_CHANGED] = true
+                }
+                true
+            }
+        }
+
         settings.saved.collectOnFragment(this) {
+            translateSwitch?.isChecked = it.translateToRu
+            refreshSeekBar?.value = it.refreshInterval / Settings.HOUR_TO_MILLIS
 
-            findPreference<SwitchPreferenceCompat>(Settings.TRANSLATE_SWITCH)?.apply {
-                isChecked = it.translateToRu
-                setOnPreferenceChangeListener { _, value ->
-                    lifecycleScope.launch { settings.translateToRu(value as Boolean) }
-                    findNavController().previousBackStackEntry?.let {
-                        it.savedStateHandle[Settings.IS_PREFERENCES_CHANGED] = true
-                    }
-                    true
-                }
-            }
-
-            findPreference<SeekBarPreference>(Settings.REFRESH_INTERVAL_BAR)?.apply {
-                value = it.refreshInterval / Settings.HOUR_TO_MILLIS
-                setOnPreferenceChangeListener { _, value ->
-                    lifecycleScope.launch { settings.refreshInterval(value as Int) }
-                    findNavController().previousBackStackEntry?.let {
-                        it.savedStateHandle[Settings.IS_PREFERENCES_CHANGED] = true
-                    }
-                    true
-                }
-            }
         }
     }
 }
