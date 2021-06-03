@@ -5,10 +5,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import ru.alexmaryin.spacextimes_rx.data.room_model.LandingPadLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.LandingPadWithoutLaunches
+import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchPadWithoutLaunches
 
 interface LandingPadsDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLandingPads(pads: List<LandingPadLocal>)
+    suspend fun insertLandingPads(pads: List<LandingPadWithoutLaunches>)
+
+    @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLandingPad(pad: LandingPadWithoutLaunches)
 
     @Transaction @Query("select * from landing_pads_table")
     suspend fun selectAllLandingPads(): List<LandingPadLocal>

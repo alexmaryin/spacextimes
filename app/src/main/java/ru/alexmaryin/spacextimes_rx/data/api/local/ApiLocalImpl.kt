@@ -48,7 +48,7 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun getLandingPadById(id: String): LandingPad? = spaceXDao.selectLandingPad(id)?.toResponse()
 
-    override suspend fun saveLandingPads(pads: List<LandingPad>) = spaceXDao.insertLandingPads(pads.map { it.toRoom() })
+    override suspend fun saveLandingPads(pads: List<LandingPad>) = spaceXDao.insertLandingPadsWithLaunches(pads)
 
     override suspend fun getRockets(): List<Rocket> = spaceXDao.selectAllRockets().map { it.toResponse() }
 

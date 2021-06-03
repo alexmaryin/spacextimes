@@ -7,7 +7,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
 import ru.alexmaryin.spacextimes_rx.data.model.enums.LandingPadType
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
-import ru.alexmaryin.spacextimes_rx.data.room_model.LandingPadLocal
+import ru.alexmaryin.spacextimes_rx.data.room_model.LandingPadWithoutLaunches
 
 @JsonClass(generateAdapter = true)
 data class LandingPad(
@@ -19,7 +19,7 @@ data class LandingPad(
     val latitude: Float?,
     val longitude: Float?,
     val status: PadStatus?,
-    val launches: List<Launch> = emptyList(),
+    var launches: List<Launch> = emptyList(),
     override val wikipedia: String?,
     override val details: String?,
     @Json(name = "landing_attempts") val landingAttempts: Int,
@@ -29,5 +29,5 @@ data class LandingPad(
     @Transient override var detailsRu: String? = null,
 ) : HasStringId, HasDetails, HasWiki {
 
-    fun toRoom() = LandingPadLocal(id, name, type, locality, region, latitude, longitude, status, wikipedia, details, landingAttempts, landingSuccesses, fullName)
+    fun toRoom() = LandingPadWithoutLaunches(id, name, type, locality, region, latitude, longitude, status, wikipedia, details, landingAttempts, landingSuccesses, fullName)
 }

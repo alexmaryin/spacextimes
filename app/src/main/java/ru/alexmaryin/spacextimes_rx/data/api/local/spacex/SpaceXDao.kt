@@ -1,10 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.api.local.spacex
 
 import androidx.room.Dao
-import ru.alexmaryin.spacextimes_rx.data.model.Capsule
-import ru.alexmaryin.spacextimes_rx.data.model.Core
-import ru.alexmaryin.spacextimes_rx.data.model.Crew
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.data.model.*
 import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
 
 @Dao
@@ -76,5 +73,12 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
     suspend fun insertLaunchWithDetails(launch: Launch) {
         insertLaunch(launch.toRoom().launch)
         insertLaunchDetails(launch)
+    }
+
+    suspend fun insertLandingPadsWithLaunches(landingPads: List<LandingPad>) {
+        insertLandingPads(landingPads.map { pad ->
+            insertLaunchesToLandingPads(pad.launches.map { LaunchesToLandingPads(it.id, pad.id) })
+            pad.toRoom()
+        })
     }
 }

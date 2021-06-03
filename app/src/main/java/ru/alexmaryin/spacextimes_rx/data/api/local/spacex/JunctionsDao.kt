@@ -33,4 +33,7 @@ interface JunctionsDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertLaunchesToPayloads(joins: List<LaunchesToPayloads>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertLaunchesToLandingPads(joins: List<LaunchesToLandingPads>)
 }
