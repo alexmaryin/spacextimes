@@ -108,6 +108,14 @@ class MainFragment : Fragment() {
                             true
                         } ?: false
                     })
+                    setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                        override fun onMenuItemActionExpand(item: MenuItem?) = true
+
+                        override fun onMenuItemActionCollapse(item: MenuItem?) = run {
+                            activity?.invalidateOptionsMenu()
+                            true
+                        }
+                    })
                 }
             } else isVisible = false
         }

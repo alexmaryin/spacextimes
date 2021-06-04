@@ -35,24 +35,22 @@
         android:icon="@drawable/ic_outline_search_24"
         android:title="@string/searchTitle"
         app:showAsAction="collapseActionView|always"
-        android:menuCategory="system"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <item
         android:id="@+id/filterAction"
         android:icon="@drawable/ic_filter"
-        android:menuCategory="alternative"
         android:title="@string/filter_menu_item" app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/syncAction"
         android:icon="@drawable/ic_outline_autorenew_24"
-        android:menuCategory="alternative"
         android:title="@string/sync_menu_item" app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/preferences"
         android:enabled="true"
         android:icon="@drawable/ic_outline_settings_24"
-        android:menuCategory="system" android:orderInCategory="1" android:title="@string/preferencesTitle"/>
+        android:menuCategory="system"
+        android:title="@string/preferencesTitle"/>
 </menu>
