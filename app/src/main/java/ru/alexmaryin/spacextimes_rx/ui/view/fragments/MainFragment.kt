@@ -185,7 +185,7 @@ class MainFragment : Fragment() {
         binding.recyclerView.adapter = BaseListAdapter(
             spaceXViewModel.currentScreen.setClickListener(findNavController()),
             viewHoldersManager
-        ).apply { submitList(spaceXViewModel.filterOrSearch(referenceList, searchString)) }
+        ).apply { submitList(if (spaceXViewModel.isFilterAvailable) spaceXViewModel.filterOrSearch(referenceList, searchString) else referenceList) }
     }
 
     private fun populateFilterGroup() {
