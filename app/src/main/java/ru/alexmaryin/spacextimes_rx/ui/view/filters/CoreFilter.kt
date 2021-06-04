@@ -19,6 +19,7 @@ object CoreFilter : ListFilter() {
 
     override fun <T> predicate(item: T) = with (item as Core) {
         (totalFlights > 0 == "Flying" in names || totalFlights == 0 == "Not flying" in names) &&
-                (status < CoreStatus.INACTIVE == "Active" in names || status >= CoreStatus.INACTIVE == "Inactive" in names)
+                (status < CoreStatus.INACTIVE == "Active" in names || status >= CoreStatus.INACTIVE == "Inactive" in names) &&
+                serial.contains(searchString, ignoreCase = true)
     }
 }

@@ -32,6 +32,7 @@ object Capsules : MainScreen() {
     override val name = "Capsules"
     override val titleRes = R.string.capsulesTitle
     override val filter = CapsuleFilter
+    override val searchable =true
 
     override fun setClickListener(navController: NavController) = AdapterClickListenerById { id, _ ->
         navController.navigate(MainFragmentDirections.actionShowCapsuleDetails(id))
@@ -46,6 +47,7 @@ object Cores : MainScreen() {
     override val name = "Cores"
     override val titleRes = R.string.coresTitle
     override val filter = CoreFilter
+    override val searchable = true
 
     override fun setClickListener(navController: NavController) = AdapterClickListenerById { id, _ ->
         navController.navigate(MainFragmentDirections.actionShowCoreDetails(id))

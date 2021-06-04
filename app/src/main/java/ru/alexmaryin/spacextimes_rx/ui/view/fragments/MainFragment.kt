@@ -100,22 +100,8 @@ class MainFragment : Fragment() {
                 val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
                 with (actionView as SearchView) {
                     setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-                    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                        override fun onQueryTextSubmit(query: String?) = onQueryTextChange(query)
-
-                        override fun onQueryTextChange(newText: String?) = newText?.run {
-                            renderList( this)
-                            true
-                        } ?: false
-                    })
-                    setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                        override fun onMenuItemActionExpand(item: MenuItem?) = true
-
-                        override fun onMenuItemActionCollapse(item: MenuItem?) = run {
-                            activity?.invalidateOptionsMenu()
-                            true
-                        }
-                    })
+                    setOnQueryTextListener(HotSearchListener { searchString -> renderList(searchString) })
+                    setOnActionExpandListener(MenuItemCollapseListener { activity?.invalidateOptionsMenu() })
                 }
             } else isVisible = false
         }

@@ -19,6 +19,7 @@ object CapsuleFilter : ListFilter() {
 
     override fun <T> predicate(item: T) = with (item as Capsule) {
         (totalFlights > 0 == "Flying" in names || totalFlights == 0 == "Not flying" in names) &&
-                (status < CapsuleStatus.UNKNOWN == "Active" in names || status >= CapsuleStatus.UNKNOWN == "Inactive" in names)
+                (status < CapsuleStatus.UNKNOWN == "Active" in names || status >= CapsuleStatus.UNKNOWN == "Inactive" in names) &&
+                serial.contains(searchString, ignoreCase = true)
     }
 }
