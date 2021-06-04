@@ -3,18 +3,18 @@
     <string name="notifications_channel" translatable="false">spacexTimes</string>
     <string name="notifications_id" translatable="false">spacex</string>
     <string name="notifications_description" translatable="false">Notify from SpaceX Times app</string>
-    <string name="capsulesTitle">Космические корабли</string>
-    <string name="crewTitle">Члены экипажей</string>
-    <string name="coresTitle">Ракетные блоки</string>
-    <string name="dragonsTitle">Корабли Dragon</string>
+    <string name="capsulesTitle">Капсулы</string>
+    <string name="crewTitle">Экипажи</string>
+    <string name="coresTitle">Ускорители</string>
+    <string name="dragonsTitle">Dragon</string>
     <string name="rocketsTitle">Ракеты</string>
     <string name="launchPadsTitle">Зоны запуска</string>
     <string name="landingPadsTitle">Зоны посадки</string>
     <string name="launchesTitle">Запуски</string>
     <string name="searchTitle">Поиск по названию</string>
     <string name="aiTranslateTitle">Машинный перевод</string>
-    <string name="filter_menu_item" translatable="false">filter</string>
-    <string name="sync_menu_item" translatable="false">synchronize</string>
+    <string name="filter_menu_item">Фильтр</string>
+    <string name="sync_menu_item">Обновление</string>
     <string name="loadingText">загрузка…</string>
 
 

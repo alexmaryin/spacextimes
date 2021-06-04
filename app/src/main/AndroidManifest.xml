@@ -17,7 +17,6 @@
         android:roundIcon="@mipmap/logo01_beta_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Spacextimes_rx"
-        android:allowBackup="true"
         android:fullBackupOnly="true">
         <activity android:name=".ui.view.activities.MainActivity"
             android:launchMode="singleTask"

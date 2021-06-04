@@ -2,6 +2,8 @@ package ru.alexmaryin.spacextimes_rx.ui.view.filters
 
 sealed class ListFilter {
     abstract val filters: Set<FilterChip>
+    abstract fun <T> predicate(item: T): Boolean
+    open var searchString = ""
 
     val names get() = filters.fold(emptySet<String>().toMutableSet()) { set, chip -> if (chip.checked) set += chip.name; set }
 
@@ -10,4 +12,5 @@ sealed class ListFilter {
 
 object EmptyFilter : ListFilter() {
     override val filters = emptySet<FilterChip>()
+    override fun <T> predicate(item: T): Boolean = false
 }

@@ -1,6 +1,8 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.filters
 
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.Core
+import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 
 const val CORE_NOT_FLYING = R.string.no_flights_vehicle_filter
 const val CORE_FLYING = R.string.flying_vehicle_filter
@@ -14,4 +16,9 @@ object CoreFilter : ListFilter() {
         FilterChip(name = "Active", resId = CORE_ACTIVE, isCheckable = true, checked = true),
         FilterChip(name = "Inactive", resId = CORE_INACTIVE, isCheckable = true, checked = true),
     )
+
+    override fun <T> predicate(item: T) = with (item as Core) {
+        (totalFlights > 0 == "Flying" in names || totalFlights == 0 == "Not flying" in names) &&
+                (status < CoreStatus.INACTIVE == "Active" in names || status >= CoreStatus.INACTIVE == "Inactive" in names)
+    }
 }

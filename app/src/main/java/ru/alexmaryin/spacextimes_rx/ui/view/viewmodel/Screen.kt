@@ -1,25 +1,31 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
+import android.content.Context
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.Flow
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
-import ru.alexmaryin.spacextimes_rx.data.api.filters.filterCapsulesWith
-import ru.alexmaryin.spacextimes_rx.data.api.filters.filterCoresWith
-import ru.alexmaryin.spacextimes_rx.data.api.filters.filterLaunchesWith
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
+import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.emptyClickListener
 import ru.alexmaryin.spacextimes_rx.ui.view.filters.*
 import ru.alexmaryin.spacextimes_rx.ui.view.fragments.MainFragmentDirections
 import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.prettifyMillisecondsPeriod
+import java.util.*
+import kotlin.time.ExperimentalTime
 
 sealed class MainScreen {
     abstract val name: String
     abstract val titleRes: Int
     open val filter: ListFilter = EmptyFilter
+    open val searchable = false
     abstract fun setClickListener(navController: NavController): AdapterClickListenerById
     abstract fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi): Flow<Result>
+    open fun <T> getPositionToScroll(context: Context, items: List<T>): Pair<Int, String>? = null
+    fun <T> getFilteredList(items: List<T>) = items.filter(filter::predicate)
 }
 
 object Capsules : MainScreen() {
@@ -32,7 +38,8 @@ object Capsules : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getCapsules(name).translateLastUpdate().filterCapsulesWith(filter.names) }
+        translator.run { repository.getCapsules(name).translateLastUpdate() }
+
 }
 
 object Cores : MainScreen() {
@@ -45,7 +52,7 @@ object Cores : MainScreen() {
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getCores(name).translateLastUpdate().filterCoresWith(filter.names) }
+        translator.run { repository.getCores(name).translateLastUpdate() }
 }
 
 object Crew : MainScreen() {
@@ -86,15 +93,25 @@ object Rockets : MainScreen() {
 
 object Launches : MainScreen() {
     override val name = "Launches"
-    override val titleRes= R.string.launchesTitle
-    override var filter = LaunchFilter
+    override val titleRes = R.string.launchesTitle
+    override val filter = LaunchFilter
+    override val searchable = true
 
     override fun setClickListener(navController: NavController) = AdapterClickListenerById { id, _ ->
         navController.navigate(MainFragmentDirections.actionShowLaunchDetails(id))
     }
 
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
-        translator.run { repository.getLaunches(name).translateDetails().filterLaunchesWith(filter.names) }
+        translator.run { repository.getLaunches(name).translateDetails() }
+
+    @ExperimentalTime
+    override fun <T> getPositionToScroll(context: Context, items: List<T>) =
+        with(items.map { it as Launch }) {
+            val position = indexOfLast { it.datePrecision >= DatePrecision.DAY && it.dateLocal > Calendar.getInstance().time }
+            val timeTo = (get(position).dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(context)
+            val snackText = context.getString(R.string.next_flight_announce, get(position).name, timeTo)
+            if (position >= 0) position to snackText else null
+        }
 }
 
 object LaunchPads : MainScreen() {
