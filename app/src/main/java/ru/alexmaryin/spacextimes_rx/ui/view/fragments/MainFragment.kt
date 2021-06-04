@@ -1,10 +1,13 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,14 +20,13 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.adapters.BaseListAdapter
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHoldersManager
 import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.*
 import ru.alexmaryin.spacextimes_rx.utils.*
-import java.util.*
 import javax.inject.Inject
 import kotlin.time.ExperimentalTime
 
@@ -36,6 +38,7 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     @Inject lateinit var settings: Settings
+    private val referenceList = mutableListOf<HasStringId>()
 
     private var backPressedTime: Long = 0
     private val backPressHandler = object : OnBackPressedCallback(true) {
@@ -91,6 +94,17 @@ class MainFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.filterAction).isVisible = spaceXViewModel.isFilterAvailable
+        menu.findItem(R.id.searchAction).apply {
+            if (spaceXViewModel.isSearchable) {
+                isVisible = true
+                val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+                with (actionView as SearchView) {
+                    setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+                    setOnQueryTextListener(HotSearchListener { searchString -> renderList(searchString) })
+                    setOnActionExpandListener(MenuItemCollapseListener { activity?.invalidateOptionsMenu() })
+                }
+            } else isVisible = false
+        }
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -130,11 +144,9 @@ class MainFragment : Fragment() {
                     activity?.title = getString(R.string.loadingText)
                 }
                 is Success<*> -> {
-                    activity?.title = getString(spaceXViewModel.currentScreen.titleRes)
-                    binding.recyclerView.adapter = BaseListAdapter(
-                        spaceXViewModel.currentScreen.setClickListener(findNavController()),
-                        viewHoldersManager
-                    ).apply { submitList(state.toListOf()!!) }
+                    referenceList.clear()
+                    referenceList.addAll(state.toListOf()!!)
+                    renderList()
                     binding.shimmerLayout.shimmer replaceBy binding.recyclerView
                     binding.shimmerLayout.shimmer.stopShimmer()
                     populateFilterGroup()
@@ -156,11 +168,9 @@ class MainFragment : Fragment() {
             when (state) {
                 false -> Toast.makeText(requireContext(), getString(R.string.upcoming_launches_deselected_string), Toast.LENGTH_SHORT).show()
                 true -> {
-                    val launches = (binding.recyclerView.adapter as BaseListAdapter).currentList.map { it as Launch }
-                    spaceXViewModel.getNextLaunchPosition(launches)?.let { position ->
+                    spaceXViewModel.getScrollPosition(requireContext(), referenceList)?.let { (position, snackText) ->
                         binding.recyclerView.addItemShaker(position)
-                        val timeTo = (launches[position].dateLocal.time - Calendar.getInstance().time.time).prettifyMillisecondsPeriod(requireContext())
-                        Snackbar.make(binding.recyclerView, getString(R.string.next_flight_announce, launches[position].name, timeTo), Snackbar.LENGTH_LONG).show()
+                        if (snackText.isNotBlank()) Snackbar.make(binding.recyclerView, snackText, Snackbar.LENGTH_LONG).show()
                     }
                 }
             }
@@ -170,8 +180,17 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun renderList(searchString: String = "") {
+        activity?.title = getString(spaceXViewModel.currentScreen.titleRes)
+        binding.recyclerView.adapter = BaseListAdapter(
+            spaceXViewModel.currentScreen.setClickListener(findNavController()),
+            viewHoldersManager
+        ).apply { submitList(spaceXViewModel.filterOrSearch(referenceList, searchString)) }
+    }
+
     private fun populateFilterGroup() {
         spaceXViewModel.getFilterIfAvailable?.let { filter ->
+            filter.searchString = ""
             binding.filterGroup.removeAllViews()
             filter.filters.forEach { chipFilter ->
                 binding.filterGroup.addView(Chip(requireContext()).apply {
@@ -180,10 +199,12 @@ class MainFragment : Fragment() {
                     isChecked = chipFilter.checked
                     setOnClickListener {
                         if (isCheckable) {
-                            toggle()
                             chipFilter.toggle()
-                        }
-                        chipFilter.onClick(spaceXViewModel)
+                            renderList()
+                            with(binding.filterGroup) {
+                                postDelayed({ visibility = View.GONE }, 1000)
+                            }
+                        } else chipFilter.onClick(spaceXViewModel)
                     }
                 })
             }

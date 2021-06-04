@@ -1,5 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,11 +9,10 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.ui.view.filters.EmptyFilter
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
-import ru.alexmaryin.spacextimes_rx.utils.nullIfNegative
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +27,8 @@ class SpaceXViewModel @Inject constructor(
     val getFilterIfAvailable get() = if (isFilterAvailable) currentScreen.filter else null
 
     val isFilterAvailable get() = currentScreen.filter != EmptyFilter
+
+    val isSearchable get() = currentScreen.searchable
 
     private val state = MutableStateFlow<Result>(Loading)
     fun getState() = state.asStateFlow()
@@ -50,9 +53,12 @@ class SpaceXViewModel @Inject constructor(
         changeScreen(currentScreen)
     }
 
-    fun getNextLaunchPosition(launches: List<Launch>) = repository.getNextLaunch(launches).nullIfNegative()
+    fun getScrollPosition(context: Context, items: List<HasStringId>) = currentScreen.getPositionToScroll(context, items)
 
-    fun scrollNextLaunch() = viewModelScope.launch {
-        scrollTrigger.emit(currentScreen.filter.isFilterOn("Upcoming"))
+    fun scrollToPosition(predicate: () -> Boolean) = viewModelScope.launch { scrollTrigger.emit(predicate()) }
+
+    fun <T> filterOrSearch(items: List<T>, text: String = ""): List<T> {
+        currentScreen.filter.searchString = text
+        return currentScreen.getFilteredList(items)
     }
 }

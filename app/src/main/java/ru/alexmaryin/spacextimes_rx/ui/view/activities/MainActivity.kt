@@ -12,7 +12,7 @@ import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.utils.prepareNotificationsChannel
 
 @AndroidEntryPoint
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 

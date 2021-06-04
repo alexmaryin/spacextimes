@@ -4,50 +4,53 @@
 
     <item
         android:id="@+id/launchesSelect"
-        android:title="@string/launchesTitle" />
-    <item
-        android:id="@+id/historySelect"
-        android:title="@string/historyEventsTitle" />
-    <item
-        android:id="@+id/payloadsSelect"
-        android:enabled="false"
-        android:title="@string/payloadsTitle" android:visible="false"/>
-    <item
-        android:id="@+id/capsulesSelect"
-        android:title="@string/capsulesTitle" />
-    <item
-        android:id="@+id/crewSelect"
-        android:title="@string/crewTitle" />
+        android:menuCategory="container" android:orderInCategory="1" android:title="@string/launchesTitle"/>
     <item
         android:id="@+id/coresSelect"
-        android:title="@string/coresTitle" />
+        android:menuCategory="container" android:orderInCategory="2" android:title="@string/coresTitle"/>
+    <item
+        android:id="@+id/capsulesSelect"
+        android:menuCategory="container" android:orderInCategory="3" android:title="@string/capsulesTitle"/>
+    <item
+        android:id="@+id/crewSelect"
+        android:menuCategory="container" android:orderInCategory="4" android:title="@string/crewTitle"/>
     <item
         android:id="@+id/dragonsSelect"
-        android:title="@string/dragonsTitle" />
+        android:menuCategory="container" android:orderInCategory="5" android:title="@string/dragonsTitle"/>
     <item
         android:id="@+id/rocketsSelect"
-        android:title="@string/rocketsTitle" />
+        android:menuCategory="container" android:orderInCategory="6" android:title="@string/rocketsTitle"/>
     <item
         android:id="@+id/launchPadsSelect"
-        android:title="@string/launchPadsTitle" />
+        android:menuCategory="container" android:orderInCategory="7" android:title="@string/launchPadsTitle"/>
     <item
         android:id="@+id/landingPadsSelect"
-        android:title="@string/landingPadsTitle" />
+        android:menuCategory="container" android:orderInCategory="8" android:title="@string/landingPadsTitle"/>
     <item
-        android:id="@+id/preferences"
-        android:enabled="true"
-        android:icon="@drawable/ic_outline_settings_24"
-        android:title="@string/preferencesTitle" />
+        android:id="@+id/historySelect"
+        android:menuCategory="container" android:orderInCategory="9" android:title="@string/historyEventsTitle"/>
 
     <item
-        android:id="@+id/syncAction"
-        android:icon="@drawable/ic_outline_autorenew_24"
-        android:title="@string/sync_menu_item"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/searchAction"
+        android:icon="@drawable/ic_outline_search_24"
+        android:title="@string/searchTitle"
+        app:showAsAction="collapseActionView|always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <item
         android:id="@+id/filterAction"
         android:icon="@drawable/ic_filter"
-        android:title="@string/filter_menu_item"
-        app:showAsAction="ifRoom" />
+        android:title="@string/filter_menu_item" app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/syncAction"
+        android:icon="@drawable/ic_outline_autorenew_24"
+        android:title="@string/sync_menu_item" app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/preferences"
+        android:enabled="true"
+        android:icon="@drawable/ic_outline_settings_24"
+        android:menuCategory="system"
+        android:title="@string/preferencesTitle"/>
 </menu>

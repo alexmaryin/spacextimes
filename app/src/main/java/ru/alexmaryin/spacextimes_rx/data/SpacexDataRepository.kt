@@ -6,10 +6,8 @@ import kotlinx.coroutines.flow.*
 import retrofit2.Response
 import ru.alexmaryin.spacextimes_rx.data.api.local.ApiLocal
 import ru.alexmaryin.spacextimes_rx.data.api.remote.SpaceXApi
-import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.data.model.api.ApiResponse
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
-import ru.alexmaryin.spacextimes_rx.data.model.enums.DatePrecision
 import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.net.SocketTimeoutException
@@ -126,7 +124,6 @@ class SpacexDataRepository @Inject constructor(
 
     fun getLaunches(clsName: String) = fetchItems(clsName, remoteApi::getLaunches, localApi::getLaunches, localApi::saveLaunches)
     fun getLaunchById(id: String) = fetchItemById(id, remoteApi::getLaunchById, localApi::getLaunchById, localApi::saveLaunchDetails)
-    fun getNextLaunch(launches: List<Launch>) = launches.indexOfLast { it.datePrecision >= DatePrecision.DAY && it.dateLocal > Calendar.getInstance().time }
 
     fun getPayloadById(id: String) = fetchItemById(id, remoteApi::getPayloadById, localApi::getPayloadById)
 

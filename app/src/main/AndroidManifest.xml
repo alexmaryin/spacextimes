@@ -17,7 +17,6 @@
         android:roundIcon="@mipmap/logo01_beta_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Spacextimes_rx"
-        android:allowBackup="true"
         android:fullBackupOnly="true">
         <activity android:name=".ui.view.activities.MainActivity"
             android:launchMode="singleTask"
@@ -26,6 +25,10 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
         </activity>
     </application>
 

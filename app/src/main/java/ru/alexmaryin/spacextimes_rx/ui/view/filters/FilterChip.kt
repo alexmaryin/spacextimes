@@ -7,7 +7,7 @@ data class FilterChip(
     val resId: Int,
     val isCheckable: Boolean,
     var checked: Boolean,
-    val onClick: (SpaceXViewModel) -> Unit = { it.armRefresh() },
+    val onClick: (SpaceXViewModel) -> Unit = {},
 ) {
-    fun toggle() { if (isCheckable) checked = !checked }
+    fun toggle() { checked = !checked }
 }
