@@ -44,7 +44,7 @@ data class LaunchLocal(
         launch.rocket = rocket?.toResponse()
         launch.launchPad = launchPad?.toResponse()
         launch.crew = crew.map { it.toResponse() }
-        launch.capsules = capsules.map { it.toResponse() }
+        launch.capsules = capsules.map { it.toResponse().apply { launches += launch } }
         launch.payloads = payloads.map { it.toResponse() }
         coreSelect?.let {
             launch.cores = cores.mapNotNull { coreSelect(it.coreFlightId) }
