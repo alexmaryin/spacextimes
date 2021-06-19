@@ -5,6 +5,8 @@ Android application for fetching all information about SpaceX&trade; rocket's la
 
 Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engine version 4.
 
+<a href="https://www.buymeacoffee.com/java73" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 **Already launched:**
 
 - [x] Capsules list
