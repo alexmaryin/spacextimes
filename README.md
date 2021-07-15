@@ -1,11 +1,12 @@
 # SpaceX Times
-###### [![build](https://github.com/alexmaryin/spacextimes/actions/workflows/build.yml/badge.svg)](https://github.com/alexmaryin/spacextimes/actions/workflows/build.yml)  *beta version is already to play*
+###### [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![build](https://github.com/alexmaryin/spacextimes/actions/workflows/build.yml/badge.svg)](https://github.com/alexmaryin/spacextimes/actions/workflows/build.yml)
 
 Android application for fetching all information about SpaceX&trade; rocket's launches and landings, posted media, vehicles technical data, crew members and over more. 
 
 Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engine version 4.
 
-<a href="https://www.buymeacoffee.com/java73" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href="https://play.google.com/store/apps/details?id=ru.alexmaryin.spacextimes_rx" target="_blank"><img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg"  alt="Get in on Google play" height="80px" ></a>
+<a href="https://www.buymeacoffee.com/java73" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="80px" ></a>
 
 **Already launched:**
 
