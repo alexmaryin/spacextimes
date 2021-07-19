@@ -9,7 +9,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.LaunchCrew
 data class LaunchCrewWithoutDetails(
     val crewId: String,
     val role: String,
-    @PrimaryKey(autoGenerate = true) val launchCrewId: Int? = null
+    @PrimaryKey(autoGenerate = true) val launchCrewId: Int = -1
 ) {
     fun toResponse(crew: Crew) = LaunchCrew(crew, role)
 }

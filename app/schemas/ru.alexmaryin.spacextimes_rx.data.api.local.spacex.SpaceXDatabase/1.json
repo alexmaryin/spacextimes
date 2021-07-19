@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "dcb6d0fa951d00a5c023921e2b797266",
+    "identityHash": "9a67eb5ac00aa64ff5bd3a02e6aff5ab",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -732,7 +732,7 @@
       },
       {
         "tableName": "launch_crew_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`crewId` TEXT NOT NULL, `role` TEXT NOT NULL, `launchCrewId` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`crewId` TEXT NOT NULL, `role` TEXT NOT NULL, `launchCrewId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "crewId",
@@ -750,7 +750,7 @@
             "fieldPath": "launchCrewId",
             "columnName": "launchCrewId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -1834,7 +1834,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dcb6d0fa951d00a5c023921e2b797266')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9a67eb5ac00aa64ff5bd3a02e6aff5ab')"
     ]
   }
 }

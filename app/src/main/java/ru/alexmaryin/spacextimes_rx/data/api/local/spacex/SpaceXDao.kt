@@ -48,7 +48,7 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
         with(launch) {
             rocket?.let { insertRocket(it.toRoom()) }
             launchPad?.let { insertLaunchPad(it.toRoom()) }
-            insertLaunchCrew(crew.map { it.toRoom() })
+            insertLaunchCrew(crew.map { it.toRoom().launchCrew })
             insertCrew(crew.map { it.member.toRoom() })
             insertCapsules(capsules.map { it.toRoom() })
             insertPayloads(payloads.map { it.toRoom().payload })

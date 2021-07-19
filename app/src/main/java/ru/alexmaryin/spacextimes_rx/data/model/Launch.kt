@@ -74,7 +74,7 @@ data class Launch(
             toBeDetermined, notEarlyThan, launchPad?.id, failures),
         rocket = rocket?.toRoom(),
         launchPad = launchPad?.toRoom(),
-        crew = crew.map { it.toRoom() },
+        crew = crew.map { it.toRoom().launchCrew },
         capsules = capsules.map { it.toRoom() },
         payloads = payloads.map { it.toRoom().payload },
         cores = cores.mapNotNull { it.toRoom()?.coreFlight }
