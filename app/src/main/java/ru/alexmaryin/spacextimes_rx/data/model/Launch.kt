@@ -12,6 +12,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
+import ru.alexmaryin.spacextimes_rx.data.model.parts.LaunchCrew
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutDetails
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
@@ -44,7 +45,7 @@ data class Launch(
     @Json(name = "net") val notEarlyThan: Boolean = false,
     @Json(name = "launchpad") var launchPad: LaunchPad?,
     val failures: List<Failure> = emptyList(),
-    var crew: List<Crew> = emptyList(),
+    var crew: List<LaunchCrew> = emptyList(),
     var capsules: List<Capsule> = emptyList(),
     var payloads: List<Payload> = emptyList(),
     var cores: List<CoreFlight> = emptyList(),

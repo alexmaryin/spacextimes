@@ -6,7 +6,7 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
 
 @Dao
 abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, LaunchPadDao, LaunchDao,
-    HistoryDao, RocketDao, DragonDao, PayloadDao, CoreFlightsDao, JunctionsDao {
+    HistoryDao, RocketDao, DragonDao, PayloadDao, CoreFlightsDao, LaunchCrewDao, JunctionsDao {
 
     suspend fun insertCapsuleWithLaunches(capsule: Capsule) {
         insertCapsule(capsule.toRoom())
@@ -32,15 +32,15 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
         })
     }
 
-    suspend fun insertCrewWithLaunches(member: Crew) {
-        insertMember(member.toRoom())
-        insertLaunchesToCrew(member.launches.map { LaunchesToCrew(it.id, member.id) })
+    suspend fun insertCrewWithLaunches(crew: Crew) {
+        insertMember(crew.toRoom())
+        insertLaunchesToCrew(crew.launches.map { LaunchesToCrew(it.id, crew.id) })
     }
 
-    suspend fun insertCrewWithLaunches(crew: List<Crew>) {
-        insertCrew(crew.map { member ->
-            insertLaunchesToCrew(member.launches.map { LaunchesToCrew(it.id, member.id) })
-            member.toRoom()
+    suspend fun insertCrewWithLaunches(crewList: List<Crew>) {
+        insertCrew(crewList.map { crew ->
+            insertLaunchesToCrew(crew.launches.map { LaunchesToCrew(it.id, crew.id) })
+            crew.toRoom()
         })
     }
 
@@ -48,17 +48,19 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
         with(launch) {
             rocket?.let { insertRocket(it.toRoom()) }
             launchPad?.let { insertLaunchPad(it.toRoom()) }
-            insertCrew(crew.map { it.toRoom() })
+            insertLaunchCrew(crew.map { it.toRoom() })
+            insertCrew(crew.map { it.member.toRoom() })
             insertCapsules(capsules.map { it.toRoom() })
-            insertCoreFlights(cores.mapNotNull { it.toRoom()?.coreFlight })
             insertPayloads(payloads.map { it.toRoom().payload })
-            insertLaunchesToCrew(crew.map { LaunchesToCrew(id, it.id) })
+            insertLaunchesToCrew(crew.map { LaunchesToCrew(id, it.member.id) })
             insertLaunchesToCapsule(capsules.map { LaunchesToCapsules(id, it.id) })
             insertLaunchesToPayloads(payloads.map { LaunchesToPayloads(id, it.id) })
+            val coreFlightsIds = insertCoreFlights(cores.filter { it.isNotEmpty }.map { it.toRoom()!!.coreFlight })
             cores.mapNotNull { it.core }.apply {
                 insertCores(map { it.toRoom() })
                 insertLaunchesToCore(map { LaunchesToCores(id, it.id) })
-                insertLaunchesToCoreFlight(map { LaunchesToCoreFlights(id, it.id) })
+                insertLaunchesToCoreFlight(zip(coreFlightsIds) { core, flightId ->
+                    LaunchesToCoreFlights(core.id, flightId.toInt()) })
             }
         }
     }

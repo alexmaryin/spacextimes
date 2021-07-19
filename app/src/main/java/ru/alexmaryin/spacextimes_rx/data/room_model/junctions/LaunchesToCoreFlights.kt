@@ -9,5 +9,5 @@ import androidx.room.Entity
 )
 data class LaunchesToCoreFlights(
     @ColumnInfo(index = true) val launchId: String,
-    @ColumnInfo(index = true) val coreFlightId: String,
+    @ColumnInfo(index = true) val coreFlightId: Int,
 )

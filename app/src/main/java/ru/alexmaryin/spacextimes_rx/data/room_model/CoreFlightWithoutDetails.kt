@@ -7,7 +7,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 
 @Entity(tableName = "core_flights_table")
 data class CoreFlightWithoutDetails(
-    @PrimaryKey val coreFlightId: String,
     val coreId: String,
     val flight: Int?,
     val gridfins: Boolean?,
@@ -17,6 +16,7 @@ data class CoreFlightWithoutDetails(
     val landingAttempt: Boolean?,
     val landingSuccess: Boolean?,
     val landingType: String?,
+    @PrimaryKey(autoGenerate = true) val coreFlightId: Int = -1
 ) {
     fun toResponse(core: Core) = CoreFlight(core, flight, gridfins, legs, reused, landpad, landingAttempt, landingSuccess, landingType)
 }

@@ -16,7 +16,7 @@ interface JunctionsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertLaunchesToCore(joins: List<LaunchesToCores>)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLaunchesToCrew(join: LaunchesToCrew)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
