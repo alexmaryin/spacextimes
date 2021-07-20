@@ -53,7 +53,7 @@ data class LaunchLocal(
             launch.crew = crew.map { crewSelect(it.crewId) }
         }
         coreSelect?.let {
-            launch.cores = cores.mapNotNull { coreSelect(it.coreFlightId) }
+            launch.cores = cores.mapNotNull { coreSelect(it.coreFlightId!!) }
         }
     }
 }

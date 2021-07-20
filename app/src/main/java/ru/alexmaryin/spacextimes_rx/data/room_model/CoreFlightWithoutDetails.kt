@@ -16,7 +16,9 @@ data class CoreFlightWithoutDetails(
     val landingAttempt: Boolean?,
     val landingSuccess: Boolean?,
     val landingType: String?,
-    @PrimaryKey(autoGenerate = true) val coreFlightId: Int = -1
+    @PrimaryKey(autoGenerate = true) val coreFlightId: Int? = null
 ) {
+
+
     fun toResponse(core: Core) = CoreFlight(core, flight, gridfins, legs, reused, landpad, landingAttempt, landingSuccess, landingType)
 }

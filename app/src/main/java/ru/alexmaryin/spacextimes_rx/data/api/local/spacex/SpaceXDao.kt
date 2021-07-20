@@ -72,12 +72,14 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
     suspend fun insertLaunchesWithDetails(launches: List<Launch>) {
         insertLaunches(launches.map { launch ->
             insertLaunchDetails(launch)
+            Log.d("INSERT_LAUNCH", "launch inserted ${launch.name}")
             launch.toRoom().launch
         })
     }
 
     suspend fun insertLaunchWithDetails(launch: Launch) {
         insertLaunch(launch.toRoom().launch)
+        Log.d("INSERT_LAUNCH", "launch inserted ${launch.name}")
         insertLaunchDetails(launch)
     }
 

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9a67eb5ac00aa64ff5bd3a02e6aff5ab",
+    "identityHash": "446d293ddcc48b50dec3045bd5b5905e",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -1758,7 +1758,7 @@
       },
       {
         "tableName": "core_flights_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coreId` TEXT NOT NULL, `flight` INTEGER, `gridfins` INTEGER, `legs` INTEGER, `reused` INTEGER, `landpad` TEXT, `landingAttempt` INTEGER, `landingSuccess` INTEGER, `landingType` TEXT, `coreFlightId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coreId` TEXT NOT NULL, `flight` INTEGER, `gridfins` INTEGER, `legs` INTEGER, `reused` INTEGER, `landpad` TEXT, `landingAttempt` INTEGER, `landingSuccess` INTEGER, `landingType` TEXT, `coreFlightId` INTEGER PRIMARY KEY AUTOINCREMENT)",
         "fields": [
           {
             "fieldPath": "coreId",
@@ -1818,7 +1818,7 @@
             "fieldPath": "coreFlightId",
             "columnName": "coreFlightId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -1834,7 +1834,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9a67eb5ac00aa64ff5bd3a02e6aff5ab')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '446d293ddcc48b50dec3045bd5b5905e')"
     ]
   }
 }
