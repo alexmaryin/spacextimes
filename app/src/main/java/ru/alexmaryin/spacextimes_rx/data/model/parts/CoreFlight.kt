@@ -20,8 +20,8 @@ data class CoreFlight(
 ) {
     val isNotEmpty get() =  core != null || this != CoreFlight()
 
-    fun toRoom() = core?.let {
-        if (isNotEmpty) CoreFlightLocal(CoreFlightWithoutDetails(it.id, flight, gridfins, legs, reused, landpad, landingAttempt,
+    fun toRoom(launch: String) = core?.let {
+        if (isNotEmpty) CoreFlightLocal(CoreFlightWithoutDetails(it.id, launch, flight, gridfins, legs, reused, landpad, landingAttempt,
             landingSuccess, landingType), it.toRoom(), emptyList()) else null
     }
 }

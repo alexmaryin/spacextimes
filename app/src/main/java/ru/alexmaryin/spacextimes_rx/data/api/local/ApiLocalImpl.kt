@@ -60,7 +60,8 @@ class ApiLocalImpl @Inject constructor(
 
     override suspend fun getLaunchById(id: String): Launch? = spaceXDao.selectLaunch(id)?.toResponse(
         crewSelect = null,
-        coreSelect = { spaceXDao.selectCoreFlight(it)?.toResponse() }
+        coreSelect = { coreId, launchId ->
+            spaceXDao.selectCoreFlight(coreId, launchId)?.toResponse() }
     )
 
     override suspend fun saveLaunches(launches: List<Launch>) = spaceXDao.insertLaunchesWithDetails(launches)

@@ -47,24 +47,19 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
 
     private suspend fun insertLaunchDetails(launch: Launch) {
         with(launch) {
-            Log.d("INSERT_LAUNCH", "Starting insert launch No. $id/$name")
-            rocket?.let { insertRocket(it.toRoom()); Log.d("INSERT_LAUNCH", "-- insert rocket ${it.name}") }
-            launchPad?.let { insertLaunchPad(it.toRoom()); Log.d("INSERT_LAUNCH", "-- insert launch pad ${it.name}") }
-            insertLaunchCrew(crew.map { Log.d("INSERT_LAUNCH", "-- insert launch crew member ${it.member.name}"); it.toRoom().launchCrew })
-            insertCrew(crew.map { Log.d("INSERT_LAUNCH", "-- insert crew member ${it.member.name}"); it.member.toRoom() })
-            insertCapsules(capsules.map { Log.d("INSERT_LAUNCH", "-- insert capsule ${it.serial}"); it.toRoom() })
-            insertPayloads(payloads.map { Log.d("INSERT_LAUNCH", "-- insert payload ${it.name}"); it.toRoom().payload })
+            rocket?.let { insertRocket(it.toRoom()) }
+            launchPad?.let { insertLaunchPad(it.toRoom()) }
+            insertLaunchCrew(crew.map { it.toRoom().launchCrew })
+            insertCrew(crew.map { it.member.toRoom() })
+            insertCapsules(capsules.map { it.toRoom() })
+            insertPayloads(payloads.map { it.toRoom().payload })
             insertLaunchesToCrew(crew.map { LaunchesToCrew(id, it.member.id) })
             insertLaunchesToCapsule(capsules.map { LaunchesToCapsules(id, it.id) })
             insertLaunchesToPayloads(payloads.map { LaunchesToPayloads(id, it.id) })
-            val coreFlightsIds = insertCoreFlights(cores.filter { it.isNotEmpty }.map { Log.d("INSERT_LAUNCH", "-- insert core ${it.core!!.serial} for flight"); it.toRoom()!!.coreFlight })
-            Log.d("INSERT_LAUNCH", "-- core Flights inserted with new ids: $coreFlightsIds")
+            insertCoreFlights(cores.filter { it.isNotEmpty }.map { it.toRoom(id)!!.coreFlight })
             cores.mapNotNull { it.core }.apply {
                 insertCores(map { it.toRoom() })
                 insertLaunchesToCore(map { LaunchesToCores(id, it.id) })
-                insertLaunchesToCoreFlight(zip(coreFlightsIds) { core, flightId ->
-                    Log.d("INSERT_LAUNCH", "-- insert launch to core ${core.serial} flight join for id $flightId")
-                    LaunchesToCoreFlights(core.id, flightId.toInt()) })
             }
         }
     }
@@ -78,9 +73,9 @@ abstract class SpaceXDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao, Launc
     }
 
     suspend fun insertLaunchWithDetails(launch: Launch) {
+        insertLaunchDetails(launch)
         insertLaunch(launch.toRoom().launch)
         Log.d("INSERT_LAUNCH", "launch inserted ${launch.name}")
-        insertLaunchDetails(launch)
     }
 
     suspend fun insertLandingPadsWithLaunches(landingPads: List<LandingPad>) {
