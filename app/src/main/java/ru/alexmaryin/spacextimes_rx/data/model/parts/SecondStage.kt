@@ -11,6 +11,6 @@ data class SecondStage(
     @Embedded val payloads: Payloads,
     val reusable: Boolean,
     val engines: Int,
-    val fuelAmount: Float?,
-    val burnTime: Int?,
+    @Json(name = "fuel_amount_tons") val fuelAmount: Float?,
+    @Json(name = "burn_time_sec") val burnTime: Int?,
 )

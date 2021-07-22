@@ -321,5 +321,6 @@
     <string name="countdown_to_launch_string">До запуска %s</string>
     <string name="countdown_timer_to_launch_description" translatable="false">countdown timer to launch</string>
     <string name="press_back_finish_message">Нажмите еще раз для выхода</string>
+    <string name="emptyListText">Ничего не найдено</string>
 
 </resources>

@@ -39,5 +39,10 @@
             layout="@layout/main_recycler_shimmer"
             tools:visibility="visible" />
 
+        <include
+            android:id="@+id/emptyListMessage"
+            layout="@layout/empty_list_message"
+            tools:visibility="gone" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
