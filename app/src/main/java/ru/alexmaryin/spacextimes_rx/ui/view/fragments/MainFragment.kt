@@ -137,6 +137,7 @@ class MainFragment : Fragment() {
 
         spaceXViewModel.getState().collectOnFragment(this) { state ->
             binding.filterGroup.visibility = View.GONE
+            binding.emptyListMessage.emptyListLayout.visibility = View.GONE
             when (state) {
                 Loading -> {
                     binding.recyclerView replaceBy binding.shimmerLayout.shimmer
@@ -146,9 +147,9 @@ class MainFragment : Fragment() {
                 is Success<*> -> {
                     referenceList.clear()
                     referenceList.addAll(state.toListOf()!!)
-                    renderList()
                     binding.shimmerLayout.shimmer replaceBy binding.recyclerView
                     binding.shimmerLayout.shimmer.stopShimmer()
+                    renderList()
                     populateFilterGroup()
                 }
                 is Error -> {
@@ -185,7 +186,15 @@ class MainFragment : Fragment() {
         binding.recyclerView.adapter = BaseListAdapter(
             spaceXViewModel.currentScreen.setClickListener(findNavController()),
             viewHoldersManager
-        ).apply { submitList(if (spaceXViewModel.isFilterAvailable) spaceXViewModel.filterOrSearch(referenceList, searchString) else referenceList) }
+        ).apply {
+            val renderList = if (spaceXViewModel.isFilterAvailable) spaceXViewModel.filterOrSearch(referenceList, searchString) else referenceList
+            if (renderList.isNotEmpty()) {
+                binding.emptyListMessage.emptyListLayout replaceBy binding.recyclerView
+                submitList(renderList)
+            } else {
+                binding.recyclerView replaceBy binding.emptyListMessage.emptyListLayout
+            }
+        }
     }
 
     private fun populateFilterGroup() {

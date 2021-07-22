@@ -1,5 +1,6 @@
 package ru.alexmaryin.spacextimes_rx.data.api.local
 
+import androidx.core.text.isDigitsOnly
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
@@ -16,7 +17,6 @@ class RoomConverters {
     @TypeConverter
     fun toDate(dateUnix: Long?) = dateUnix?.let { Date(it) }
 
-    // Next function require a contract for Any inheritances to override toString
     @TypeConverter
     fun fromList(list: List<Any>): String = list.joinToString("\n")
 
@@ -24,7 +24,7 @@ class RoomConverters {
     fun toStringList(source: String): List<String> = source.split("\n")
 
     @TypeConverter
-    fun toIntList(source: String): List<Int> = source.split(",").filter { it.isNotBlank() }.map { it.toInt() }
+    fun toIntList(source: String): List<Int> = source.split("\n").filter { it.isNotBlank() }.map { it.toInt() }
 
     private fun <T> String.splitAndTrim(converter: (String) -> T): List<T> =
         split("\n").filter { it.isNotBlank() }.map(converter)
