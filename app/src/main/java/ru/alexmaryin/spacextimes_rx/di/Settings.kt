@@ -7,6 +7,7 @@ import com.google.protobuf.InvalidProtocolBufferException
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import ru.alexmaryin.spacextimes_rx.ProtoSettings
+import ru.alexmaryin.spacextimes_rx.di.Settings.Companion.HOUR_TO_MILLIS
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -52,6 +53,8 @@ class Settings @Inject constructor(val settings: DataStore<ProtoSettings>) {
 @Suppress("BlockingMethodInNonBlockingContext")
 object SettingsSerializer : Serializer<ProtoSettings> {
     override val defaultValue: ProtoSettings = ProtoSettings.getDefaultInstance()
+        .toBuilder().setRefreshInterval(6 * HOUR_TO_MILLIS).build()
+
 
     override suspend fun readFrom(input: InputStream): ProtoSettings {
         return try {

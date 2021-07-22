@@ -279,5 +279,6 @@
     <string name="refreshSummary">Specifies the interval in hours after which the data will be updated from the network on the next showing invoked.</string>
     <string name="filter_menu_item">Filter</string>
     <string name="sync_menu_item">Sync</string>
+    <string name="emptyListText">Found nothing</string>
 
 </resources>
