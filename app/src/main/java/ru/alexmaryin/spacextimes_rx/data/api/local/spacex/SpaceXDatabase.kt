@@ -20,7 +20,7 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
         LaunchesToCrew::class,
         LaunchCrewWithoutDetails::class,
         LaunchesToPayloads::class,
-        LaunchesToCoreFlights::class,
+//        LaunchesToCoreFlights::class,
         LaunchesToLandingPads::class,
         HistoryLocal::class,
         RocketLocal::class,
@@ -29,7 +29,7 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
         PayloadWithoutDragon::class,
         CoreFlightWithoutDetails::class,
     ],
-    version = 1
+    version = 3
 )
 @TypeConverters(RoomConverters::class)
 abstract class SpaceXDatabase : RoomDatabase() {

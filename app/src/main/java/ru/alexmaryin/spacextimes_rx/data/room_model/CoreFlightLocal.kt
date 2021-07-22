@@ -12,9 +12,8 @@ data class CoreFlightLocal(
         entityColumn = "coreId",
     ) val core: CoreWithoutLaunches,
     @Relation(
-        parentColumn = "coreFlightId",
+        parentColumn = "launchId",
         entityColumn = "launchId",
-        associateBy = Junction(LaunchesToCoreFlights::class)
     ) val launches: List<LaunchWithoutDetails>,
 ) {
     fun toResponse() = coreFlight.toResponse(core.toResponse()).apply {

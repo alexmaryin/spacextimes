@@ -6,7 +6,6 @@ import androidx.room.Relation
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.LaunchCrew
 import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCapsules
-import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCoreFlights
 import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCrew
 import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToPayloads
 
@@ -37,13 +36,13 @@ data class LaunchLocal(
     ) val payloads: List<PayloadWithoutDragon> = emptyList(),
     @Relation(
         parentColumn = "launchId",
-        entityColumn = "coreFlightId",
-        associateBy = Junction(LaunchesToCoreFlights::class)
+        entityColumn = "coreId",
+        associateBy = Junction(CoreFlightWithoutDetails::class)
     ) val cores: List<CoreFlightWithoutDetails> = emptyList(),
 ) {
     suspend fun toResponse(
         crewSelect: (suspend (String) -> LaunchCrew)? = null,
-        coreSelect: (suspend (Int) -> CoreFlight?)? = null
+        coreSelect: (suspend (String, String) -> CoreFlight?)? = null
     ) = launch.toResponse().also { launch ->
         launch.rocket = rocket?.toResponse()
         launch.launchPad = launchPad?.toResponse()
@@ -53,7 +52,7 @@ data class LaunchLocal(
             launch.crew = crew.map { crewSelect(it.crewId) }
         }
         coreSelect?.let {
-            launch.cores = cores.mapNotNull { coreSelect(it.coreFlightId!!) }
+            launch.cores = cores.mapNotNull { coreSelect(it.coreId, it.launchId) }
         }
     }
 }
