@@ -162,9 +162,9 @@
     <string name="launch_number_caption">Запуск</string>
     <string name="static_fire_date_caption">Дата прожига</string>
     <string name="launch_date_caption">Дата запуска</string>
-    <string name="landing_attempts_caption">Сведения о посадке:</string>
-    <string name="landing_success_string">успешно</string>
-    <string name="landing_fail_string">неудачно</string>
+    <string name="landing_attempts_caption">Сведения о посадке:&#160;</string>
+    <string name="landing_success_string">успешно (%s)</string>
+    <string name="landing_fail_string">неудачно (%s)</string>
     <string name="no_landing_attempt_string">не предпринималась</string>
     <string name="youtube_string" translatable="false">Youtube</string>
     <string name="r_campaign_string">r/миссия</string>
@@ -324,5 +324,6 @@
     <string name="emptyListText">Ничего не найдено</string>
     <string name="year_suffix">" г."</string>
     <string name="flight_role_text">Роль в полете: %s</string>
+    <string name="flight_core_launch_text">Полет для этой ступени: %s</string>
 
 </resources>

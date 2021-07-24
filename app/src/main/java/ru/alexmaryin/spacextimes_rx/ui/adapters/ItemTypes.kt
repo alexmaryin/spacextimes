@@ -18,4 +18,5 @@ object ItemTypes {
     const val LINKS = 13
     const val CAROUSEL = 14
     const val FLIGHT_CREW = 15
+    const val FLIGHT_CORE = 16
 }

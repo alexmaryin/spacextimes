@@ -8,22 +8,11 @@ import ru.alexmaryin.spacextimes_rx.data.model.enums.CoreStatus
 import ru.alexmaryin.spacextimes_rx.databinding.CoreItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
+import ru.alexmaryin.spacextimes_rx.utils.falconResourceName
 
 class CoreViewHolder : ViewHolderVisitor {
 
     override val layout = R.layout.core_item
-
-    private fun falconResourceName(item: Core) = if (item.block == null) "falcon1" else buildString {
-        append("falcon9block${item.block}")
-        append(if (item.block > 4 || item.totalFlights >= 2) "legs_" else "_")
-        append(
-            when {
-                item.totalFlights < 1 -> 1
-                item.totalFlights > 10 -> 10
-                else -> item.totalFlights
-            }
-        )
-    }
 
     override fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById) {
         val core = item as Core
@@ -36,7 +25,7 @@ class CoreViewHolder : ViewHolderVisitor {
             coreThumbnail.setImageResource(root.resources.getIdentifier(falconResourceName(core), "drawable", root.context.packageName))
             when (core.status) {
                 CoreStatus.UNKNOWN -> {
-                    coreStatus.text = root.context.getString(R.string.unknownText)
+                    coreStatus.text = root.context.getString(R.string.activeText)
                     coreStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_unknown, 0, 0, 0)
                 }
                 CoreStatus.ACTIVE -> {

@@ -135,9 +135,9 @@
     <string name="launch_number_caption">Flight No.</string>
     <string name="static_fire_date_caption">Static fire date</string>
     <string name="launch_date_caption">Launch date</string>
-    <string name="landing_attempts_caption">Landing details:</string>
-    <string name="landing_success_string">successful</string>
-    <string name="landing_fail_string">failed</string>
+    <string name="landing_attempts_caption">Landing details:&#160;</string>
+    <string name="landing_success_string">successful on %s</string>
+    <string name="landing_fail_string">failed on %s</string>
     <string name="no_landing_attempt_string">no attempt</string>
     <string name="r_campaign_string">r/campaign</string>
     <string name="r_launch_string">r/launch</string>
@@ -258,7 +258,7 @@
     <string name="eccentricity_caption">Eccentricity ε</string>
     <string name="semimajor_axis_caption">Semimajor axis α</string>
     <string name="inclination_caption">Inclination ί</string>
-    <string name="longtitude_AN_caption">Longtitude of the ascending node Ω</string>
+    <string name="longtitude_AN_caption">Longitude of the ascending node Ω</string>
     <string name="periapsis_arg_caption">Argument of periapsis ω</string>
     <string name="mean_anomaly_caption">Mean anomaly M₀</string>
     <string name="epoch_caption">Epoch t₀</string>
@@ -282,5 +282,6 @@
     <string name="emptyListText">Found nothing</string>
     <string name="year_suffix">""</string>
     <string name="flight_role_text">Flight role: %s</string>
+    <string name="flight_core_launch_text">Flight for this core: %s</string>
 
 </resources>
