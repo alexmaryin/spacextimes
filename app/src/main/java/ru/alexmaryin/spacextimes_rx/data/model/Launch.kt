@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.android.material.timepicker.TimeFormat
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDetails
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasWiki
@@ -62,8 +63,8 @@ data class Launch(
     fun dateTrimmed(context: Context): String = when(datePrecision) {
         DatePrecision.YEAR_HALF -> halfYearString(context, dateLocal)
         DatePrecision.YEAR_QUARTER -> quarterYearString(context, dateLocal)
-        DatePrecision.YEAR -> SimpleDateFormat("yyyy", context.currentLocale()).format(dateLocal)
-        DatePrecision.MONTH -> SimpleDateFormat("LLLL yyyy", context.currentLocale()).format(dateLocal)
+        DatePrecision.YEAR -> SimpleDateFormat("yyyy", context.currentLocale()).format(dateLocal) + context.getString(R.string.year_suffix)
+        DatePrecision.MONTH -> SimpleDateFormat("LLLL yyyy", context.currentLocale()).format(dateLocal) + context.getString(R.string.year_suffix)
         DatePrecision.DAY -> DateFormat.getDateInstance(DateFormat.LONG).format(dateLocal)
         DatePrecision.HOUR -> DateFormat.getDateTimeInstance(DateFormat.LONG, TimeFormat.CLOCK_24H).format(dateLocal)
     }

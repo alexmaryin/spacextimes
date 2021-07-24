@@ -15,3 +15,5 @@ fun List<String>.toChunkedList(maxLength: Int = MAX_FILE_SIZE) = buildList {
     }
     add(temp)
 }
+
+fun String.onlyVerbs() = Regex("[^A-Za-z0-9 ]").replace(this, "")

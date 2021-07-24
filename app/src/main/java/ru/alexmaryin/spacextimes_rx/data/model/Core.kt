@@ -28,7 +28,6 @@ data class Core(
         launches.filterNot { it.upcoming }.size,
         groundLandAttempts + waterLandAttempts,
         groundLandings + waterLandings,
-        reuseCount + 1
     )
 
     fun toRoom() = CoreWithoutLaunches(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,

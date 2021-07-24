@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "81a1e79457586987e5979959d078ca58",
+    "identityHash": "33dfb2f11a28b9f67ad9164fb91afc25",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -192,7 +192,7 @@
       },
       {
         "tableName": "landing_pads_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`landingPadId` TEXT NOT NULL, `name` TEXT, `type` TEXT NOT NULL, `locality` TEXT, `region` TEXT, `latitude` REAL, `longitude` REAL, `status` TEXT, `wikipedia` TEXT, `details` TEXT, `landingAttempts` INTEGER NOT NULL, `landingSuccesses` INTEGER NOT NULL, `fullName` TEXT, PRIMARY KEY(`landingPadId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`landingPadId` TEXT NOT NULL, `name` TEXT, `type` TEXT NOT NULL, `locality` TEXT, `region` TEXT, `latitude` REAL, `longitude` REAL, `status` TEXT, `wikipedia` TEXT, `details` TEXT, `landingAttempts` INTEGER NOT NULL, `landingSuccesses` INTEGER NOT NULL, `fullName` TEXT, `imagessmall` TEXT NOT NULL, `imageslarge` TEXT NOT NULL, PRIMARY KEY(`landingPadId`))",
         "fields": [
           {
             "fieldPath": "landingPadId",
@@ -271,6 +271,18 @@
             "columnName": "fullName",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "images.small",
+            "columnName": "imagessmall",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "images.large",
+            "columnName": "imageslarge",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -284,7 +296,7 @@
       },
       {
         "tableName": "launch_pads_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchPadId` TEXT NOT NULL, `name` TEXT, `locality` TEXT, `region` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `status` TEXT NOT NULL, `details` TEXT, `timeZone` TEXT NOT NULL, `fullName` TEXT, `launchAttempts` INTEGER NOT NULL, `launchSuccesses` INTEGER NOT NULL, PRIMARY KEY(`launchPadId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchPadId` TEXT NOT NULL, `name` TEXT, `locality` TEXT, `region` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `status` TEXT NOT NULL, `details` TEXT, `timeZone` TEXT NOT NULL, `fullName` TEXT, `launchAttempts` INTEGER NOT NULL, `launchSuccesses` INTEGER NOT NULL, `imagessmall` TEXT NOT NULL, `imageslarge` TEXT NOT NULL, PRIMARY KEY(`launchPadId`))",
         "fields": [
           {
             "fieldPath": "launchPadId",
@@ -357,6 +369,18 @@
             "columnName": "launchSuccesses",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "images.small",
+            "columnName": "imagessmall",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "images.large",
+            "columnName": "imageslarge",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -370,7 +394,7 @@
       },
       {
         "tableName": "launches_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchId` TEXT NOT NULL, `name` TEXT NOT NULL, `rocketId` TEXT, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER NOT NULL, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `launchPadId` TEXT, `failures` TEXT NOT NULL, `reused` INTEGER, `recovered` INTEGER, `recoveryAttempt` INTEGER, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `youtubeId` TEXT, `smallPatch` TEXT, `largePatch` TEXT, `campaign` TEXT, `launch` TEXT, `media` TEXT, `recovery` TEXT, `small` TEXT NOT NULL, `original` TEXT NOT NULL, PRIMARY KEY(`launchId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`launchId` TEXT NOT NULL, `name` TEXT NOT NULL, `rocketId` TEXT, `window` INTEGER, `success` INTEGER, `upcoming` INTEGER NOT NULL, `details` TEXT, `autoUpdate` INTEGER NOT NULL, `flightNumber` INTEGER NOT NULL, `dateUtc` INTEGER NOT NULL, `dateUnix` INTEGER NOT NULL, `dateLocal` INTEGER NOT NULL, `datePrecision` TEXT NOT NULL, `staticFireDateUtc` INTEGER, `staticFireDateUnix` INTEGER, `toBeDetermined` INTEGER NOT NULL, `notEarlyThan` INTEGER NOT NULL, `launchPadId` TEXT, `failures` TEXT NOT NULL, `reused` INTEGER, `recovered` INTEGER, `recoveryAttempt` INTEGER, `presskit` TEXT, `webcast` TEXT, `article` TEXT, `wikipedia` TEXT, `wikiLocale` TEXT, `youtubeId` TEXT, `patchsmall` TEXT, `patchlarge` TEXT, `redditcampaign` TEXT, `redditlaunch` TEXT, `redditmedia` TEXT, `redditrecovery` TEXT, `flickrsmall` TEXT NOT NULL, `flickroriginal` TEXT NOT NULL, PRIMARY KEY(`launchId`))",
         "fields": [
           {
             "fieldPath": "launchId",
@@ -541,50 +565,50 @@
             "notNull": false
           },
           {
-            "fieldPath": "links.patch.smallPatch",
-            "columnName": "smallPatch",
+            "fieldPath": "links.patch.small",
+            "columnName": "patchsmall",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "links.patch.largePatch",
-            "columnName": "largePatch",
+            "fieldPath": "links.patch.large",
+            "columnName": "patchlarge",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "links.reddit.campaign",
-            "columnName": "campaign",
+            "columnName": "redditcampaign",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "links.reddit.launch",
-            "columnName": "launch",
+            "columnName": "redditlaunch",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "links.reddit.media",
-            "columnName": "media",
+            "columnName": "redditmedia",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "links.reddit.recovery",
-            "columnName": "recovery",
+            "columnName": "redditrecovery",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "links.flickr.small",
-            "columnName": "small",
+            "columnName": "flickrsmall",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "links.flickr.original",
-            "columnName": "original",
+            "columnName": "flickroriginal",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -776,6 +800,98 @@
               "launchId"
             ],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_crew_flight_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "core_flights_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coreId` TEXT NOT NULL, `launchId` TEXT NOT NULL, `flight` INTEGER, `gridfins` INTEGER, `legs` INTEGER, `reused` INTEGER, `landpad` TEXT, `landingAttempt` INTEGER, `landingSuccess` INTEGER, `landingType` TEXT, PRIMARY KEY(`coreId`, `launchId`))",
+        "fields": [
+          {
+            "fieldPath": "coreId",
+            "columnName": "coreId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "launchId",
+            "columnName": "launchId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flight",
+            "columnName": "flight",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gridfins",
+            "columnName": "gridfins",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "legs",
+            "columnName": "legs",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reused",
+            "columnName": "reused",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "landpad",
+            "columnName": "landpad",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "landingAttempt",
+            "columnName": "landingAttempt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "landingSuccess",
+            "columnName": "landingSuccess",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "landingType",
+            "columnName": "landingType",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "coreId",
+            "launchId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_core_flights_table_coreId",
+            "unique": false,
+            "columnNames": [
+              "coreId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_core_flights_table_coreId` ON `${TABLE_NAME}` (`coreId`)"
+          },
+          {
+            "name": "index_core_flights_table_launchId",
+            "unique": false,
+            "columnNames": [
+              "launchId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_core_flights_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
           }
         ],
         "foreignKeys": []
@@ -1729,104 +1845,12 @@
         },
         "indices": [],
         "foreignKeys": []
-      },
-      {
-        "tableName": "core_flights_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coreId` TEXT NOT NULL, `launchId` TEXT NOT NULL, `flight` INTEGER, `gridfins` INTEGER, `legs` INTEGER, `reused` INTEGER, `landpad` TEXT, `landingAttempt` INTEGER, `landingSuccess` INTEGER, `landingType` TEXT, PRIMARY KEY(`coreId`, `launchId`))",
-        "fields": [
-          {
-            "fieldPath": "coreId",
-            "columnName": "coreId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "launchId",
-            "columnName": "launchId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "flight",
-            "columnName": "flight",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "gridfins",
-            "columnName": "gridfins",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "legs",
-            "columnName": "legs",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "reused",
-            "columnName": "reused",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "landpad",
-            "columnName": "landpad",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "landingAttempt",
-            "columnName": "landingAttempt",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "landingSuccess",
-            "columnName": "landingSuccess",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "landingType",
-            "columnName": "landingType",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "coreId",
-            "launchId"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_core_flights_table_coreId",
-            "unique": false,
-            "columnNames": [
-              "coreId"
-            ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_core_flights_table_coreId` ON `${TABLE_NAME}` (`coreId`)"
-          },
-          {
-            "name": "index_core_flights_table_launchId",
-            "unique": false,
-            "columnNames": [
-              "launchId"
-            ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_core_flights_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
-          }
-        ],
-        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '81a1e79457586987e5979959d078ca58')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '33dfb2f11a28b9f67ad9164fb91afc25')"
     ]
   }
 }

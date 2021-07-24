@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import com.synnapps.carouselview.CarouselView
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.extra.Images
 import ru.alexmaryin.spacextimes_rx.utils.CircleTransformation
 import ru.alexmaryin.spacextimes_rx.utils.downloadImageFromCarousel
 
@@ -38,6 +39,15 @@ object CommonAdapters {
                 .error(R.drawable.ic_broken_image)
                 .into(view)
         } else view.visibility = View.INVISIBLE
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["imagesList", "roundedCorners"], requireAll = false)
+    fun loadImageFromList(view: ImageView, images: Images, roundedCorners: Boolean = false) {
+        val source = images.large.ifEmpty { images.small.ifEmpty { null } }
+        source?.let {
+            loadImage(view, it.random(), roundedCorners)
+        }
     }
 
     @JvmStatic

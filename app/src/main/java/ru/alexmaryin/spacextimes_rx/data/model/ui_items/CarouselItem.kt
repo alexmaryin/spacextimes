@@ -5,5 +5,5 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 data class CarouselItem(
     override val id: String = "carousel",
     val images: List<String>,
-    val launchName: String,
+    val prefix: String,
 ) : HasStringId

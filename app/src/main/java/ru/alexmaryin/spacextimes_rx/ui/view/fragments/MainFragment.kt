@@ -36,8 +36,12 @@ class MainFragment : Fragment() {
 
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
-    @Inject lateinit var viewHoldersManager: ViewHoldersManager
-    @Inject lateinit var settings: Settings
+
+    @Inject
+    lateinit var viewHoldersManager: ViewHoldersManager
+
+    @Inject
+    lateinit var settings: Settings
     private val referenceList = mutableListOf<HasStringId>()
 
     private var backPressedTime: Long = 0
@@ -98,9 +102,9 @@ class MainFragment : Fragment() {
             if (spaceXViewModel.isSearchable) {
                 isVisible = true
                 val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-                with (actionView as SearchView) {
+                with(actionView as SearchView) {
                     setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-                    setOnQueryTextListener(HotSearchListener { searchString -> renderList(searchString) })
+                    setOnQueryTextListener(HotSearchListener(this@MainFragment::hideKeyboard) { searchString -> renderList(searchString) })
                     setOnActionExpandListener(MenuItemCollapseListener { activity?.invalidateOptionsMenu() })
                 }
             } else isVisible = false
@@ -213,7 +217,8 @@ class MainFragment : Fragment() {
                             with(binding.filterGroup) {
                                 postDelayed({ visibility = View.GONE }, 1000)
                             }
-                        } else chipFilter.onClick(spaceXViewModel)
+                        }
+                        chipFilter.onClick(spaceXViewModel)
                     }
                 })
             }

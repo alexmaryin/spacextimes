@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,13 +10,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.TypedValue
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import ru.alexmaryin.spacextimes_rx.ProtoSettings
+import androidx.fragment.app.Fragment
 import ru.alexmaryin.spacextimes_rx.R
-import ru.alexmaryin.spacextimes_rx.di.SettingsSerializer
 import java.util.*
 
 fun Context.getColorIdFromAttr(attrId: Int): Int = TypedValue().apply {
@@ -57,3 +57,12 @@ fun Context.currentLocaleLang(): String = if (Build.VERSION.SDK_INT >= Build.VER
 @Suppress("DEPRECATION")
 fun Context.currentLocale(): Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
     resources.configuration.locales[0] else resources.configuration.locale
+
+fun Fragment.hideKeyboard() {
+    view?.let { requireActivity().hideKeyboard(it) }
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}

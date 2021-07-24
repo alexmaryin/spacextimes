@@ -13,8 +13,14 @@ class MenuItemCollapseListener(private val collapseCallback: (item: MenuItem?) -
     }
 }
 
-class HotSearchListener(private val textChangeCallback: (text: String) -> Unit) : SearchView.OnQueryTextListener {
-    override fun onQueryTextSubmit(query: String?) = onQueryTextChange(query)
+class HotSearchListener(
+    private val closeKeyboardCallback: () -> Unit,
+    private val textChangeCallback: (text: String) -> Unit
+) : SearchView.OnQueryTextListener {
+    override fun onQueryTextSubmit(query: String?) = run {
+        closeKeyboardCallback()
+        onQueryTextChange(query)
+    }
 
     override fun onQueryTextChange(newText: String?) = newText?.run {
         textChangeCallback(this)

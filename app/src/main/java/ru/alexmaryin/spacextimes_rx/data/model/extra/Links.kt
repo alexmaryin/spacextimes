@@ -6,9 +6,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Links(
-    @Embedded val patch: PatchImages?,
-    @Embedded val reddit: Reddit?,
-    @Embedded val flickr: FlickrImages,
+    @Embedded(prefix = "patch") val patch: Patch?,
+    @Embedded(prefix = "reddit") val reddit: Reddit?,
+    @Embedded(prefix = "flickr") val flickr: FlickrImages,
     val presskit: String? = null,
     val webcast: String? = null,
     val article: String? = null,

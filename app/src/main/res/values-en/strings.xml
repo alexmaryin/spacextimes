@@ -47,14 +47,14 @@
     <string name="saving_title_string">Save</string>
     <string name="save_image_dialog_string">Download to storage?</string>
     <string name="failed_image_save_string">Save failed!</string>
-    <string name="quarter1_string">1st quarter </string>
-    <string name="quarter2_string">2nd quarter </string>
-    <string name="quarter3_string">3rd quarter </string>
-    <string name="quarter4_string">4th quarter </string>
-    <string name="half1_string">First half of </string>
-    <string name="half2_string">Second half of </string>
+    <string name="quarter1_string">1st quarter&#160;</string>
+    <string name="quarter2_string">2nd quarter&#160;</string>
+    <string name="quarter3_string">3rd quarter&#160;</string>
+    <string name="quarter4_string">4th quarter&#160;</string>
+    <string name="half1_string">First half of&#160;</string>
+    <string name="half2_string">Second half of&#160;</string>
     <string name="to_be_determined_string">to be determined</string>
-    <string name="not_early_string">not early </string>
+    <string name="not_early_string">not early&#160;</string>
     <string name="missions_list_header">Joined missions:</string>
     <string name="core_not_fly_text">This core doesn\'t fly yet!</string>
     <string name="historyEventsTitle">History events</string>
@@ -280,5 +280,6 @@
     <string name="filter_menu_item">Filter</string>
     <string name="sync_menu_item">Sync</string>
     <string name="emptyListText">Found nothing</string>
+    <string name="year_suffix">""</string>
 
 </resources>
