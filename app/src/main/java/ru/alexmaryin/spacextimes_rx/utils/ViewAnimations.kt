@@ -34,11 +34,11 @@ infix fun View.replaceBy(view: View) {
     visibility = View.GONE
 }
 
-val shakeInterpolator = TimeInterpolator { input ->
-    val freq = 3f
+val shakeInterpolator = TimeInterpolator { delta ->
+    val freq = 6f
     val decay = 2f
-    val raw = sin(freq * input * 2 * Math.PI)
-    (raw * exp((-input * decay).toDouble())).toFloat()
+    val raw = sin(freq * delta * Math.PI)
+    (raw * exp((-delta * decay).toDouble())).toFloat()
 }
 
 fun RecyclerView.addItemShaker(position: Int) {

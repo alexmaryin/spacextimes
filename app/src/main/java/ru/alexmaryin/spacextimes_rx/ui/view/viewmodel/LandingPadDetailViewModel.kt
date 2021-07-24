@@ -17,6 +17,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.LandingPad
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.LandingPadType
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.CarouselItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
@@ -51,6 +52,11 @@ class LandingPadDetailViewModel @Inject constructor(
             settings.armSynchronize = true
             loadLandingPad()
         } else {
+
+            landingPad.images.large.ifEmpty { landingPad.images.small.ifEmpty { null } }?.let {
+                add(CarouselItem(images = it, prefix = landingPad.name!!))
+            }
+
             add(
                 OneLineItem2(
                     left = res.getString(R.string.status_pad_caption),

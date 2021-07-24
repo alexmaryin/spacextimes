@@ -20,6 +20,8 @@ class AdaptersModule {
         registerViewHolder(ItemTypes.CAPSULE, CapsuleViewHolder())
         registerViewHolder(ItemTypes.CORE, CoreViewHolder())
         registerViewHolder(ItemTypes.CREW, CrewViewHolder())
+        registerViewHolder(ItemTypes.FLIGHT_CREW, FlightCrewViewHolder())
+        registerViewHolder(ItemTypes.FLIGHT_CORE, FlightCoreViewHolder())
         registerViewHolder(ItemTypes.DRAGON, DragonsViewHolder())
         registerViewHolder(ItemTypes.HISTORY_EVENT, HistoryEventsViewHolder())
         registerViewHolder(ItemTypes.LANDING_PAD, LandingPadViewHolder())

@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{landingPad.name}"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/zoneImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Landing Zone 1" />
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{landingPad.fullName}"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/zoneImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/landingPadName"
             tools:text="Some description text" />
@@ -45,10 +45,21 @@
             android:layout_height="wrap_content"
             android:text='@{landingPad.locality+", "+landingPad.region}'
             app:drawableStartCompat="@drawable/location_marker"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/zoneImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/landingPadFullName"
             app:underlined="@{true}"
             tools:text="Some location, USA" />
+
+        <ImageView
+            android:id="@+id/zoneImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> clickListener.onClick(landingPad.id, ItemTypes.LANDING_PAD)}"
+            app:imagesList="@{landingPad.images}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

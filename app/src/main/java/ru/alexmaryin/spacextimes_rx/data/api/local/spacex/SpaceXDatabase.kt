@@ -1,6 +1,5 @@
 package ru.alexmaryin.spacextimes_rx.data.api.local.spacex
 
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -19,20 +18,19 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
         LaunchesToCapsules::class,
         LaunchesToCores::class,
         LaunchesToCrew::class,
+        CrewFlightWithoutDetails::class,
+        CoreFlightWithoutDetails::class,
         LaunchesToPayloads::class,
-        LaunchesToCoreFlights::class,
         LaunchesToLandingPads::class,
         HistoryLocal::class,
         RocketLocal::class,
         DragonLocal::class,
         PayloadDragonWithoutCapsule::class,
         PayloadWithoutDragon::class,
-        CoreFlightWithoutDetails::class,
     ],
-    autoMigrations = [AutoMigration(from = 1, to = 2)],
-    version = 2
+    version = 3
 )
 @TypeConverters(RoomConverters::class)
 abstract class SpaceXDatabase : RoomDatabase() {
-    abstract val dao: SpaceXDao
+    abstract val dao: SpaceXFlightsDao
 }

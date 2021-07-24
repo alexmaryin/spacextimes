@@ -13,6 +13,6 @@ interface CoreFlightsDao {
     suspend fun insertCoreFlights(coreFlights: List<CoreFlightWithoutDetails>)
 
     @Transaction
-    @Query("select * from core_flights_table where coreFlightId=:id")
-    suspend fun selectCoreFlight(id: String): CoreFlightLocal?
+    @Query("select * from core_flights_table where coreId=:coreId and launchId=:launchId")
+    suspend fun selectCoreFlight(coreId: String, launchId: String): CoreFlightLocal?
 }

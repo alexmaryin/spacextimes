@@ -15,6 +15,7 @@ import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.LaunchPad
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.enums.PadStatus
+import ru.alexmaryin.spacextimes_rx.data.model.ui_items.CarouselItem
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.OneLineItem2
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.RecyclerHeader
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.TwoStringsItem
@@ -48,6 +49,11 @@ class LaunchPadDetailViewModel @Inject constructor(
             settings.armSynchronize = true
             loadLaunchPad()
         } else {
+
+            launchPad.images.large.ifEmpty { launchPad.images.small.ifEmpty { null } }?.let {
+                add(CarouselItem(images = it, prefix = launchPad.name!!))
+            }
+
             add(
                 OneLineItem2(
                     left = res.getString(R.string.status_pad_caption),

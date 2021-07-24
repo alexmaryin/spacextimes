@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import com.synnapps.carouselview.CarouselView
 import ru.alexmaryin.spacextimes_rx.R
+import ru.alexmaryin.spacextimes_rx.data.model.extra.Images
+import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.utils.CircleTransformation
 import ru.alexmaryin.spacextimes_rx.utils.downloadImageFromCarousel
 
@@ -38,6 +40,15 @@ object CommonAdapters {
                 .error(R.drawable.ic_broken_image)
                 .into(view)
         } else view.visibility = View.INVISIBLE
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["imagesList", "roundedCorners"], requireAll = false)
+    fun loadImageFromList(view: ImageView, images: Images, roundedCorners: Boolean = false) {
+        val source = images.large.ifEmpty { images.small.ifEmpty { null } }
+        source?.let {
+            loadImage(view, it.random(), roundedCorners)
+        }
     }
 
     @JvmStatic
@@ -82,5 +93,14 @@ object CommonAdapters {
                 pageCount = imagesList.size
             }
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("coreLandingText")
+    fun buildCoreLandingText(view: TextView, core: CoreFlight) = buildString {
+        append(view.context.getString(R.string.landing_attempts_caption))
+        core.landingSuccess?.let { landed ->
+            append(view.context.getString(if (landed) R.string.landing_success_string else R.string.landing_fail_string, core.landingType))
+        } ?: append(view.context.getString(R.string.no_landing_attempt_string))
     }
 }

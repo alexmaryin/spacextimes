@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+        <variable name="flightCrew" type="ru.alexmaryin.spacextimes_rx.data.model.parts.CrewFlight" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/memberName"
+            style="@style/boldCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(flightCrew.member.id, ItemTypes.CREW)}"
+            android:text="@{flightCrew.member.name}"
+            app:layout_constraintEnd_toStartOf="@id/memberPhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bob Benkhen" />
+
+        <TextView
+            android:id="@+id/role"
+            style="@style/regularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{@string/flight_role_text(flightCrew.role)}"
+            app:layout_constraintEnd_toStartOf="@id/memberPhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/memberName"
+            tools:text="Flight role: Commander" />
+
+        <TextView
+            android:id="@+id/agency"
+            style="@style/descriptionText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(flightCrew.member.id, ItemTypes.CREW)}"
+            android:text="@{flightCrew.member.agency}"
+            app:layout_constraintEnd_toStartOf="@id/memberPhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/role"
+            tools:text="Some description text" />
+
+
+        <ImageView
+            android:id="@+id/memberPhoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> clickListener.onClick(flightCrew.member.id, ItemTypes.CREW)}"
+            app:imageUrl="@{flightCrew.member.image}"
+            app:roundedCorners="@{true}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

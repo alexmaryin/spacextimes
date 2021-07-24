@@ -2,6 +2,7 @@ package ru.alexmaryin.spacextimes_rx.ui.view.filters
 
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.Launch
+import ru.alexmaryin.spacextimes_rx.utils.onlyVerbs
 
 const val UPCOMING = R.string.upcoming_filter
 const val SUCCESS = R.string.success_filter
@@ -24,6 +25,6 @@ object LaunchFilter : ListFilter() {
     override fun <T> predicate(item: T) = with (item as Launch) {
         (upcoming == "Upcoming" in names || upcoming != "Past" in names) &&
                 (success == "Successfully" in names || success != "Failed" in names) &&
-                name.contains(searchString, ignoreCase = true)
+                name.onlyVerbs().contains(searchString.onlyVerbs(), ignoreCase = true)
     }
 }

@@ -5,35 +5,29 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
 
 interface JunctionsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCapsule(join: LaunchesToCapsules)
+    suspend fun insertLaunchesToCapsule(join: LaunchesToCapsules)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCapsule(joins: List<LaunchesToCapsules>)
+    suspend fun insertLaunchesToCapsule(joins: List<LaunchesToCapsules>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCore(join: LaunchesToCores)
+    suspend fun insertLaunchesToCore(join: LaunchesToCores)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCore(joins: List<LaunchesToCores>)
+    suspend fun insertLaunchesToCore(joins: List<LaunchesToCores>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLaunchesToCrew(join: LaunchesToCrew)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCrew(join: LaunchesToCrew)
+    suspend fun insertLaunchesToCrew(joins: List<LaunchesToCrew>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCrew(joins: List<LaunchesToCrew>)
+    suspend fun insertLaunchesToPayloads(join: LaunchesToPayloads)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCoreFlight(join: LaunchesToCoreFlights)
+    suspend fun insertLaunchesToPayloads(joins: List<LaunchesToPayloads>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToCoreFlight(joins: List<LaunchesToCoreFlights>)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToPayloads(join: LaunchesToPayloads)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToPayloads(joins: List<LaunchesToPayloads>)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertLaunchesToLandingPads(joins: List<LaunchesToLandingPads>)
+    suspend fun insertLaunchesToLandingPads(joins: List<LaunchesToLandingPads>)
 }

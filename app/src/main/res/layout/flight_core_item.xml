@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="clickListener" type="ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById" />
+        <variable name="flightCore" type="ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.bindAdapters.CommonAdapters" />
+        <import type="ru.alexmaryin.spacextimes_rx.ui.adapters.ItemTypes" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/coreSerial"
+            style="@style/boldCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(flightCore.core.id, ItemTypes.CORE)}"
+            android:text="@{flightCore.core.serial}"
+            app:layout_constraintEnd_toStartOf="@id/coreThumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="B1051" />
+
+        <TextView
+            android:id="@+id/flightDetails"
+            style="@style/regularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(flightCore.core.id, ItemTypes.CORE)}"
+            android:text="@{@string/flight_core_launch_text(flightCore.flight ?? @string/unknownText)}"
+            app:layout_constraintEnd_toStartOf="@id/coreThumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/coreSerial"
+            tools:text="Flight for this core: 2" />
+
+        <TextView
+            android:id="@+id/landingDetails"
+            style="@style/regularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> clickListener.onClick(flightCore.core.id, ItemTypes.CORE)}"
+            app:coreLandingText="@{flightCore}"
+            app:layout_constraintEnd_toStartOf="@id/coreThumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flightDetails"
+            tools:text="Landing status: successful on ASDS" />
+
+
+        <ImageView
+            android:id="@+id/coreThumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:contentDescription="@string/core_thumbnail_picture_description"
+            android:scaleType="fitCenter"
+            android:onClick="@{() -> clickListener.onClick(flightCore.core.id, ItemTypes.CORE)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/falcon9block5legs_5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

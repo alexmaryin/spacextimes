@@ -44,7 +44,7 @@ class LaunchDetailViewModel @Inject constructor(
         with(launch) {
 
             images.filter { it.isNotBlank() }.apply {
-                if (isNotEmpty()) add(CarouselItem(images = this, launchName = name))
+                if (isNotEmpty()) add(CarouselItem(images = this, prefix = name))
             }
 
             add(
@@ -89,27 +89,9 @@ class LaunchDetailViewModel @Inject constructor(
                 addAll(payloads)
             }
 
-            cores.mapNotNull { it.core }.apply cores@{
-                if (isNotEmpty()) {
-                    add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_core_caption, cores.size)))
-                    if (!upcoming) {
-                        add(TwoStringsItem(
-                            caption = res.getString(R.string.landing_attempts_caption),
-                            details = buildString {
-                                cores.forEachIndexed { index, core ->
-                                    append("${this@cores[index].serial}: ")
-                                    if (core.landingAttempt == true && core.landingSuccess != null) {
-                                        appendLine(
-                                            (if (core.landingSuccess) res.getString(R.string.landing_success_string)
-                                            else res.getString(R.string.landing_fail_string)) + " (${core.landingType})"
-                                        )
-                                    } else appendLine(res.getString(R.string.no_landing_attempt_string))
-                                }
-                            }
-                        ))
-                    }
-                    addAll(this)
-                }
+            if (cores.isNotEmpty()) {
+                add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_core_caption, cores.size)))
+                addAll(cores)
             }
 
             launchPad?.let {
@@ -122,9 +104,9 @@ class LaunchDetailViewModel @Inject constructor(
                 addAll(capsules)
             }
 
-            if (crew.isNotEmpty()) {
-                add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_crew_caption, crew.size)))
-                addAll(crew)
+            if (crewFlight.isNotEmpty()) {
+                add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_crew_caption, crewFlight.size)))
+                addAll(crewFlight)
             }
 
             if (failures.isNotEmpty()) {

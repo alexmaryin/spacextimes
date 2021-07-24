@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> clickListener.onClick(launchPad.id, ItemTypes.LAUNCH_PAD)}"
             android:text="@{launchPad.name}"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/zoneImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="KSC 39A" />
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> clickListener.onClick(launchPad.id, ItemTypes.LAUNCH_PAD)}"
             android:text="@{launchPad.fullName}"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/zoneImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/launchPadName"
             tools:text="Some description text" />
@@ -44,11 +44,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text='@{launchPad.locality+", "+launchPad.region}'
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/zoneImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/launchPadFullName"
             app:underlined="@{true}"
             tools:text="Some location, USA"
             app:drawableStartCompat="@drawable/location_marker" />
+
+        <ImageView
+            android:id="@+id/zoneImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> clickListener.onClick(launchPad.id, ItemTypes.LAUNCH_PAD)}"
+            app:imagesList="@{launchPad.images}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
