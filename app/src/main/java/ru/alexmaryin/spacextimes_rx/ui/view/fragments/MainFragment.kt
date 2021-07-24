@@ -157,10 +157,10 @@ class MainFragment : Fragment() {
                     Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
                     activity?.title = getString(R.string.error_title)
                     Log.d("ERROR_FETCH", state.msg)
-                    lifecycleScope.launch {
-                        settings.translateToRu(false)
-                        spaceXViewModel.armRefresh()
-                    }
+//                    lifecycleScope.launch {
+//                        settings.translateToRu(false)
+//                        spaceXViewModel.armRefresh()
+//                    }
                 }
             }
         }

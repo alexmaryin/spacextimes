@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "c1cb3c581bc7087f6b16f9d558f20ca5",
+    "identityHash": "81a1e79457586987e5979959d078ca58",
     "entities": [
       {
         "tableName": "capsules_table",
@@ -731,8 +731,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "launch_crew_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`crewId` TEXT NOT NULL, `role` TEXT NOT NULL, `launchCrewId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "tableName": "crew_flight_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`crewId` TEXT NOT NULL, `launchId` TEXT NOT NULL, `role` TEXT NOT NULL, PRIMARY KEY(`crewId`, `launchId`))",
         "fields": [
           {
             "fieldPath": "crewId",
@@ -741,25 +741,43 @@
             "notNull": true
           },
           {
-            "fieldPath": "role",
-            "columnName": "role",
+            "fieldPath": "launchId",
+            "columnName": "launchId",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "launchCrewId",
-            "columnName": "launchCrewId",
-            "affinity": "INTEGER",
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "launchCrewId"
+            "crewId",
+            "launchId"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_crew_flight_table_crewId",
+            "unique": false,
+            "columnNames": [
+              "crewId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_crew_flight_table_crewId` ON `${TABLE_NAME}` (`crewId`)"
+          },
+          {
+            "name": "index_crew_flight_table_launchId",
+            "unique": false,
+            "columnNames": [
+              "launchId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_crew_flight_table_launchId` ON `${TABLE_NAME}` (`launchId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -1808,7 +1826,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c1cb3c581bc7087f6b16f9d558f20ca5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '81a1e79457586987e5979959d078ca58')"
     ]
   }
 }

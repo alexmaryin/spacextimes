@@ -22,12 +22,6 @@ interface JunctionsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertLaunchesToCrew(joins: List<LaunchesToCrew>)
 
-//    @Insert(onConflict = OnConflictStrategy.IGNORE)
-//    fun insertLaunchesToCoreFlight(join: LaunchesToCoreFlights)
-
-//    @Insert(onConflict = OnConflictStrategy.IGNORE)
-//    fun insertLaunchesToCoreFlight(joins: List<LaunchesToCoreFlights>)
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertLaunchesToPayloads(join: LaunchesToPayloads)
 

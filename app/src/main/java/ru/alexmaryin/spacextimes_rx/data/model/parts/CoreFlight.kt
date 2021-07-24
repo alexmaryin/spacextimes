@@ -18,10 +18,10 @@ data class CoreFlight(
     @Json(name = "landing_success") val landingSuccess: Boolean? = null,
     @Json(name = "landing_type") val landingType: String? = null,
 ) {
-    val isNotEmpty get() =  core != null || this != CoreFlight()
+    val isNotEmpty get() =  core != null
 
     fun toRoom(launch: String) = core?.let {
-        if (isNotEmpty) CoreFlightLocal(CoreFlightWithoutDetails(it.id, launch, flight, gridfins, legs, reused, landpad, landingAttempt,
-            landingSuccess, landingType), it.toRoom(), emptyList()) else null
+        CoreFlightLocal(CoreFlightWithoutDetails(it.id, launch, flight, gridfins, legs, reused, landpad, landingAttempt,
+            landingSuccess, landingType), it.toRoom(), emptyList())
     }
 }

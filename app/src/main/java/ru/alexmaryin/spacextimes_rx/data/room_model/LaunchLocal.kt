@@ -4,9 +4,8 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
-import ru.alexmaryin.spacextimes_rx.data.model.parts.LaunchCrew
+import ru.alexmaryin.spacextimes_rx.data.model.parts.CrewFlight
 import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCapsules
-import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCrew
 import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToPayloads
 
 data class LaunchLocal(
@@ -21,9 +20,9 @@ data class LaunchLocal(
     ) val launchPad: LaunchPadWithoutLaunches?,
     @Relation(
         parentColumn = "launchId",
-        entityColumn = "crewId",
-        associateBy = Junction(LaunchesToCrew::class)
-    ) val crew: List<LaunchCrewWithoutDetails> = emptyList(),
+        entityColumn = "launchId",
+        associateBy = Junction(CrewFlightWithoutDetails::class)
+    ) val crewFlight: Set<CrewFlightWithoutDetails> = emptySet(),
     @Relation(
         parentColumn = "launchId",
         entityColumn = "capsuleId",
@@ -36,23 +35,19 @@ data class LaunchLocal(
     ) val payloads: List<PayloadWithoutDragon> = emptyList(),
     @Relation(
         parentColumn = "launchId",
-        entityColumn = "coreId",
+        entityColumn = "launchId",
         associateBy = Junction(CoreFlightWithoutDetails::class)
-    ) val cores: List<CoreFlightWithoutDetails> = emptyList(),
+    ) val cores: Set<CoreFlightWithoutDetails> = emptySet(),
 ) {
     suspend fun toResponse(
-        crewSelect: (suspend (String) -> LaunchCrew)? = null,
-        coreSelect: (suspend (String, String) -> CoreFlight?)? = null
+        crewFlightSelect: (suspend (String, String) -> CrewFlight?),
+        coreSelect: (suspend (String, String) -> CoreFlight?)
     ) = launch.toResponse().also { launch ->
         launch.rocket = rocket?.toResponse()
         launch.launchPad = launchPad?.toResponse()
         launch.capsules = capsules.map { it.toResponse().apply { launches += launch } }
         launch.payloads = payloads.map { it.toResponse() }
-        crewSelect?.let {
-            launch.crew = crew.map { crewSelect(it.crewId) }
-        }
-        coreSelect?.let {
-            launch.cores = cores.mapNotNull { coreSelect(it.coreId, it.launchId) }
-        }
+        launch.crewFlight = crewFlight.mapNotNull { crewFlightSelect(it.crewId, it.launchId) }
+        launch.cores = cores.mapNotNull { coreSelect(it.coreId, it.launchId) }
     }
 }

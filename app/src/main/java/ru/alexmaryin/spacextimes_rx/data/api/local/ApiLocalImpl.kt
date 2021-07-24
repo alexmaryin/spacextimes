@@ -1,11 +1,11 @@
 package ru.alexmaryin.spacextimes_rx.data.api.local
 
-import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXDao
+import ru.alexmaryin.spacextimes_rx.data.api.local.spacex.SpaceXFlightsDao
 import ru.alexmaryin.spacextimes_rx.data.model.*
 import javax.inject.Inject
 
 class ApiLocalImpl @Inject constructor(
-    private val spaceXDao: SpaceXDao,
+    private val spaceXDao: SpaceXFlightsDao,
 ): ApiLocal {
 
     override suspend fun getCapsules(): List<Capsule> = spaceXDao.selectAllCapsules().map { it.toResponse() }
@@ -59,10 +59,10 @@ class ApiLocalImpl @Inject constructor(
     override suspend fun getLaunches(): List<Launch> = spaceXDao.selectLaunchesForList().map { it.toResponse() }
 
     override suspend fun getLaunchById(id: String): Launch? = spaceXDao.selectLaunch(id)?.toResponse(
-        crewSelect = null,
+        crewFlightSelect = { crewId, launchId ->
+            spaceXDao.selectCrewFlight(crewId, launchId)?.toResponse() },
         coreSelect = { coreId, launchId ->
-            spaceXDao.selectCoreFlight(coreId, launchId)?.toResponse() }
-    )
+            spaceXDao.selectCoreFlight(coreId, launchId)?.toResponse() })
 
     override suspend fun saveLaunches(launches: List<Launch>) = spaceXDao.insertLaunchesWithDetails(launches)
 

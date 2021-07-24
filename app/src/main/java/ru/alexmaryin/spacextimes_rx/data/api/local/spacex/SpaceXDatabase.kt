@@ -18,20 +18,19 @@ import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.*
         LaunchesToCapsules::class,
         LaunchesToCores::class,
         LaunchesToCrew::class,
-        LaunchCrewWithoutDetails::class,
+        CrewFlightWithoutDetails::class,
+        CoreFlightWithoutDetails::class,
         LaunchesToPayloads::class,
-//        LaunchesToCoreFlights::class,
         LaunchesToLandingPads::class,
         HistoryLocal::class,
         RocketLocal::class,
         DragonLocal::class,
         PayloadDragonWithoutCapsule::class,
         PayloadWithoutDragon::class,
-        CoreFlightWithoutDetails::class,
     ],
     version = 3
 )
 @TypeConverters(RoomConverters::class)
 abstract class SpaceXDatabase : RoomDatabase() {
-    abstract val dao: SpaceXDao
+    abstract val dao: SpaceXFlightsDao
 }

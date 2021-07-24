@@ -12,7 +12,7 @@ import ru.alexmaryin.spacextimes_rx.data.model.extra.Failure
 import ru.alexmaryin.spacextimes_rx.data.model.extra.Links
 import ru.alexmaryin.spacextimes_rx.data.model.parts.CoreFlight
 import ru.alexmaryin.spacextimes_rx.data.model.parts.Fairings
-import ru.alexmaryin.spacextimes_rx.data.model.parts.LaunchCrew
+import ru.alexmaryin.spacextimes_rx.data.model.parts.CrewFlight
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchLocal
 import ru.alexmaryin.spacextimes_rx.data.room_model.LaunchWithoutDetails
 import ru.alexmaryin.spacextimes_rx.utils.currentLocale
@@ -45,7 +45,7 @@ data class Launch(
     @Json(name = "net") val notEarlyThan: Boolean = false,
     @Json(name = "launchpad") var launchPad: LaunchPad?,
     val failures: List<Failure> = emptyList(),
-    var crew: List<LaunchCrew> = emptyList(),
+    @Json(name = "crew") var crewFlight: List<CrewFlight> = emptyList(),
     var capsules: List<Capsule> = emptyList(),
     var payloads: List<Payload> = emptyList(),
     var cores: List<CoreFlight> = emptyList(),
@@ -74,9 +74,9 @@ data class Launch(
             toBeDetermined, notEarlyThan, launchPad?.id, failures),
         rocket = rocket?.toRoom(),
         launchPad = launchPad?.toRoom(),
-        crew = crew.map { it.toRoom().launchCrew },
+        crewFlight = crewFlight.map { it.toRoom(id).crewFlight }.toSet(),
         capsules = capsules.map { it.toRoom() },
         payloads = payloads.map { it.toRoom().payload },
-        cores = cores.mapNotNull { it.toRoom(id)?.coreFlight }
+        cores = cores.mapNotNull { it.toRoom(id)?.coreFlight }.toSet()
     )
 }

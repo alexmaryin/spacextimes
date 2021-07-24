@@ -1,9 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.data.room_model
 
 import androidx.room.Embedded
-import androidx.room.Junction
 import androidx.room.Relation
-import ru.alexmaryin.spacextimes_rx.data.room_model.junctions.LaunchesToCoreFlights
 
 data class CoreFlightLocal(
     @Embedded val coreFlight: CoreFlightWithoutDetails,

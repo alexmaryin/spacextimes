@@ -24,11 +24,12 @@ data class Core(
     @Transient override var lastUpdateRu: String? = null,
 ) : HasStringId, HasLastUpdate {
 
-    val totalFlights: Int get() = when {
-        launches.isNotEmpty() -> launches.filterNot { it.upcoming }.size
-        reuseCount > 0 -> reuseCount + 1
-        else -> max(groundLandAttempts + waterLandAttempts, groundLandings + waterLandings)
-    }
+    val totalFlights: Int get() = maxOf(
+        launches.filterNot { it.upcoming }.size,
+        groundLandAttempts + waterLandAttempts,
+        groundLandings + waterLandings,
+        reuseCount + 1
+    )
 
     fun toRoom() = CoreWithoutLaunches(id, serial, block, status, reuseCount, groundLandAttempts, groundLandings,
         waterLandAttempts, waterLandings, lastUpdate)

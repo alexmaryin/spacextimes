@@ -59,7 +59,7 @@ class SpacexDataRepository @Inject constructor(
             when (e) {
                 is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
                 is SocketTimeoutException -> emit(Error("Server timeout", ErrorType.REMOTE_API_ERROR))
-                else -> emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.OTHER_ERROR))
+                else -> emit(Error(e.message ?: "Unknown error", ErrorType.OTHER_ERROR))
             }
         }
 
@@ -97,7 +97,7 @@ class SpacexDataRepository @Inject constructor(
         .catch { e ->
             when (e) {
                 is TypeCastException -> emit(Error("Unexpected response type", ErrorType.OTHER_ERROR))
-                else -> emit(Error(e.localizedMessage ?: "Unknown error", ErrorType.OTHER_ERROR))
+                else -> emit(Error(e.message ?: "Unknown error", ErrorType.OTHER_ERROR))
             }
         }
 
