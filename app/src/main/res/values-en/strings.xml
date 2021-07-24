@@ -281,5 +281,6 @@
     <string name="sync_menu_item">Sync</string>
     <string name="emptyListText">Found nothing</string>
     <string name="year_suffix">""</string>
+    <string name="flight_role_text">Flight role: %s</string>
 
 </resources>

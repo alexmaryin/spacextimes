@@ -323,5 +323,6 @@
     <string name="press_back_finish_message">Нажмите еще раз для выхода</string>
     <string name="emptyListText">Ничего не найдено</string>
     <string name="year_suffix">" г."</string>
+    <string name="flight_role_text">Роль в полете: %s</string>
 
 </resources>

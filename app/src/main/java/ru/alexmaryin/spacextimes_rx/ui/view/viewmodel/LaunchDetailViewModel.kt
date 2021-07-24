@@ -124,7 +124,7 @@ class LaunchDetailViewModel @Inject constructor(
 
             if (crewFlight.isNotEmpty()) {
                 add(RecyclerHeader(text = res.resources.getQuantityString(R.plurals.assigned_crew_caption, crewFlight.size)))
-                addAll(crewFlight.map { it.member })
+                addAll(crewFlight)
             }
 
             if (failures.isNotEmpty()) {
