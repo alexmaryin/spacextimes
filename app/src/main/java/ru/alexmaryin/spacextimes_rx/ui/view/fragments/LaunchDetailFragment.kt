@@ -31,7 +31,9 @@ import ru.alexmaryin.spacextimes_rx.ui.view.viewmodel.LaunchDetailViewModel
 import ru.alexmaryin.spacextimes_rx.utils.*
 import java.util.*
 import javax.inject.Inject
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @AndroidEntryPoint
 class LaunchDetailFragment : Fragment() {
 

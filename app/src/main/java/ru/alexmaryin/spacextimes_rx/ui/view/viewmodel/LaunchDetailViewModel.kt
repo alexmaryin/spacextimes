@@ -18,8 +18,10 @@ import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.data.model.ui_items.*
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.prettifySecondsPeriod
 import java.text.DateFormat
 import javax.inject.Inject
+import kotlin.time.ExperimentalTime
 
 @HiltViewModel
 class LaunchDetailViewModel @Inject constructor(
@@ -40,6 +42,7 @@ class LaunchDetailViewModel @Inject constructor(
         }
     }
 
+    @ExperimentalTime
     fun composeDetails(res: Context, launch: Launch) = mutableListOf<HasStringId>().apply {
         with(launch) {
 
@@ -78,7 +81,7 @@ class LaunchDetailViewModel @Inject constructor(
                 add(
                     OneLineItem2(
                         left = res.getString(R.string.launch_window_caption),
-                        right = if (it > 0) res.resources.getQuantityString(R.plurals.seconds_count, it) else res.getString(R.string.zero_window_caption)
+                        right = if (it > 0) it.prettifySecondsPeriod(res) else res.getString(R.string.zero_window_caption)
                     )
                 )
             }
