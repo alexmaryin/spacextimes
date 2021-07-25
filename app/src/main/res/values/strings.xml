@@ -162,10 +162,14 @@
     <string name="launch_number_caption">Запуск</string>
     <string name="static_fire_date_caption">Дата прожига</string>
     <string name="launch_date_caption">Дата запуска</string>
+    <string name="launch_window_caption">Окно для запуска</string>
+    <string name="zero_window_caption">мгновенное</string>
     <string name="landing_attempts_caption">Сведения о посадке:&#160;</string>
-    <string name="landing_success_string">успешно (%s)</string>
-    <string name="landing_fail_string">неудачно (%s)</string>
+    <string name="landing_success_string">успешно (на %s)</string>
+    <string name="landing_fail_string">неудачно (на %s)</string>
     <string name="no_landing_attempt_string">не предпринималась</string>
+    <string name="no_landing_attempt_be_string">не планируется</string>
+    <string name="shall_landing_attempt_string">планируется</string>
     <string name="youtube_string" translatable="false">Youtube</string>
     <string name="r_campaign_string">r/миссия</string>
     <string name="r_launch_string">r/запуск</string>

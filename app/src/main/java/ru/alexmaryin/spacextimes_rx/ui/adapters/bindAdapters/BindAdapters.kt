@@ -97,10 +97,14 @@ object CommonAdapters {
 
     @JvmStatic
     @BindingAdapter("coreLandingText")
-    fun buildCoreLandingText(view: TextView, core: CoreFlight) = buildString {
-        append(view.context.getString(R.string.landing_attempts_caption))
-        core.landingSuccess?.let { landed ->
-            append(view.context.getString(if (landed) R.string.landing_success_string else R.string.landing_fail_string, core.landingType))
-        } ?: append(view.context.getString(R.string.no_landing_attempt_string))
+    fun buildCoreLandingText(view: TextView, core: CoreFlight) {
+        view.text = buildString {
+            append(view.context.getString(R.string.landing_attempts_caption))
+            core.landingSuccess?.let { landed ->
+                append(view.context.getString(if (landed) R.string.landing_success_string else R.string.landing_fail_string, core.landingType))
+            } ?: core.landingAttempt?.let { attempt ->
+                append(view.context.getString(if (attempt) R.string.shall_landing_attempt_string else R.string.no_landing_attempt_be_string) )
+            } ?: append(view.context.getString(R.string.unknownText))
+        }
     }
 }

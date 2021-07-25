@@ -74,6 +74,15 @@ class LaunchDetailViewModel @Inject constructor(
                 )
             )
 
+            window?.let {
+                add(
+                    OneLineItem2(
+                        left = res.getString(R.string.launch_window_caption),
+                        right = if (it > 0) res.resources.getQuantityString(R.plurals.seconds_count, it) else res.getString(R.string.zero_window_caption)
+                    )
+                )
+            }
+
             details?.let {
                 add(
                     TwoStringsItem(
