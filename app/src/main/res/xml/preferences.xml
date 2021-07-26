@@ -26,13 +26,15 @@
     <PreferenceCategory android:title="@string/uiTitle">
         <SwitchPreferenceCompat
             android:defaultValue="false"
-            android:key="open_with_next_launch"
+            android:key="start_next_launch"
+            app:singleLineTitle="false"
             android:summaryOn="@string/openNextOnText"
             android:summaryOff="@string/openNextOffText"
             android:title="@string/openNextAtStartText" />
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="wide_padding"
+            app:singleLineTitle="false"
             android:title="@string/widePaddingText"
             android:summary="@string/widePaddingSummary"/>
     </PreferenceCategory>

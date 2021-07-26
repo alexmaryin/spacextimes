@@ -75,7 +75,7 @@ class MainFragment : Fragment() {
         findNavController().currentBackStackEntry?.let {
             it.savedStateHandle.getLiveData<Boolean>(Settings.IS_PREFERENCES_CHANGED).observe(viewLifecycleOwner) { isChanged ->
                 if (isChanged) {
-                    refreshSettings()
+//                    refreshSettings()
                     spaceXViewModel.armRefresh()
                     it.savedStateHandle.remove<Boolean>(Settings.IS_PREFERENCES_CHANGED)
                 }
