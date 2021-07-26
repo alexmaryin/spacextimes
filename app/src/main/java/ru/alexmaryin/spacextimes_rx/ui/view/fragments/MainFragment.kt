@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.alexmaryin.spacextimes_rx.R
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.databinding.FragmentMainBinding
@@ -37,11 +39,10 @@ class MainFragment : Fragment() {
     private val spaceXViewModel: SpaceXViewModel by activityViewModels()
     private lateinit var binding: FragmentMainBinding
 
-    @Inject
-    lateinit var viewHoldersManager: ViewHoldersManager
+    @Inject lateinit var viewHoldersManager: ViewHoldersManager
 
-    @Inject
-    lateinit var settings: Settings
+    @Inject lateinit var settings: Settings
+    private var forceStartScroll = false
     private val referenceList = mutableListOf<HasStringId>()
 
     private var backPressedTime: Long = 0
@@ -61,7 +62,28 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun refreshSettings() = runBlocking {
+        settings.saved.collect {
+            requireActivity().setTheme(if (it.widePadding) R.style.Theme_Spacextimes_rx_WidePad else R.style.Theme_Spacextimes_rx_NormalPad)
+            forceStartScroll = it.startNextLaunch
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressHandler)
+        findNavController().currentBackStackEntry?.let {
+            it.savedStateHandle.getLiveData<Boolean>(Settings.IS_PREFERENCES_CHANGED).observe(viewLifecycleOwner) { isChanged ->
+                if (isChanged) {
+                    refreshSettings()
+                    spaceXViewModel.armRefresh()
+                    it.savedStateHandle.remove<Boolean>(Settings.IS_PREFERENCES_CHANGED)
+                }
+            }
+        }
+
+        refreshSettings()
+
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -69,18 +91,6 @@ class MainFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressHandler)
-
-        findNavController().currentBackStackEntry?.let {
-            it.savedStateHandle.getLiveData<Boolean>(Settings.IS_PREFERENCES_CHANGED).observe(viewLifecycleOwner) { isChanged ->
-                if (isChanged) {
-                    spaceXViewModel.armRefresh()
-                    it.savedStateHandle.remove<Boolean>(Settings.IS_PREFERENCES_CHANGED)
-                }
-            }
-        }
-
         return binding.root
     }
 
@@ -195,6 +205,9 @@ class MainFragment : Fragment() {
             if (renderList.isNotEmpty()) {
                 binding.emptyListMessage.emptyListLayout replaceBy binding.recyclerView
                 submitList(renderList)
+                if (forceStartScroll)  spaceXViewModel.getScrollPosition(requireContext(), referenceList)?.let { (position, _) ->
+                    binding.recyclerView.scrollToPosition(position)
+                }
             } else {
                 binding.recyclerView replaceBy binding.emptyListMessage.emptyListLayout
             }

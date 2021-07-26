@@ -19,6 +19,8 @@ class Settings @Inject constructor(val settings: DataStore<ProtoSettings>) {
         const val TRANSLATE_SWITCH = "translate_to_ru"
         const val REFRESH_INTERVAL_BAR = "refresh_interval"
         const val IS_PREFERENCES_CHANGED = "preferences_changed"
+        const val WIDE_PAD_SWITCH = "wide_padding"
+        const val START_AT_NEXT_LAUNCH = "start_next_launch"
     }
 
     val saved get() = settings.data.take(1)
@@ -34,6 +36,14 @@ class Settings @Inject constructor(val settings: DataStore<ProtoSettings>) {
 
     suspend fun refreshInterval(hours: Int) = settings.updateData {
         it.toBuilder().setRefreshInterval(hours * HOUR_TO_MILLIS).build()
+    }
+
+    suspend fun widePadding(value: Boolean) = settings.updateData {
+        it.toBuilder().setWidePadding(value).build()
+    }
+
+    suspend fun startAtNextLaunch(value: Boolean) = settings.updateData {
+        it.toBuilder().setStartNextLaunch(value).build()
     }
 
     fun checkNeedSync(cls: String) = saved.map {

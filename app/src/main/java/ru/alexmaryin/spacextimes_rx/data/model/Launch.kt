@@ -56,11 +56,19 @@ data class Launch(
     override val wikipedia get() = links.wikipedia
     override var wikiLocale
         get() = links.wikiLocale
-        set(value) { links.wikiLocale = value }
+        set(value) {
+            links.wikiLocale = value
+        }
 
-    val images get() = with(links) { flickr.original.ifEmpty { flickr.small } }
+    val images
+        get() = mutableListOf<String>().apply {
+            with(links) {
+                addAll(flickr.original.ifEmpty { flickr.small })
+                add(patch?.large ?: patch?.small ?: "")
+            }
+        }
 
-    fun dateTrimmed(context: Context): String = when(datePrecision) {
+    fun dateTrimmed(context: Context): String = when (datePrecision) {
         DatePrecision.YEAR_HALF -> halfYearString(context, dateLocal)
         DatePrecision.YEAR_QUARTER -> quarterYearString(context, dateLocal)
         DatePrecision.YEAR -> SimpleDateFormat("yyyy", context.currentLocale()).format(dateLocal) + context.getString(R.string.year_suffix)
@@ -70,9 +78,11 @@ data class Launch(
     }
 
     fun toRoom() = LaunchLocal(
-        launch = LaunchWithoutDetails(id, name, rocket?.id, window, success, upcoming, details, fairings, links,
+        launch = LaunchWithoutDetails(
+            id, name, rocket?.id, window, success, upcoming, details, fairings, links,
             autoUpdate, flightNumber, dateUtc, dateUnix, dateLocal, datePrecision, staticFireDateUtc, staticFireDateUnix,
-            toBeDetermined, notEarlyThan, launchPad?.id, failures),
+            toBeDetermined, notEarlyThan, launchPad?.id, failures
+        ),
         rocket = rocket?.toRoom(),
         launchPad = launchPad?.toRoom(),
         crewFlight = crewFlight.map { it.toRoom(id).crewFlight }.toSet(),

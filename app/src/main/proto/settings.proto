@@ -7,4 +7,6 @@ message ProtoSettings {
   bool translate_to_ru = 1;
   map<string, int64> last_sync = 2;
   int32 refresh_interval = 3;
+  bool start_next_launch = 4;
+  bool wide_padding = 5;
 }

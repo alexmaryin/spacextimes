@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/experimentalTitle">
-
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="translate_to_ru"
@@ -11,8 +10,8 @@
             android:summaryOn="@string/aiTranslateOnText"
             android:title="@string/aiTranslateTitle" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/synchronizeTitle">
 
+    <PreferenceCategory android:title="@string/synchronizeTitle">
         <SeekBarPreference
             android:defaultValue="2"
             android:key="refresh_interval"
@@ -22,5 +21,19 @@
             app:min="0"
             app:seekBarIncrement="1"
             app:showSeekBarValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/uiTitle">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="open_with_next_launch"
+            android:summaryOn="@string/openNextOnText"
+            android:summaryOff="@string/openNextOffText"
+            android:title="@string/openNextAtStartText" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="wide_padding"
+            android:title="@string/widePaddingText"
+            android:summary="@string/widePaddingSummary"/>
     </PreferenceCategory>
 </PreferenceScreen>

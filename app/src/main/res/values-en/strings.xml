@@ -281,6 +281,12 @@
     <string name="preferencesTitle">Preferences</string>
     <string name="refreshIntervalTitle">Refresh interval</string>
     <string name="refreshSummary">Specifies the interval in hours after which the data will be updated from the network on the next showing invoked.</string>
+    <string name="uiTitle">Interface</string>
+    <string name="openNextAtStartText">Open launches at next one</string>
+    <string name="openNextOnText">List of launches shall be open always at next one</string>
+    <string name="openNextOffText">List of launches shall be open order by date descending</string>
+    <string name="widePaddingText">Wide padding</string>
+    <string name="widePaddingSummary">Increases left and right padding for some kind of screens</string>
     <string name="filter_menu_item">Filter</string>
     <string name="sync_menu_item">Sync</string>
     <string name="emptyListText">Found nothing</string>

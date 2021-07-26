@@ -22,6 +22,7 @@ sealed class MainScreen {
     abstract val titleRes: Int
     open val filter: ListFilter = EmptyFilter
     open val searchable = false
+    open val forcePosition = -1
     abstract fun setClickListener(navController: NavController): AdapterClickListenerById
     abstract fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi): Flow<Result>
     open fun <T> getPositionToScroll(context: Context, items: List<T>): Pair<Int, String>? = null

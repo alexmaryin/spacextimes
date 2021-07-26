@@ -15,7 +15,9 @@
         android:id="@+id/box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/unknown_color">
+        android:background="@color/unknown_color"
+        android:paddingHorizontal="?attr/horizontalPadding"
+        android:paddingVertical="5dp">
 
         <TextView
             android:id="@+id/launchName"

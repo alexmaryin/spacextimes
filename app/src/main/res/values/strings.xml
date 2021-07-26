@@ -26,6 +26,12 @@
     <string name="synchronizeTitle">Синхронизация</string>
     <string name="refreshIntervalTitle">Частота синхронизации</string>
     <string name="refreshSummary">Определяет в часах интервал, по истечении которого данные будут обновляться из сети при очередном отображении.</string>
+    <string name="uiTitle">Интерфейс</string>
+    <string name="openNextAtStartText">Открывать на ближайшем запуске</string>
+    <string name="openNextOnText">Список запусков будет всегда открываться на ближайшем запуске</string>
+    <string name="openNextOffText">Список запусков будет открываться, отсортированный от новых к старым</string>
+    <string name="widePaddingText">Увеличенные отступы от края экрана</string>
+    <string name="widePaddingSummary">Добавляет отступы слева и справа для удобства на некоторых типах экранов</string>
 
 
 

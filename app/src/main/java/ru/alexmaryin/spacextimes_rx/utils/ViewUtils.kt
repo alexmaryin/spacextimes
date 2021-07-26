@@ -1,6 +1,7 @@
 package ru.alexmaryin.spacextimes_rx.utils
 
-import android.app.*
+import android.app.AlertDialog
+import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -24,8 +25,7 @@ infix fun TextView.expandOrSwapTo(lines: Int) {
     maxLines = if (maxLines == lines) Integer.MAX_VALUE else lines
 }
 
-fun View.saveToStorage(context: Context, filename: String): Uri? {
-    var res = false
+fun getUriForPhoto(context: Context, filename: String): Uri? = run {
     val resolver = context.contentResolver
     val images = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
@@ -35,9 +35,15 @@ fun View.saveToStorage(context: Context, filename: String): Uri? {
         put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
         put(MediaStore.Images.Media.DISPLAY_NAME, filename)
     }
-    val imageUri = resolver.insert(images, photo)
-    resolver.openOutputStream(imageUri!!)?.let { res = drawToBitmap().compress(Bitmap.CompressFormat.JPEG, 100, it) }
-    return if (res) imageUri else null
+    resolver.insert(images, photo)
+}
+
+fun View.saveToStorage(context: Context, filename: String): Uri? {
+    val imageUri = getUriForPhoto(context, filename)
+    return imageUri?.apply {
+        val stream = context.contentResolver.openOutputStream(this)
+        drawToBitmap().compress(Bitmap.CompressFormat.JPEG, 80, stream)
+    }
 }
 
 fun View.openLink(url: String?) {
@@ -48,8 +54,6 @@ fun View.openLink(url: String?) {
         }.run { context.startActivity(this) }
     }
 }
-
-
 
 fun downloadDialog(context: Context, url: String?, filename: String) {
     AlertDialog.Builder(context)
