@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1040186538452",
+    "project_id": "spacex-times",
+    "storage_bucket": "spacex-times.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040186538452:android:49a979c28ab192b6ecfe41",
+        "android_client_info": {
+          "package_name": "ru.alexmaryin.spacextimes_rx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040186538452-9d3fmm3ggbisuhmi4ng8cqbq61l84use.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.alexmaryin.spacextimes_rx",
+            "certificate_hash": "3617f609d17dbcd508015f4e995ceddc4a7bf033"
+          }
+        },
+        {
+          "client_id": "1040186538452-ghg5ii9ntph819l8varka261f61nt6t7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApXeshaPf23rOtIODsxa9vDFN4el4CXUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040186538452-ghg5ii9ntph819l8varka261f61nt6t7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

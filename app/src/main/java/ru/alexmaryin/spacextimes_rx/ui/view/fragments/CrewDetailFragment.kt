@@ -86,7 +86,7 @@ class CrewDetailFragment : Fragment() {
     private fun bindDetails(crew: Crew) {
         activity?.title = crew.name
         binding.crew = crew
-        binding.image.setOnLongClickListener(saveByLongClickListener(requireContext(), "${crew.name}.jpg"))
+        binding.image.setOnLongClickListener(saveByLongClickListener("${crew.name}.jpg"))
         val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
             when (itemType) {
                 ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))
