@@ -2,7 +2,7 @@ package ru.alexmaryin.spacextimes_rx.data.api.translator
 
 import android.content.Context
 import android.util.Log
-import com.squareup.moshi.JsonWriter
+import com.squareup.moshi.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,10 +13,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okio.buffer
-import okio.sink
-import okio.use
+import okio.*
 import ru.alexmaryin.spacextimes_rx.BuildConfig
+import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateAssetItem
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDao
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateItem
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
@@ -139,9 +138,23 @@ class TranslatorImpl @Inject constructor(
 
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun restoreFromBackup() = try {
-        appContext.assets.open(BuildConfig.TRANSLATE_ASSET)
+        Moshi.Builder().build().apply {
+            val listType = Types.newParameterizedType(List::class.java, TranslateAssetItem::class.java)
+            val adapter = adapter<List<TranslateAssetItem>>(listType)
+            appContext.assets.open(BuildConfig.TRANSLATE_ASSET).bufferedReader().use {
+                adapter.lenient().fromJson(it.readText())?.let { list ->
+                    Log.d("ASSETS", "Loaded from json ${list.size} records")
+                    translationsDao.insertAll(list.map { item ->
+                        val id = translationsDao.findString(item.origin)?.rowId
+                        TranslateItem(id, item.origin, item.translation, Date(System.currentTimeMillis()))
+                    })
+                }
+            }
+        }
+        Log.d("ASSETS", "Successful insert to database")
         true
     } catch (e: IOException) {
+        Log.e("ASSETS", e.stackTraceToString())
         Log.e("ASSETS", "File with translations assets has not found: ${BuildConfig.TRANSLATE_ASSET}")
         false
     }

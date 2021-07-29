@@ -9,4 +9,5 @@ message ProtoSettings {
   int32 refresh_interval = 3;
   bool start_next_launch = 4;
   bool wide_padding = 5;
+  bool assetRestored = 6;
 }

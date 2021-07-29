@@ -7,8 +7,8 @@ interface TranslateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: TranslateItem)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(item: TranslateItem)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(items: List<TranslateItem>)
 
     @Query("select * from translations where origin=:origin")
     suspend fun findString(origin: String): TranslateItem?

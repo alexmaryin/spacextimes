@@ -11,6 +11,7 @@ import ru.alexmaryin.spacextimes_rx.BuildConfig
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.ui.view.filters.EmptyFilter
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class SpaceXViewModel @Inject constructor(
     private val repository: SpacexDataRepository,
     private val translator: TranslatorApi,
+    private val settings: Settings,
 ) : ViewModel() {
 
     var currentScreen: MainScreen = Launches
@@ -43,12 +45,22 @@ class SpaceXViewModel @Inject constructor(
             currentScreen = screen
             needRefresh = false
             viewModelScope.launch {
+
                 screen.readRepository(repository, translator).collect { result ->
-                    state.emit(result)
+
+                    settings.assetRestored(false)
+
+                    if (!settings.saved.last().assetRestored && translator.restoreFromBackup()) {
+                        settings.assetRestored(true)
+                        Log.d("ASSETS", "Some of translations have restored from hand-maiden assets")
+                    }
+
                     if (BuildConfig.DEBUG && result is Success<*>) launch {
-                        Log.d("ASSETS", "Trying to backup created translations")
+                        Log.d("ASSETS", "Trying to back up created translations")
                         translator.backupTranslations()
                     }
+
+                    state.emit(result)
                 }
             }
         }

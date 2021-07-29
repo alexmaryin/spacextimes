@@ -20,6 +20,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
+import ru.alexmaryin.spacextimes_rx.di.Settings
 import ru.alexmaryin.spacextimes_rx.utils.Error
 import ru.alexmaryin.spacextimes_rx.utils.ErrorType
 import ru.alexmaryin.spacextimes_rx.utils.Loading
@@ -33,6 +34,7 @@ class SpaceXViewModelTest {
 
     @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
     @Mock private lateinit var repository: SpacexDataRepository
+    @Mock private lateinit var settings: Settings
     private lateinit var translator: TranslatorApi
     private lateinit var viewModel: SpaceXViewModel
     private lateinit var closable: AutoCloseable
@@ -51,7 +53,7 @@ class SpaceXViewModelTest {
             override suspend fun restoreFromBackup() = false
             override suspend fun backupTranslations() = false
         }
-        viewModel = SpaceXViewModel(repository, translator)
+        viewModel = SpaceXViewModel(repository, translator, settings)
     }
 
     @After
