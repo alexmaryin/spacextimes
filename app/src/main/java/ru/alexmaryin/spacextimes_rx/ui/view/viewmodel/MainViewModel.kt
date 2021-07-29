@@ -1,17 +1,20 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.alexmaryin.spacextimes_rx.BuildConfig
 import ru.alexmaryin.spacextimes_rx.data.SpacexDataRepository
 import ru.alexmaryin.spacextimes_rx.data.api.translator.TranslatorApi
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasStringId
 import ru.alexmaryin.spacextimes_rx.ui.view.filters.EmptyFilter
 import ru.alexmaryin.spacextimes_rx.utils.Loading
 import ru.alexmaryin.spacextimes_rx.utils.Result
+import ru.alexmaryin.spacextimes_rx.utils.Success
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +45,10 @@ class SpaceXViewModel @Inject constructor(
             viewModelScope.launch {
                 screen.readRepository(repository, translator).collect { result ->
                     state.emit(result)
+                    if (BuildConfig.DEBUG && result is Success<*>) launch {
+                        Log.d("ASSETS", "Trying to backup created translations")
+                        translator.backupTranslations()
+                    }
                 }
             }
         }

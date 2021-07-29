@@ -48,6 +48,8 @@ class SpaceXViewModelTest {
             override fun Flow<Result>.translateLastUpdate() = this
             override fun Flow<Result>.translateDescription() = this
             override fun Flow<Result>.translateTitle() = this
+            override suspend fun restoreFromBackup() = false
+            override suspend fun backupTranslations() = false
         }
         viewModel = SpaceXViewModel(repository, translator)
     }

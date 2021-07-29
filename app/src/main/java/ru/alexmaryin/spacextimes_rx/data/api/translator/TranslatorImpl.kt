@@ -1,6 +1,8 @@
 package ru.alexmaryin.spacextimes_rx.data.api.translator
 
 import android.content.Context
+import android.util.Log
+import com.squareup.moshi.JsonWriter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +13,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.buffer
+import okio.sink
+import okio.use
+import ru.alexmaryin.spacextimes_rx.BuildConfig
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDao
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateItem
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
@@ -103,4 +109,40 @@ class TranslatorImpl @Inject constructor(
     override fun Flow<Result>.translateDescription(): Flow<Result> = doTranslate(HasDescription::description, HasDescription::descriptionRu)
 
     override fun Flow<Result>.translateTitle(): Flow<Result> = doTranslate(HasTitle::title, HasTitle::titleRu)
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    override suspend fun backupTranslations(): Boolean {
+        val data = translationsDao.selectAll()
+        return if (data.isNotEmpty()) {
+            val file = File.createTempFile("translations", ".json")
+            file.sink().buffer().use { sink ->
+                with(JsonWriter.of(sink)) {
+                    indent = "    "
+                    beginArray()
+                    data.map { item ->
+                        beginObject()
+                        name("origin").value(item.origin)
+                        name("translation").value(item.translation)
+                        endObject()
+                    }
+                    endArray()
+                    close()
+                }
+            }
+            Log.d("ASSETS", "Translations db was back up to file: ${file.name}")
+            true
+        } else {
+            Log.d("ASSETS", "Translations db has not created due to empty database")
+            false
+        }
+    }
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    override suspend fun restoreFromBackup() = try {
+        appContext.assets.open(BuildConfig.TRANSLATE_ASSET)
+        true
+    } catch (e: IOException) {
+        Log.e("ASSETS", "File with translations assets has not found: ${BuildConfig.TRANSLATE_ASSET}")
+        false
+    }
 }

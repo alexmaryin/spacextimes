@@ -13,6 +13,9 @@ interface TranslateDao {
     @Query("select * from translations where origin=:origin")
     suspend fun findString(origin: String): TranslateItem?
 
+    @Query("select * from translations")
+    suspend fun selectAll(): List<TranslateItem>
+
     @Query("delete from translations")
     suspend fun clear()
 }

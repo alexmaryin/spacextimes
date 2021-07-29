@@ -31,6 +31,8 @@ android {
                 ]
             }
         }
+
+        buildConfigField("String", "TRANSLATE_ASSET", translationDb)
     }
 
     buildTypes {
@@ -43,6 +45,8 @@ android {
             multiDexEnabled false
         }
     }
+
+
 
     buildFeatures {
         dataBinding true
