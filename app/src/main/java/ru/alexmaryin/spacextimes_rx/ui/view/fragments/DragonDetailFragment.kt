@@ -58,8 +58,6 @@ class DragonDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-
-        throw RuntimeException("Test crashlytics successful")
     }
 
     private fun observeState() {
