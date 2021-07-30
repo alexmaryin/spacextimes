@@ -2,20 +2,22 @@ package ru.alexmaryin.spacextimes_rx.data.api.translator
 
 import android.content.Context
 import android.util.Log
-import com.squareup.moshi.*
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.squareup.moshi.JsonDataException
+import com.squareup.moshi.JsonWriter
+import com.squareup.moshi.Moshi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okio.*
+import okio.buffer
+import okio.sink
+import okio.use
 import ru.alexmaryin.spacextimes_rx.BuildConfig
-import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateAssetItem
+import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateAsset
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateDao
 import ru.alexmaryin.spacextimes_rx.data.api.local.translations.TranslateItem
 import ru.alexmaryin.spacextimes_rx.data.model.common.HasDescription
@@ -77,6 +79,7 @@ class TranslatorImpl @Inject constructor(
                     translationsDao.insert(TranslateItem(origin = origin, translation = translated, insertDate = Date()))
                 }
             }
+        if(BuildConfig.DEBUG) backupTranslations()
     }
 
     private inline fun <reified T> Flow<Result>.doTranslate(
@@ -84,6 +87,7 @@ class TranslatorImpl @Inject constructor(
         to: KMutableProperty1<T, String?>,
     ) = combine(settings.saved) { result, saved ->
         if (result is Success<*> && saved.translateToRu) {
+            restoreFromBackup()
             result.toListOf<T>()?.let { items ->
                 items
                     .tryLoadCachedTranslate(from, to)
@@ -98,8 +102,10 @@ class TranslatorImpl @Inject constructor(
         .catch { e ->
             if (e is IOException) {
                 emit(Error("Translator error: ${e.localizedMessage}", ErrorType.REMOTE_TRANSLATOR_ERROR))
+                if(BuildConfig.DEBUG) backupTranslations()
             }
         }
+
 
     override fun Flow<Result>.translateDetails(): Flow<Result> = doTranslate(HasDetails::details, HasDetails::detailsRu)
 
@@ -112,11 +118,15 @@ class TranslatorImpl @Inject constructor(
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun backupTranslations(): Boolean {
         val data = translationsDao.selectAll()
+        val version = settings.saved.last().assetVersion + 1
         return if (data.isNotEmpty()) {
             val file = File.createTempFile("translations", ".json")
             file.sink().buffer().use { sink ->
                 with(JsonWriter.of(sink)) {
                     indent = "    "
+                    beginObject()
+                    name("version").value(version)
+                    name("items")
                     beginArray()
                     data.map { item ->
                         beginObject()
@@ -125,10 +135,11 @@ class TranslatorImpl @Inject constructor(
                         endObject()
                     }
                     endArray()
+                    endObject()
                     close()
                 }
             }
-            Log.d("ASSETS", "Translations db was back up to file: ${file.name}")
+            Log.d("ASSETS", "Translations db version $version was back up to file: ${file.name}")
             true
         } else {
             Log.d("ASSETS", "Translations db has not created due to empty database")
@@ -139,23 +150,34 @@ class TranslatorImpl @Inject constructor(
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun restoreFromBackup() = try {
         Moshi.Builder().build().apply {
-            val listType = Types.newParameterizedType(List::class.java, TranslateAssetItem::class.java)
-            val adapter = adapter<List<TranslateAssetItem>>(listType)
+            val adapter = adapter(TranslateAsset::class.java)
             appContext.assets.open(BuildConfig.TRANSLATE_ASSET).bufferedReader().use {
-                adapter.lenient().fromJson(it.readText())?.let { list ->
-                    Log.d("ASSETS", "Loaded from json ${list.size} records")
-                    translationsDao.insertAll(list.map { item ->
-                        val id = translationsDao.findString(item.origin)?.rowId
-                        TranslateItem(id, item.origin, item.translation, Date(System.currentTimeMillis()))
-                    })
+                adapter.lenient().fromJson(it.readText())?.let { asset ->
+                    if (asset.version > settings.saved.last().assetVersion) {
+                        Log.d("ASSETS", "Loaded from json ${asset.items.size} records")
+                        translationsDao.insertAll(asset.items.map { item ->
+                            val id = translationsDao.findString(item.origin)?.rowId
+                            TranslateItem(id, item.origin, item.translation, Date(System.currentTimeMillis()))
+                        })
+                        settings.assetVersion(asset.version)
+                    } else {
+                        Log.d("ASSETS", "Asset version ${asset.version} already has been restored")
+                        return false
+                    }
                 }
             }
         }
         Log.d("ASSETS", "Successful insert to database")
         true
-    } catch (e: IOException) {
-        Log.e("ASSETS", e.stackTraceToString())
-        Log.e("ASSETS", "File with translations assets has not found: ${BuildConfig.TRANSLATE_ASSET}")
+    } catch (e: Exception) {
+        when (e) {
+            is JsonDataException ->  {
+                FirebaseCrashlytics.getInstance().log("Json format of translations file is corrupted")
+                Log.d("ASSETS", "Json format of translations file is corrupted")
+            }
+            is IOException -> Log.e("ASSETS", "File with translations assets has not found: ${BuildConfig.TRANSLATE_ASSET}")
+            else -> FirebaseCrashlytics.getInstance().log(e.stackTraceToString())
+        }
         false
     }
 }

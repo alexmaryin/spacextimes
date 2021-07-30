@@ -53,7 +53,7 @@ class SpaceXViewModelTest {
             override suspend fun restoreFromBackup() = false
             override suspend fun backupTranslations() = false
         }
-        viewModel = SpaceXViewModel(repository, translator, settings)
+        viewModel = SpaceXViewModel(repository, translator)
     }
 
     @After

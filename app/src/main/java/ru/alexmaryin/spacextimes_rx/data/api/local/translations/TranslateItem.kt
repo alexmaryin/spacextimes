@@ -19,3 +19,9 @@ data class TranslateAssetItem(
     val origin: String,
     val translation: String
 )
+
+@JsonClass(generateAdapter = true)
+data class TranslateAsset(
+    val version: Int,
+    val items: List<TranslateAssetItem>
+)

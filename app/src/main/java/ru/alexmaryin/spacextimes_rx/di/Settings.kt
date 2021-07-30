@@ -46,8 +46,8 @@ class Settings @Inject constructor(val settings: DataStore<ProtoSettings>) {
         it.toBuilder().setStartNextLaunch(value).build()
     }
 
-    suspend fun assetRestored(value: Boolean) = settings.updateData {
-        it.toBuilder().setAssetRestored(value).build()
+    suspend fun assetVersion(value: Int) = settings.updateData {
+        it.toBuilder().setAssetVersion(value).build()
     }
 
     fun checkNeedSync(cls: String) = saved.map {
