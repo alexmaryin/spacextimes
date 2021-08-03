@@ -15,7 +15,7 @@ interface LandingPadsDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLandingPad(pad: LandingPadWithoutLaunches)
 
-    @Transaction @Query("select * from landing_pads_table")
+    @Transaction @Query("select * from landing_pads_table order by name")
     suspend fun selectAllLandingPads(): List<LandingPadLocal>
 
     @Transaction @Query("select * from landing_pads_table where landingPadId=:id")
