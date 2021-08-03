@@ -46,6 +46,10 @@ class Settings @Inject constructor(val settings: DataStore<ProtoSettings>) {
         it.toBuilder().setStartNextLaunch(value).build()
     }
 
+    suspend fun assetVersion(value: Int) = settings.updateData {
+        it.toBuilder().setAssetVersion(value).build()
+    }
+
     fun checkNeedSync(cls: String) = saved.map {
         val result = it.lastSyncMap[cls]?.run {
             System.currentTimeMillis() - this > it.refreshInterval

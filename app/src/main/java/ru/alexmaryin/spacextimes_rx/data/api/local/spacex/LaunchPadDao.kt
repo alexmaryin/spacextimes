@@ -14,7 +14,7 @@ interface LaunchPadDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLaunchPad(pad: LaunchPadWithoutLaunches)
 
-    @Transaction @Query("select * from launch_pads_table")
+    @Transaction @Query("select * from launch_pads_table order by name")
     suspend fun selectAllLaunchPads(): List<LaunchPadLocal>
 
     @Transaction @Query("select * from launch_pads_table where launchPadId=:id")

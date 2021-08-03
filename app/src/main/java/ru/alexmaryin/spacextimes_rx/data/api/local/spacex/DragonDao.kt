@@ -10,7 +10,7 @@ interface DragonDao {
     @Transaction @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDragons(dragons: List<DragonLocal>)
 
-    @Transaction @Query("select * from dragons_table")
+    @Transaction @Query("select * from dragons_table order by name")
     suspend fun selectAllDragons(): List<DragonLocal>
 
     @Transaction @Query("select * from dragons_table where dragonId=:id")

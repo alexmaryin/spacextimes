@@ -8,4 +8,7 @@ interface TranslatorApi {
     fun Flow<Result>.translateLastUpdate(): Flow<Result>
     fun Flow<Result>.translateDescription(): Flow<Result>
     fun Flow<Result>.translateTitle(): Flow<Result>
+
+    suspend fun restoreFromBackup(): Boolean
+    suspend fun backupTranslations(): Boolean
 }

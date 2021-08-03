@@ -49,31 +49,31 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
         apiRemote.getCoreById(requestById(id, populateNestedLaunches))
 
     override suspend fun getCrew(): Response<ApiResponse<Crew>> =
-        apiRemote.getCrew(ApiRequest(options = populateNestedLaunches))
+        apiRemote.getCrew(ApiRequest(options = populateNestedLaunches.apply { sort = "field _id" }))
 
     override suspend fun getCrewById(id: String): Response<ApiResponse<Crew>> =
         apiRemote.getCrewById(requestById(id, populateNestedLaunches))
 
     override suspend fun getDragons(): Response<ApiResponse<Dragon>> =
-        apiRemote.getDragons(ApiRequest(options = ApiOptions()))
+        apiRemote.getDragons(ApiRequest(options = ApiOptions(sort = "field name")))
 
     override suspend fun getDragonById(id: String): Response<ApiResponse<Dragon>> =
         apiRemote.getDragonById(requestById(id))
 
     override suspend fun getLaunchPads(): Response<ApiResponse<LaunchPad>> =
-        apiRemote.getLaunchPads(ApiRequest(options = populateNestedLaunches))
+        apiRemote.getLaunchPads(ApiRequest(options = populateNestedLaunches.apply { sort = "field name" }))
 
     override suspend fun getLaunchPadById(id: String): Response<ApiResponse<LaunchPad>> =
         apiRemote.getLaunchPadById(requestById(id, populateNestedLaunches))
 
     override suspend fun getLandingPads(): Response<ApiResponse<LandingPad>> =
-        apiRemote.getLandingPads(ApiRequest(options = populateNestedLaunches))
+        apiRemote.getLandingPads(ApiRequest(options = populateNestedLaunches.apply { sort = "field name" }))
 
     override suspend fun getLandingPadById(id: String): Response<ApiResponse<LandingPad>> =
         apiRemote.getLandingPadById(requestById(id, populateNestedLaunches))
 
     override suspend fun getRockets(): Response<ApiResponse<Rocket>> =
-        apiRemote.getRockets(ApiRequest(options = ApiOptions()))
+        apiRemote.getRockets(ApiRequest(options = ApiOptions(sort = "field name")))
 
     override suspend fun getRocketById(id: String): Response<ApiResponse<Rocket>> =
         apiRemote.getRocketById(requestById(id))
@@ -88,5 +88,5 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
         apiRemote.getPayloadById(requestById(id, populatePayload))
 
     override suspend fun getHistoryEvents(): Response<ApiResponse<History>> =
-        apiRemote.getHistoryEvents(ApiRequest(options = ApiOptions()))
+        apiRemote.getHistoryEvents(ApiRequest(options = ApiOptions(sort = "field event_date_unix")))
 }
