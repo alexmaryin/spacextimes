@@ -7,18 +7,16 @@ import javax.inject.Inject
 
 class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : SpaceXApi {
 
-    private val populateNestedLaunches = ApiOptions(
-        populate = listOf(
-            PopulatedObject(
-                select = "-crew -capsules -cores -payloads -launchpad",
-                path = "launches",
-                populate = PopulatedObject(path = "rocket")),
-            PopulatedObject(path = "rockets")
-        ),
+    private val launchesDetails = PopulatedObject(
+        select = "-crew -capsules -cores -payloads -launchpad",
+        path = "launches",
+        populate = PopulatedObject(path = "rocket")
     )
+    private val padDetails = PopulatedObject(path = "rockets")
 
+    private val populateNestedLaunches = ApiOptions(populate = listOf(launchesDetails))
+    private val populateLaunchesForPads = ApiOptions(populate = listOf(launchesDetails, padDetails), sort = "field name")
     private val dragonWithCapsule = PopulatedObject(path = "dragon", populate = PopulatedObject(path = "capsule", select = "-launches"))
-
     private val populateLaunchDetails = ApiOptions(
         populate = listOf(
             PopulatedObject(path = "rocket"),
@@ -61,16 +59,16 @@ class SpaceXApiImpl @Inject constructor(private val apiRemote: ApiRemote) : Spac
         apiRemote.getDragonById(requestById(id))
 
     override suspend fun getLaunchPads(): Response<ApiResponse<LaunchPad>> =
-        apiRemote.getLaunchPads(ApiRequest(options = populateNestedLaunches.apply { sort = "field name" }))
+        apiRemote.getLaunchPads(ApiRequest(options = populateLaunchesForPads))
 
     override suspend fun getLaunchPadById(id: String): Response<ApiResponse<LaunchPad>> =
-        apiRemote.getLaunchPadById(requestById(id, populateNestedLaunches))
+        apiRemote.getLaunchPadById(requestById(id, populateLaunchesForPads))
 
     override suspend fun getLandingPads(): Response<ApiResponse<LandingPad>> =
-        apiRemote.getLandingPads(ApiRequest(options = populateNestedLaunches.apply { sort = "field name" }))
+        apiRemote.getLandingPads(ApiRequest(options = populateNestedLaunches.apply { sort =  "field name"}))
 
     override suspend fun getLandingPadById(id: String): Response<ApiResponse<LandingPad>> =
-        apiRemote.getLandingPadById(requestById(id, populateNestedLaunches))
+        apiRemote.getLandingPadById(requestById(id, populateNestedLaunches.apply { sort =  "field name"}))
 
     override suspend fun getRockets(): Response<ApiResponse<Rocket>> =
         apiRemote.getRockets(ApiRequest(options = ApiOptions(sort = "field name")))

@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="?attr/horizontalPadding">
 
-
         <TextView
             android:id="@+id/capsuleSerial"
             style="@style/boldCaption"

@@ -1,5 +1,5 @@
 {
-    "version": 3,
+    "version": 4,
     "items": [
         {
             "origin": "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit.",
@@ -944,6 +944,10 @@
         {
             "origin": "Starship and Super Heavy Rocket represent a fully reusable transportation system designed to service all Earth orbit needs as well as the Moon and Mars. This two-stage vehicle — composed of the Super Heavy rocket (booster) and Starship (ship) — will eventually replace Falcon 9, Falcon Heavy and Dragon.",
             "translation": "Starship и Super Heavy представляют собой полностью многоразовую транспортную систему, предназначенную для обслуживания всех потребностей земной орбиты, а также Луны и Марса. Этот двухступенчатый аппарат, состоящий из сверхтяжелой ракеты (ракеты-носителя) и корабля Starship, в конечном итоге заменит Falcon 9, Falcon Heavy и Dragon."
+        },
+        {
+            "origin": "SpaceX's 23rd ISS resupply mission on behalf of NASA, this mission brings essential supplies to the International Space Station using the cargo variant of SpaceX's Dragon 2 spacecraft. Cargo includes several science experiments. The booster for this mission is expected to land on an ASDS. The mission will be complete with return and recovery of the Dragon capsule and down cargo.",
+            "translation": "23-я миссия SpaceX по пополнению запасов на МКС в интересах NASA. Эта миссия доставляет необходимые материалы на Международную космическую станцию с использованием грузового варианта космического корабля SpaceX Dragon 2. Груз включает в себя несколько научных экспериментов. Ожидается, что ракета-носитель для этой миссии приземлится на плавучую платформу. Миссия будет завершена после приводнения Dragon с возвращенным грузом."
         }
     ]
 }

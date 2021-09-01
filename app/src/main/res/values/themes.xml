@@ -14,11 +14,11 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Spacextimes_rx.NormalPad">
+    <style name="Theme.Spacextimes_rx.NormalPad" parent="Theme.Spacextimes_rx">
         <item name="horizontalPadding">0dp</item>
     </style>
 
-    <style name="Theme.Spacextimes_rx.WidePad">
+    <style name="Theme.Spacextimes_rx.WidePad" parent="Theme.Spacextimes_rx">
         <item name="horizontalPadding">10dp</item>
     </style>
 
