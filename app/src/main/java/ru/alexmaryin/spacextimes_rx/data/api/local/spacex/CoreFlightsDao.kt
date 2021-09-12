@@ -15,4 +15,7 @@ interface CoreFlightsDao {
     @Transaction
     @Query("select * from core_flights_table where coreId=:coreId and launchId=:launchId")
     suspend fun selectCoreFlight(coreId: String, launchId: String): CoreFlightLocal?
+
+    @Query("delete from core_flights_table")
+    suspend fun clearCoreFlights()
 }
