@@ -45,4 +45,6 @@ interface ApiLocal {
 
     suspend fun getHistoryEvents(): List<History>
     suspend fun saveHistoryEvents(events: List<History>)
+
+    suspend fun dropLocalData()
 }

@@ -19,4 +19,7 @@ interface LaunchPadDao {
 
     @Transaction @Query("select * from launch_pads_table where launchPadId=:id")
     suspend fun selectLaunchPad(id: String): LaunchPadLocal?
+
+    @Query("delete from launch_pads_table")
+    suspend fun clearLaunchPads()
 }

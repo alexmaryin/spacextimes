@@ -20,4 +20,7 @@ interface LaunchDao {
 
     @Transaction @Query("select * from launches_table where launchId=:id")
     suspend fun selectLaunch(id: String): LaunchLocal?
+
+    @Query("delete from launches_table")
+    suspend fun clearLaunches()
 }

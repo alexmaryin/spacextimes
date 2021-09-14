@@ -16,4 +16,7 @@ interface PayloadDao {
 
     @Transaction @Query("select * from payloads_table where payloadId=:id")
     suspend fun selectPayload(id: String): PayloadLocal?
+
+    @Query("delete from payloads_table")
+    suspend fun clearPayloads()
 }

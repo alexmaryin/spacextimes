@@ -19,4 +19,7 @@ interface CoresDao {
 
     @Transaction @Query("select * from cores_table where coreId=:id")
     suspend fun selectCore(id: String): CoreLocal?
+
+    @Query("delete from cores_table")
+    suspend fun clearCores()
 }

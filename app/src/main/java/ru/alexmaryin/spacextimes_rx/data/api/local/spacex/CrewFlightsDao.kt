@@ -15,4 +15,7 @@ interface CrewFlightsDao {
     @Transaction
     @Query("select * from crew_flight_table where crewId=:crewId and launchId=:launchId")
     suspend fun selectCrewFlight(crewId: String, launchId: String): CrewFlightLocal?
+
+    @Query("delete from crew_flight_table")
+    suspend fun clearCrewFlights()
 }

@@ -18,4 +18,7 @@ interface RocketDao {
 
     @Transaction @Query("select * from rockets_table where rocketId=:id")
     suspend fun selectRocket(id: String): RocketLocal?
+
+    @Query("delete from rockets_table")
+    suspend fun clearRockets()
 }

@@ -19,4 +19,7 @@ interface CrewDao {
 
     @Transaction @Query("select * from crew_table where crewId=:id")
     suspend fun selectCrewMember(id: String): CrewLocal?
+
+    @Query("delete from crew_table")
+    suspend fun clearCrew()
 }

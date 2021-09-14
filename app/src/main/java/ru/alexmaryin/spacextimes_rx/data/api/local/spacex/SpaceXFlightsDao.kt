@@ -90,4 +90,35 @@ abstract class SpaceXFlightsDao : CapsulesDao, CoresDao, CrewDao, LandingPadsDao
             pad.toRoom()
         })
     }
+
+    suspend fun clearJunctions() {
+        clearLaunchesToCapsules()
+        clearLaunchesToCores()
+        clearLaunchesToCrew()
+        clearLaunchesToLandingPads()
+        clearLaunchesToPayloads()
+    }
+
+    suspend fun clearJunctionsForLaunch(launch: Launch) {
+        clearLaunchToCapsules(launch.id)
+        clearLaunchToCrew(launch.id)
+        clearLaunchToPayloads(launch.id)
+        clearLaunchToCores(launch.id)
+    }
+
+    suspend fun clearDatabase() {
+        clearJunctions()
+        clearCapsules()
+        clearCoreFlights()
+        clearCores()
+        clearCrewFlights()
+        clearCrew()
+        clearDragons()
+        clearHistoryEvents()
+        clearLandingPads()
+        clearLaunches()
+        clearLaunchPads()
+        clearPayloads()
+        clearRockets()
+    }
 }

@@ -15,4 +15,7 @@ interface HistoryDao {
 
     @Transaction @Query("select * from history_events_table where historyId=:id")
     suspend fun selectHistoryEvent(id: String): HistoryLocal?
+
+    @Query("delete from history_events_table")
+    suspend fun clearHistoryEvents()
 }

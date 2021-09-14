@@ -15,4 +15,7 @@ interface DragonDao {
 
     @Transaction @Query("select * from dragons_table where dragonId=:id")
     suspend fun selectDragon(id: String): DragonLocal?
+
+    @Query("delete from dragons_table")
+    suspend fun clearDragons()
 }
