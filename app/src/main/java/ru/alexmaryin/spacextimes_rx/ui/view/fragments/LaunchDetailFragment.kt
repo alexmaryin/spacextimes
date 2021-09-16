@@ -1,5 +1,9 @@
 package ru.alexmaryin.spacextimes_rx.ui.view.fragments
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.LayoutInflater
@@ -7,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Chronometer
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -51,6 +56,7 @@ class LaunchDetailFragment : Fragment() {
         }
 
         launchViewModel.state.set("locale", requireContext().currentLocaleLang())
+        checkWritePermission { isGranted ->  launchViewModel.state.set("writeGranted", isGranted) }
         launchViewModel.loadLaunch()
 
         return binding.root

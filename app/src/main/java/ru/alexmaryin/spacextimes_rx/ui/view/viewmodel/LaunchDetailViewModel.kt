@@ -47,7 +47,7 @@ class LaunchDetailViewModel @Inject constructor(
         with(launch) {
 
             images.filter { it.isNotBlank() }.apply {
-                if (isNotEmpty()) add(CarouselItem(images = this, prefix = name))
+                if (isNotEmpty()) add(CarouselItem(images = this, prefix = name, writeGranted = state.get("writeGranted") ?: false))
             }
 
             add(

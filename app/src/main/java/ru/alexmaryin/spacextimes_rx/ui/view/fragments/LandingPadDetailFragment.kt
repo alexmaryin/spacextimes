@@ -47,6 +47,7 @@ class LandingPadDetailFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
 
+        checkWritePermission { isGranted -> padViewModel.state.set("writeGranted", isGranted) }
         padViewModel.loadLandingPad()
 
         return binding.root

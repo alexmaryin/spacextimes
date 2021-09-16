@@ -51,7 +51,7 @@ class LaunchPadDetailViewModel @Inject constructor(
         } else {
 
             launchPad.images.large.ifEmpty { launchPad.images.small.ifEmpty { null } }?.let {
-                add(CarouselItem(images = it, prefix = launchPad.name!!))
+                add(CarouselItem(images = it, prefix = launchPad.name!!, writeGranted = state.get("writeGranted") ?: false))
             }
 
             add(
