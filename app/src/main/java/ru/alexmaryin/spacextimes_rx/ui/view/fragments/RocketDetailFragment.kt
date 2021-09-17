@@ -34,6 +34,7 @@ class RocketDetailFragment : Fragment() {
     private val rocketViewModel: RocketDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: FragmentRocketDetailBinding
+    private var writeGranted = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rocket_detail, container, false)
@@ -46,6 +47,8 @@ class RocketDetailFragment : Fragment() {
 
         rocketViewModel.state.set("locale", requireContext().currentLocaleLang())
         rocketViewModel.loadRocket()
+
+        checkWritePermission { writeGranted = it }
 
         return binding.root
     }
@@ -86,7 +89,7 @@ class RocketDetailFragment : Fragment() {
         binding.rocket = rocket
         binding.imagesCarousel.apply {
             setImageListener { position, imageView -> CommonAdapters.loadImage(imageView, rocket.images[position]) }
-            setImageClickListener(downloadImageFromCarousel(requireContext(), rocket.images, "images_${rocket.name}.jpg"))
+            if (writeGranted) setImageClickListener(downloadImageFromCarousel(requireContext(), rocket.images, "images_${rocket.name}.jpg"))
             pageCount = rocket.images.size
         }
 

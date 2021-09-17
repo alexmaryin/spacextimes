@@ -1,10 +1,12 @@
 package ru.alexmaryin.spacextimes_rx.utils
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -14,6 +16,8 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -74,19 +78,6 @@ private fun downloadDialog(context: Context, url: String?, filename: String) =
         }
         .setNegativeButton(context.getString(R.string.cancelText)) { dialog, _ -> dialog.dismiss() }
 
-fun downloadByLongClickListener(url: String?, filename: String) = View.OnLongClickListener { view ->
-    view?.let {
-        try {
-            downloadDialog(it.context, url, filename).show()
-        } catch (e: Exception) {
-            Log.e("DOWNLOAD", "Download error: ${e.message}\n${e.stackTrace}")
-            FirebaseCrashlytics.getInstance().recordException(e)
-        }
-        return@OnLongClickListener true
-    }
-    false
-}
-
 fun Fragment.saveByLongClickListener(filename: String) = View.OnLongClickListener { view ->
 
     val dialog = AlertDialog.Builder(requireContext())
@@ -111,5 +102,28 @@ fun downloadImageFromCarousel(context: Context, images: List<String>, filename: 
     } catch (e: Exception) {
         Log.e("DOWNLOAD", "Download error: ${e.message}\n${e.stackTrace}")
         FirebaseCrashlytics.getInstance().recordException(e)
+    }
+}
+
+fun Fragment.checkWritePermission(setPermissionCallback: (Boolean) -> Unit) {
+
+    val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()) { setPermissionCallback(it) }
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+        val isGranted = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        when {
+            isGranted -> setPermissionCallback(true)
+            shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ->
+                AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.permissionRequestString))
+                    .setMessage(getString(R.string.writeStorageText))
+                    .setPositiveButton(getString(R.string.clearText)) { dialog, _ -> dialog.dismiss() }
+                    .show()
+            else -> requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    } else {
+        setPermissionCallback(true)
+            .also { Log.d("WRITE_PERMISSION", "Write to scoped storage is granted for sdk >= 28 by default") }
     }
 }

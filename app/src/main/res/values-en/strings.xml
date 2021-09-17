@@ -293,5 +293,8 @@
     <string name="year_suffix">""</string>
     <string name="flight_role_text">Flight role: %s</string>
     <string name="flight_core_launch_text">Flight for this core: %s</string>
+    <string name="permissionRequestString">Permission request</string>
+    <string name="writeStorageText">Next you\'ll get a request to grant app the permission to write in storage. Please, do it if you want to save photos to local storage.</string>
+    <string name="clearText">Clear</string>
 
 </resources>

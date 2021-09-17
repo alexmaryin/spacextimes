@@ -54,7 +54,7 @@ class LandingPadDetailViewModel @Inject constructor(
         } else {
 
             landingPad.images.large.ifEmpty { landingPad.images.small.ifEmpty { null } }?.let {
-                add(CarouselItem(images = it, prefix = landingPad.name!!))
+                add(CarouselItem(images = it, prefix = landingPad.name!!, writeGranted = state.get("writeGranted") ?: false))
             }
 
             add(

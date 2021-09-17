@@ -80,8 +80,8 @@ object CommonAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["carouselSource", "launchName"], requireAll = true)
-    fun populateCarousel(view: View, images: List<String>?, launchName: String = "") {
+    @BindingAdapter(value = ["carouselSource", "launchName", "writeGranted"], requireAll = true)
+    fun populateCarousel(view: View, images: List<String>?, launchName: String = "", writeGranted: Boolean = false) {
         images?.filter { it.isNotBlank() }?.let { imagesList ->
             with(view as CarouselView) {
                 visibility = View.VISIBLE
@@ -89,7 +89,7 @@ object CommonAdapters {
                     imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                     loadImage(imageView, imagesList[position])
                 }
-                setImageClickListener(downloadImageFromCarousel(context, imagesList, "images_$launchName.jpg"))
+                if (writeGranted) setImageClickListener(downloadImageFromCarousel(context, imagesList, "images_$launchName.jpg"))
                 pageCount = imagesList.size
             }
         }

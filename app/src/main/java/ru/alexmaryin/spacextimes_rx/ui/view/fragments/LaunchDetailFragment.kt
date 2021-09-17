@@ -51,6 +51,7 @@ class LaunchDetailFragment : Fragment() {
         }
 
         launchViewModel.state.set("locale", requireContext().currentLocaleLang())
+        checkWritePermission { isGranted -> launchViewModel.state.set("writeGranted", isGranted) }
         launchViewModel.loadLaunch()
 
         return binding.root
