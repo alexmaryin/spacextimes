@@ -7,7 +7,6 @@ import ru.alexmaryin.spacextimes_rx.data.model.Launch
 import ru.alexmaryin.spacextimes_rx.databinding.LaunchItemBinding
 import ru.alexmaryin.spacextimes_rx.ui.adapters.AdapterClickListenerById
 import ru.alexmaryin.spacextimes_rx.ui.adapters.ViewHolderVisitor
-import ru.alexmaryin.spacextimes_rx.utils.downloadByLongClickListener
 import ru.alexmaryin.spacextimes_rx.utils.getColorIdFromAttr
 
 class LaunchesViewHolder : ViewHolderVisitor {
@@ -38,13 +37,6 @@ class LaunchesViewHolder : ViewHolderVisitor {
                         launch.success -> R.color.success_color
                         else -> R.color.fail_color
                     }
-                )
-            )
-
-            patchImage.setOnLongClickListener(
-                downloadByLongClickListener(
-                    launch.links.patch?.large ?: launch.rocket?.images?.get(0),
-                    "${launch.name}_patch.jpg"
                 )
             )
         }

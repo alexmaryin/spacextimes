@@ -335,5 +335,8 @@
     <string name="year_suffix">" г."</string>
     <string name="flight_role_text">Роль в полете: %s</string>
     <string name="flight_core_launch_text">Полет для этой ступени: %s</string>
+    <string name="permissionRequestString">Запрос разрешений</string>
+    <string name="writeStorageText">Далее появится запрос на запись в локальное хранилище. Если хотите сохранять фотографии, предоставьте его приложению.</string>
+    <string name="clearText">Ясно</string>
 
 </resources>

@@ -34,6 +34,7 @@ class CrewDetailFragment : Fragment() {
     private val crewViewModel: CrewDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: CrewDetailFragmentBinding
+    private var writeGranted = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +50,8 @@ class CrewDetailFragment : Fragment() {
 
         crewViewModel.state.set("locale", requireContext().currentLocaleLang())
         crewViewModel.loadCrew()
+
+        checkWritePermission { writeGranted = it }
 
         return binding.root
     }
@@ -86,7 +89,7 @@ class CrewDetailFragment : Fragment() {
     private fun bindDetails(crew: Crew) {
         activity?.title = crew.name
         binding.crew = crew
-        binding.image.setOnLongClickListener(saveByLongClickListener("${crew.name}.jpg"))
+        if (writeGranted) binding.image.setOnLongClickListener(saveByLongClickListener("${crew.name}.jpg"))
         val missionsAdapter = BaseListAdapter(AdapterClickListenerById { id, itemType ->
             when (itemType) {
                 ItemTypes.LAUNCH -> findNavController().navigate(CrewDetailFragmentDirections.actionShowLaunchDetails(id))

@@ -35,6 +35,7 @@ class DragonDetailFragment : Fragment() {
     private val dragonViewModel: DragonDetailViewModel by viewModels()
     @Inject lateinit var viewHoldersManager: ViewHoldersManager
     private lateinit var binding: DragonDetailFragmentBinding
+    private var writeGranted = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +52,8 @@ class DragonDetailFragment : Fragment() {
 
         dragonViewModel.state.set("locale", requireContext().currentLocaleLang())
         dragonViewModel.loadDragon()
+
+        checkWritePermission { writeGranted = it }
 
         return binding.root
     }
@@ -92,7 +95,7 @@ class DragonDetailFragment : Fragment() {
         binding.dragon = dragon
         binding.imagesCarousel.apply {
             setImageListener { position, imageView -> loadImage(imageView, dragon.images[position]) }
-            setImageClickListener(downloadImageFromCarousel(requireContext(), dragon.images, "${dragon.name}.jpg"))
+            if(writeGranted) setImageClickListener(downloadImageFromCarousel(requireContext(), dragon.images, "${dragon.name}.jpg"))
             pageCount = dragon.images.size
         }
 
