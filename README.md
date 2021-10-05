@@ -7,6 +7,8 @@ Application runs on [r/spaceX-API](https://github.com/r-spacex/SpaceX-API) engin
 
 <a href="https://play.google.com/store/apps/details?id=ru.alexmaryin.spacextimes_rx" target="_blank"><img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg"  alt="Get in on Google play" height="80px" ></a>
 <a href="https://www.buymeacoffee.com/java73" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="80px" ></a>
+<a href="https://www.donationalerts.com/r/java73"><img src="https://static.donationalerts.ru/uploads/qr/6169816/qr_3a27865dab584651021d905b617927ed.png" alt="donate" height="80px"></a><br>
+<a href="https://www.donationalerts.com/r/java73">Donate me for further develop!</a>
 
 **Already launched:**
 
