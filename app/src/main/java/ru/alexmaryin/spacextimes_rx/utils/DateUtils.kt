@@ -5,6 +5,9 @@ import android.os.Build
 import ru.alexmaryin.spacextimes_rx.R
 import java.util.*
 import kotlin.time.*
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 const val MILLIS_IN_DAY = 86400000L
 
@@ -24,9 +27,9 @@ fun quarterYearString(context: Context, date: Date) = when(date.toCalendar().get
 } + date.toCalendar().get(Calendar.YEAR).toString() + context.getString(R.string.year_suffix)
 
 @ExperimentalTime
-fun Int.prettifySecondsPeriod(res: Context): String = Duration.seconds(this).toComponents { days, hours, minutes, seconds, _ ->
+fun Int.prettifySecondsPeriod(res: Context): String = seconds.toComponents { days, hours, minutes, seconds, _ ->
     listOfNotNull(
-        if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,
+        if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days.toInt(), days) else null,
         if(hours > 0) res.resources.getQuantityString(R.plurals.hours_count, hours, hours) else null,
         if(minutes > 0) res.resources.getQuantityString(R.plurals.minutes_count, minutes, minutes) else null,
         if(seconds > 0) res.resources.getQuantityString(R.plurals.seconds_count, seconds, seconds) else null,
@@ -34,9 +37,9 @@ fun Int.prettifySecondsPeriod(res: Context): String = Duration.seconds(this).toC
 }
 
 @ExperimentalTime
-fun Double.prettifyMinutesPeriod(res: Context): String = Duration.minutes(this).toComponents { days, hours, minutes, seconds, _ ->
+fun Double.prettifyMinutesPeriod(res: Context): String = minutes.toComponents { days, hours, minutes, seconds, _ ->
     listOfNotNull(
-        if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,
+        if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days.toInt(), days) else null,
         if(hours > 0) res.resources.getQuantityString(R.plurals.hours_count, hours, hours) else null,
         if(minutes > 0) res.resources.getQuantityString(R.plurals.minutes_count, minutes, minutes) else null,
         if(seconds > 0) res.resources.getQuantityString(R.plurals.seconds_count, seconds, seconds) else null,
@@ -44,9 +47,9 @@ fun Double.prettifyMinutesPeriod(res: Context): String = Duration.minutes(this).
 }
 
 @ExperimentalTime
-fun Long.prettifyMillisecondsPeriod(res: Context): String = Duration.milliseconds(this).toComponents { days, hours, minutes, seconds, _ ->
+fun Long.prettifyMillisecondsPeriod(res: Context): String = milliseconds.toComponents { days, hours, minutes, seconds, _ ->
     listOfNotNull(
-        if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days, days) else null,
+        if(days > 0) res.resources.getQuantityString(R.plurals.days_count, days.toInt(), days) else null,
         if(hours > 0) res.resources.getQuantityString(R.plurals.hours_count, hours, hours) else null,
         if(minutes > 0) res.resources.getQuantityString(R.plurals.minutes_count, minutes, minutes) else null,
         if(seconds > 0) res.resources.getQuantityString(R.plurals.seconds_count, seconds, seconds) else null,

@@ -107,7 +107,7 @@ object Launches : MainScreen() {
     override fun readRepository(repository: SpacexDataRepository, translator: TranslatorApi) =
         translator.run { repository.getLaunches(name).translateDetails() }
 
-    @ExperimentalTime
+    @OptIn(ExperimentalTime::class)
     override fun <T> getPositionToScroll(context: Context, items: List<T>) =
         with(items.map { it as Launch }) {
             val position = indexOfLast { it.datePrecision >= DatePrecision.DAY && it.dateLocal > Calendar.getInstance().time }
